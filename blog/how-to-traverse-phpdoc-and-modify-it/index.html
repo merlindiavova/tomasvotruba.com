@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <title>How to Traverse PHPDoc and Modify It | Tomas Votruba</title>
+    <meta charset="utf-8">
+    <meta name="robots" content="index, follow">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    
+    <link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/solid.css" integrity="sha384-wnAC7ln+XN0UKdcPvJvtqIH3jOjs9pnKnq9qX68ImXvOGz2JuFoEiCjT8jyZQX2z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/brands.css" integrity="sha384-nT8r1Kzllf71iZl81CdFzObMsaLOhqBU1JD2+XoAALbdtWaXDOlWOZTR4v1ktjPE" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css" integrity="sha384-HbmWTHay9psM8qyzEKPc8odH4DsOuzdejtnr+OFtDmOcIVnhgReQ4GZBH7uwcjf6" crossorigin="anonymous">
+
+        <link href="/assets/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+
+        <link href="/assets/css/style.css" rel="stylesheet" type="text/css" />
+
+
+        <link href="/assets/css/checklist.css" rel="stylesheet" type="text/css" />
+</head>
+    <body>
+                <!-- post_id: 309 -->
+
+        
+<div class="hidden-sm-down">
+    <nav class="navbar">
+        <div class="container-fluid">
+            <ul>
+                <li id="logo">
+                    <img src="https://avatars1.githubusercontent.com/u/924196?s=60&v=4" class="me_avatar">
+                    Tomas Votruba
+                </li>
+                <li class="active">
+                    <a href="/">Blog</a>
+                </li>
+                <li>
+                    <a href="https://phpfwtrends.org">Trends</a>
+                </li>
+                <li class="">
+                    <a href="/clusters">Clusters</a>
+                </li>
+                <li class="">
+                    <a href="/projects">Projects</a>
+                </li>
+                <li class="">
+                    <a href="/mission">Mission</a>
+                </li>
+                <li class="">
+                    <a href="/contact">Contact</a>
+                </li>
+                <li id="top-menu-search">
+                    <form method="get" action="https://www.google.com/search" itemprop="potentialAction" itemscope="" itemtype="https://schema.org/SearchAction">
+    <meta itemprop="target" content="https://www.google.com/search?q={q}"/>
+    <input name="sitesearch" value="tomasvotruba.com" type="hidden"/>
+    <input itemprop="query-input" type="text" id="search-query" class="form-control" required="required" name="q" placeholder="Search..." autocomplete="off"/>
+</form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<div class="hidden-md-up">
+    <nav class="navbar" id="mobile-menu">
+        <div class="container">
+            <a href="/" class="col-3 col-sm-3 active">
+                <em class="fas fa-book"></em>
+                <br>
+                Blog
+            </a>
+
+
+            <a href="/clusters" class="col-3 col-sm-3 ">
+                <em class="fas fa-share-alt"></em>
+                <br>
+                Clusters
+            </a>
+
+            <a href="https://phpfwtrends.org">
+                <em class="fas fa-chart-bar"></em>
+                <br>
+                Trends
+            </a>
+
+            <a href="/contact" class="col-3 col-sm-3 ">
+                <em class="fas fa-phone"></em>
+                <br>
+                Contact
+            </a>
+        </div>
+    </nav>
+
+    <div class="hidden-md-up text-center" id="top-menu-search-mobile">
+        <form method="get" action="https://www.google.com/search" itemprop="potentialAction" itemscope="" itemtype="https://schema.org/SearchAction">
+    <meta itemprop="target" content="https://www.google.com/search?q={q}"/>
+    <input name="sitesearch" value="tomasvotruba.com" type="hidden"/>
+    <input itemprop="query-input" type="text" id="search-query" class="form-control" required="required" name="q" placeholder="Search..." autocomplete="off"/>
+</form>
+    </div>
+</div>
+
+        <div class="container-fluid" id="post">
+            <h1>How to Traverse PHPDoc and Modify It</h1>
+
+            <ul class="list-inline post-metadata">
+    <li class="list-inline-item mr-3">
+        <em class="fas fa-calendar fa-fw"></em>
+        <time datetime="2021-03-Mon">
+            
+                                            Mar 29
+            
+            </strike>        </time>
+    </li>
+
+    
+            <li class="list-inline-item mr-3">
+            <em class="fas fa-fw fa-comments"></em>
+            <a href="/blog/how-to-traverse-phpdoc-and-modify-it/#disqus_thread">X</a> comments
+        </li>
+    
+    
+            <li class="list-inline-item mr-3 text-primary">
+            <em class="fab fa-fw fa-github"></em>
+            <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2021/2021-03-29-how-to-traverse-phpdoc-and-modify-it.md">Found a typo? Edit me</a>
+        </li>
+    </ul>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>Traversing and modifying PHP code is possible thanks to the amazing tool <a href="https://github.com/nikic/PHP-Parser">php-parser</a> written by Nikita Popov. Rector can work thanks to <strong>node traverser</strong>, which can get to any node abstract syntax tree. Do you want to replace all numbers with <code>1000</code>? I wrote about it in <a href="/blog/2017/11/06/how-to-change-php-code-with-abstract-syntax-tree/">How to change PHP code with Abstract Syntax Tree</a>.
+<br>
+<br>
+But what about docblocks - how <strong>can we rename classes in <code>@var</code> annotation or replace <code>integer</code> with <code>int</code></strong>?
+<br><br>
+Is that even possible without using complex nested structures or regular expressions?</p>
+                </div>
+            </div>
+
+            <p>Today we look at how to modify docblocks easily. But first, we must learn how <a href="https://github.com/phpstan/phpdoc-parser"><code>phpstan/phpdoc-parser</code></a> works under the hood.</p>
+<p>Let's start with a simple docblock like this:</p>
+<pre><code class="language-php">/**
+ * @return int
+ */</code></pre>
+<p>If we parse it with <code>PhpDocParser</code>... you know what? Let's try this together:</p>
+<pre><code class="language-bash">composer require symplify/simple-phpdoc-parser</code></pre>
+<pre><code class="language-php">$values = &lt;&lt;&lt;'PHPDOC'
+/**
+ * @return int
+ */
+PHPDOC;
+
+$simplePhpDocParser = Symplify\SimplePhpDocParser\StaticFactory\SimplePhpDocParserStaticFactory::create();
+$phpDocNode = $simplePhpDocParser-&gt;parse($values);</code></pre>
+<p>If we dump the <code>var_dump($phpDocNode)</code>, we get roughly following node tree:</p>
+<pre><code class="language-bash">PhpDocNode:
+  |- children:
+     |- PhpDocTagNode
+        |- name: "@return"
+        |- value: ReturnTagValueNode
+            |- type: IdentifierTypeNode
+                |- name: "int"</code></pre>
+<p>This is classic PHP - object in an object in an object...</p>
+<h2 id="how-can-we-replace-code-int-code-with-code-string-code">How can we Replace <code>int</code> with <code>string</code>?</h2>
+<p>First, we need to get to the <code>IdentifierTypeNode</code>. Then we check its value is <code>"int"</code>. If so, we change it to <code>"string"</code>. Seems pretty straightforward, right?</p>
+<pre><code class="language-php">use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
+use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
+
+/** @var PhpDocNode $phpDocNode */
+foreach ($phpDocNode-&gt;children as $phpDocChildNode) {
+    if (! $phpDocChildNode instanceof PhpDocTagNode) {
+        continue;
+    }
+
+    // is this node a @return?
+    if (! $phpDocChildNode-&gt;value instanceof ReturnTagValueNode) {
+        continue;
+    }
+
+    // does @return have simple type? here can be any TypeNode, e.g. UnionTypeNode, IntersectionTypeNode, CallableTypeNode etc.
+    $returnTagValueNode = $phpDocChildNode-&gt;value;
+    if (! $returnTagValueNode-&gt;type instanceof IdentifierTypeNode) {
+        continue;
+    }
+
+    $identifierName = $returnTagValueNode-&gt;type-&gt;name;
+    if (! $identifierName === 'int') {
+        continue;
+    }
+
+    // phew... here we can finally change value
+    $returnTagValueNode-&gt;type = new IdentifierTypeNode('string');
+}</code></pre>
+<p>If we run the code above, we manage to see this change:</p>
+<pre><code class="language-diff"> /**
+- * @return int
++ * @return string
+  */</code></pre>
+<h2 id="next-level-2-nodes">Next Level: 2 Nodes</h2>
+<p>In real life, the type is rarely used in a single location. Let's add <code>@param</code>:</p>
+<pre><code class="language-php">/**
+ * @param int $age
+ * @return int
+ */</code></pre>
+<p>After parsing it, we get this node tree:</p>
+<pre><code class="language-bash">PhpDocNode:
+  |- children:
+     |- PhpDocTagNode
+        |- name: "@return"
+        |- value: ReturnTagValueNode
+            |- type: IdentifierTypeNode
+                |- name: "int"
+     |- PhpDocTagNode
+        |- name: "@param"
+        |- value: ParamTagValueNode
+            |- type: IdentifierTypeNode
+                |- name: "int"
+</code></pre>
+<p>How should we extend the logic above to cover the <code>@param</code> tag too?</p>
+<pre><code class="language-diff">-   if (! $phpDocChildNode-&gt;value instanceof ReturnTagValueNode) {
++   if (! $phpDocChildNode-&gt;value instanceof ReturnTagValueNode &amp;&amp; ! $phpDocChildNode-&gt;value instanceof ParamTagValueNode) {
+        continue;
+    }</code></pre>
+<p>Easy pick, right?</p>
+<p><br></p>
+<img src="https://tomasvotruba.com/assets/images/posts/2020/symplify_monorepo_split.jpg" class="img-thumbnail">
+<h2 id="next-level-2-nodes-with-nested-types">Next Level: 2 Nodes with Nested Types</h2>
+<p>Types are can be also compound, here is <code>UnionTypeNode</code> with 2 <code>IdentifierTypeNode</code> nodes in it:</p>
+<pre><code class="language-php">/**
+ * @param int|null $age
+ * @return int
+ */</code></pre>
+<p>Now we're getting into the loop of joy. I guess you can imagine how this can become hell coding.</p>
+<p>But why should we want to change <code>int</code> to <code>string</code>? That was simple on purpose so that we can focus purely on example.</p>
+<p>In reality, we want to rename the old class to a new one:</p>
+<pre><code class="language-diff"> /**
+- * @param OldClass|null $age
++ * @param NewClass|null $age
+- * @return OldClass
++ * @return NewClass
+  */</code></pre>
+<h2 id="so-much-complexity">So Much Complexity!</h2>
+<p>You're probably wondering, <strong>why is it so hard to change one node in a docblock?</strong> It is only hard if we try to hard-code solution for every single node.</p>
+<p>In reality, there are ~40 classes that inherit from <code>PHPStan\PhpDocParser\Ast\Node</code>. We would have to add a check for every single of it, if it has a type, nested typed in some property, and so on.</p>
+<h2 id="what-about-node-traverser">What about Node Traverser?</h2>
+<p>Instead, we could use the same principle as php-parser - <strong>a node traverser</strong> with <strong>node visitors</strong>.</p>
+<p>Do you hear about it the first time? Think of it as an analogy to event dispatcher:</p>
+<ul>
+<li><code>NodeTraverser</code> ~= <code>EventDisptacher</code></li>
+<li><code>NodeVisitor</code> ~= <code>EventSubscriber</code></li>
+</ul>
+<p><br></p>
+<ul>
+<li>1 NodeTraverser has many NodeVisitors</li>
+<li>1 EventDispatcher has many EventSubscribers</li>
+</ul>
+<p><br></p>
+<ul>
+<li>EventSubscribers is waiting for a specific event to happen</li>
+<li>NodeVisitor is waiting for a specific node to come</li>
+</ul>
+<h2 id="the-real-code">The Real Code</h2>
+<p>In reality, we should run the traverse on <code>PhpDocNode</code> to get the result:</p>
+<pre><code class="language-php">use Symplify\SimplePhpDocParser\PhpDocNodeTraverser;
+
+$phpDocNodeTraverser = new PhpDocNodeTraverser();
+$phpDocNodeTraverser-&gt;traverse($phpDocNode);
+
+// that's it</code></pre>
+<p>Oh, we forgot to add the <code>NodeVisitor</code>:</p>
+<pre><code class="language-php">use PHPStan\PhpDocParser\Ast\Node;
+use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
+use Symplify\SimplePhpDocParser\PhpDocNodeVisitor\AbstractPhpDocNodeVisitor;
+
+final class FirstNodeVisitor extends AbstractPhpDocNodeVisitor
+{
+    public function enterNode(Node $node) : ?Node
+    {
+        // here we make clear, what node we're looking for
+        if (! $node instanceof IdentifierTypeNode) {
+            // null = nothing happen, the original node remains untouched
+            return null;
+        }
+
+        if ($node-&gt;name !== 'int') {
+            return null;
+        }
+
+        // replace the "int" with "string"
+        return new IdentifierTypeNode('string');
+    }
+}</code></pre>
+<p>Now we only add <code>FirstNodeVisitor</code> to <code>PhpDocNodeTraverser</code> ↓</p>
+<pre><code class="language-php">use Symplify\SimplePhpDocParser\PhpDocNodeTraverser;
+
+$firstNodeVisitor = new FirstNodeVisitor();
+
+$phpDocNodeTraverser = new PhpDocNodeTraverser();
+$phpDocNodeTraverser-&gt;addPhpDocNodeVisitor($firstNodeVisitor);
+$phpDocNodeTraverser-&gt;traverse($phpDocNode);
+
+// that's better</code></pre>
+<p>That's it! <strong>Now every single &quot;int&quot; is turned into &quot;string&quot;</strong>, even in complex doblocks like these:</p>
+<pre><code class="language-php">/**
+ * @var array{string, Iterable&lt;int, int&gt;}
+ */</code></pre>
+<h2 id="how-does-it-work-magic-revealed">How Does it Work? Magic Revealed</h2>
+<p>The logic is crazy simple - again, credit goes to Nikita Popov, who created the <a href="https://github.com/nikic/PHP-Parser/blob/master/lib/PhpParser/NodeTraverser.php">NodeTraverser</a> in php-parser.</p>
+<p>The <code>PhpDocNodeTraverser</code> goes through <strong>every public property</strong> of that node (see <a href="https://github.com/symplify/symplify/blob/58ee4f76a7373b3ae44e4ad608aea5dae5c9b63c/packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php#L52-L83">the responsible method</a> on Github).</p>
+<p>That means if the <code>ReturnTagValueNode</code> enters, it will go through there:</p>
+<pre><code class="language-php">$returnTagValueNode-&gt;type
+$returnTagValueNode-&gt;description</code></pre>
+<p>If <code>$returnTagValueNode-&gt;type</code> is node, it will go through all its public properties etc.</p>
+<p><br></p>
+<p>Making properties public is a convention in both phpdoc-parser and php-parser, so we can 100 % rely on it.</p>
+<p><br></p>
+<p>Now you know: <strong>how to rename the old class to the new class?</strong></p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+            <div class="row mb-5 mt-5">
+                <div class="col-12 mb-5">
+                                                                <a href="/blog/astral-the-best-kit-for-php-parser-ast-developers" class="d-block pt-4 pb-4 pl-4 pr-4 btn btn-success btn-wrappable">
+                            <em class="fas fa-fw fa-forward"></em>
+                            <strong>Read Next</strong>
+                            <br>
+                            <span class="text-bigger">
+                                Astral - The Best Kit for php-parser AST Developers
+                            </span>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <script src="/assets/js/jquery-3.3.1.slim.min.js"></script>
+<script src="/assets/js/cleaning-lady-checklist.js"></script>
+
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
+<script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+<script src="/assets/prism/prism.js"></script>
+
+<script>
+    // sortable table
+    $('.sortable_table').DataTable({
+        // see https://datatables.net/examples/basic_init/filter_only.html
+        "searching": false,
+        "paging": false,
+        "info": false,
+        "order": [[1, "desc"]],
+        // see https://datatables.net/examples/advanced_init/sort_direction_control.html
+        "aoColumns": [
+            null,
+            { "orderSequence": [ "desc", "asc" ] },
+            { "orderSequence": [ "desc", "asc" ] },
+            { "orderSequence": [ "desc", "asc" ] }
+        ]
+    });
+</script>
+
+<div class="text-center mt-5" id="footer">
+    <p class="mt-2">
+        Open-source is my life. Does it help yours? You can <a href="https://github.com/sponsors/TomasVotruba">Sponsor Me</a> &nbsp;
+        <em class="fas fa-heart text-danger fa-lg"></em>
+
+        &nbsp;
+        <span class="pl-2 pr-2">•</span>
+        &nbsp;
+
+        See <a href="/archive">Post Archive</a>
+
+        &nbsp;
+        <span class="pl-2 pr-2">•</span>
+        &nbsp;
+
+        <a href="/rss.xml">Get RSS</a>
+    </p>
+
+    <br>
+
+    <p>
+        Did you know my daily focus goes to <strong>turning working with legacy code into joy</strong>?
+
+        <br>
+
+        With awesome <a href="https://getrector.org/">Instant Refactoring tool called Rector</a>.
+    </p>
+</div>
+    </body>
+</html>
+
+        <meta property="og:type" content="article" />
+    <meta property="og:title" content="How to Traverse PHPDoc and Modify It" />
+    <meta property="og:description" content="Traversing and modifying PHP code is possible thanks to the amazing tool [php-parser](https://github.com/nikic/PHP-Parser) written by Nikita Popov. Rector can work thanks to **node traverser**, which can get to any node abstract syntax tree. Do you want to replace all numbers with `1000`? I wrote about it in [How to change PHP code with Abstract Syntax Tree](/blog/2017/11/06/how-to-change-php-code-with-abstract-syntax-tree/).
+
+
+But what about docblocks - how **can we rename classes in `@var` annotation or replace `integer` with `int`**?
+
+Is that even possible without using complex nested structures or regular expressions?
+" />
+    <meta property="og:url" content="/blog/how-to-traverse-phpdoc-and-modify-it" />
+
+        <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@votrubaT">
+    <meta name="twitter:title" content="How to Traverse PHPDoc and Modify It" />
+    <meta name="twitter:description" content="Traversing and modifying PHP code is possible thanks to the amazing tool [php-parser](https://github.com/nikic/PHP-Parser) written by Nikita Popov. Rector can work thanks to **node traverser**, which can get to any node abstract syntax tree. Do you want to replace all numbers with `1000`? I wrote about it in [How to change PHP code with Abstract Syntax Tree](/blog/2017/11/06/how-to-change-php-code-with-abstract-syntax-tree/).
+
+
+But what about docblocks - how **can we rename classes in `@var` annotation or replace `integer` with `int`**?
+
+Is that even possible without using complex nested structures or regular expressions?
+" />
