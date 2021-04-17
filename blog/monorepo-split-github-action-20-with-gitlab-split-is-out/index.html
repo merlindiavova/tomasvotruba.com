@@ -131,7 +131,7 @@
                 <div class="card-body pb-2">
                     <p><a href="/blog/2020/11/09/new-in-symplify-9-monorepo-split-with-github-action">The version 1.0 was released 6 months ago</a>. Compared to its ancestors, it speed up the split from <strong>2 minutes to 10 seconds</strong>.
 <br><br>
-After 6 months of collecting feedback and adding new features, the version 2.0 is here!
+After 6 months of collecting feedback and adding new features, version 2.0 is here!
 <br>
 <br>
 <strong>How to use it with GitLab split repositories and custom git hosting?</strong></p>
@@ -139,17 +139,17 @@ After 6 months of collecting feedback and adding new features, the version 2.0 i
             </div>
 
             <h2 id="private-repositories-support">Private Repositories Support</h2>
-<p><a href="https://github.com/symplify/monorepo-split-github-action">Monorepo split</a> was build on principles of open-source, and thus used only for public repositories on GitHub. As the time went by, this GitHub Action got into private repositories.</p>
-<p>Do you have private monorepo repository on GitHub? <strong>Monorepo Split 2.0 now support it!</strong></p>
+<p><a href="https://github.com/symplify/monorepo-split-github-action">Monorepo split</a> was built on open-source principles and thus used only for public repositories on GitHub. As time went by, this GitHub Action got into private repositories.</p>
+<p>Do you have a private monorepo repository on GitHub? <strong>Monorepo Split 2.0 now supports it!</strong></p>
 <h2 id="split-to-private-gitlab-repository">Split to Private Gitlab Repository</h2>
-<p>GitHub Action can be used only on GitHub obviously, but the target repository should not matter. The version 1.x had some troubles with splitting without the right token. In version 2.0 we've <strong>added support for Gitlab as target repositories</strong>.</p>
-<p>How to enable it? Just add <code>GITLAB_TOKEN</code> env variable to your workflow yaml file:</p>
+<p>GitHub Action can be used only on GitHub, obviously, but the target repository should not matter. Version 1.x had some troubles with splitting without the correct token. In version 2.0, we've <strong>added support for Gitlab as target repositories</strong>.</p>
+<p>How to enable it? Just add the <code>GITLAB_TOKEN</code> env variable to your workflow YAML file:</p>
 <pre><code class="language-yaml">env:
     GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}</code></pre>
-<p>The token must include <code>read_repository</code> + <code>write_repository</code> rights. Where you can create such token? Here <a href="https://gitlab.com/profile/personal_access_tokens">https://gitlab.com/profile/personal_access_tokens</a>.</p>
-<p>Now you can build monorepo on GitHub and split into repositories on Gitlab.</p>
+<p>The token must include <code>read_repository</code> + <code>write_repository</code> rights. Where can you create such a token? Here <a href="https://gitlab.com/profile/personal_access_tokens">https://gitlab.com/profile/personal_access_tokens</a>.</p>
+<p>Now you can build monorepo on GitHub and split it into repositories on Gitlab.</p>
 <h2 id="split-to-custom-git-hosting">Split to custom Git Hosting</h2>
-<p>Do you use GitLab? If so, there is a big chance you host it on own server, because the <a href="/blog/best-time-to-switch-gitlab-to-github/">saas is getting more and more expensive</a>.</p>
+<p>Do you use GitLab? If so, there is a big chance you host it on your server because the <a href="/blog/best-time-to-switch-GitLab-to-github/">saas is getting more and more expensive</a>.</p>
 <p>That means your target hosting is not <code>github.com</code>, neither <code>gitlab.com</code>. That's why we've added a new parameter to set the host:</p>
 <pre><code class="language-yaml">with:
     split-repository-host: git.private.com:1234</code></pre>
@@ -260,7 +260,7 @@ After 6 months of collecting feedback and adding new features, the version 2.0 i
     <meta property="og:title" content="Monorepo Split GitHub Action 2.0 with Gitlab split is Out!" />
     <meta property="og:description" content="[The version 1.0 was released 6 months ago](/blog/2020/11/09/new-in-symplify-9-monorepo-split-with-github-action). Compared to its ancestors, it speed up the split from **2 minutes to 10 seconds**.
 
-After 6 months of collecting feedback and adding new features, the version 2.0 is here!
+After 6 months of collecting feedback and adding new features, version 2.0 is here!
 
 
 **How to use it with GitLab split repositories and custom git hosting?**
@@ -272,7 +272,7 @@ After 6 months of collecting feedback and adding new features, the version 2.0 i
     <meta name="twitter:title" content="Monorepo Split GitHub Action 2.0 with Gitlab split is Out!" />
     <meta name="twitter:description" content="[The version 1.0 was released 6 months ago](/blog/2020/11/09/new-in-symplify-9-monorepo-split-with-github-action). Compared to its ancestors, it speed up the split from **2 minutes to 10 seconds**.
 
-After 6 months of collecting feedback and adding new features, the version 2.0 is here!
+After 6 months of collecting feedback and adding new features, version 2.0 is here!
 
 
 **How to use it with GitLab split repositories and custom git hosting?**
