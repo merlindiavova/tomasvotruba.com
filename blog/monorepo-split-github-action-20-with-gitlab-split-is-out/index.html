@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-    <title>A Tool that helps you to Migrate to ECS | Tomas Votruba</title>
+    <title>Monorepo Split GitHub Action 2.0 with Gitlab split is Out! | Tomas Votruba</title>
     <meta charset="utf-8">
     <meta name="robots" content="index, follow">
 
@@ -28,7 +28,7 @@
         <link href="/assets/css/checklist.css" rel="stylesheet" type="text/css" />
 </head>
     <body>
-                <!-- post_id: 306 -->
+                <!-- post_id: 310 -->
 
         
 <div class="hidden-sm-down">
@@ -100,14 +100,14 @@
 </div>
 
         <div class="container-fluid" id="post">
-            <h1>A Tool that helps you to Migrate to ECS</h1>
+            <h1>Monorepo Split GitHub Action 2.0 with Gitlab split is Out!</h1>
 
             <ul class="list-inline post-metadata">
     <li class="list-inline-item mr-3">
         <em class="fas fa-calendar fa-fw"></em>
-        <time datetime="2021-03-Mon">
+        <time datetime="2021-04-Mon">
             
-                                            Mar 8
+                                            Apr 5
             
             </strike>        </time>
     </li>
@@ -115,13 +115,13 @@
     
             <li class="list-inline-item mr-3">
             <em class="fas fa-fw fa-comments"></em>
-            <a href="/blog/tool-that-helps-you-to-migrate-to-ecs/#disqus_thread">X</a> comments
+            <a href="/blog/monorepo-split-github-action-20-with-gitlab-split-is-out/#disqus_thread">X</a> comments
         </li>
     
     
             <li class="list-inline-item mr-3 text-primary">
             <em class="fab fa-fw fa-github"></em>
-            <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2021/2021-03-08-tool-that-helps-you-to-migrate-to-ecs.md">Found a typo? Edit me</a>
+            <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2021/2021-04-05-monorepo-split-github-action-20-with-gitlab-split-is-out.md">Found a typo? Edit me</a>
         </li>
     </ul>
 
@@ -129,57 +129,46 @@
             
             <div class="card card-bigger mb-5">
                 <div class="card-body pb-2">
-                    <p>Do you want to use ECS but still stuck on an older coding standard tool? I wrote a post <a href="/blog/2018/06/04/how-to-migrate-from-php-code-sniffer-to-easy-coding-standard/">how to migrate from PHP_CodeSniffer</a> and <a href="/blog/2018/06/07/how-to-migrate-from-php-cs-fixer-to-easy-coding-standard/">from PHP-CS-Fixer</a>.
+                    <p><a href="/blog/2020/11/09/new-in-symplify-9-monorepo-split-with-github-action">The version 1.0 was released 6 months ago</a>. Compared to its ancestors, it speed up the split from <strong>2 minutes to 10 seconds</strong>.
 <br><br>
-But who has time to read the step-by-step manual and do manual work? Nobody. That's why today, we'll look at a tool that <strong>will handle the migration to ECS for you</strong>.</p>
+After 6 months of collecting feedback and adding new features, the version 2.0 is here!
+<br>
+<br>
+<strong>How to use it with GitLab split repositories and custom git hosting?</strong></p>
                 </div>
             </div>
 
-            <p>More and more projects I worked with wanted to try ECS, but they didn't want to look at every rule in XML and write them in PHP. I helped the first 3 to do manually and guide them on differences in configuration and rule naming. It was daunting work.</p>
-<p>Are you interested <strong>in what way is ECS better</strong>? Check the mentioned posts:</p>
-<ul>
-<li><a href="/blog/2018/06/04/how-to-migrate-from-php-code-sniffer-to-easy-coding-standard">ECS vs PHP_CodeSniffer</a></li>
-<li><a href="/blog/2018/06/07/how-to-migrate-from-php-cs-fixer-to-easy-coding-standard">ECS vs PHP-CS-Fixer</a></li>
-</ul>
-<p><br></p>
-<p>When I was about to migrate 4th <code>phpcs.xml</code>, I didn't want to repeat copy-pasting, adding fully qualified names from dots, and so on. Some of you know from <a href="https://stars.github.com/profiles/tomasvotruba/">GitHub Stars profile</a>, that this physically hurts me more than most people.</p>
-<p>Luckily, I had to <a href="https://twitter.com/VotrubaT/status/1368894569853648900">go the toilet</a>. Suddenly I realized:</p>
-<blockquote class="blockquote text-center">
-"If I can do it, so can PHP tool"
-</blockquote>
-<p>That's how <strong><a href="https://github.com/symplify/sniffer-fixer-to-ecs-converter">Sniffer/Fixer to ECS Converter</a></strong> was born. The tool does what its name says.</p>
-<h2 id="2-steps-to-migrate-your-config">2 Steps to Migrate Your Config</h2>
-<ol>
-<li>Install the package</li>
-</ol>
-<pre><code class="language-bash">composer require symplify/sniffer-fixer-to-ecs-converter --dev</code></pre>
-<ol start="2">
-<li>Run the <code>convert</code> command</li>
-</ol>
-<p><strong>Migrate PHP_CodeSniffer config</strong></p>
-<pre><code class="language-bash">vendor/bin/sniffer-fixer-to-ecs-converter convert phpcs.xml</code></pre>
-<p><strong>Migrate PHP-CS-Fixer config</strong></p>
-<pre><code class="language-bash">vendor/bin/sniffer-fixer-to-ecs-converter convert .php_cs.dist</code></pre>
-<p>In both cases, a new config <code>converted-ecs.php</code> was created.</p>
-<p><br></p>
-<p>Now you can verify the config by running ECS.</p>
-<pre><code class="language-bash">composer require symplify/easy-coding-standard --dev
-vendor/bin/ecs check --config converted-ecs.php</code></pre>
-<p>If all is good, rename this config to <code>ecs.php</code> and remove your old config + tool from <code>composer.json</code>. Then you're ready to go.</p>
-<p>That's it!</p>
-<p><br></p>
+            <h2 id="private-repositories-support">Private Repositories Support</h2>
+<p><a href="https://github.com/symplify/monorepo-split-github-action">Monorepo split</a> was build on principles of open-source, and thus used only for public repositories on GitHub. As the time went by, this GitHub Action got into private repositories.</p>
+<p>Do you have private monorepo repository on GitHub? <strong>Monorepo Split 2.0 now support it!</strong></p>
+<h2 id="split-to-private-gitlab-repository">Split to Private Gitlab Repository</h2>
+<p>GitHub Action can be used only on GitHub obviously, but the target repository should not matter. The version 1.x had some troubles with splitting without the right token. In version 2.0 we've <strong>added support for Gitlab as target repositories</strong>.</p>
+<p>How to enable it? Just add <code>GITLAB_TOKEN</code> env variable to your workflow yaml file:</p>
+<pre><code class="language-yaml">env:
+    GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}</code></pre>
+<p>The token must include <code>read_repository</code> + <code>write_repository</code> rights. Where you can create such token? Here <a href="https://gitlab.com/profile/personal_access_tokens">https://gitlab.com/profile/personal_access_tokens</a>.</p>
+<p>Now you can build monorepo on GitHub and split into repositories on Gitlab.</p>
+<h2 id="split-to-custom-git-hosting">Split to custom Git Hosting</h2>
+<p>Do you use GitLab? If so, there is a big chance you host it on own server, because the <a href="/blog/best-time-to-switch-gitlab-to-github/">saas is getting more and more expensive</a>.</p>
+<p>That means your target hosting is not <code>github.com</code>, neither <code>gitlab.com</code>. That's why we've added a new parameter to set the host:</p>
+<pre><code class="language-yaml">with:
+    split-repository-host: git.private.com:1234</code></pre>
+<h2 id="upgrade-today">Upgrade Today</h2>
+<p>That's 3 news for today. Try it and upgrade your workflows:</p>
+<pre><code class="language-diff">-                uses: symplify/github-action-monorepo-split@1.1
++                uses: symplify/github-action-monorepo-split@2.0</code></pre>
 <p>Happy coding!</p>
 
             <br>
 
             <div class="row mb-5 mt-5">
                 <div class="col-12 mb-5">
-                                                                <a href="/blog/best-time-to-switch-gitlab-to-github" class="d-block pt-4 pb-4 pl-4 pr-4 btn btn-success btn-wrappable">
+                                                                <a href="/blog/how-to-traverse-phpdoc-and-modify-it" class="d-block pt-4 pb-4 pl-4 pr-4 btn btn-success btn-wrappable">
                             <em class="fas fa-fw fa-forward"></em>
                             <strong>Read Next</strong>
                             <br>
                             <span class="text-bigger">
-                                The Best Time to Switch Gitlab to GitHub
+                                How to Traverse PHPDoc and Modify It
                             </span>
                         </a>
                                     </div>
@@ -268,17 +257,23 @@ vendor/bin/ecs check --config converted-ecs.php</code></pre>
 </html>
 
         <meta property="og:type" content="article" />
-    <meta property="og:title" content="A Tool that helps you to Migrate to ECS" />
-    <meta property="og:description" content="Do you want to use ECS but still stuck on an older coding standard tool? I wrote a post [how to migrate from PHP_CodeSniffer](/blog/2018/06/04/how-to-migrate-from-php-code-sniffer-to-easy-coding-standard/) and [from PHP-CS-Fixer](/blog/2018/06/07/how-to-migrate-from-php-cs-fixer-to-easy-coding-standard/).
+    <meta property="og:title" content="Monorepo Split GitHub Action 2.0 with Gitlab split is Out!" />
+    <meta property="og:description" content="[The version 1.0 was released 6 months ago](/blog/2020/11/09/new-in-symplify-9-monorepo-split-with-github-action). Compared to its ancestors, it speed up the split from **2 minutes to 10 seconds**.
 
-But who has time to read the step-by-step manual and do manual work? Nobody. That&#039;s why today, we&#039;ll look at a tool that **will handle the migration to ECS for you**.
+After 6 months of collecting feedback and adding new features, the version 2.0 is here!
+
+
+**How to use it with GitLab split repositories and custom git hosting?**
 " />
-    <meta property="og:url" content="/blog/tool-that-helps-you-to-migrate-to-ecs" />
+    <meta property="og:url" content="/blog/monorepo-split-github-action-20-with-gitlab-split-is-out" />
 
         <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@votrubaT">
-    <meta name="twitter:title" content="A Tool that helps you to Migrate to ECS" />
-    <meta name="twitter:description" content="Do you want to use ECS but still stuck on an older coding standard tool? I wrote a post [how to migrate from PHP_CodeSniffer](/blog/2018/06/04/how-to-migrate-from-php-code-sniffer-to-easy-coding-standard/) and [from PHP-CS-Fixer](/blog/2018/06/07/how-to-migrate-from-php-cs-fixer-to-easy-coding-standard/).
+    <meta name="twitter:title" content="Monorepo Split GitHub Action 2.0 with Gitlab split is Out!" />
+    <meta name="twitter:description" content="[The version 1.0 was released 6 months ago](/blog/2020/11/09/new-in-symplify-9-monorepo-split-with-github-action). Compared to its ancestors, it speed up the split from **2 minutes to 10 seconds**.
 
-But who has time to read the step-by-step manual and do manual work? Nobody. That&#039;s why today, we&#039;ll look at a tool that **will handle the migration to ECS for you**.
+After 6 months of collecting feedback and adding new features, the version 2.0 is here!
+
+
+**How to use it with GitLab split repositories and custom git hosting?**
 " />
