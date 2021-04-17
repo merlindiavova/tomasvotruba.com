@@ -138,17 +138,20 @@ After 6 months of collecting feedback and adding new features, version 2.0 is he
                 </div>
             </div>
 
-            <h2 id="private-repositories-support">Private Repositories Support</h2>
+            <img src="/assets/images/posts/2021/split_news.png" class="img-thumbnail">
+<p>I have 3 news today that make Monorepo Split more accessible to private packages.</p>
+<p><br></p>
+<h2 id="1-private-repositories-support">1. Private Repositories Support</h2>
 <p><a href="https://github.com/symplify/monorepo-split-github-action">Monorepo split</a> was built on open-source principles and thus used only for public repositories on GitHub. As time went by, this GitHub Action got into private repositories.</p>
 <p>Do you have a private monorepo repository on GitHub? <strong>Monorepo Split 2.0 now supports it!</strong></p>
-<h2 id="split-to-private-gitlab-repository">Split to Private Gitlab Repository</h2>
+<h2 id="2-split-to-private-gitlab-repository">2. Split to Private Gitlab Repository</h2>
 <p>GitHub Action can be used only on GitHub, obviously, but the target repository should not matter. Version 1.x had some troubles with splitting without the correct token. In version 2.0, we've <strong>added support for Gitlab as target repositories</strong>.</p>
 <p>How to enable it? Just add the <code>GITLAB_TOKEN</code> env variable to your workflow YAML file:</p>
 <pre><code class="language-yaml">env:
     GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}</code></pre>
 <p>The token must include <code>read_repository</code> + <code>write_repository</code> rights. Where can you create such a token? Here <a href="https://gitlab.com/profile/personal_access_tokens">https://gitlab.com/profile/personal_access_tokens</a>.</p>
 <p>Now you can build monorepo on GitHub and split it into repositories on Gitlab.</p>
-<h2 id="split-to-custom-git-hosting">Split to custom Git Hosting</h2>
+<h2 id="3-split-to-custom-git-hosting">3. Split to custom Git Hosting</h2>
 <p>Do you use GitLab? If so, there is a big chance you host it on your server because the <a href="/blog/best-time-to-switch-GitLab-to-github/">saas is getting more and more expensive</a>.</p>
 <p>That means your target hosting is not <code>github.com</code>, neither <code>gitlab.com</code>. That's why we've added a new parameter to set the host:</p>
 <pre><code class="language-yaml">with:
