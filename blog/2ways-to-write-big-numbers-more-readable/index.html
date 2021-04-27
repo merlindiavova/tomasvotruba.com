@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <title>2 Ways to Write Big Numbers More Readable | Tomas Votruba</title>
+    <meta charset="utf-8">
+    <meta name="robots" content="index, follow">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    
+    <link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/solid.css" integrity="sha384-wnAC7ln+XN0UKdcPvJvtqIH3jOjs9pnKnq9qX68ImXvOGz2JuFoEiCjT8jyZQX2z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/brands.css" integrity="sha384-nT8r1Kzllf71iZl81CdFzObMsaLOhqBU1JD2+XoAALbdtWaXDOlWOZTR4v1ktjPE" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css" integrity="sha384-HbmWTHay9psM8qyzEKPc8odH4DsOuzdejtnr+OFtDmOcIVnhgReQ4GZBH7uwcjf6" crossorigin="anonymous">
+
+        <link href="/assets/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+
+        <link href="/assets/css/style.css" rel="stylesheet" type="text/css" />
+
+
+        <link href="/assets/css/checklist.css" rel="stylesheet" type="text/css" />
+</head>
+    <body>
+                <!-- post_id: 311 -->
+
+        
+<div class="hidden-sm-down">
+    <nav class="navbar">
+        <div class="container-fluid">
+            <ul>
+                <li id="logo">
+                    <img src="https://avatars1.githubusercontent.com/u/924196?s=60&v=4" class="me_avatar">
+                    Tomas Votruba
+                </li>
+                <li class="active">
+                    <a href="/">Blog</a>
+                </li>
+
+                <li class="">
+                    <a href="/clusters">Clusters</a>
+                </li>
+
+                <li>
+                    <a href="https://github.com/sponsors/TomasVotruba">Sponsor Me</a>
+                </li>
+
+                <li class="">
+                    <a href="/mission">Mission</a>
+                </li>
+                <li class="">
+                    <a href="/contact">Contact</a>
+                </li>
+                <li id="top-menu-search">
+                    <form method="get" action="https://www.google.com/search" itemprop="potentialAction" itemscope="" itemtype="https://schema.org/SearchAction">
+    <meta itemprop="target" content="https://www.google.com/search?q={q}"/>
+    <input name="sitesearch" value="tomasvotruba.com" type="hidden"/>
+    <input itemprop="query-input" type="text" id="search-query" class="form-control" required="required" name="q" placeholder="Search..." autocomplete="off"/>
+</form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<div class="hidden-md-up">
+    <nav class="navbar" id="mobile-menu">
+        <div class="container">
+            <a href="/" class="col-3 col-sm-3 active">
+                <em class="fas fa-book"></em>
+                <br>
+                Blog
+            </a>
+
+
+            <a href="/clusters" class="col-3 col-sm-3 ">
+                <em class="fas fa-share-alt"></em>
+                <br>
+                Clusters
+            </a>
+
+            <a href="/contact" class="col-3 col-sm-3 ">
+                <em class="fas fa-phone"></em>
+                <br>
+                Contact
+            </a>
+        </div>
+    </nav>
+
+    <div class="hidden-md-up text-center" id="top-menu-search-mobile">
+        <form method="get" action="https://www.google.com/search" itemprop="potentialAction" itemscope="" itemtype="https://schema.org/SearchAction">
+    <meta itemprop="target" content="https://www.google.com/search?q={q}"/>
+    <input name="sitesearch" value="tomasvotruba.com" type="hidden"/>
+    <input itemprop="query-input" type="text" id="search-query" class="form-control" required="required" name="q" placeholder="Search..." autocomplete="off"/>
+</form>
+    </div>
+</div>
+
+        <div class="container-fluid" id="post">
+            <h1>2 Ways to Write Big Numbers More Readable</h1>
+
+            <ul class="list-inline post-metadata">
+    <li class="list-inline-item mr-3">
+        <em class="fas fa-calendar fa-fw"></em>
+        <time datetime="2021-04-Mon">
+            
+                                            Apr 12
+            
+            </strike>        </time>
+    </li>
+
+    
+            <li class="list-inline-item mr-3">
+            <em class="fas fa-fw fa-comments"></em>
+            <a href="/blog/2ways-to-write-big-numbers-more-readable/#disqus_thread">X</a> comments
+        </li>
+    
+    
+            <li class="list-inline-item mr-3 text-primary">
+            <em class="fab fa-fw fa-github"></em>
+            <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2021/2021-04-12-2ways-to-write-big-numbers-more-readable.md">Found a typo? Edit me</a>
+        </li>
+    </ul>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>Have you seen a number in your code that does not make any sense? We don't talk about 1, 2, or 3. I mean big numbers like 965039008. How would you spell it when support asks you for your account ID?
+<br><br>
+<strong>There are two ways to make big numbers more readable</strong>. Instant and easy ways that I found mostly by accident. We use them both in one big project, and it makes our daily number work so much easier I want to share them with you.</p>
+                </div>
+            </div>
+
+            <h2 id="1-context-aware-spaces">1. Context-Aware Spaces</h2>
+<p>Thefirsttrickiscontextspacesforourbraincaneasilyseelogic. Like spaces in a sentence makes it easier to read it word by word.</p>
+<p><br></p>
+<p>Let's have a little real-life experience. Today we have less and less time to get through our day. We barely read section titles and <strong>text in bold</strong>.</p>
+<p><br></p>
+<p>To simulate that, read the next number in a blink of an eye (~200 ms):</p>
+<pre><code class="language-php">$housePrice = 10000000;</code></pre>
+<p><br></p>
+<p>Now answer: <strong>how much does your new house costs?</strong></p>
+<ul>
+<li>a million</li>
+<li>10 million</li>
+<li>hundred thousands</li>
+</ul>
+<p><br></p>
+<p>I can't answer that for sure, and I wrote that number just a few seconds ago.</p>
+<p><br></p>
+<p>Now let's see the same number with context spaces:</p>
+<pre><code class="language-php">$housePrice = 10_000_000;</code></pre>
+<p>The answer is obvious now - 10 million.</p>
+<p><br></p>
+<p>This <strong>little trick is called <a href="https://php.watch/versions/7.4/underscore_numeric_separator">the underscore separator</a></strong> and we can use it since PHP 7.4+.</p>
+<h2 id="use-underscore-separator-to-save-the-future">Use Underscore Separator to Save The Future</h2>
+<p>Do you want to make your <strong>future code</strong> more readable?</p>
+<p>Use <code>_</code> in numbers while you're writing them. It will save your from guessing in future months:</p>
+<pre><code class="language-php">$creditCardNumber = 1234_1234_1234_1234;
+$phoneNumber = 420_776_778_333;
+$price = 99_99;</code></pre>
+<p><br></p>
+<p>Do you want to make your <strong>current code more readable</strong>?</p>
+<p>Use <a href="https://github.com/rectorphp/rector/blob/main/docs/rector_rules_overview.md#addliteralseparatortonumberrector"><code>AddLiteralSeparatorToNumberRector</code></a> from Rector to upgrade your numbers:</p>
+<pre><code class="language-diff">-$int = 500000;
++$int = 500_000;
+
+-$float = 1000500.001;
++$float = 1_000_500.001;</code></pre>
+<p><br></p>
+<h2 id="2-time-constants">2. Time Constants</h2>
+<p>What is the magic behind these numbers?</p>
+<pre><code class="language-php">31104000
+604800</code></pre>
+<p>From the paragraph title, we know it's about time... <strong>but how much precisely</strong>? No calculators are allowed!</p>
+<h2 id="do-you-use-nette-utils">Do you Use Nette\Utils?</h2>
+<p>Some packages are very powerful, but only very few developers are aware of them. One of these packages is Nette\Utils. You don't use it for every project yet? Read <a href="/blog/2018/07/30/hidden-gems-of-php-packages-nette-utils/">hidden gem post</a> and look at 1 more reason <a href="https://www.reddit.com/r/PHP/comments/mya4gb/preg_last_error_and_json_last_error/">on Reddit from last week</a>.</p>
+<p>It can help to make these numbers more readable:</p>
+<pre><code class="language-php">const TIMEOUT = 86400;
+
+const PING = 3600;</code></pre>
+<p>What are these? One of them might be an hour in seconds. The second... maybe a day in seconds? &quot;Maybe&quot; is not for coders, it's for gamblers. <strong>We play it strictly!</strong></p>
+<p><br></p>
+<pre><code class="language-diff">+use Nette\Utils\DateTime;
+
+-const TIMEOUT = 86400;
++const TIMEOUT = DateTime::DAY;
+
+-const PING = 3600;
++const PING = DateTime::HOUR;</code></pre>
+<p>Suddenly, random numbers will get a sense:</p>
+<pre><code class="language-diff">+use Nette\Utils\DateTime;
+
+-604800
++DateTime::WEEK
+
+-31104000
++DateTime::DAY * 30 * 12</code></pre>
+<h2 id="use-code-hour-code-code-day-code-code-week-code-code-month-code-and-code-year-code-constants">Use <code>HOUR</code>, <code>DAY</code>, <code>WEEK</code>, <code>MONTH</code> and <code>YEAR</code> Constants</h2>
+<p>Next time you'll write time in your code, give time to think about the time constants.</p>
+<p>Would you like to <strong>upgrade your current numbers to constants instantly</strong>? Use <a href="https://github.com/rectorphp/rector-nette/blob/main/docs/rector_rules_overview.md#replacetimenumberwithdatetimeconstantrector"><code>ReplaceTimeNumberWithDateTimeConstantRector</code></a> from Rector to handle it.</p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+            <div class="row mb-5 mt-5">
+                <div class="col-12 mb-5">
+                                                                <a href="/blog/monorepo-split-github-action-20-with-gitlab-split-is-out" class="d-block pt-4 pb-4 pl-4 pr-4 btn btn-success btn-wrappable">
+                            <em class="fas fa-fw fa-forward"></em>
+                            <strong>Read Next</strong>
+                            <br>
+                            <span class="text-bigger">
+                                Monorepo Split GitHub Action 2.0 with Gitlab split is Out!
+                            </span>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <script src="/assets/js/jquery-3.3.1.slim.min.js"></script>
+<script src="/assets/js/cleaning-lady-checklist.js"></script>
+
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
+<script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+<script src="/assets/prism/prism.js"></script>
+
+<script>
+    // sortable table
+    $('.sortable_table').DataTable({
+        // see https://datatables.net/examples/basic_init/filter_only.html
+        "searching": false,
+        "paging": false,
+        "info": false,
+        "order": [[1, "desc"]],
+        // see https://datatables.net/examples/advanced_init/sort_direction_control.html
+        "aoColumns": [
+            null,
+            { "orderSequence": [ "desc", "asc" ] },
+            { "orderSequence": [ "desc", "asc" ] },
+            { "orderSequence": [ "desc", "asc" ] }
+        ]
+    });
+</script>
+
+<div class="text-center mt-5" id="footer">
+    <p class="mt-2">
+        Open-source is my life. Does my work help yours? <a href="https://github.com/sponsors/TomasVotruba">Sponsor Me</a> &nbsp;
+        <em class="fas fa-heart text-danger fa-lg"></em>
+
+        &nbsp;
+        <span class="pl-2 pr-2">•</span>
+        &nbsp;
+
+        See <a href="/archive">Post Archive</a>
+
+        &nbsp;
+        <span class="pl-2 pr-2">•</span>
+        &nbsp;
+
+        <a href="/rss.xml">Get RSS</a>
+    </p>
+</div>
+    </body>
+</html>
+
+        <meta property="og:type" content="article" />
+    <meta property="og:title" content="2 Ways to Write Big Numbers More Readable" />
+    <meta property="og:description" content="Have you seen a number in your code that does not make any sense? We don&#039;t talk about 1, 2, or 3. I mean big numbers like 965039008. How would you spell it when support asks you for your account ID?
+
+**There are two ways to make big numbers more readable**. Instant and easy ways that I found mostly by accident. We use them both in one big project, and it makes our daily number work so much easier I want to share them with you.
+" />
+    <meta property="og:url" content="/blog/2ways-to-write-big-numbers-more-readable" />
+
+        <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@votrubaT">
+    <meta name="twitter:title" content="2 Ways to Write Big Numbers More Readable" />
+    <meta name="twitter:description" content="Have you seen a number in your code that does not make any sense? We don&#039;t talk about 1, 2, or 3. I mean big numbers like 965039008. How would you spell it when support asks you for your account ID?
+
+**There are two ways to make big numbers more readable**. Instant and easy ways that I found mostly by accident. We use them both in one big project, and it makes our daily number work so much easier I want to share them with you.
+" />
