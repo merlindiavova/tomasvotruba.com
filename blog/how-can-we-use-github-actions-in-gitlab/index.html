@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <title>How can We use GitHub Actions in Gitlab? | Tomas Votruba</title>
+    <meta charset="utf-8">
+    <meta name="robots" content="index, follow">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    
+    <link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/solid.css" integrity="sha384-wnAC7ln+XN0UKdcPvJvtqIH3jOjs9pnKnq9qX68ImXvOGz2JuFoEiCjT8jyZQX2z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/brands.css" integrity="sha384-nT8r1Kzllf71iZl81CdFzObMsaLOhqBU1JD2+XoAALbdtWaXDOlWOZTR4v1ktjPE" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css" integrity="sha384-HbmWTHay9psM8qyzEKPc8odH4DsOuzdejtnr+OFtDmOcIVnhgReQ4GZBH7uwcjf6" crossorigin="anonymous">
+
+        <link href="/assets/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+
+        <link href="/assets/css/style.css" rel="stylesheet" type="text/css" />
+
+
+        <link href="/assets/css/checklist.css" rel="stylesheet" type="text/css" />
+</head>
+    <body>
+                <!-- post_id: 312 -->
+
+        
+<div class="hidden-sm-down">
+    <nav class="navbar">
+        <div class="container-fluid">
+            <ul>
+                <li id="logo">
+                    <img src="https://avatars1.githubusercontent.com/u/924196?s=60&v=4" class="me_avatar">
+                    Tomas Votruba
+                </li>
+                <li class="active">
+                    <a href="/">Blog</a>
+                </li>
+
+                <li class="">
+                    <a href="/clusters">Clusters</a>
+                </li>
+
+                <li>
+                    <a href="https://github.com/sponsors/TomasVotruba">Sponsor Me</a>
+                </li>
+
+                <li class="">
+                    <a href="/mission">Mission</a>
+                </li>
+                <li class="">
+                    <a href="/contact">Contact</a>
+                </li>
+                <li id="top-menu-search">
+                    <form method="get" action="https://www.google.com/search" itemprop="potentialAction" itemscope="" itemtype="https://schema.org/SearchAction">
+    <meta itemprop="target" content="https://www.google.com/search?q={q}"/>
+    <input name="sitesearch" value="tomasvotruba.com" type="hidden"/>
+    <input itemprop="query-input" type="text" id="search-query" class="form-control" required="required" name="q" placeholder="Search..." autocomplete="off"/>
+</form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<div class="hidden-md-up">
+    <nav class="navbar" id="mobile-menu">
+        <div class="container">
+            <a href="/" class="col-3 col-sm-3 active">
+                <em class="fas fa-book"></em>
+                <br>
+                Blog
+            </a>
+
+
+            <a href="/clusters" class="col-3 col-sm-3 ">
+                <em class="fas fa-share-alt"></em>
+                <br>
+                Clusters
+            </a>
+
+            <a href="/contact" class="col-3 col-sm-3 ">
+                <em class="fas fa-phone"></em>
+                <br>
+                Contact
+            </a>
+        </div>
+    </nav>
+
+    <div class="hidden-md-up text-center" id="top-menu-search-mobile">
+        <form method="get" action="https://www.google.com/search" itemprop="potentialAction" itemscope="" itemtype="https://schema.org/SearchAction">
+    <meta itemprop="target" content="https://www.google.com/search?q={q}"/>
+    <input name="sitesearch" value="tomasvotruba.com" type="hidden"/>
+    <input itemprop="query-input" type="text" id="search-query" class="form-control" required="required" name="q" placeholder="Search..." autocomplete="off"/>
+</form>
+    </div>
+</div>
+
+        <div class="container-fluid" id="post">
+            <h1>How can We use GitHub&nbsp;Actions in&nbsp;Gitlab?</h1>
+
+            <ul class="list-inline post-metadata">
+    <li class="list-inline-item mr-3">
+        <em class="fas fa-calendar fa-fw"></em>
+        <time datetime="2021-04-Mon">
+            
+                                            Apr 19
+            
+            </strike>        </time>
+    </li>
+
+    
+            <li class="list-inline-item mr-3">
+            <em class="fas fa-fw fa-comments"></em>
+            <a href="/blog/how-can-we-use-github-actions-in-gitlab/#disqus_thread">X</a> comments
+        </li>
+    
+    
+            <li class="list-inline-item mr-3 text-primary">
+            <em class="fab fa-fw fa-github"></em>
+            <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2021/2021-04-19-how-can-we-use-github-actions-in-gitlab.md">Found a typo? Edit me</a>
+        </li>
+    </ul>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>One my customer is building a <a href="/cluster/monorepo-from-zero-to-hero/">monorepo</a>, so we prepared a prototype on GitHub to test it out. It uses <a href="/blog/monorepo-split-github-action-20-with-gitlab-split-is-out/">Monorepo Split GitHub Action</a> and works well.
+<br><br>
+You know <a href="/blog/best-time-to-switch-gitlab-to-github">I'm a big fan of GitHub</a>, so when client asked me: <strong>&quot;how can we do it in Gitlab?&quot;</strong>
+<br>
+I was like: &quot;that's not possible... you need to switch to GitHub&quot;.</p>
+                </div>
+            </div>
+
+            <p>...or was I?</p>
+<p>Critical thinking can be easily disabled by <a href="https://en.wikipedia.org/wiki/Confirmation_bias">confirmation bias</a>. When I stop thinking critically and actually realize that, I try to get back to reality. One way to do that is to <strong>describe the situation as it is in few simple words</strong>.</p>
+<p><br></p>
+<p><strong>What we have now?</strong></p>
+<ul>
+<li>GitHub mono repository <em class="fas fa-fw fa-check text-success"></em></li>
+<li>working split on GitHub thanks to GitHub Action <em class="fas fa-fw fa-check text-success"></em></li>
+<li>Gitlab repositories <em class="fas fa-fw fa-check text-success"></em></li>
+</ul>
+<p><strong>What we need?</strong></p>
+<ul>
+<li>Gitlab mono repository</li>
+<li>Gitlab split</li>
+<li>Gitlab repositories</li>
+</ul>
+<h2 id="del-can-we-get-there-del-how-can-we-get-there"><del>Can We Get There?</del> How Can We Get There?</h2>
+<ol>
+<li>From GitHub mono repository to Gitlab mono repository. Basically, we need to switch the <code>origin</code> reference in git:</li>
+</ol>
+<pre><code class="language-bash"># remove github
+git remote remove origin
+
+# add GitLab
+git remote add origin git.gitlab.com/...
+git push origin</code></pre>
+<ol start="2">
+<li>From GitHub Split Action to Gitlab?</li>
+</ol>
+<p>My first idea was: <em>&quot;I have no idea&quot;</em>. Let's be honest here. It's not a very good solution, not a solution at all, not working, but we always have to start somewhere.</p>
+<p>What is the next idea? Let's describe <strong>world in simple words</strong>.</p>
+<h2 id="what-is-a-github-action">What is a GitHub Action?</h2>
+<p>&quot;GitHub Action is some script that you call, and it does some work for you. Mostly in CI regularly.&quot;</p>
+<p>Good. GitHub Actions is a CI, and Gitlab CI is a CI. <strong>We have a mental bridge that we can use</strong>.</p>
+<p>&quot;Yea, but GitHub Action is tailor-made for GitHub CI&quot;.</p>
+<p><br></p>
+<p>Ok, what exactly is GitHub CI doing when you run a GitHub Action in it?</p>
+<p>&quot;Well, it gets input arguments that we set and runs a script with them.&quot;</p>
+<p><br></p>
+<p>What do you mean by <strong>a script</strong>?</p>
+<p>&quot;There is Docker image that we download and run. The Docker image can call bash, PHP, or whatever other inner script and just pass the arguments in it.&quot;</p>
+<p><br></p>
+<p>Ok, so GitHub Action is <strong>basically a Docker image that accepts arguments and runs them</strong>?</p>
+<pre><code class="language-bash">docker run some-image $ARGUMENTS</code></pre>
+<p>&quot;Yes!&quot;</p>
+<p><br></p>
+<p><em>Note:</em> there is 2nd way to build GitHub Action <a href="https://docs.github.com/en/actions/creating-actions/about-actions#types-of-actions">via Javascript</a>. I didn't follow that path, as I know Docker better than Javascript.</p>
+<h2 id="1-from-github-action-syntax-to-pseudo-syntax">1. From GitHub Action Syntax to Pseudo Syntax</h2>
+<p>Let's look at CI configuration. In GitHub, it's YAML files located in the <code>.github/workflows</code> directory, in Gitlab, it's <code>.gitlab-ci.yml</code>.</p>
+<p><br></p>
+<p>This is how looks real <strong>GitHub Action in normal syntax</strong>:</p>
+<pre><code class="language-yaml"># .github/workflows/monorepo_split.yaml
+jobs:
+    monorepo_split:
+        steps:
+            # ...
+            -
+                uses: "symplify/monorepo-split-github-action@2.0"
+                with:
+                    package-directory: 'packages/easy-coding-standard'
+                    split-repository-organization: 'symplify'
+                    split-repository-name: 'easy-coding-standard'</code></pre>
+<p>How would the same action look like <strong>in pseudo syntax</strong> without GitHub syntax sugar?</p>
+<pre><code class="language-yaml"># use this docker image
+image: "symplify/monorepo-split-github-action"
+
+# setup input variables
+env:
+    FROM_PACKAGE: "packages/easy-coding-standard"
+    TO_REPOSITORY: "https://github.com/symplify/easy-coding-standard"
+
+# run docker image with input variables
+script:
+    - docker run symplify/monorepo-split-github-action $FROM_PACKAGE $TO_REPOSITORY</code></pre>
+<p>This is great! Now we know the exact steps that have to be reproduced in the next CI.</p>
+<h2 id="2-from-pseudo-syntax-to-gitlab-ci-syntax">2. From Pseudo Syntax to GitLab CI Syntax</h2>
+<p>Now we take the pseudo syntax and try to fit in Gitlab conventions:</p>
+<pre><code class="language-yaml"># .gitlab-ci.yml
+split_monorepo:
+    # ...
+    # set envs
+    variables:
+        FROM_PACKAGE: "packages/easy-coding-standard"
+        TO_REPOSITORY: "https://github.com/symplify/easy-coding-standard"
+
+    script:
+        - docker run symplify/monorepo-split $FROM_PACKAGE $TO_REPOSITORY</code></pre>
+<p>That's it! <strong>Now we're using GitHub Action in a Gitlab CI.</strong></p>
+<p><br></p>
+<h2 id="how-to-make-github-actions-that-gitlab-developers-can-use">How to make GitHub Actions that GitLab Developers can use?</h2>
+<p>Not every GitHub Action will work out of the box. There are steps we have to think about:</p>
+<ol>
+<li>build GitHub Action as a <strong>Docker image</strong> and not Javascript one</li>
+<li><strong>publish the Docker image</strong> to <a href="https://hub.docker.com/">Docker Hub</a> (basically Packagist for Docker images), so anyone can use it</li>
+<li>allow passing <strong>Gitlab Access Token</strong> for repository access</li>
+<li>bonus: if you have many arguments, think of passing them as ENV variables to keep <code>.gitlab-ci.yaml</code> small</li>
+</ol>
+<p>That's all, folks. I could not believe how simple this is.</p>
+<p>Can't wait to give it a try? <strong>Let me know what GitHub Actions you're using in Gitlab!</strong></p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+            <div class="row mb-5 mt-5">
+                <div class="col-12 mb-5">
+                                                                <a href="/blog/2ways-to-write-big-numbers-more-readable" class="d-block pt-4 pb-4 pl-4 pr-4 btn btn-success btn-wrappable">
+                            <em class="fas fa-fw fa-forward"></em>
+                            <strong>Read Next</strong>
+                            <br>
+                            <span class="text-bigger">
+                                2 Ways to Write Big Numbers More Readable
+                            </span>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <script src="/assets/js/jquery-3.3.1.slim.min.js"></script>
+<script src="/assets/js/cleaning-lady-checklist.js"></script>
+
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
+<script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+<script src="/assets/prism/prism.js"></script>
+
+<script>
+    // sortable table
+    $('.sortable_table').DataTable({
+        // see https://datatables.net/examples/basic_init/filter_only.html
+        "searching": false,
+        "paging": false,
+        "info": false,
+        "order": [[1, "desc"]],
+        // see https://datatables.net/examples/advanced_init/sort_direction_control.html
+        "aoColumns": [
+            null,
+            { "orderSequence": [ "desc", "asc" ] },
+            { "orderSequence": [ "desc", "asc" ] },
+            { "orderSequence": [ "desc", "asc" ] }
+        ]
+    });
+</script>
+
+<div class="text-center mt-5" id="footer">
+    <p class="mt-2">
+        Open-source is my life. Does my work help yours? <a href="https://github.com/sponsors/TomasVotruba">Sponsor Me</a> &nbsp;
+        <em class="fas fa-heart text-danger fa-lg"></em>
+
+        &nbsp;
+        <span class="pl-2 pr-2">•</span>
+        &nbsp;
+
+        See <a href="/archive">Post Archive</a>
+
+        &nbsp;
+        <span class="pl-2 pr-2">•</span>
+        &nbsp;
+
+        <a href="/rss.xml">Get RSS</a>
+    </p>
+</div>
+    </body>
+</html>
+
+        <meta property="og:type" content="article" />
+    <meta property="og:title" content="How can We use GitHub Actions in Gitlab?" />
+    <meta property="og:description" content="One my customer is building a [monorepo](/cluster/monorepo-from-zero-to-hero/), so we prepared a prototype on GitHub to test it out. It uses [Monorepo Split GitHub Action](/blog/monorepo-split-github-action-20-with-gitlab-split-is-out/) and works well.
+
+You know [I&#039;m a big fan of GitHub](/blog/best-time-to-switch-gitlab-to-github), so when client asked me: **&quot;how can we do it in Gitlab?&quot;**
+
+I was like: &quot;that&#039;s not possible... you need to switch to GitHub&quot;.
+" />
+    <meta property="og:url" content="/blog/how-can-we-use-github-actions-in-gitlab" />
+
+        <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@votrubaT">
+    <meta name="twitter:title" content="How can We use GitHub Actions in Gitlab?" />
+    <meta name="twitter:description" content="One my customer is building a [monorepo](/cluster/monorepo-from-zero-to-hero/), so we prepared a prototype on GitHub to test it out. It uses [Monorepo Split GitHub Action](/blog/monorepo-split-github-action-20-with-gitlab-split-is-out/) and works well.
+
+You know [I&#039;m a big fan of GitHub](/blog/best-time-to-switch-gitlab-to-github), so when client asked me: **&quot;how can we do it in Gitlab?&quot;**
+
+I was like: &quot;that&#039;s not possible... you need to switch to GitHub&quot;.
+" />
