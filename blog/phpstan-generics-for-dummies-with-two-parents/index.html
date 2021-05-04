@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <title>PHPStan Generics for Dummies - With 2 Parents | Tomas Votruba</title>
+    <meta charset="utf-8">
+    <meta name="robots" content="index, follow">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    
+    <link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/solid.css" integrity="sha384-wnAC7ln+XN0UKdcPvJvtqIH3jOjs9pnKnq9qX68ImXvOGz2JuFoEiCjT8jyZQX2z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/brands.css" integrity="sha384-nT8r1Kzllf71iZl81CdFzObMsaLOhqBU1JD2+XoAALbdtWaXDOlWOZTR4v1ktjPE" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css" integrity="sha384-HbmWTHay9psM8qyzEKPc8odH4DsOuzdejtnr+OFtDmOcIVnhgReQ4GZBH7uwcjf6" crossorigin="anonymous">
+
+        <link href="/assets/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+
+        <link href="/assets/css/style.css" rel="stylesheet" type="text/css" />
+
+
+        <link href="/assets/css/checklist.css" rel="stylesheet" type="text/css" />
+</head>
+    <body>
+                <!-- post_id: 314 -->
+
+        
+<div class="hidden-sm-down">
+    <nav class="navbar">
+        <div class="container-fluid">
+            <ul>
+                <li id="logo">
+                    <img src="https://avatars1.githubusercontent.com/u/924196?s=60&v=4" class="me_avatar">
+                    Tomas Votruba
+                </li>
+                <li class="active">
+                    <a href="/">Blog</a>
+                </li>
+
+                <li class="">
+                    <a href="/clusters">Clusters</a>
+                </li>
+
+                <li>
+                    <a href="https://github.com/sponsors/TomasVotruba">Sponsor Me</a>
+                </li>
+
+                <li class="">
+                    <a href="/mission">Mission</a>
+                </li>
+                <li class="">
+                    <a href="/contact">Contact</a>
+                </li>
+                <li id="top-menu-search">
+                    <form method="get" action="https://www.google.com/search" itemprop="potentialAction" itemscope="" itemtype="https://schema.org/SearchAction">
+    <meta itemprop="target" content="https://www.google.com/search?q={q}"/>
+    <input name="sitesearch" value="tomasvotruba.com" type="hidden"/>
+    <input itemprop="query-input" type="text" id="search-query" class="form-control" required="required" name="q" placeholder="Search..." autocomplete="off"/>
+</form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<div class="hidden-md-up">
+    <nav class="navbar" id="mobile-menu">
+        <div class="container">
+            <a href="/" class="col-3 col-sm-3 active">
+                <em class="fas fa-book"></em>
+                <br>
+                Blog
+            </a>
+
+
+            <a href="/clusters" class="col-3 col-sm-3 ">
+                <em class="fas fa-share-alt"></em>
+                <br>
+                Clusters
+            </a>
+
+            <a href="/contact" class="col-3 col-sm-3 ">
+                <em class="fas fa-phone"></em>
+                <br>
+                Contact
+            </a>
+        </div>
+    </nav>
+
+    <div class="hidden-md-up text-center" id="top-menu-search-mobile">
+        <form method="get" action="https://www.google.com/search" itemprop="potentialAction" itemscope="" itemtype="https://schema.org/SearchAction">
+    <meta itemprop="target" content="https://www.google.com/search?q={q}"/>
+    <input name="sitesearch" value="tomasvotruba.com" type="hidden"/>
+    <input itemprop="query-input" type="text" id="search-query" class="form-control" required="required" name="q" placeholder="Search..." autocomplete="off"/>
+</form>
+    </div>
+</div>
+
+        <div class="container-fluid" id="post">
+            <h1>PHPStan Generics for Dummies - With&nbsp;2&nbsp;Parents</h1>
+
+            <ul class="list-inline post-metadata">
+    <li class="list-inline-item mr-3">
+        <em class="fas fa-calendar fa-fw"></em>
+        <time datetime="2021-05-Mon">
+            
+                                            May 3
+            
+            </strike>        </time>
+    </li>
+
+    
+            <li class="list-inline-item mr-3">
+            <em class="fas fa-fw fa-comments"></em>
+            <a href="/blog/phpstan-generics-for-dummies-with-two-parents/#disqus_thread">X</a> comments
+        </li>
+    
+    
+            <li class="list-inline-item mr-3 text-primary">
+            <em class="fab fa-fw fa-github"></em>
+            <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2021/2021-05-03-phpstan-generics-for-dummies-with-two-parents.md">Found a typo? Edit me</a>
+        </li>
+    </ul>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>In previous post we talked about how to <a href="/blog/2021/01/04/phpstan-abstract-parent-generics-dummies/">promote generics to parent class</a>.
+There we learned how to tell parent class what generic type we use (typically from <code>ProductRepository</code> and <code>AbstractRepository</code>).
+<br>
+<br>
+Today we take the same use case and <strong>add one more parent class</strong>.
+<br>
+<br>
+That must be easy, right?</p>
+                </div>
+            </div>
+
+            <p>Let's start where we ended last time:</p>
+<pre><code class="language-php">/**
+ * @extends AbstractRepository&lt;Product&gt;
+ */
+final class ProductRepository extends AbstractRepository
+{
+}</code></pre>
+<p>With an abstract parent:</p>
+<pre><code class="language-php">/**
+ * @template TEntity as object
+ */
+abstract class AbstractRepository
+{
+    /**
+     * @return TEntity
+     */
+    public function get($id)
+    {
+        // ...
+    }
+}</code></pre>
+<p><em class="fas fa-fw fa-2x fa-check text-success mb-3"></em></p>
+<p>PHPStan now knows exact returned type of all method annotated with <code>TEntity</code>:</p>
+<pre><code class="language-php">/** @var ProductRepository $productRepository */
+$product = $productRepository-&gt;get(1);</code></pre>
+<p>Here we always have a <code>Product</code> type.</p>
+<p><br></p>
+<h2 id="constraints-have-changed">Constraints Have Changed</h2>
+<p>Everything works well, our project grows, and more and more users are visiting our website. Life is good.</p>
+<p>Just the response time is lagging more and more. How could we improve it? One way is to <strong>cache the most visited entities</strong>.</p>
+<p>Alright! We'll add a new repository class with cache:</p>
+<pre><code class="language-php">abstract class AbstractCachedRepository extends AbstractRepository
+{
+    // cache everywhere
+}</code></pre>
+<p>And one parent switch:</p>
+<pre><code class="language-diff"> /**
+  * @extends AbstractRepository&lt;Product&gt;
+  */
+-final class ProductRepository extends AbstractRepository
++final class ProductRepository extends AbstractCachedRepository
+ {
+     // ...
+ }</code></pre>
+<p>Our class structure changes like this:</p>
+<pre><code class="language-diff">- ProductRepository -&gt; AbstractRepository
++ ProductRepository -&gt; AbstractCachedRepository -&gt; AbstractRepository</code></pre>
+<p>The cache is working, and lagging is gone... we run PHPStan, and... it crashes. <strong>Why?</strong> Because the class in <code>@extends class</code> is no longer there:</p>
+<pre><code class="language-php">/**
+ * @extends AbstractRepository&lt;Product&gt;
+ */
+final class ProductRepository extends AbstractCachedRepository
+{
+}</code></pre>
+<p>The <code>ProductRepository</code> class does not see its grand-parent class <code>AbstractRepository</code>, only its direct parent.
+<strong>We'll fix that:</strong></p>
+<pre><code class="language-diff"> /**
+- * @extends AbstractRepository&lt;Product&gt;
++ * @extends AbstractCachedRepository&lt;Product&gt;
+  */
+ final class ProductRepository extends AbstractCachedRepository
+ {
+ }</code></pre>
+<p>Well done! Now we rerun PHPStan to see the result... and it crashes. <strong>Why?</strong></p>
+<h2 id="2-steps-to-man-in-the-middle-class">2 Steps to Man in the Middle Class</h2>
+<p><code>AbstractCachedRepository</code> is a middle man. <strong>Its job is to take type from the child class and send it to the parent class.</strong> But it's just a bare class with no annotations.</p>
+<p><br></p>
+<p>It has no idea what to do. We have to tell it to...</p>
+<p><strong>1. pick the type from child class</strong></p>
+<pre><code class="language-diff">+ /**
++  * @template TEntity of object
++  */
+  abstract class AbstractCachedRepository extends AbstractRepository
+  {
+  }</code></pre>
+<p><strong>2. send it to parent class via <code>@template-extends</code></strong></p>
+<pre><code class="language-diff">  /**
+   * @template TEntity of object
++  * @template-extends AbstractRepository&lt;TEntity&gt;
+   */
+  abstract class AbstractCachedRepository extends AbstractRepository
+  {
+  }</code></pre>
+<p>We run PHPStan, and... it works!</p>
+<p><em class="fas fa-fw fa-2x fa-check text-success mb-3"></em></p>
+<p><br></p>
+<h2 id="let-phpstan-watch-your-back">Let PHPStan Watch Your Back</h2>
+<p>Is your PHPStan passing <strong>even without generic definition in child class</strong>? You need to enable it first.</p>
+<p>There are 2 ways. One of them is level 6+:</p>
+<pre><code class="language-yaml">parameters:
+    level: 6</code></pre>
+<p>Are you stuck on a lower level? There is <strong>single parameter</strong> you can enable instead:</p>
+<pre><code class="language-yaml">parameters:
+    level: 4
+    checkGenericClassInNonGenericObjectType: true</code></pre>
+<p>Then run PHPStan and <strong>complete generic types with confidence</strong>.</p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+            <div class="row mb-5 mt-5">
+                <div class="col-12 mb-5">
+                                                                <a href="/blog/dependency-juggling-code-smell" class="d-block pt-4 pb-4 pl-4 pr-4 btn btn-success btn-wrappable">
+                            <em class="fas fa-fw fa-forward"></em>
+                            <strong>Read Next</strong>
+                            <br>
+                            <span class="text-bigger">
+                                Dependency Juggling Code Smell
+                            </span>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <script src="/assets/js/jquery-3.3.1.slim.min.js"></script>
+<script src="/assets/js/cleaning-lady-checklist.js"></script>
+
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
+<script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+<script src="/assets/prism/prism.js"></script>
+
+<script>
+    // sortable table
+    $('.sortable_table').DataTable({
+        // see https://datatables.net/examples/basic_init/filter_only.html
+        "searching": false,
+        "paging": false,
+        "info": false,
+        "order": [[1, "desc"]],
+        // see https://datatables.net/examples/advanced_init/sort_direction_control.html
+        "aoColumns": [
+            null,
+            { "orderSequence": [ "desc", "asc" ] },
+            { "orderSequence": [ "desc", "asc" ] },
+            { "orderSequence": [ "desc", "asc" ] }
+        ]
+    });
+</script>
+
+<div class="text-center mt-5" id="footer">
+    <p class="mt-2">
+        Open-source is my life. Does my work help yours? <a href="https://github.com/sponsors/TomasVotruba">Sponsor Me</a> &nbsp;
+        <em class="fas fa-heart text-danger fa-lg"></em>
+
+        &nbsp;
+        <span class="pl-2 pr-2">•</span>
+        &nbsp;
+
+        See <a href="/archive">Post Archive</a>
+
+        &nbsp;
+        <span class="pl-2 pr-2">•</span>
+        &nbsp;
+
+        <a href="/rss.xml">Get RSS</a>
+    </p>
+</div>
+    </body>
+</html>
+
+        <meta property="og:type" content="article" />
+    <meta property="og:title" content="PHPStan Generics for Dummies - With 2 Parents" />
+    <meta property="og:description" content="In previous post we talked about how to [promote generics to parent class](/blog/2021/01/04/phpstan-abstract-parent-generics-dummies/).
+There we learned how to tell parent class what generic type we use (typically from `ProductRepository` and `AbstractRepository`).
+
+
+Today we take the same use case and **add one more parent class**.
+
+
+That must be easy, right?
+" />
+    <meta property="og:url" content="/blog/phpstan-generics-for-dummies-with-two-parents" />
+
+        <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@votrubaT">
+    <meta name="twitter:title" content="PHPStan Generics for Dummies - With 2 Parents" />
+    <meta name="twitter:description" content="In previous post we talked about how to [promote generics to parent class](/blog/2021/01/04/phpstan-abstract-parent-generics-dummies/).
+There we learned how to tell parent class what generic type we use (typically from `ProductRepository` and `AbstractRepository`).
+
+
+Today we take the same use case and **add one more parent class**.
+
+
+That must be easy, right?
+" />

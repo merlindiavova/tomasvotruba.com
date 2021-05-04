@@ -109,12 +109,15 @@
     <li class="list-inline-item mr-3">
         <em class="fas fa-calendar fa-fw"></em>
         <time datetime="2021-01-Mon">
-            
-                                            Jan 4
+            <strike>
+                            Jan, 2021
             
             </strike>        </time>
     </li>
 
+            <li class="list-inline-item mr-3 text-success">
+            <em class="fas fa-fw fa-sync"></em> Updated May, 2021
+        </li>
     
             <li class="list-inline-item mr-3">
             <em class="fas fa-fw fa-comments"></em>
@@ -129,6 +132,16 @@
     </ul>
 
             
+                            <div class="card border-success card-bigger mt-5">
+                    <div class="card-header text-white bg-success">
+                        <strong>This post was updated at May 2021</strong>
+                    </div>
+                                            <div class="card-body pb-2">
+                            <p>Simplified to 1-line <code>@extends</code> syntax.</p>
+                        </div>
+                                    </div>
+
+                <br>
             
             <div class="card card-bigger mb-5">
                 <div class="card-body pb-2">
@@ -217,13 +230,15 @@ So I tried to use <a href="https://phpstan.org/blog/generics-in-php-using-phpdoc
 +    throw new ShouldNotHappenException('$product is not a ' . Product:class);
 +}</code></pre>
 <p>We can see these solutions out in the wild. All of them are valid. They verify an assumption - is object a <code>Product</code> type?</p>
+<h2 id="validation-type-declaration">Validation !== Type Declaration</h2>
 <p>But <strong>validation is not designed for type specification</strong>. It's a layer to verify external input from QA when they walk in a bar order beer, <code>-5</code>, <code>$^@'ł</code>, an array of <code>T_INF</code>, and a bottomless glass of invisible water.</p>
 <p>Here <strong>we know</strong> the <code>$product</code> is always the <code>Product</code> type unless some very nasty bug will get into Doctrine.
 How can we teach our PHP code this knowledge?</p>
 <h2 id="generics">Generics!</h2>
-<p>Adding generics to 2 classes is 2 step process. Surprise, right?</p>
-<h3 id="open-parent">Open Parent</h3>
+<p>Adding generics to 2 classes is 2-steps</p>
+<h3 id="1-open-parent">1. Open Parent</h3>
 <p><strong>First</strong>, we need to tell the abstract class to be opened to type override from children. By convention, the generics are not defined with the <code>@generics</code> keyword but by <code>@template</code>. It has nothing to do with rendering templates.</p>
+<p><br></p>
 <p>With <code>@template</code> we define a keyword and a type. Same as <code>@param int $age</code> does.</p>
 <pre><code class="language-diff">+/**
 + * @template TEntity as object
@@ -243,7 +258,7 @@ How can we teach our PHP code this knowledge?</p>
      }
  }</code></pre>
 <p>Good job, we're halfway through.</p>
-<h3 id="specify-child">Specify Child</h3>
+<h3 id="2-specify-child">2. Specify Child</h3>
 <p>So how do we tell <code>ProductRepository</code> to treat every object as <code>Product</code>?</p>
 <pre><code class="language-diff">+/**
 + * @template TEntity as Product
@@ -263,9 +278,9 @@ While <code>@return int</code> gets promoted to child methods, <code>@template</
 <li>So <code>TEntity</code> is <code>Product</code> only in class we defined it in - <code>ProductRepository</code></li>
 <li>And <code>TEntity</code> is only an <code>object</code> in class we defined it in - <code>AbstractRepository</code></li>
 </ul>
-<p>So we need to tell <code>AbstractRepository</code> to use <code>TEntity</code> as <code>Product</code>, without modifying it. That's a headache task, right?</p>
+<p>So we need to tell <code>AbstractRepository</code> to use <code>TEntity</code> as <code>Product</code>, without modifying it.</p>
 <p><br></p>
-<p>In the documentation, there is mentioned <code>@extends</code> annotation. It is not related to extending any class, <strong>but instead promoting types to parent class</strong>. Probably another generics convention, confusing to a newbie like me.</p>
+<p>In the documentation, there is mentioned <code>@extends</code> annotation. It is not related to extending a class, <strong>but promoting types to parent class</strong>.</p>
 <p>Let's get back to our repository:</p>
 <pre><code class="language-php"> /**
   * @template TEntity as Product
@@ -282,22 +297,34 @@ While <code>@return int</code> gets promoted to child methods, <code>@template</
  final class ProductRepository extends AbstractRepository
  {
  }</code></pre>
-<p>Now the <code>TEntity</code> in <code>AbstractRepository</code> will be overridden by type defined here. So <code>TEntity</code> will be treated as <code>Product</code> <em class="fas fa-fw fa-lg fa-check text-success"></em></p>
-<p>Beware! Even though it looks like any <code>array&lt;shape&gt;</code>, it has nothing to do with arrays.</p>
-<p><br></p>
-<p>It can take multiple arguments, separated by comma:</p>
-<pre><code class="language-diff">/**
- * @template TEntity as Product
-+* @template TQuery as ProductQuery
--* @extends AbstractRepository&lt;TEntity&gt;
-+* @extends AbstractRepository&lt;TEntity, TQuery&gt;
- */
+<p>As we don't use <code>TEntity</code> in our child class, we can merge it to <code>@extends</code> (thanks Ondra for pointing that out in the comments):</p>
+<pre><code class="language-diff"> /**
+- * @template TEntity as Product
++ * @extends AbstractRepository&lt;Product&gt;
+  */
  final class ProductRepository extends AbstractRepository
  {
  }</code></pre>
-<p>And that's how you use generics with parent abstract class with PHPStan.</p>
+<p>Now the <code>TEntity</code> in <code>AbstractRepository</code> will be overridden by type defined here. So <code>TEntity</code> will be treated as <code>Product</code> <em class="fas fa-fw fa-lg fa-check text-success"></em></p>
+<p>Beware! Even though it looks like any <code>array&lt;shape&gt;</code>, it has nothing to do with arrays.</p>
 <p><br></p>
-<p>It's my first generic time, so I bet this setup is not the best. Do you have a tip to improve? Share it. I'd love to learn a better way.</p>
+<h2 id="how-to-propagate-2-and-more-types">How to Propagate 2 and more Types?</h2>
+<p>Let's say you have 2 generics types in your abstract class:</p>
+<pre><code class="language-php">/**
+ * @template TEntity as object
+ * @template TQuery as object
+ */
+abstract class AbstractRepository
+{
+}</code></pre>
+<p>The <code>@extends</code> tag can take multiple arguments, separated by comma - in <strong>the same order the types are defined</strong> in abstract class:</p>
+<pre><code class="language-php">/**
+ * @extends AbstractRepository&lt;Product, ProductQuery&gt;
+ */
+final class ProductRepository extends AbstractRepository
+{
+}</code></pre>
+<p>That's how you use generics with parent abstract class with PHPStan.</p>
 <p><br></p>
 <p>Happy coding!</p>
 
