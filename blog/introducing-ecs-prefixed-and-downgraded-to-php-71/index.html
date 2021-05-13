@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <title>Introducing ECS Prefixed and Downgraded to PHP 7.1 | Tomas Votruba</title>
+    <meta charset="utf-8">
+    <meta name="robots" content="index, follow">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    
+    <link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/solid.css" integrity="sha384-wnAC7ln+XN0UKdcPvJvtqIH3jOjs9pnKnq9qX68ImXvOGz2JuFoEiCjT8jyZQX2z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/brands.css" integrity="sha384-nT8r1Kzllf71iZl81CdFzObMsaLOhqBU1JD2+XoAALbdtWaXDOlWOZTR4v1ktjPE" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css" integrity="sha384-HbmWTHay9psM8qyzEKPc8odH4DsOuzdejtnr+OFtDmOcIVnhgReQ4GZBH7uwcjf6" crossorigin="anonymous">
+
+        <link href="/assets/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+
+        <link href="/assets/css/style.css" rel="stylesheet" type="text/css" />
+
+
+        <link href="/assets/css/checklist.css" rel="stylesheet" type="text/css" />
+</head>
+    <body>
+                <!-- post_id: 316 -->
+
+        
+<div class="hidden-sm-down">
+    <nav class="navbar">
+        <div class="container-fluid">
+            <ul>
+                <li id="logo">
+                    <img src="https://avatars1.githubusercontent.com/u/924196?s=60&v=4" class="me_avatar">
+                    Tomas Votruba
+                </li>
+                <li class="active">
+                    <a href="/">Blog</a>
+                </li>
+
+                <li class="">
+                    <a href="/clusters">Clusters</a>
+                </li>
+
+                <li>
+                    <a href="https://github.com/sponsors/TomasVotruba">Sponsor Me</a>
+                </li>
+
+                <li class="">
+                    <a href="/mission">Mission</a>
+                </li>
+                <li class="">
+                    <a href="/contact">Contact</a>
+                </li>
+                <li id="top-menu-search">
+                    <form method="get" action="https://www.google.com/search" itemprop="potentialAction" itemscope="" itemtype="https://schema.org/SearchAction">
+    <meta itemprop="target" content="https://www.google.com/search?q={q}"/>
+    <input name="sitesearch" value="tomasvotruba.com" type="hidden"/>
+    <input itemprop="query-input" type="text" id="search-query" class="form-control" required="required" name="q" placeholder="Search..." autocomplete="off"/>
+</form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<div class="hidden-md-up">
+    <nav class="navbar" id="mobile-menu">
+        <div class="container">
+            <a href="/" class="col-3 col-sm-3 active">
+                <em class="fas fa-book"></em>
+                <br>
+                Blog
+            </a>
+
+
+            <a href="/clusters" class="col-3 col-sm-3 ">
+                <em class="fas fa-share-alt"></em>
+                <br>
+                Clusters
+            </a>
+
+            <a href="/contact" class="col-3 col-sm-3 ">
+                <em class="fas fa-phone"></em>
+                <br>
+                Contact
+            </a>
+        </div>
+    </nav>
+
+    <div class="hidden-md-up text-center" id="top-menu-search-mobile">
+        <form method="get" action="https://www.google.com/search" itemprop="potentialAction" itemscope="" itemtype="https://schema.org/SearchAction">
+    <meta itemprop="target" content="https://www.google.com/search?q={q}"/>
+    <input name="sitesearch" value="tomasvotruba.com" type="hidden"/>
+    <input itemprop="query-input" type="text" id="search-query" class="form-control" required="required" name="q" placeholder="Search..." autocomplete="off"/>
+</form>
+    </div>
+</div>
+
+        <div class="container-fluid" id="post">
+            <h1>Introducing ECS Prefixed and Downgraded to PHP 7.1</h1>
+
+            <ul class="list-inline post-metadata">
+    <li class="list-inline-item mr-3">
+        <em class="fas fa-calendar fa-fw"></em>
+        <time datetime="2021-05-Thu">
+            
+                                            May 13
+            
+            </strike>        </time>
+    </li>
+
+    
+            <li class="list-inline-item mr-3">
+            <em class="fas fa-fw fa-comments"></em>
+            <a href="/blog/introducing-ecs-prefixed-and-downgraded-to-php-71/#disqus_thread">X</a> comments
+        </li>
+    
+    
+            <li class="list-inline-item mr-3 text-primary">
+            <em class="fab fa-fw fa-github"></em>
+            <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2021/2021-05-13-introducing-ecs-prefixed-and-downgraded-to-php-71.md">Found a typo? Edit me</a>
+        </li>
+    </ul>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>ECS is part of Symplify that requires PHP 7.3 version as minimal. That cuts down options for you as an end-user. And that's not the only problem. Do you require Symfony 2.8 or 3.4? You're blocked.
+<br><br>
+How can we <strong>improve your experience while keeping the latest features</strong>?</p>
+                </div>
+            </div>
+
+            <p>When we try to install ECS with miss conflicting dependency...</p>
+<pre><code class="language-bash">composer require symfony/console:2.8
+composer require symplify/easy-coding-standard --dev</code></pre>
+<p><em class="fas fa-fw fa-times text-danger fa-lg"></em></p>
+<p>...we'll end up with composer &quot;ECS requires at least symfony 4.4 version, cannot install&quot; error.</p>
+<p>Some of you might know there is a way around with ECS Prefixed version. This package is built on every ECS release into <a href="https://github.com/symplify/easy-coding-standard-prefixed">special standalone repository</a>. It has <strong>own dependency namespace prefixed</strong> so that you can install it with the same package of another version, like symfony/console:</p>
+<pre><code class="language-bash">composer require symfony/console:2.8
+composer require symplify/easy-coding-standard-prefixed --dev</code></pre>
+<p><em class="fas fa-fw fa-check text-success fa-lg"></em></p>
+<p>Imagine you have keys from your car. They work like regular keys most of the week, but on weekends not. Unless, of course, you drop them 2x times before putting the key inside the lock.</p>
+<p>Requiring a suffix to remember is not very intuitive and creates an awful developer experience.
+So how can <strong>we improve this developer experience</strong>?</p>
+<h2 id="prefix-on-release">Prefix on Release</h2>
+<p>How would you expect ECS to install?</p>
+<pre><code class="language-bash">composer require symfony/console:2.8
+composer require symplify/easy-coding-standard --dev</code></pre>
+<p><em class="fas fa-fw fa-check text-success fa-lg"></em></p>
+<p>Me too. So how can we do that? First, we need to understand the current project architecture.</p>
+<p><br></p>
+<p>Symplify is a like Symfony, Laravel or luminas <a href="/cluster/monorepo-from-zero-to-hero">a monorepo</a>.</p>
+<p><strong>What does <em>monorepo</em> mean?</strong> That:</p>
+<ul>
+<li>PR is merged to `symplify/simplify ↓</li>
+<li>then <code>symplify/easy-coding-standard</code> is split ↓</li>
+<li>then build of <code>symplify/easy-coding-standard-prefixed</code> is published</li>
+</ul>
+<p><br></p>
+<p>Now we need to merge the last 2 steps into 1.</p>
+<p>If the process were a git diff, it would look like this:</p>
+<pre><code class="language-diff"> - PR is merged to symplify/symplify ↓
+-- then symplify/easy-coding-standard is split ↓
+-- then build of symplify/easy-coding-standard-prefixed is published
++- then build of symplify/easy-coding-standard is published on split</code></pre>
+<p>Thanks to monorepo, this is a piece of cake. We need to take the prefixing script and move it before the split itself:</p>
+<ul>
+<li>
+<p>monorepo <code>symplify/symplify</code> has original PHP code</p>
+</li>
+<li>
+<p><strong>CI build step #1: scope code</strong></p>
+</li>
+<li>
+<p><strong>CI build step #2: publish split package</strong></p>
+</li>
+<li>
+<p>split <code>symplify/easy-coding-standard</code> repository has scoped PHP code</p>
+</li>
+</ul>
+<p>Now instead of splitting the original code, we split already prefixed code.</p>
+<h2 id="downgraded-by-default">Downgraded by Default</h2>
+<p>Do you know middlewares? They're like a layer of you lasagne that you can insert anywhere between request and response. Do you need to add an extra security layer? Just add security middleware.</p>
+<p>Layer in CI can be stacked on each other in similar way. If we can handle scoping, why not add downgrading too?</p>
+<ul>
+<li>
+<p>monorepo <code>symplify/symplify</code> has original PHP code</p>
+</li>
+<li>
+<p><strong>CI build step: scope code</strong></p>
+</li>
+<li>
+<p><strong>CI build step #2: downgrade code to PHP 7.1</strong></p>
+</li>
+<li>
+<p><strong>CI build step #3: publish split &amp; downgraded package</strong></p>
+</li>
+<li>
+<p>split <code>symplify/easy-coding-standard</code> repository has scoped and downgraded PHP code</p>
+</li>
+</ul>
+<p><br></p>
+<p>Before we had:</p>
+<ul>
+<li><code>symplify/easy-coding-standard</code> on PHP 7.3 without scoping</li>
+<li><code>symplify/easy-coding-standard-prefixed</code> on PHP 7.3 scoped</li>
+</ul>
+<p>Now we have:</p>
+<ul>
+<li><code>symplify/easy-coding-standard</code> on <strong>PHP 7.1 with scoping</strong></li>
+</ul>
+<p><em class="fas fa-fw fa-check text-success fa-lg"></em></p>
+<h2 id="how-to-upgrade">How to Upgrade?</h2>
+<p>The ECS with PHP 7.1 and scoped code is available since version 9.3.10. You can run bare <code>composer update</code> or specify the exact version to be sure:</p>
+<pre><code class="language-bash">composer update symplify/easy-coding-standard:^9.3.10</code></pre>
+<p>Do you use <code>symplify/easy-coding-standard-prefixed</code>? Replace it with a new package:</p>
+<pre><code class="language-bash">composer remove symplify/easy-coding-standard-prefixed
+composer require symplify/easy-coding-standard:^9.3.10 --dev</code></pre>
+<h2 id="what-has-changed">What has Changed?</h2>
+<p>There might be a BC break because we're scoping ECS dependencies from now on. That means php-cs-fixer 3.0+ and PHP_CodeSniffer 3.6+ code is now accessible only for <code>vendor/bin/ecs</code> run.</p>
+<p><strong>Do you write your Fixer or Sniffs?</strong> Add required packages:
+require</p>
+<pre><code class="language-bash">composer require friendsofphp/php-cs-fixer --dev
+composer require squizlabs/php_codesniffer --dev</code></pre>
+<p>Apart from that, everything should be running correctly. If not, let us know in <a href="https://github.com/symplify/symplify/issues/new">GitHub issues</a>.</p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+            <div class="row mb-5 mt-5">
+                <div class="col-12 mb-5">
+                                                                <a href="/blog/write-github-actions-for-gitlab-too" class="d-block pt-4 pb-4 pl-4 pr-4 btn btn-success btn-wrappable">
+                            <em class="fas fa-fw fa-forward"></em>
+                            <strong>Read Next</strong>
+                            <br>
+                            <span class="text-bigger">
+                                Write GitHub Actions for Gitlab Too
+                            </span>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <script src="/assets/js/jquery-3.3.1.slim.min.js"></script>
+<script src="/assets/js/cleaning-lady-checklist.js"></script>
+
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
+<script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+<script src="/assets/prism/prism.js"></script>
+
+<script>
+    // sortable table
+    $('.sortable_table').DataTable({
+        // see https://datatables.net/examples/basic_init/filter_only.html
+        "searching": false,
+        "paging": false,
+        "info": false,
+        "order": [[1, "desc"]],
+        // see https://datatables.net/examples/advanced_init/sort_direction_control.html
+        "aoColumns": [
+            null,
+            { "orderSequence": [ "desc", "asc" ] },
+            { "orderSequence": [ "desc", "asc" ] },
+            { "orderSequence": [ "desc", "asc" ] }
+        ]
+    });
+</script>
+
+<div class="text-center mt-5" id="footer">
+    <p class="mt-2">
+        Open-source is my life. Does my work help yours? <a href="https://github.com/sponsors/TomasVotruba">Sponsor Me</a> &nbsp;
+        <em class="fas fa-heart text-danger fa-lg"></em>
+
+        &nbsp;
+        <span class="pl-2 pr-2">•</span>
+        &nbsp;
+
+        See <a href="/archive">Post Archive</a>
+
+        &nbsp;
+        <span class="pl-2 pr-2">•</span>
+        &nbsp;
+
+        <a href="/rss.xml">Get RSS</a>
+    </p>
+</div>
+    </body>
+</html>
+
+        <meta property="og:type" content="article" />
+    <meta property="og:title" content="Introducing ECS Prefixed and Downgraded to PHP 7.1" />
+    <meta property="og:description" content="ECS is part of Symplify that requires PHP 7.3 version as minimal. That cuts down options for you as an end-user. And that&#039;s not the only problem. Do you require Symfony 2.8 or 3.4? You&#039;re blocked.
+
+How can we **improve your experience while keeping the latest features**?
+" />
+    <meta property="og:url" content="/blog/introducing-ecs-prefixed-and-downgraded-to-php-71" />
+
+        <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@votrubaT">
+    <meta name="twitter:title" content="Introducing ECS Prefixed and Downgraded to PHP 7.1" />
+    <meta name="twitter:description" content="ECS is part of Symplify that requires PHP 7.3 version as minimal. That cuts down options for you as an end-user. And that&#039;s not the only problem. Do you require Symfony 2.8 or 3.4? You&#039;re blocked.
+
+How can we **improve your experience while keeping the latest features**?
+" />
