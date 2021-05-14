@@ -220,9 +220,13 @@ composer require symplify/easy-coding-standard --dev</code></pre>
 <p><em class="fas fa-fw fa-check text-success fa-lg"></em></p>
 <h2 id="how-to-upgrade">How to Upgrade?</h2>
 <p>The ECS with PHP 7.1 and scoped code is available since version 9.3.10. You can run bare <code>composer update</code> or specify the exact version to be sure:</p>
-<pre><code class="language-bash">composer update symplify/easy-coding-standard:^9.3.10</code></pre>
+<pre><code class="language-bash">composer remove squizlabs/php_codesniffer
+composer remove friendsofphp/php-cs-fixer
+composer update symplify/easy-coding-standard:^9.3.10</code></pre>
 <p>Do you use <code>symplify/easy-coding-standard-prefixed</code>? Replace it with a new package:</p>
-<pre><code class="language-bash">composer remove symplify/easy-coding-standard-prefixed
+<pre><code class="language-bash">composer remove squizlabs/php_codesniffer
+composer remove friendsofphp/php-cs-fixer
+composer remove symplify/easy-coding-standard-prefixed
 composer require symplify/easy-coding-standard:^9.3.10 --dev</code></pre>
 <h2 id="what-has-changed">What has Changed?</h2>
 <p>There might be a BC break because we're scoping ECS dependencies from now on. That means php-cs-fixer 3.0+ and PHP_CodeSniffer 3.6+ code is now accessible only for <code>vendor/bin/ecs</code> run.</p>
