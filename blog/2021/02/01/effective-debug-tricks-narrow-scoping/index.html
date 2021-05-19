@@ -132,19 +132,19 @@
             
             <div class="card card-bigger mb-5">
                 <div class="card-body pb-2">
-                    <p>Writing a code that only you work with is easy. Debugging such code is a bit harder. Writing a code for someone else review is quite hard. The code must be understandable to the other reader to pass the code review.
+                    <p>Writing code that only you work with is easy. Debugging such code is a bit harder. Writing code for someone else review is quite hard. The code must be understandable to the other reader to pass the code review.
 <br><br>
-How hard is reading a code that someone else wrote three months ago?
+How hard is reading code that someone else wrote three months ago?
 <br>
 <br>
-But what about debugging a code that someone wrote a year ago?</p>
+But what about debugging code that someone wrote a year ago?</p>
                 </div>
             </div>
 
             <p>Effective debugging is not about finding the responsible line, nor about fixing the bug.</p>
 <p>Effective debugging is about <strong>getting to the minimal amount of code that is <em>probably</em> causing the error</strong> with the minimal energy invested.</p>
 <h2 id="why-it-s-important">Why it's important?</h2>
-<p>When we report a bug in a project's issue tracker, we're usually interested in its fix. Why would we report if we don't care? <strong>The faster bug gets fixed, the better for us</strong>, so we can continue with our original coding goal. We need <a href="/blog/2020/01/13/why-is-first-instant-feedback-crucial-to-developers">instant feedback</a> to stay in the flow.</p>
+<p>When we report a bug in a project's issue tracker, we're usually interested in its fix. Why would we report if we don't care? <strong>The faster the bug gets fixed, the better for us</strong>, so we can continue with our original coding goal. We need <a href="/blog/2020/01/13/why-is-first-instant-feedback-crucial-to-developers">instant feedback</a> to stay in the flow.</p>
 <p><br></p>
 <p>Today we look at one technique that I use for open-source project reports and for teaching private projects to debug their legacy code with peace.</p>
 <p>We also have it as a standard in Rector and Symplify projects. It saves us many hours wasted on issues tracker comment ping-pong and focuses on the cooperative solution.</p>
@@ -162,14 +162,14 @@ But what about debugging a code that someone wrote a year ago?</p>
 <li><em>ask us about the version we use, because maybe this bug got fixed on <code>master</code> 2 days ago already and the work would be duplicated</em></li>
 </ul>
 <hr />
-<p>This interaction is a problem already because <strong>you've lost energy that you're willing to invest</strong> to reporting the bug and the <strong>maintainer lost energy that is willing to put</strong> into narrow the scope of the bug.</p>
-<p>It's like going to a mall, stopping right in front of the first door and shouting &quot;open the door&quot;. It will take a couple of minutes for security to get to you and figure out what you want. Why not just take the handle yourself? Good luck next time you'll report a robbery to them - they will to help will be a bit lowered, if not depleted.</p>
+<p>This interaction is a problem already because <strong>you've lost energy that you're willing to invest</strong> to report the bug and the <strong>maintainer lost energy that he/she is willing to put</strong> into narrow the scope of the bug.</p>
+<p>It's like going to a mall, stopping right in front of the first door and shouting &quot;open the door&quot;. It will take a couple of minutes for security to get to you and figure out what you want. Why not just take the handle yourself? Good luck next time you'll report a robbery to them - the will to help will be a bit lowered, if not depleted.</p>
 <hr />
-<h2 id="bug-fix-effectiveness">Bug Fix Effectiveness</h2>
+<h2 id="bugfix-effectiveness">Bugfix Effectiveness</h2>
 <p>Remember, the goal of reporting an issue is to invest as little energy from our side and maintainer's side and get the bug fixed at the same time.</p>
-<p>The bug fix effectiveness formula states:</p>
+<p>The bugfix effectiveness formula states:</p>
 <blockquote class="blockquote text-center">
-    Bug Fix Effectiveness = (Reporter Work + Maintainer Work) / 100
+    Bugfix Effectiveness = (Reporter Work + Maintainer Work) / 100
 </blockquote>
 <ul>
 <li>
@@ -187,7 +187,7 @@ But what about debugging a code that someone wrote a year ago?</p>
 <em>...</em></p>
 <p><em>I use Rector v0.9.4</em></p>
 <p><br></p>
-<p>Good job! We've just saved both ourselves and the maintainer a significant amount of energy. Now the maintainer know <strong>what happens</strong> to use and how it looks like.</p>
+<p>Good job! We've just saved both ourselves and the maintainer a significant amount of energy. Now the maintainer knows <strong>what happens</strong> to use and how it looks like.</p>
 <hr />
 <p>Have you seen any detective movies lately? There is a murder, the detective arrives at the scene, and the first witness shows the body and location. That's what we just did in our issue report. &quot;Here is somebody dead, I saw him at 22:00&quot;. What happens next? The detective smiles, says thank you, and goes home... that would be weird, right? They always ask the same question:</p>
 <ul>
@@ -215,7 +215,7 @@ But what about debugging a code that someone wrote a year ago?</p>
 <p><em>I use Rector v0.9.4</em></p>
 <p><br></p>
 <p><strong>Great job!</strong></p>
-<p>Now both you and the maintainers now:</p>
+<p>Now both you and the maintainers know:</p>
 <ul>
 <li>what steps were made</li>
 <li>what happened</li>
@@ -223,7 +223,7 @@ But what about debugging a code that someone wrote a year ago?</p>
 <li>where exactly the fatal error happened in the code</li>
 </ul>
 <p><br></p>
-<p>Do you remember Bug Fix Effectiveness Formula?</p>
+<p>Do you remember Bugfix Effectiveness Formula?</p>
 <blockquote class="blockquote text-center">
     BFE = (Reporter Work + Maintainer Work) / 100
 </blockquote>
@@ -238,7 +238,7 @@ But what about debugging a code that someone wrote a year ago?</p>
 </blockquote>
 <p>But because the maintainer doesn't have to ask us more questions and doesn't have to reply to them, we <strong>also increased the chance to get a bug fixed by ~100 %</strong>.</p>
 <p><br></p>
-<p>There is one more step that we found to be the most effective. <strong>It usually requires only one comment from the report and one reply from the maintainer</strong>. Well, if you count closing the issue with pull-request as a comment.</p>
+<p>There is one more step that we found to be the most effective. <strong>It usually requires only one comment from the reporter and one reply from the maintainer</strong>. Well, if you count closing the issue with pull-request as a comment.</p>
 <p>How can we do it better? Don't worry; it's not about learning project test conventions and sending a failing pull-request.</p>
 <h2 id="level-4-quot-i-did-exactly-this-then-this-happened-quot-report">Level 4: &quot;I did exactly this, then this happened&quot; report</h2>
 <p>Let's look at the <strong>narrow scoping</strong>. What can we read from this report?</p>
@@ -246,12 +246,12 @@ But what about debugging a code that someone wrote a year ago?</p>
 <p><em>I used <code>vendor/bin/rector process p src</code></em></p>
 <ul>
 <li>There are 1-INF rules and settings in <code>rector.php</code> and 1-INF files in the <code>/src</code> directory.</li>
-<li>One of rule and one of rile is causing a bug.</li>
+<li>One of rule and one of file is causing a bug.</li>
 </ul>
 <p>The question is: <strong>what rule and what file is causing this bug?</strong></p>
-<p>We need to narrow the scope of INF <em> INF to 1 </em> 1. How can we do it?</p>
+<p>We need to narrow the scope of <code>INF * INF</code> to <code>1 * 1</code>. How can we do it?</p>
 <h3 id="half-half-cutting">Half-Half Cutting</h3>
-<p>This technique can be applied to services, to PHPStan rule, to Rector rules, to a coding standard, to registered event subscribers... to anything. A similar algorithm is used to sort files in an array.</p>
+<p>This technique can be applied to services, to PHPStan rules, to Rector rules, to a coding standard, to registered event subscribers... to anything. A similar algorithm is used to sort files in an array.</p>
 <p>The idea is comment out half of the configuration, run the tool and see if the bug still remains:</p>
 <pre><code class="language-diff"> // rector.php
  return static function (ContainerConfigurator $containerConfigurator): void {
@@ -414,22 +414,22 @@ Thank you for reporting!</p>
 
         <meta property="og:type" content="article" />
     <meta property="og:title" content="Effective Debug Tricks: Narrow Scoping" />
-    <meta property="og:description" content="Writing a code that only you work with is easy. Debugging such code is a bit harder. Writing a code for someone else review is quite hard. The code must be understandable to the other reader to pass the code review.
+    <meta property="og:description" content="Writing code that only you work with is easy. Debugging such code is a bit harder. Writing code for someone else review is quite hard. The code must be understandable to the other reader to pass the code review.
 
-How hard is reading a code that someone else wrote three months ago?
+How hard is reading code that someone else wrote three months ago?
 
 
-But what about debugging a code that someone wrote a year ago?
+But what about debugging code that someone wrote a year ago?
 " />
     <meta property="og:url" content="/blog/2021/02/01/effective-debug-tricks-narrow-scoping" />
 
         <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@votrubaT">
     <meta name="twitter:title" content="Effective Debug Tricks: Narrow Scoping" />
-    <meta name="twitter:description" content="Writing a code that only you work with is easy. Debugging such code is a bit harder. Writing a code for someone else review is quite hard. The code must be understandable to the other reader to pass the code review.
+    <meta name="twitter:description" content="Writing code that only you work with is easy. Debugging such code is a bit harder. Writing code for someone else review is quite hard. The code must be understandable to the other reader to pass the code review.
 
-How hard is reading a code that someone else wrote three months ago?
+How hard is reading code that someone else wrote three months ago?
 
 
-But what about debugging a code that someone wrote a year ago?
+But what about debugging code that someone wrote a year ago?
 " />
