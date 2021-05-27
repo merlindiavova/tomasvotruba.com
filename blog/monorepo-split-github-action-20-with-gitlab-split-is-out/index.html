@@ -1,132 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-    <title>Monorepo Split GitHub Action 2.0 with Gitlab split is Out! | Tomas Votruba</title>
-    <meta charset="utf-8">
-    <meta name="robots" content="index, follow">
+        <title>Monorepo Split GitHub Action 2.0 with Gitlab split is Out! | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
 
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" media="print" onload="this.onload=null;this.media='all';" id="ao_optimized_gfonts" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
 
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    
-    <link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/solid.css" integrity="sha384-wnAC7ln+XN0UKdcPvJvtqIH3jOjs9pnKnq9qX68ImXvOGz2JuFoEiCjT8jyZQX2z" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/brands.css" integrity="sha384-nT8r1Kzllf71iZl81CdFzObMsaLOhqBU1JD2+XoAALbdtWaXDOlWOZTR4v1ktjPE" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css" integrity="sha384-HbmWTHay9psM8qyzEKPc8odH4DsOuzdejtnr+OFtDmOcIVnhgReQ4GZBH7uwcjf6" crossorigin="anonymous">
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
 
-        <link href="/assets/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<meta property="og:url" content="http://:/"/>
+<meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
 
-    <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
 
-        <link href="/assets/css/style.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+<link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+
+<link href="/assets/css/style.css" rel="stylesheet" type="text/css" />
+
+                <meta property="og:title" content="Monorepo Split GitHub Action 2.0 with Gitlab split is Out!" />
+        <meta name="description" property="og:description" content="[The version 1.0 was released 6 months ago](/blog/2020/11/09/new-in-symplify-9-monorepo-split-with-github-action). Compared to its ancestors, it speed up the split from **2 minutes to 10 seconds**.
+
+After 6 months of collecting feedback and adding new features, version 2.0 is here!
 
 
-        <link href="/assets/css/checklist.css" rel="stylesheet" type="text/css" />
-</head>
+**How to use it with GitLab split repositories and custom git hosting?**
+" />
+
+                    <meta property="og:image" content="https://tomasvotruba.com/assets/images/posts/2021/split_news.png" />
+            <meta name="twitter:card" content="summary_large_image"/>
+            </head>
+
     <body>
                 <!-- post_id: 310 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
 
-        
-<div class="hidden-sm-down">
-    <nav class="navbar">
-        <div class="container-fluid">
-            <ul>
-                <li id="logo">
-                    <img src="https://avatars1.githubusercontent.com/u/924196?s=60&v=4" class="me_avatar">
-                    Tomas Votruba
-                </li>
-                <li class="active">
-                    <a href="/">Blog</a>
-                </li>
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
 
-                <li class="">
-                    <a href="/clusters">Clusters</a>
-                </li>
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
 
-                <li>
-                    <a href="https://github.com/sponsors/TomasVotruba">Sponsor Me</a>
-                </li>
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
 
-                <li class="">
-                    <a href="/mission">Mission</a>
-                </li>
-                <li class="">
-                    <a href="/contact">Contact</a>
-                </li>
-                <li id="top-menu-search">
-                    <form method="get" action="https://www.google.com/search" itemprop="potentialAction" itemscope="" itemtype="https://schema.org/SearchAction">
-    <meta itemprop="target" content="https://www.google.com/search?q={q}"/>
-    <input name="sitesearch" value="tomasvotruba.com" type="hidden"/>
-    <input itemprop="query-input" type="text" id="search-query" class="form-control" required="required" name="q" placeholder="Search..." autocomplete="off"/>
-</form>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</div>
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
 
-<div class="hidden-md-up">
-    <nav class="navbar" id="mobile-menu">
-        <div class="container">
-            <a href="/" class="col-3 col-sm-3 active">
-                <em class="fas fa-book"></em>
-                <br>
-                Blog
-            </a>
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
 
-
-            <a href="/clusters" class="col-3 col-sm-3 ">
-                <em class="fas fa-share-alt"></em>
-                <br>
-                Clusters
-            </a>
-
-            <a href="/contact" class="col-3 col-sm-3 ">
-                <em class="fas fa-phone"></em>
-                <br>
-                Contact
-            </a>
-        </div>
-    </nav>
-
-    <div class="hidden-md-up text-center" id="top-menu-search-mobile">
-        <form method="get" action="https://www.google.com/search" itemprop="potentialAction" itemscope="" itemtype="https://schema.org/SearchAction">
-    <meta itemprop="target" content="https://www.google.com/search?q={q}"/>
-    <input name="sitesearch" value="tomasvotruba.com" type="hidden"/>
-    <input itemprop="query-input" type="text" id="search-query" class="form-control" required="required" name="q" placeholder="Search..." autocomplete="off"/>
-</form>
+        <a href="/rss.xml" target="blank">RSS</a>
     </div>
 </div>
 
-        <div class="container-fluid" id="post">
+        <div class="container-fluid post" id="content">
             <h1>Monorepo Split GitHub Action 2.0 with Gitlab split is Out!</h1>
 
-            <ul class="list-inline post-metadata">
-    <li class="list-inline-item mr-3">
-        <em class="fas fa-calendar fa-fw"></em>
-        <time datetime="2021-04-Mon">
-            
-                                            Apr 5
-            
-            </strike>        </time>
-    </li>
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2021/2021-04-05-monorepo-split-github-action-20-with-gitlab-split-is-out.md">Found a typo? Edit me</a>
+            </div>
 
-    
-            <li class="list-inline-item mr-3">
-            <em class="fas fa-fw fa-comments"></em>
-            <a href="/blog/monorepo-split-github-action-20-with-gitlab-split-is-out/#disqus_thread">X</a> comments
-        </li>
-    
-    
-            <li class="list-inline-item mr-3 text-primary">
-            <em class="fab fa-fw fa-github"></em>
-            <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2021/2021-04-05-monorepo-split-github-action-20-with-gitlab-split-is-out.md">Found a typo? Edit me</a>
-        </li>
-    </ul>
+            <time datetime="2021-04-Mon" class="text-muted">
+                2021-04-05
+            </time>
 
             
             
@@ -155,7 +103,7 @@ After 6 months of collecting feedback and adding new features, version 2.0 is he
 <p>The token must include <code>read_repository</code> + <code>write_repository</code> rights. Where can you create such a token? Here <a href="https://gitlab.com/profile/personal_access_tokens">https://gitlab.com/profile/personal_access_tokens</a>.</p>
 <p>Now you can build monorepo on GitHub and split it into repositories on Gitlab.</p>
 <h2 id="3-split-to-custom-git-hosting">3. Split to custom Git Hosting</h2>
-<p>Do you use GitLab? If so, there is a big chance you host it on your server because the <a href="/blog/best-time-to-switch-GitLab-to-github/">saas is getting more and more expensive</a>.</p>
+<p>Do you use GitLab? If so, there is a big chance you host it on your server because the <a href="/blog/best-time-to-switch-gitlab-to-github/">saas is getting more and more expensive</a>.</p>
 <p>That means your target hosting is not <code>github.com</code>, neither <code>gitlab.com</code>. That's why we've added a new parameter to set the host:</p>
 <pre><code class="language-yaml">with:
     split-repository-host: git.private.com:1234</code></pre>
@@ -167,19 +115,29 @@ After 6 months of collecting feedback and adding new features, version 2.0 is he
 
             <br>
 
-            <div class="row mb-5 mt-5">
-                <div class="col-12 mb-5">
-                                                                <a href="/blog/how-to-traverse-phpdoc-and-modify-it" class="d-block pt-4 pb-4 pl-4 pr-4 btn btn-success btn-wrappable">
-                            <em class="fas fa-fw fa-forward"></em>
-                            <strong>Read Next</strong>
-                            <br>
-                            <span class="text-bigger">
-                                How to Traverse PHPDoc and Modify It
-                            </span>
+
+            <div class="card mt-5">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                                                <a href="/blog/how-to-traverse-phpdoc-and-modify-it" class="d-block">
+                            <div>
+                                Read next → <strong>How to Traverse PHPDoc and Modify It</strong>
+                            </div>
                         </a>
                                     </div>
             </div>
 
+            <br>
             <br>
 
             <a name="comments"></a>
@@ -206,13 +164,7 @@ After 6 months of collecting feedback and adding new features, version 2.0 is he
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
-        <script src="/assets/js/jquery-3.3.1.slim.min.js"></script>
-<script src="/assets/js/cleaning-lady-checklist.js"></script>
-
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-
-<script>
+        <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
     ga.l=+new Date;
@@ -220,66 +172,6 @@ After 6 months of collecting feedback and adding new features, version 2.0 is he
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
 <script src="/assets/prism/prism.js"></script>
-
-<script>
-    // sortable table
-    $('.sortable_table').DataTable({
-        // see https://datatables.net/examples/basic_init/filter_only.html
-        "searching": false,
-        "paging": false,
-        "info": false,
-        "order": [[1, "desc"]],
-        // see https://datatables.net/examples/advanced_init/sort_direction_control.html
-        "aoColumns": [
-            null,
-            { "orderSequence": [ "desc", "asc" ] },
-            { "orderSequence": [ "desc", "asc" ] },
-            { "orderSequence": [ "desc", "asc" ] }
-        ]
-    });
-</script>
-
-<div class="text-center mt-5" id="footer">
-    <p class="mt-2">
-        Open-source is my life. Does my work help yours? <a href="https://github.com/sponsors/TomasVotruba">Sponsor Me</a> &nbsp;
-        <em class="fas fa-heart text-danger fa-lg"></em>
-
-        &nbsp;
-        <span class="pl-2 pr-2">•</span>
-        &nbsp;
-
-        See <a href="/archive">Post Archive</a>
-
-        &nbsp;
-        <span class="pl-2 pr-2">•</span>
-        &nbsp;
-
-        <a href="/rss.xml">Get RSS</a>
-    </p>
-</div>
     </body>
 </html>
-
-        <meta property="og:type" content="article" />
-    <meta property="og:title" content="Monorepo Split GitHub Action 2.0 with Gitlab split is Out!" />
-    <meta property="og:description" content="[The version 1.0 was released 6 months ago](/blog/2020/11/09/new-in-symplify-9-monorepo-split-with-github-action). Compared to its ancestors, it speed up the split from **2 minutes to 10 seconds**.
-
-After 6 months of collecting feedback and adding new features, version 2.0 is here!
-
-
-**How to use it with GitLab split repositories and custom git hosting?**
-" />
-    <meta property="og:url" content="/blog/monorepo-split-github-action-20-with-gitlab-split-is-out" />
-
-        <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="@votrubaT">
-    <meta name="twitter:title" content="Monorepo Split GitHub Action 2.0 with Gitlab split is Out!" />
-    <meta name="twitter:description" content="[The version 1.0 was released 6 months ago](/blog/2020/11/09/new-in-symplify-9-monorepo-split-with-github-action). Compared to its ancestors, it speed up the split from **2 minutes to 10 seconds**.
-
-After 6 months of collecting feedback and adding new features, version 2.0 is here!
-
-
-**How to use it with GitLab split repositories and custom git hosting?**
-" />

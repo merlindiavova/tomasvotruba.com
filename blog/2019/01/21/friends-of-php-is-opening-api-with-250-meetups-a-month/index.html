@@ -1,132 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-    <title>FriendsofPHP.org is Opening API with 250 Meetups a Month | Tomas Votruba</title>
-    <meta charset="utf-8">
-    <meta name="robots" content="index, follow">
+        <title>FriendsofPHP.org is Opening API with 250 Meetups a Month | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
 
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" media="print" onload="this.onload=null;this.media='all';" id="ao_optimized_gfonts" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
 
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    
-    <link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/solid.css" integrity="sha384-wnAC7ln+XN0UKdcPvJvtqIH3jOjs9pnKnq9qX68ImXvOGz2JuFoEiCjT8jyZQX2z" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/brands.css" integrity="sha384-nT8r1Kzllf71iZl81CdFzObMsaLOhqBU1JD2+XoAALbdtWaXDOlWOZTR4v1ktjPE" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css" integrity="sha384-HbmWTHay9psM8qyzEKPc8odH4DsOuzdejtnr+OFtDmOcIVnhgReQ4GZBH7uwcjf6" crossorigin="anonymous">
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
 
-        <link href="/assets/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<meta property="og:url" content="http://:/"/>
+<meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
 
-    <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
 
-        <link href="/assets/css/style.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
+<link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
 
-        <link href="/assets/css/checklist.css" rel="stylesheet" type="text/css" />
-</head>
+<link href="/assets/css/style.css" rel="stylesheet" type="text/css" />
+
+                <meta property="og:title" content="FriendsofPHP.org is Opening API with 250 Meetups a Month" />
+        <meta name="description" property="og:description" content="[Friendsofphp.org](https://friendsofphp.org) already checks **over 1 145 PHP groups** on meetup.com for new meetups every day. That&#039;s about 240 meetups in a single month - a great number, but some user groups don&#039;t use meetup.com.
+
+I spend last weekend adding 4 new sources for meetups... and while doing it, I thought: &quot;why not make all that meetups and groups public in JSON&quot;?
+" />
+
+                    <meta property="og:image" content="https://tomasvotruba.com/assets/images/posts/2019/fop/fop.png" />
+            <meta name="twitter:card" content="summary_large_image"/>
+            </head>
+
     <body>
                 <!-- post_id: 179 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
 
-        
-<div class="hidden-sm-down">
-    <nav class="navbar">
-        <div class="container-fluid">
-            <ul>
-                <li id="logo">
-                    <img src="https://avatars1.githubusercontent.com/u/924196?s=60&v=4" class="me_avatar">
-                    Tomas Votruba
-                </li>
-                <li class="active">
-                    <a href="/">Blog</a>
-                </li>
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
 
-                <li class="">
-                    <a href="/clusters">Clusters</a>
-                </li>
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
 
-                <li>
-                    <a href="https://github.com/sponsors/TomasVotruba">Sponsor Me</a>
-                </li>
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
 
-                <li class="">
-                    <a href="/mission">Mission</a>
-                </li>
-                <li class="">
-                    <a href="/contact">Contact</a>
-                </li>
-                <li id="top-menu-search">
-                    <form method="get" action="https://www.google.com/search" itemprop="potentialAction" itemscope="" itemtype="https://schema.org/SearchAction">
-    <meta itemprop="target" content="https://www.google.com/search?q={q}"/>
-    <input name="sitesearch" value="tomasvotruba.com" type="hidden"/>
-    <input itemprop="query-input" type="text" id="search-query" class="form-control" required="required" name="q" placeholder="Search..." autocomplete="off"/>
-</form>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</div>
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
 
-<div class="hidden-md-up">
-    <nav class="navbar" id="mobile-menu">
-        <div class="container">
-            <a href="/" class="col-3 col-sm-3 active">
-                <em class="fas fa-book"></em>
-                <br>
-                Blog
-            </a>
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
 
-
-            <a href="/clusters" class="col-3 col-sm-3 ">
-                <em class="fas fa-share-alt"></em>
-                <br>
-                Clusters
-            </a>
-
-            <a href="/contact" class="col-3 col-sm-3 ">
-                <em class="fas fa-phone"></em>
-                <br>
-                Contact
-            </a>
-        </div>
-    </nav>
-
-    <div class="hidden-md-up text-center" id="top-menu-search-mobile">
-        <form method="get" action="https://www.google.com/search" itemprop="potentialAction" itemscope="" itemtype="https://schema.org/SearchAction">
-    <meta itemprop="target" content="https://www.google.com/search?q={q}"/>
-    <input name="sitesearch" value="tomasvotruba.com" type="hidden"/>
-    <input itemprop="query-input" type="text" id="search-query" class="form-control" required="required" name="q" placeholder="Search..." autocomplete="off"/>
-</form>
+        <a href="/rss.xml" target="blank">RSS</a>
     </div>
 </div>
 
-        <div class="container-fluid" id="post">
+        <div class="container-fluid post" id="content">
             <h1>FriendsofPHP.org is Opening API with&nbsp;250&nbsp;Meetups&nbsp;a&nbsp;Month</h1>
 
-            <ul class="list-inline post-metadata">
-    <li class="list-inline-item mr-3">
-        <em class="fas fa-calendar fa-fw"></em>
-        <time datetime="2019-01-Mon">
-            
-                            Jan 21, 2019
-            
-            </strike>        </time>
-    </li>
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2019/2019-01-21-friends-of-php-is-opening-api-with-250-meetups-a-month.md">Found a typo? Edit me</a>
+            </div>
 
-    
-            <li class="list-inline-item mr-3">
-            <em class="fas fa-fw fa-comments"></em>
-            <a href="/blog/2019/01/21/friends-of-php-is-opening-api-with-250-meetups-a-month/#disqus_thread">X</a> comments
-        </li>
-    
-    
-            <li class="list-inline-item mr-3 text-primary">
-            <em class="fab fa-fw fa-github"></em>
-            <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2019/2019-01-21-friends-of-php-is-opening-api-with-250-meetups-a-month.md">Found a typo? Edit me</a>
-        </li>
-    </ul>
+            <time datetime="2019-01-Mon" class="text-muted">
+                2019-01-21
+            </time>
 
             
             
@@ -200,7 +145,6 @@ var_dump($json['meetups']); // all meetups on friendsofphp.org</code></pre>
 <p>All right, all this API is clearly bad and the authors probably never used them themselves. But what about friendsofphp.org API? Is it good?</p>
 <p>Well, there is none. Better bad API than no API → crawling and Xpaths. Better done than perfect. So to make this right...</p>
 <p><strong>...I published all meetups and groups for anyone to use in API</strong>.</p>
-<p><strong>You'll find available JSON feeds at <a href="https://friendsofphp.org/api">friendsofphp.org/api/</a>.</strong></p>
 <img src="/assets/images/posts/2019/fop/fop.png" class="img-thumbnail mb-5">
 <p>With API you can list meetups in your country, sort them by a distance from your city, get all groups from your neighbor countries, render a map with Wordpress meetups... or whatever comes to your mind. It's all up to your creativity.</p>
 <h2 id="api-with-statie">API with Statie?</h2>
@@ -238,19 +182,29 @@ parameters:
 
             <br>
 
-            <div class="row mb-5 mt-5">
-                <div class="col-12 mb-5">
-                                                                <a href="/blog/2019/01/10/9-steps-to-migrate-from-jekyll-to-statie" class="d-block pt-4 pb-4 pl-4 pr-4 btn btn-success btn-wrappable">
-                            <em class="fas fa-fw fa-forward"></em>
-                            <strong>Read Next</strong>
-                            <br>
-                            <span class="text-bigger">
-                                9 Steps to Migrate From Jekyll to Statie
-                            </span>
+
+            <div class="card mt-5">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                                                <a href="/blog/2019/01/17/how-writing-posts-helps-you-to-become-better-programmer" class="d-block">
+                            <div>
+                                Read next → <strong>How Writing Posts Helps you to Become Better Programmer</strong>
+                            </div>
                         </a>
                                     </div>
             </div>
 
+            <br>
             <br>
 
             <a name="comments"></a>
@@ -277,13 +231,7 @@ parameters:
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
-        <script src="/assets/js/jquery-3.3.1.slim.min.js"></script>
-<script src="/assets/js/cleaning-lady-checklist.js"></script>
-
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-
-<script>
+        <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
     ga.l=+new Date;
@@ -291,60 +239,6 @@ parameters:
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
 <script src="/assets/prism/prism.js"></script>
-
-<script>
-    // sortable table
-    $('.sortable_table').DataTable({
-        // see https://datatables.net/examples/basic_init/filter_only.html
-        "searching": false,
-        "paging": false,
-        "info": false,
-        "order": [[1, "desc"]],
-        // see https://datatables.net/examples/advanced_init/sort_direction_control.html
-        "aoColumns": [
-            null,
-            { "orderSequence": [ "desc", "asc" ] },
-            { "orderSequence": [ "desc", "asc" ] },
-            { "orderSequence": [ "desc", "asc" ] }
-        ]
-    });
-</script>
-
-<div class="text-center mt-5" id="footer">
-    <p class="mt-2">
-        Open-source is my life. Does my work help yours? <a href="https://github.com/sponsors/TomasVotruba">Sponsor Me</a> &nbsp;
-        <em class="fas fa-heart text-danger fa-lg"></em>
-
-        &nbsp;
-        <span class="pl-2 pr-2">•</span>
-        &nbsp;
-
-        See <a href="/archive">Post Archive</a>
-
-        &nbsp;
-        <span class="pl-2 pr-2">•</span>
-        &nbsp;
-
-        <a href="/rss.xml">Get RSS</a>
-    </p>
-</div>
     </body>
 </html>
-
-        <meta property="og:type" content="article" />
-    <meta property="og:title" content="FriendsofPHP.org is Opening API with 250 Meetups a Month" />
-    <meta property="og:description" content="[Friendsofphp.org](https://friendsofphp.org) already checks **over 1 145 PHP groups** on meetup.com for new meetups every day. That&#039;s about 240 meetups in a single month - a great number, but some user groups don&#039;t use meetup.com.
-
-I spend last weekend adding 4 new sources for meetups... and while doing it, I thought: &quot;why not make all that meetups and groups public in JSON&quot;?
-" />
-    <meta property="og:url" content="/blog/2019/01/21/friends-of-php-is-opening-api-with-250-meetups-a-month" />
-
-        <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="@votrubaT">
-    <meta name="twitter:title" content="FriendsofPHP.org is Opening API with 250 Meetups a Month" />
-    <meta name="twitter:description" content="[Friendsofphp.org](https://friendsofphp.org) already checks **over 1 145 PHP groups** on meetup.com for new meetups every day. That&#039;s about 240 meetups in a single month - a great number, but some user groups don&#039;t use meetup.com.
-
-I spend last weekend adding 4 new sources for meetups... and while doing it, I thought: &quot;why not make all that meetups and groups public in JSON&quot;?
-" />

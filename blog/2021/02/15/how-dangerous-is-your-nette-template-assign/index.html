@@ -1,132 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-    <title>How Dangerous is Your Nette Template Assign | Tomas Votruba</title>
-    <meta charset="utf-8">
-    <meta name="robots" content="index, follow">
+        <title>How Dangerous is Your Nette Template Assign | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
 
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" media="print" onload="this.onload=null;this.media='all';" id="ao_optimized_gfonts" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
 
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    
-    <link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/solid.css" integrity="sha384-wnAC7ln+XN0UKdcPvJvtqIH3jOjs9pnKnq9qX68ImXvOGz2JuFoEiCjT8jyZQX2z" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/brands.css" integrity="sha384-nT8r1Kzllf71iZl81CdFzObMsaLOhqBU1JD2+XoAALbdtWaXDOlWOZTR4v1ktjPE" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css" integrity="sha384-HbmWTHay9psM8qyzEKPc8odH4DsOuzdejtnr+OFtDmOcIVnhgReQ4GZBH7uwcjf6" crossorigin="anonymous">
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
 
-        <link href="/assets/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<meta property="og:url" content="http://:/"/>
+<meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
 
-    <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
 
-        <link href="/assets/css/style.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
+<link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
 
-        <link href="/assets/css/checklist.css" rel="stylesheet" type="text/css" />
-</head>
+<link href="/assets/css/style.css" rel="stylesheet" type="text/css" />
+
+                <meta property="og:title" content="How Dangerous is Your Nette Template Assign" />
+        <meta name="description" property="og:description" content="Symfony documentation contains a few [&quot;best practices&quot; that teach people to create bad code](https://matthiasnoback.nl/2014/10/unnecessary-contrapositions-in-the-new-symfony-best-practices/). It&#039;s important to talk about them so the framework can improve and thus its community can improve. Do you remember GitHub discussions about autowiring before it became part of Symfony?
+
+Nette documentation is no different. **Today, we&#039;ll look at configuring templates and how to use them better and safer**.
+" />
+
+                    <meta property="og:image" content="https://tomasvotruba.com/assets/images/posts/2021/override_evil.png" />
+            <meta name="twitter:card" content="summary_large_image"/>
+            </head>
+
     <body>
                 <!-- post_id: 303 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
 
-        
-<div class="hidden-sm-down">
-    <nav class="navbar">
-        <div class="container-fluid">
-            <ul>
-                <li id="logo">
-                    <img src="https://avatars1.githubusercontent.com/u/924196?s=60&v=4" class="me_avatar">
-                    Tomas Votruba
-                </li>
-                <li class="active">
-                    <a href="/">Blog</a>
-                </li>
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
 
-                <li class="">
-                    <a href="/clusters">Clusters</a>
-                </li>
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
 
-                <li>
-                    <a href="https://github.com/sponsors/TomasVotruba">Sponsor Me</a>
-                </li>
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
 
-                <li class="">
-                    <a href="/mission">Mission</a>
-                </li>
-                <li class="">
-                    <a href="/contact">Contact</a>
-                </li>
-                <li id="top-menu-search">
-                    <form method="get" action="https://www.google.com/search" itemprop="potentialAction" itemscope="" itemtype="https://schema.org/SearchAction">
-    <meta itemprop="target" content="https://www.google.com/search?q={q}"/>
-    <input name="sitesearch" value="tomasvotruba.com" type="hidden"/>
-    <input itemprop="query-input" type="text" id="search-query" class="form-control" required="required" name="q" placeholder="Search..." autocomplete="off"/>
-</form>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</div>
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
 
-<div class="hidden-md-up">
-    <nav class="navbar" id="mobile-menu">
-        <div class="container">
-            <a href="/" class="col-3 col-sm-3 active">
-                <em class="fas fa-book"></em>
-                <br>
-                Blog
-            </a>
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
 
-
-            <a href="/clusters" class="col-3 col-sm-3 ">
-                <em class="fas fa-share-alt"></em>
-                <br>
-                Clusters
-            </a>
-
-            <a href="/contact" class="col-3 col-sm-3 ">
-                <em class="fas fa-phone"></em>
-                <br>
-                Contact
-            </a>
-        </div>
-    </nav>
-
-    <div class="hidden-md-up text-center" id="top-menu-search-mobile">
-        <form method="get" action="https://www.google.com/search" itemprop="potentialAction" itemscope="" itemtype="https://schema.org/SearchAction">
-    <meta itemprop="target" content="https://www.google.com/search?q={q}"/>
-    <input name="sitesearch" value="tomasvotruba.com" type="hidden"/>
-    <input itemprop="query-input" type="text" id="search-query" class="form-control" required="required" name="q" placeholder="Search..." autocomplete="off"/>
-</form>
+        <a href="/rss.xml" target="blank">RSS</a>
     </div>
 </div>
 
-        <div class="container-fluid" id="post">
+        <div class="container-fluid post" id="content">
             <h1>How Dangerous is Your Nette Template&nbsp;Assign</h1>
 
-            <ul class="list-inline post-metadata">
-    <li class="list-inline-item mr-3">
-        <em class="fas fa-calendar fa-fw"></em>
-        <time datetime="2021-02-Mon">
-            
-                                            Feb 15
-            
-            </strike>        </time>
-    </li>
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2021/2021-02-15-how-dangerous-is-your-nette-template-assign.md">Found a typo? Edit me</a>
+            </div>
 
-    
-            <li class="list-inline-item mr-3">
-            <em class="fas fa-fw fa-comments"></em>
-            <a href="/blog/2021/02/15/how-dangerous-is-your-nette-template-assign/#disqus_thread">X</a> comments
-        </li>
-    
-    
-            <li class="list-inline-item mr-3 text-primary">
-            <em class="fab fa-fw fa-github"></em>
-            <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2021/2021-02-15-how-dangerous-is-your-nette-template-assign.md">Found a typo? Edit me</a>
-        </li>
-    </ul>
+            <time datetime="2021-02-Mon" class="text-muted">
+                2021-02-15
+            </time>
 
             
             
@@ -261,7 +206,7 @@ private function sendNotification(): void
     $this-&gt;template-&gt;bitcoinCount = 10;
 }</code></pre>
 <p>What is the <code>$bitcoinCount</code>? <code>10</code> or <code>100</code>? It depends on the <code>$this-&gt;template</code> override mechanism, I guess.</p>
-<p><em class="fas fa-fw fa-2x fa-times text-danger"></em></p>
+<p>❌</p>
 <h2 id="2-call-me-maybe">2. Call Me... Maybe</h2>
 <p>With property access like this, we can define parameters... just sometimes:</p>
 <pre><code class="language-php">public function render(): void
@@ -279,7 +224,7 @@ private function sendNotification(): void
 <li>nothing, use <code>isset()</code> to check if exists</li>
 <li>nothing, use <code>empty()</code> to check if exists</li>
 </ul>
-<p><em class="fas fa-fw fa-2x fa-times text-danger"></em></p>
+<p>❌</p>
 <h2 id="3-unset-or-nullable-variable">3. Unset or Nullable Variable?</h2>
 <p>This bug build on previous weakness. Let's say we have a <a href="https://afilina.com/null-hell">null-hell</a> nullable return:</p>
 <pre><code class="language-php">private function getBitcoinCount(): ?int
@@ -292,13 +237,13 @@ private function sendNotification(): void
 <pre><code class="language-php">if ($this-&gt;inGoodMood) {
     $this-&gt;template-&gt;bitcoinCount = $this-&gt;getBitcoinCount();
 }</code></pre>
-<p><em class="fas fa-fw fa-2x fa-times text-danger"></em></p>
+<p>❌</p>
 <h2 id="4-forgotten-require-variable">4. Forgotten Require Variable</h2>
 <p>The example above would also fail, because the <code>{$bitcoinCount}</code> is required in template:</p>
 <pre><code class="language-html">&lt;!-- templates/giveaway.latte --&gt;
 I'll give {$bitcoinCount} Bitcoins to people in need</code></pre>
 <p>How can you <strong>define what is required variable</strong>? In objects and services, we have <code>__construct()</code> for that, but here?</p>
-<p><em class="fas fa-fw fa-2x fa-times text-danger"></em></p>
+<p>❌</p>
 <h2 id="5-two-ways-to-do-one-thing">5. Two Ways to do One Thing</h2>
 <img src="/assets/images/posts/2021/two_thing_one.jpg" class="img-thumbnail mt-4 mb-2">
 <p>Let's say we manage to set variable once in the template. Many months later, a new developer learns about 2nd <code>render()</code> parameters and uses them:</p>
@@ -316,7 +261,7 @@ I'll give {$bitcoinCount} Bitcoins to people in need</code></pre>
 <li>A. <code>I'll give 100 Bitcoins to people in need</code></li>
 <li>B. <code>I'll give 10 Bitcoins to people in need</code></li>
 </ul>
-<p><em class="fas fa-fw fa-2x fa-times text-danger"></em></p>
+<p>❌</p>
 <h2 id="6-read-it">6. Read It!</h2>
 <p>As with any other public property, we can read it and modify it:</p>
 <pre><code class="language-php">public function render(): void
@@ -328,7 +273,7 @@ I'll give {$bitcoinCount} Bitcoins to people in need</code></pre>
     }
 }</code></pre>
 <p>Soon we're using <code>$this-&gt;template</code> for any variable operation.</p>
-<p><em class="fas fa-fw fa-2x fa-times text-danger"></em></p>
+<p>❌</p>
 <h2 id="7-killing-known-types">7. Killing Known Types</h2>
 <p>We know that type of <code>100</code> is <code>int</code>, so do PHPStan, PHPStorm, and Rector. But once we set it to magical <code>$this-&gt;template</code>, everybody becomes blind:</p>
 <pre><code class="language-php">public function render(): void
@@ -340,11 +285,11 @@ I'll give {$bitcoinCount} Bitcoins to people in need</code></pre>
         // ...
     }
 }</code></pre>
-<p><em class="fas fa-fw fa-2x fa-times text-danger"></em></p>
+<p>❌</p>
 <h2 id="8-making-magic-more-magical">8. Making Magic more Magical</h2>
 <p>With Nette 3.0, there has been an attempt to fix the magic with <a href="https://blog.nette.org/en/latte-how-to-use-type-system">typed template objects</a>. The intention to have a typed template is good, but it adds more magic to rendering.</p>
 <p>The <code>$this-&gt;template</code> is not a service anymore, but a value object. That can hold parameters. And also render itself somehow. That's typical example of <strong><a href="https://en.wikipedia.org/wiki/Active_record_pattern">active record anti-pattern</a></strong>. Are you able to give birth yourself? <strong>Not a way to go.</strong></p>
-<p><em class="fas fa-fw fa-2x fa-times text-danger"></em></p>
+<p>❌</p>
 <p>There is a better way to have both <strong>typed template</strong> and <strong>pass parameters just once</strong>. I'll write about it soon - stay tuned.</p>
 <h2 id="9-typos-everywhere">9. Typos Everywhere</h2>
 <p>Could you guess, what will happen here?</p>
@@ -360,7 +305,7 @@ I'll give {$bitcoinCount} Bitcoins to people in need</code></pre>
 }</code></pre>
 <p>The condition is obviously a <code>true</code>, right?</p>
 <p>Well, the second variable <em>bitcoin<strong>t</strong>Count</em> does not exists, so we're now <code>-10</code> bitcoints.</p>
-<p><em class="fas fa-fw fa-2x fa-times text-danger"></em></p>
+<p>❌</p>
 <h2 id="back-to-basics">Back to Basics</h2>
 <p>There is one more surprise. How does <a href="https://latte.nette.org/en/guide#toc-installation-and-usage">Latte documentation</a> look like? <strong>It promotes the clear approach!</strong></p>
 <pre><code class="language-php">$latte = new Latte\Engine;
@@ -402,19 +347,29 @@ $latte-&gt;render('template.latte', [
 
             <br>
 
-            <div class="row mb-5 mt-5">
-                <div class="col-12 mb-5">
-                                                                <a href="/blog/2021/02/11/tree-coding-vs-bush-coding" class="d-block pt-4 pb-4 pl-4 pr-4 btn btn-success btn-wrappable">
-                            <em class="fas fa-fw fa-forward"></em>
-                            <strong>Read Next</strong>
-                            <br>
-                            <span class="text-bigger">
-                                Tree Coding vs. Bush Coding
-                            </span>
+
+            <div class="card mt-5">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                                                <a href="/blog/2021/02/11/tree-coding-vs-bush-coding" class="d-block">
+                            <div>
+                                Read next → <strong>Tree Coding vs. Bush Coding</strong>
+                            </div>
                         </a>
                                     </div>
             </div>
 
+            <br>
             <br>
 
             <a name="comments"></a>
@@ -441,13 +396,7 @@ $latte-&gt;render('template.latte', [
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
-        <script src="/assets/js/jquery-3.3.1.slim.min.js"></script>
-<script src="/assets/js/cleaning-lady-checklist.js"></script>
-
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-
-<script>
+        <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
     ga.l=+new Date;
@@ -455,60 +404,6 @@ $latte-&gt;render('template.latte', [
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
 <script src="/assets/prism/prism.js"></script>
-
-<script>
-    // sortable table
-    $('.sortable_table').DataTable({
-        // see https://datatables.net/examples/basic_init/filter_only.html
-        "searching": false,
-        "paging": false,
-        "info": false,
-        "order": [[1, "desc"]],
-        // see https://datatables.net/examples/advanced_init/sort_direction_control.html
-        "aoColumns": [
-            null,
-            { "orderSequence": [ "desc", "asc" ] },
-            { "orderSequence": [ "desc", "asc" ] },
-            { "orderSequence": [ "desc", "asc" ] }
-        ]
-    });
-</script>
-
-<div class="text-center mt-5" id="footer">
-    <p class="mt-2">
-        Open-source is my life. Does my work help yours? <a href="https://github.com/sponsors/TomasVotruba">Sponsor Me</a> &nbsp;
-        <em class="fas fa-heart text-danger fa-lg"></em>
-
-        &nbsp;
-        <span class="pl-2 pr-2">•</span>
-        &nbsp;
-
-        See <a href="/archive">Post Archive</a>
-
-        &nbsp;
-        <span class="pl-2 pr-2">•</span>
-        &nbsp;
-
-        <a href="/rss.xml">Get RSS</a>
-    </p>
-</div>
     </body>
 </html>
-
-        <meta property="og:type" content="article" />
-    <meta property="og:title" content="How Dangerous is Your Nette Template Assign" />
-    <meta property="og:description" content="Symfony documentation contains a few [&quot;best practices&quot; that teach people to create bad code](https://matthiasnoback.nl/2014/10/unnecessary-contrapositions-in-the-new-symfony-best-practices/). It&#039;s important to talk about them so the framework can improve and thus its community can improve. Do you remember GitHub discussions about autowiring before it became part of Symfony?
-
-Nette documentation is no different. **Today, we&#039;ll look at configuring templates and how to use them better and safer**.
-" />
-    <meta property="og:url" content="/blog/2021/02/15/how-dangerous-is-your-nette-template-assign" />
-
-        <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="@votrubaT">
-    <meta name="twitter:title" content="How Dangerous is Your Nette Template Assign" />
-    <meta name="twitter:description" content="Symfony documentation contains a few [&quot;best practices&quot; that teach people to create bad code](https://matthiasnoback.nl/2014/10/unnecessary-contrapositions-in-the-new-symfony-best-practices/). It&#039;s important to talk about them so the framework can improve and thus its community can improve. Do you remember GitHub discussions about autowiring before it became part of Symfony?
-
-Nette documentation is no different. **Today, we&#039;ll look at configuring templates and how to use them better and safer**.
-" />

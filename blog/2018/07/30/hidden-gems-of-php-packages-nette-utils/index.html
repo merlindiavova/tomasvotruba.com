@@ -1,132 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-    <title>Hidden Gems of PHP Packages: Nette\Utils | Tomas Votruba</title>
-    <meta charset="utf-8">
-    <meta name="robots" content="index, follow">
+        <title>Hidden Gems of PHP Packages: Nette\Utils | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
 
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" media="print" onload="this.onload=null;this.media='all';" id="ao_optimized_gfonts" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
 
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    
-    <link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/solid.css" integrity="sha384-wnAC7ln+XN0UKdcPvJvtqIH3jOjs9pnKnq9qX68ImXvOGz2JuFoEiCjT8jyZQX2z" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/brands.css" integrity="sha384-nT8r1Kzllf71iZl81CdFzObMsaLOhqBU1JD2+XoAALbdtWaXDOlWOZTR4v1ktjPE" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css" integrity="sha384-HbmWTHay9psM8qyzEKPc8odH4DsOuzdejtnr+OFtDmOcIVnhgReQ4GZBH7uwcjf6" crossorigin="anonymous">
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
 
-        <link href="/assets/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<meta property="og:url" content="http://:/"/>
+<meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
 
-    <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
 
-        <link href="/assets/css/style.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
+<link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
 
-        <link href="/assets/css/checklist.css" rel="stylesheet" type="text/css" />
-</head>
+<link href="/assets/css/style.css" rel="stylesheet" type="text/css" />
+
+                <meta property="og:title" content="Hidden Gems of PHP Packages: Nette\Utils" />
+        <meta name="description" property="og:description" content="In this series, I will show you **not-so-known PHP packages, that I happily use in my daily workflow**. They&#039;re hard to describe in few words for their various features, but awesome and simple to use.
+
+Today we start with [Nette\Utils](https://github.com/nette/utils) package.
+" />
+
+                    <meta property="og:image" content="https://tomasvotruba.com/assets/images/posts/2018/nette-utils/warning.png" />
+            <meta name="twitter:card" content="summary_large_image"/>
+            </head>
+
     <body>
                 <!-- post_id: 127 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
 
-        
-<div class="hidden-sm-down">
-    <nav class="navbar">
-        <div class="container-fluid">
-            <ul>
-                <li id="logo">
-                    <img src="https://avatars1.githubusercontent.com/u/924196?s=60&v=4" class="me_avatar">
-                    Tomas Votruba
-                </li>
-                <li class="active">
-                    <a href="/">Blog</a>
-                </li>
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
 
-                <li class="">
-                    <a href="/clusters">Clusters</a>
-                </li>
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
 
-                <li>
-                    <a href="https://github.com/sponsors/TomasVotruba">Sponsor Me</a>
-                </li>
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
 
-                <li class="">
-                    <a href="/mission">Mission</a>
-                </li>
-                <li class="">
-                    <a href="/contact">Contact</a>
-                </li>
-                <li id="top-menu-search">
-                    <form method="get" action="https://www.google.com/search" itemprop="potentialAction" itemscope="" itemtype="https://schema.org/SearchAction">
-    <meta itemprop="target" content="https://www.google.com/search?q={q}"/>
-    <input name="sitesearch" value="tomasvotruba.com" type="hidden"/>
-    <input itemprop="query-input" type="text" id="search-query" class="form-control" required="required" name="q" placeholder="Search..." autocomplete="off"/>
-</form>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</div>
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
 
-<div class="hidden-md-up">
-    <nav class="navbar" id="mobile-menu">
-        <div class="container">
-            <a href="/" class="col-3 col-sm-3 active">
-                <em class="fas fa-book"></em>
-                <br>
-                Blog
-            </a>
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
 
-
-            <a href="/clusters" class="col-3 col-sm-3 ">
-                <em class="fas fa-share-alt"></em>
-                <br>
-                Clusters
-            </a>
-
-            <a href="/contact" class="col-3 col-sm-3 ">
-                <em class="fas fa-phone"></em>
-                <br>
-                Contact
-            </a>
-        </div>
-    </nav>
-
-    <div class="hidden-md-up text-center" id="top-menu-search-mobile">
-        <form method="get" action="https://www.google.com/search" itemprop="potentialAction" itemscope="" itemtype="https://schema.org/SearchAction">
-    <meta itemprop="target" content="https://www.google.com/search?q={q}"/>
-    <input name="sitesearch" value="tomasvotruba.com" type="hidden"/>
-    <input itemprop="query-input" type="text" id="search-query" class="form-control" required="required" name="q" placeholder="Search..." autocomplete="off"/>
-</form>
+        <a href="/rss.xml" target="blank">RSS</a>
     </div>
 </div>
 
-        <div class="container-fluid" id="post">
+        <div class="container-fluid post" id="content">
             <h1>Hidden Gems of PHP Packages: Nette\Utils</h1>
 
-            <ul class="list-inline post-metadata">
-    <li class="list-inline-item mr-3">
-        <em class="fas fa-calendar fa-fw"></em>
-        <time datetime="2018-07-Mon">
-            
-                            Jul 30, 2018
-            
-            </strike>        </time>
-    </li>
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2018/2018-07-30-hidden-gems-of-php-packages-nette-utils.md">Found a typo? Edit me</a>
+            </div>
 
-    
-            <li class="list-inline-item mr-3">
-            <em class="fas fa-fw fa-comments"></em>
-            <a href="/blog/2018/07/30/hidden-gems-of-php-packages-nette-utils/#disqus_thread">X</a> comments
-        </li>
-    
-    
-            <li class="list-inline-item mr-3 text-primary">
-            <em class="fab fa-fw fa-github"></em>
-            <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2018/2018-07-30-hidden-gems-of-php-packages-nette-utils.md">Found a typo? Edit me</a>
-        </li>
-    </ul>
+            <time datetime="2018-07-Mon" class="text-muted">
+                2018-07-30
+            </time>
 
             
             
@@ -223,32 +168,32 @@ return strpos('Content', $lookingFor) === strlen($lookingFor);</code></pre>
 <p>Of course, you can put <code>file_exists()</code> and <code>is_file()</code> validation everywhere and teach every programmer in your team to use them and also create a sniff, that will enforce this behavior in CI level (which nobody really does) and spend hundreds of hours on regression bugs or...</p>
 <p>...you could use helper method and make yourself useful instead:</p>
 <pre><code class="language-php">Nette\Utils\FileSystem::read($accidentallyMissingFile);</code></pre>
-<p><em class="fas fa-fw fa-check text-success fa-lg"></em> Kaboom! An Exception!</p>
+<p>✅ Kaboom! An Exception!</p>
 <h3 id="code-createdir-code"><code>createDir()</code></h3>
 <p>Do you want to create a directory for your cache?</p>
 <pre><code class="language-php">mkdir($cacheDiretory);</code></pre>
 <p>Oh, but what if that already exists?</p>
-<p><em class="fas fa-fw fa-times text-danger fa-lg"></em> <strong>Already exists error!</strong></p>
+<p>❌ <strong>Already exists error!</strong></p>
 <p>Ok, let's say you're lucky, your hard drive was wiped out and it doesn't exist yet.</p>
 <pre><code class="language-php">mkdir($cacheDiretory);</code></pre>
 <p>But what if the directory is <code>some/cache</code>?</p>
-<p><em class="fas fa-fw fa-times text-danger fa-lg"></em> <strong>Nested directory error!</strong></p>
+<p>❌ <strong>Nested directory error!</strong></p>
 <p>Ok, but what if we don't care about these because <strong>all we need is to create a directory</strong>?</p>
 <pre><code class="language-php">Nette\Utils\FileSystem::createDir($cacheDirectory);</code></pre>
-<p><em class="fas fa-fw fa-check text-success fa-lg"></em></p>
+<p>✅</p>
 <h3 id="code-delete-code"><code>delete()</code></h3>
 <p>We want to delete temporary data in tests or a gallery of pictures. All we have is a <code>$source</code> variable.</p>
 <p>I admit I often have to Google the name of this function because it's super counter-intuitive to first that pops to my mind - <code>delete(file|directory)</code>.</p>
 <p>So let's try:</p>
 <pre><code class="language-php">unlink($source);</code></pre>
-<p><em class="fas fa-fw fa-times text-danger fa-lg"></em> <strong>It's a directory error.</strong></p>
+<p>❌ <strong>It's a directory error.</strong></p>
 <p>Ah, let's try this then:</p>
 <pre><code class="language-php">rmdir($source);</code></pre>
-<p><em class="fas fa-fw fa-times text-danger fa-lg"></em> <strong>The directory is not empty error.</strong></p>
+<p>❌ <strong>The directory is not empty error.</strong></p>
 <p>Doh, I already imagine some <code>glob()</code> of <code>Finder</code> madness.</p>
 <p>Or maybe <strong>we just want to delete it</strong>:</p>
 <pre><code class="language-php">Nette\Utils\FileSystem::delete($source);</code></pre>
-<p><em class="fas fa-fw fa-check text-success fa-lg"></em></p>
+<p>✅</p>
 <p><br></p>
 <p>Do you like it? <strong>Go and give <a href="https://github.com/nette/utils">Nette\Utils</a> a try</strong>. It's the only package I allow to use static methods and that's a lot, since <a href="/blog/2018/04/26/how-i-got-into-static-trap-and-made-fool-of-myself/">I'm very strict to them</a>.</p>
 <blockquote class="blockquote text-center mt-5 mb-5">
@@ -260,19 +205,29 @@ return strpos('Content', $lookingFor) === strlen($lookingFor);</code></pre>
 
             <br>
 
-            <div class="row mb-5 mt-5">
-                <div class="col-12 mb-5">
-                                                                <a href="/blog/2018/07/26/why-is-your-company-losing-money-by-not-open-sourcing-1-hiring" class="d-block pt-4 pb-4 pl-4 pr-4 btn btn-success btn-wrappable">
-                            <em class="fas fa-fw fa-forward"></em>
-                            <strong>Read Next</strong>
-                            <br>
-                            <span class="text-bigger">
-                                Why is Your Company Losing Money by not Open Sourcing: 1. Hiring
-                            </span>
+
+            <div class="card mt-5">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                                                <a href="/blog/2018/07/26/why-is-your-company-losing-money-by-not-open-sourcing-1-hiring" class="d-block">
+                            <div>
+                                Read next → <strong>Why is Your Company Losing Money by not Open Sourcing: 1. Hiring</strong>
+                            </div>
                         </a>
                                     </div>
             </div>
 
+            <br>
             <br>
 
             <a name="comments"></a>
@@ -299,13 +254,7 @@ return strpos('Content', $lookingFor) === strlen($lookingFor);</code></pre>
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
-        <script src="/assets/js/jquery-3.3.1.slim.min.js"></script>
-<script src="/assets/js/cleaning-lady-checklist.js"></script>
-
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-
-<script>
+        <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
     ga.l=+new Date;
@@ -313,60 +262,6 @@ return strpos('Content', $lookingFor) === strlen($lookingFor);</code></pre>
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
 <script src="/assets/prism/prism.js"></script>
-
-<script>
-    // sortable table
-    $('.sortable_table').DataTable({
-        // see https://datatables.net/examples/basic_init/filter_only.html
-        "searching": false,
-        "paging": false,
-        "info": false,
-        "order": [[1, "desc"]],
-        // see https://datatables.net/examples/advanced_init/sort_direction_control.html
-        "aoColumns": [
-            null,
-            { "orderSequence": [ "desc", "asc" ] },
-            { "orderSequence": [ "desc", "asc" ] },
-            { "orderSequence": [ "desc", "asc" ] }
-        ]
-    });
-</script>
-
-<div class="text-center mt-5" id="footer">
-    <p class="mt-2">
-        Open-source is my life. Does my work help yours? <a href="https://github.com/sponsors/TomasVotruba">Sponsor Me</a> &nbsp;
-        <em class="fas fa-heart text-danger fa-lg"></em>
-
-        &nbsp;
-        <span class="pl-2 pr-2">•</span>
-        &nbsp;
-
-        See <a href="/archive">Post Archive</a>
-
-        &nbsp;
-        <span class="pl-2 pr-2">•</span>
-        &nbsp;
-
-        <a href="/rss.xml">Get RSS</a>
-    </p>
-</div>
     </body>
 </html>
-
-        <meta property="og:type" content="article" />
-    <meta property="og:title" content="Hidden Gems of PHP Packages: Nette\Utils" />
-    <meta property="og:description" content="In this series, I will show you **not-so-known PHP packages, that I happily use in my daily workflow**. They&#039;re hard to describe in few words for their various features, but awesome and simple to use.
-
-Today we start with [Nette\Utils](https://github.com/nette/utils) package.
-" />
-    <meta property="og:url" content="/blog/2018/07/30/hidden-gems-of-php-packages-nette-utils" />
-
-        <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="@votrubaT">
-    <meta name="twitter:title" content="Hidden Gems of PHP Packages: Nette\Utils" />
-    <meta name="twitter:description" content="In this series, I will show you **not-so-known PHP packages, that I happily use in my daily workflow**. They&#039;re hard to describe in few words for their various features, but awesome and simple to use.
-
-Today we start with [Nette\Utils](https://github.com/nette/utils) package.
-" />

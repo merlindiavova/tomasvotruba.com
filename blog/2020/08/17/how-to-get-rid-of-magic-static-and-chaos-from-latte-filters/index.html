@@ -1,140 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-    <title>How to Get Rid of Magic, Static and Chaos from Latte Filters | Tomas Votruba</title>
-    <meta charset="utf-8">
-    <meta name="robots" content="index, follow">
+        <title>How to Get Rid of Magic, Static and Chaos from Latte Filters | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
 
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" media="print" onload="this.onload=null;this.media='all';" id="ao_optimized_gfonts" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
 
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    
-    <link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/solid.css" integrity="sha384-wnAC7ln+XN0UKdcPvJvtqIH3jOjs9pnKnq9qX68ImXvOGz2JuFoEiCjT8jyZQX2z" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/brands.css" integrity="sha384-nT8r1Kzllf71iZl81CdFzObMsaLOhqBU1JD2+XoAALbdtWaXDOlWOZTR4v1ktjPE" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css" integrity="sha384-HbmWTHay9psM8qyzEKPc8odH4DsOuzdejtnr+OFtDmOcIVnhgReQ4GZBH7uwcjf6" crossorigin="anonymous">
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
 
-        <link href="/assets/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<meta property="og:url" content="http://:/"/>
+<meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
 
-    <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
 
-        <link href="/assets/css/style.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+<link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+
+<link href="/assets/css/style.css" rel="stylesheet" type="text/css" />
+
+                <meta property="og:title" content="How to Get Rid of Magic, Static and Chaos from Latte Filters" />
+        <meta name="description" property="og:description" content="[In the previous post](/blog/2020/08/10/4-ways-to-make-your-nette-project-more-readable/), we looked at how to avoid array magic and duplicates of Latte in Presenter and Components.
 
 
-        <link href="/assets/css/checklist.css" rel="stylesheet" type="text/css" />
-</head>
+Today we&#039;ll leverage those tips to make your code around Latte filters **easy and smooth to work with**.
+" />
+
+            </head>
+
     <body>
                 <!-- post_id: 274 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
 
-        
-<div class="hidden-sm-down">
-    <nav class="navbar">
-        <div class="container-fluid">
-            <ul>
-                <li id="logo">
-                    <img src="https://avatars1.githubusercontent.com/u/924196?s=60&v=4" class="me_avatar">
-                    Tomas Votruba
-                </li>
-                <li class="active">
-                    <a href="/">Blog</a>
-                </li>
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
 
-                <li class="">
-                    <a href="/clusters">Clusters</a>
-                </li>
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
 
-                <li>
-                    <a href="https://github.com/sponsors/TomasVotruba">Sponsor Me</a>
-                </li>
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
 
-                <li class="">
-                    <a href="/mission">Mission</a>
-                </li>
-                <li class="">
-                    <a href="/contact">Contact</a>
-                </li>
-                <li id="top-menu-search">
-                    <form method="get" action="https://www.google.com/search" itemprop="potentialAction" itemscope="" itemtype="https://schema.org/SearchAction">
-    <meta itemprop="target" content="https://www.google.com/search?q={q}"/>
-    <input name="sitesearch" value="tomasvotruba.com" type="hidden"/>
-    <input itemprop="query-input" type="text" id="search-query" class="form-control" required="required" name="q" placeholder="Search..." autocomplete="off"/>
-</form>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</div>
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
 
-<div class="hidden-md-up">
-    <nav class="navbar" id="mobile-menu">
-        <div class="container">
-            <a href="/" class="col-3 col-sm-3 active">
-                <em class="fas fa-book"></em>
-                <br>
-                Blog
-            </a>
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
 
-
-            <a href="/clusters" class="col-3 col-sm-3 ">
-                <em class="fas fa-share-alt"></em>
-                <br>
-                Clusters
-            </a>
-
-            <a href="/contact" class="col-3 col-sm-3 ">
-                <em class="fas fa-phone"></em>
-                <br>
-                Contact
-            </a>
-        </div>
-    </nav>
-
-    <div class="hidden-md-up text-center" id="top-menu-search-mobile">
-        <form method="get" action="https://www.google.com/search" itemprop="potentialAction" itemscope="" itemtype="https://schema.org/SearchAction">
-    <meta itemprop="target" content="https://www.google.com/search?q={q}"/>
-    <input name="sitesearch" value="tomasvotruba.com" type="hidden"/>
-    <input itemprop="query-input" type="text" id="search-query" class="form-control" required="required" name="q" placeholder="Search..." autocomplete="off"/>
-</form>
+        <a href="/rss.xml" target="blank">RSS</a>
     </div>
 </div>
 
-        <div class="container-fluid" id="post">
+        <div class="container-fluid post" id="content">
             <h1>How to Get Rid of Magic, Static and Chaos from Latte Filters</h1>
 
-            <ul class="list-inline post-metadata">
-    <li class="list-inline-item mr-3">
-        <em class="fas fa-calendar fa-fw"></em>
-        <time datetime="2020-08-Mon">
-            <strike>
-                            Aug, 2020
-            
-            </strike>        </time>
-    </li>
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2020/2020-08-17-how-to-get-rid-of-magic-static-and-chaos-from-latte-filters.md">Found a typo? Edit me</a>
+            </div>
 
-            <li class="list-inline-item mr-3 text-success">
-            <em class="fas fa-fw fa-sync"></em> Updated Sep, 2020
-        </li>
-    
-            <li class="list-inline-item mr-3">
-            <em class="fas fa-fw fa-comments"></em>
-            <a href="/blog/2020/08/17/how-to-get-rid-of-magic-static-and-chaos-from-latte-filters/#disqus_thread">X</a> comments
-        </li>
-    
-    
-            <li class="list-inline-item mr-3 text-primary">
-            <em class="fab fa-fw fa-github"></em>
-            <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2020/2020-08-17-how-to-get-rid-of-magic-static-and-chaos-from-latte-filters.md">Found a typo? Edit me</a>
-        </li>
-    </ul>
+            <time datetime="2020-08-Mon" class="text-muted">
+                2020-08-17
+            </time>
 
             
-                            <div class="card border-success card-bigger mt-5">
+                            <div class="card border-success mt-4">
                     <div class="card-header text-white bg-success">
-                        <strong>This post was updated at September 2020</strong>
+                        This post was updated at September 2020 with fresh know-how.
+                        <br>
+                        <strong>What is new?</strong>
                     </div>
                                             <div class="card-body pb-2">
                             <p>Added options 6 - <strong>invokable filter providers</strong>.</p>
@@ -233,10 +176,10 @@ Thank you</code></pre>
 <p><br></p>
 <h4 id="pros-amp-cons">Pros &amp; Cons</h4>
 <ul>
-<li>We have to use <code>static</code> <em class="fas fa-fw fa-times text-danger "></em></li>
-<li>We can't use any service in <code>SomeFilter</code>, we have to use static only <em class="fas fa-fw fa-times text-danger "></em></li>
-<li>We violate <code>addFilter()</code> method with magic and make it harder to read, maintain and refactor <em class="fas fa-fw fa-times text-danger "></em></li>
-<li>We have one place to add filters <em class="fas fa-fw fa-check text-success "></em></li>
+<li>We have to use <code>static</code> ❌</li>
+<li>We can't use any service in <code>SomeFilter</code>, we have to use static only ❌</li>
+<li>We violate <code>addFilter()</code> method with magic and make it harder to read, maintain and refactor ❌</li>
+<li>We have one place to add filters ✅</li>
 </ul>
 <p><br></p>
 <p>Can we do better?</p>
@@ -263,11 +206,11 @@ Thank you</code></pre>
 <p>Straight forward, transparent, and a few lines of code.</p>
 <h4 id="pros-amp-cons">Pros &amp; Cons</h4>
 <ul>
-<li>We have very little code <em class="fas fa-fw fa-check text-success"></em></li>
-<li>The framework part (Latte) is now directly bounded to our application domain - this makes code hard to refactor, decopule from framework or re-use in another context <em class="fas fa-fw fa-times text-danger "></em></li>
-<li>We break dependency inversion principle - we have to edit <code>LatteFactory</code> to add a new filter <em class="fas fa-fw fa-times text-danger "></em></li>
-<li>We made a seed for God class antipattern - soon our <code>LatteFactory</code> will have over 100 of lines with various filters <em class="fas fa-fw fa-times text-danger "></em></li>
-<li>We think it's a good idea, because of short-code-is-the-best fallacy <em class="fas fa-fw fa-times text-danger "></em></li>
+<li>We have very little code ✅</li>
+<li>The framework part (Latte) is now directly bounded to our application domain - this makes code hard to refactor, decopule from framework or re-use in another context ❌</li>
+<li>We break dependency inversion principle - we have to edit <code>LatteFactory</code> to add a new filter ❌</li>
+<li>We made a seed for God class antipattern - soon our <code>LatteFactory</code> will have over 100 of lines with various filters ❌</li>
+<li>We think it's a good idea, because of short-code-is-the-best fallacy ❌</li>
 </ul>
 <p><br></p>
 <p>Can we do better?</p>
@@ -318,9 +261,9 @@ final class FilterProvider
 <p>The filter class is decoupled - no more hard-coded filters!</p>
 <h4 id="pros-amp-cons">Pros &amp; Cons</h4>
 <ul>
-<li>We can add a new filter without every touching <code>LatteFactory</code> <em class="fas fa-fw fa-check text-success"></em></li>
-<li>We can use services in filters <em class="fas fa-fw fa-check text-success"></em></li>
-<li>We <strong>only moved a seed for God class antipattern</strong> - soon our <code>FilterProvider</code> will have over 100 of lines with various filters <em class="fas fa-fw fa-times text-danger "></em></li>
+<li>We can add a new filter without every touching <code>LatteFactory</code> ✅</li>
+<li>We can use services in filters ✅</li>
+<li>We <strong>only moved a seed for God class antipattern</strong> - soon our <code>FilterProvider</code> will have over 100 of lines with various filters ❌</li>
 </ul>
 <p><br></p>
 <p>Can we do better?</p>
@@ -394,10 +337,10 @@ interface FilterProviderInterface
  }</code></pre>
 <h4 id="pros-amp-cons">Pros &amp; Cons</h4>
 <ul>
-<li>We have decoupled framework and our domain-specific filter <em class="fas fa-fw fa-check text-success"></em></li>
-<li>To add a new filters, we only need to create a new service <em class="fas fa-fw fa-check text-success"></em></li>
-<li>We finally use dependency injection at its best - Nette handles registering filters and collecting service for us <em class="fas fa-fw fa-check text-success"></em></li>
-<li>We <strong>add a seed for God method</strong> - soon <code>provide()</code> will be full of weird callbacks and long methods <em class="fas fa-fw fa-times text-danger "></em></li>
+<li>We have decoupled framework and our domain-specific filter ✅</li>
+<li>To add a new filters, we only need to create a new service ✅</li>
+<li>We finally use dependency injection at its best - Nette handles registering filters and collecting service for us ✅</li>
+<li>We <strong>add a seed for God method</strong> - soon <code>provide()</code> will be full of weird callbacks and long methods ❌</li>
 </ul>
 <p><br></p>
 <p>Can we do better?</p>
@@ -458,11 +401,11 @@ interface FilterProviderInterface
  }</code></pre>
 <h4 id="pros-amp-cons">Pros &amp; Cons</h4>
 <ul>
-<li>We have decoupled domain logic from filters <em class="fas fa-fw fa-check text-success"></em></li>
-<li>We can re-use the used-to-be filter logic with <code>MoneyFormatResolver</code> in other places of application <em class="fas fa-fw fa-check text-success"></em></li>
-<li>We are motivated to use DI and decouple code clearly to new service, if it ever becomes too complex <em class="fas fa-fw fa-check text-success"></em></li>
-<li>We are ready for any changes that come in the future <em class="fas fa-fw fa-check text-success"></em></li>
-<li><del>We think this is the best way, just because it's last <em class="fas fa-fw fa-times text-danger"></em></del> Not anymore ↓</li>
+<li>We have decoupled domain logic from filters ✅</li>
+<li>We can re-use the used-to-be filter logic with <code>MoneyFormatResolver</code> in other places of application ✅</li>
+<li>We are motivated to use DI and decouple code clearly to new service, if it ever becomes too complex ✅</li>
+<li>We are ready for any changes that come in the future ✅</li>
+<li><del>We think this is the best way, just because it's last ❌</del> Not anymore ↓</li>
 </ul>
 <p><br></p>
 <p>My question is: can we do better...?</p>
@@ -528,11 +471,11 @@ final class LatteFactory
 }</code></pre>
 <h4 id="pros-amp-cons">Pros &amp; Cons</h4>
 <ul>
-<li>All of the advantages of previous approaches <em class="fas fa-fw fa-check text-success"></em></li>
-<li>1 class = 1 rule, this is really challenge to clutter <em class="fas fa-fw fa-check text-success"></em></li>
-<li>It's very intuitive to use  <em class="fas fa-fw fa-check text-success"></em></li>
-<li>We don't have to maintain duplicated <code>provideFilters()</code> callables with private methods <em class="fas fa-fw fa-check text-success"></em></li>
-<li>The <code>__invoke()</code> method has no contract, so we can forget to implement it <em class="fas fa-fw fa-times text-danger"></em></li>
+<li>All of the advantages of previous approaches ✅</li>
+<li>1 class = 1 rule, this is really challenge to clutter ✅</li>
+<li>It's very intuitive to use  ✅</li>
+<li>We don't have to maintain duplicated <code>provideFilters()</code> callables with private methods ✅</li>
+<li>The <code>__invoke()</code> method has no contract, so we can forget to implement it ❌</li>
 </ul>
 <p>We compensate this in <code>LatteFactory</code> itself:</p>
 <pre><code class="language-php">public function create(): Engine
@@ -557,19 +500,29 @@ final class LatteFactory
 
             <br>
 
-            <div class="row mb-5 mt-5">
-                <div class="col-12 mb-5">
-                                                                <a href="/blog/2020/08/10/4-ways-to-make-your-nette-project-more-readable" class="d-block pt-4 pb-4 pl-4 pr-4 btn btn-success btn-wrappable">
-                            <em class="fas fa-fw fa-forward"></em>
-                            <strong>Read Next</strong>
-                            <br>
-                            <span class="text-bigger">
-                                4 Ways to Make Your Nette Project More Readable
-                            </span>
+
+            <div class="card mt-5">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                                                <a href="/blog/2020/08/10/4-ways-to-make-your-nette-project-more-readable" class="d-block">
+                            <div>
+                                Read next → <strong>4 Ways to Make Your Nette Project More Readable</strong>
+                            </div>
                         </a>
                                     </div>
             </div>
 
+            <br>
             <br>
 
             <a name="comments"></a>
@@ -596,13 +549,7 @@ final class LatteFactory
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
-        <script src="/assets/js/jquery-3.3.1.slim.min.js"></script>
-<script src="/assets/js/cleaning-lady-checklist.js"></script>
-
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-
-<script>
+        <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
     ga.l=+new Date;
@@ -610,62 +557,6 @@ final class LatteFactory
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
 <script src="/assets/prism/prism.js"></script>
-
-<script>
-    // sortable table
-    $('.sortable_table').DataTable({
-        // see https://datatables.net/examples/basic_init/filter_only.html
-        "searching": false,
-        "paging": false,
-        "info": false,
-        "order": [[1, "desc"]],
-        // see https://datatables.net/examples/advanced_init/sort_direction_control.html
-        "aoColumns": [
-            null,
-            { "orderSequence": [ "desc", "asc" ] },
-            { "orderSequence": [ "desc", "asc" ] },
-            { "orderSequence": [ "desc", "asc" ] }
-        ]
-    });
-</script>
-
-<div class="text-center mt-5" id="footer">
-    <p class="mt-2">
-        Open-source is my life. Does my work help yours? <a href="https://github.com/sponsors/TomasVotruba">Sponsor Me</a> &nbsp;
-        <em class="fas fa-heart text-danger fa-lg"></em>
-
-        &nbsp;
-        <span class="pl-2 pr-2">•</span>
-        &nbsp;
-
-        See <a href="/archive">Post Archive</a>
-
-        &nbsp;
-        <span class="pl-2 pr-2">•</span>
-        &nbsp;
-
-        <a href="/rss.xml">Get RSS</a>
-    </p>
-</div>
     </body>
 </html>
-
-        <meta property="og:type" content="article" />
-    <meta property="og:title" content="How to Get Rid of Magic, Static and Chaos from Latte Filters" />
-    <meta property="og:description" content="[In the previous post](/blog/2020/08/10/4-ways-to-make-your-nette-project-more-readable/), we looked at how to avoid array magic and duplicates of Latte in Presenter and Components.
-
-
-Today we&#039;ll leverage those tips to make your code around Latte filters **easy and smooth to work with**.
-" />
-    <meta property="og:url" content="/blog/2020/08/17/how-to-get-rid-of-magic-static-and-chaos-from-latte-filters" />
-
-        <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="@votrubaT">
-    <meta name="twitter:title" content="How to Get Rid of Magic, Static and Chaos from Latte Filters" />
-    <meta name="twitter:description" content="[In the previous post](/blog/2020/08/10/4-ways-to-make-your-nette-project-more-readable/), we looked at how to avoid array magic and duplicates of Latte in Presenter and Components.
-
-
-Today we&#039;ll leverage those tips to make your code around Latte filters **easy and smooth to work with**.
-" />

@@ -1,132 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-    <title>8 Steps You Can Make Before Huge Upgrade to Make it Faster, Cheaper and More Stable | Tomas Votruba</title>
-    <meta charset="utf-8">
-    <meta name="robots" content="index, follow">
+        <title>8 Steps You Can Make Before Huge Upgrade to Make it Faster, Cheaper and More Stable | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
 
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" media="print" onload="this.onload=null;this.media='all';" id="ao_optimized_gfonts" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
 
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    
-    <link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/solid.css" integrity="sha384-wnAC7ln+XN0UKdcPvJvtqIH3jOjs9pnKnq9qX68ImXvOGz2JuFoEiCjT8jyZQX2z" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/brands.css" integrity="sha384-nT8r1Kzllf71iZl81CdFzObMsaLOhqBU1JD2+XoAALbdtWaXDOlWOZTR4v1ktjPE" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css" integrity="sha384-HbmWTHay9psM8qyzEKPc8odH4DsOuzdejtnr+OFtDmOcIVnhgReQ4GZBH7uwcjf6" crossorigin="anonymous">
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
 
-        <link href="/assets/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<meta property="og:url" content="http://:/"/>
+<meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
 
-    <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
 
-        <link href="/assets/css/style.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
+<link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
 
-        <link href="/assets/css/checklist.css" rel="stylesheet" type="text/css" />
-</head>
+<link href="/assets/css/style.css" rel="stylesheet" type="text/css" />
+
+                <meta property="og:title" content="8 Steps You Can Make Before Huge Upgrade to Make it Faster, Cheaper and More Stable" />
+        <meta name="description" property="og:description" content="&quot;How much will cost upgrade from Symfony 3 to Symfony 4 with Rector?&quot;
+
+Similar questions fill my personal and [Rector email](https://getrector.org/contact) in the last 3 months. It&#039;s hard to give a reasonable answer without actually seeing the repository, so I reply with follow-up questions to get get more details.
+
+Yet, I&#039;ve discovered there are few repeated patterns, that make the upgrade easier and that **most projects can do by themselves** before migration starts.
+" />
+
+                    <meta property="og:image" content="https://tomasvotruba.com/assets/images/posts/2019/before/time.png" />
+            <meta name="twitter:card" content="summary_large_image"/>
+            </head>
+
     <body>
                 <!-- post_id: 230 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
 
-        
-<div class="hidden-sm-down">
-    <nav class="navbar">
-        <div class="container-fluid">
-            <ul>
-                <li id="logo">
-                    <img src="https://avatars1.githubusercontent.com/u/924196?s=60&v=4" class="me_avatar">
-                    Tomas Votruba
-                </li>
-                <li class="active">
-                    <a href="/">Blog</a>
-                </li>
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
 
-                <li class="">
-                    <a href="/clusters">Clusters</a>
-                </li>
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
 
-                <li>
-                    <a href="https://github.com/sponsors/TomasVotruba">Sponsor Me</a>
-                </li>
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
 
-                <li class="">
-                    <a href="/mission">Mission</a>
-                </li>
-                <li class="">
-                    <a href="/contact">Contact</a>
-                </li>
-                <li id="top-menu-search">
-                    <form method="get" action="https://www.google.com/search" itemprop="potentialAction" itemscope="" itemtype="https://schema.org/SearchAction">
-    <meta itemprop="target" content="https://www.google.com/search?q={q}"/>
-    <input name="sitesearch" value="tomasvotruba.com" type="hidden"/>
-    <input itemprop="query-input" type="text" id="search-query" class="form-control" required="required" name="q" placeholder="Search..." autocomplete="off"/>
-</form>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</div>
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
 
-<div class="hidden-md-up">
-    <nav class="navbar" id="mobile-menu">
-        <div class="container">
-            <a href="/" class="col-3 col-sm-3 active">
-                <em class="fas fa-book"></em>
-                <br>
-                Blog
-            </a>
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
 
-
-            <a href="/clusters" class="col-3 col-sm-3 ">
-                <em class="fas fa-share-alt"></em>
-                <br>
-                Clusters
-            </a>
-
-            <a href="/contact" class="col-3 col-sm-3 ">
-                <em class="fas fa-phone"></em>
-                <br>
-                Contact
-            </a>
-        </div>
-    </nav>
-
-    <div class="hidden-md-up text-center" id="top-menu-search-mobile">
-        <form method="get" action="https://www.google.com/search" itemprop="potentialAction" itemscope="" itemtype="https://schema.org/SearchAction">
-    <meta itemprop="target" content="https://www.google.com/search?q={q}"/>
-    <input name="sitesearch" value="tomasvotruba.com" type="hidden"/>
-    <input itemprop="query-input" type="text" id="search-query" class="form-control" required="required" name="q" placeholder="Search..." autocomplete="off"/>
-</form>
+        <a href="/rss.xml" target="blank">RSS</a>
     </div>
 </div>
 
-        <div class="container-fluid" id="post">
+        <div class="container-fluid post" id="content">
             <h1>8 Steps You Can Make Before Huge Upgrade to Make it Faster, Cheaper and More Stable</h1>
 
-            <ul class="list-inline post-metadata">
-    <li class="list-inline-item mr-3">
-        <em class="fas fa-calendar fa-fw"></em>
-        <time datetime="2019-12-Mon">
-            
-                            Dec 16, 2019
-            
-            </strike>        </time>
-    </li>
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2019/2019-12-16-8-steps-you-can-make-before-huge-upgrade-to-make-it-faster-cheaper-and-more-stable.md">Found a typo? Edit me</a>
+            </div>
 
-    
-            <li class="list-inline-item mr-3">
-            <em class="fas fa-fw fa-comments"></em>
-            <a href="/blog/2019/12/16/8-steps-you-can-make-before-huge-upgrade-to-make-it-faster-cheaper-and-more-stable/#disqus_thread">X</a> comments
-        </li>
-    
-    
-            <li class="list-inline-item mr-3 text-primary">
-            <em class="fab fa-fw fa-github"></em>
-            <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2019/2019-12-16-8-steps-you-can-make-before-huge-upgrade-to-make-it-faster-cheaper-and-more-stable.md">Found a typo? Edit me</a>
-        </li>
-    </ul>
+            <time datetime="2019-12-Mon" class="text-muted">
+                2019-12-16
+            </time>
 
             
             
@@ -193,9 +140,7 @@ class Somecontroller
     If you meet all this conditions,<br>
     the migration is <strong>~20 % cheaper</strong>.
 </blockquote>
-<div class="text-center">
-    <em class="fas fa-4x fa-check text-success margin-auto"></em>
-</div>
+<p>✅</p>
 <h2 id="2-explicit-php-version">2. Explicit PHP Version</h2>
 <p>What? Every project has a PHP version... that's obvious for many projects, but there is still that can go wrong. How?</p>
 <pre><code class="language-json">{
@@ -231,9 +176,7 @@ class Somecontroller
     If you meet one major PHP version,<br>
     the migration is <strong>~5 % cheaper</strong>.
 </blockquote>
-<div class="text-center">
-    <em class="fas fa-4x fa-check text-success margin-auto"></em>
-</div>
+<p>✅</p>
 <h2 id="3-easycoding-standard-with-basic-sets">3. EasyCoding Standard with Basic Sets</h2>
 <p>Why are coding standards needed for the migration? The AST libraries that Rector uses aren't well-suited to make code look nice and consistent, so it's better to let coding standard tools do that.</p>
 <p>The basic <a href="https://github.com/symplify/easy-coding-standard">ECS</a> setup we use looks like:</p>
@@ -257,9 +200,7 @@ vendor/bin/ecs check src --fix</code></pre>
     If you meet all the basic coding standard sets,<br>
     the migration is <strong>~5 % cheaper</strong>.
 </blockquote>
-<div class="text-center">
-    <em class="fas fa-4x fa-check text-success margin-auto"></em>
-</div>
+<p>✅</p>
 <h2 id="4-phpstan-on-level-8">4. PHPStan on Level 8</h2>
 <p>Coding style is one of <em>smoke testing</em> layers. It means it runs all over your code, without being explicitly told to. From that, the static analysis is just one step away.</p>
 <pre><code class="language-bash">composer require phpstan/phpstan
@@ -274,9 +215,7 @@ vendor/bin/phpstan analyse src --level 8</code></pre>
     If you make PHPStan to level 8 and passing,<br>
     the migration is <strong>~15 % cheaper</strong>.
 </blockquote>
-<div class="text-center">
-    <em class="fas fa-4x fa-check text-success margin-auto"></em>
-</div>
+<p>✅</p>
 <h2 id="5-newbie-composer-install-under-2-hours">5. Newbie Composer Install Under 2 Hours</h2>
 <p>This is how we usually run a good-quality project:</p>
 <pre><code class="language-bash">git clone your-project.git
@@ -313,9 +252,7 @@ php -S localhost:8000 -t public</code></pre>
     If you make <code>composer install</code> under 2 hours,<br>
     the migration is <strong>~5 % cheaper</strong>.
 </blockquote>
-<div class="text-center">
-    <em class="fas fa-4x fa-check text-success margin-auto"></em>
-</div>
+<p>✅</p>
 <h2 id="6-70-code-coverage">6. 70 % Code Coverage</h2>
 <p>When we come to a completely new project, <strong>we need instant feedback, if we break something</strong>. It would be nice to have 100 % code coverage, but even my open-source project rates as high as 75 %.</p>
 <p><strong>It's like having CTO who rose the project constantly at your side for any change you make.</strong></p>
@@ -325,9 +262,7 @@ php -S localhost:8000 -t public</code></pre>
     If you make it pass ~70 % code coverage,<br>
     the migration is <strong>~50 % cheaper</strong>.
 </blockquote>
-<div class="text-center">
-    <em class="fas fa-4x fa-check text-success margin-auto"></em>
-</div>
+<p>✅</p>
 <h2 id="7-not-versioned-vendor">7. Not Versioned Vendor</h2>
 <p>I know it sounds crazy again, but it's not. Many projects we get have 2 <code>vendor</code> directories. One is versioned by <code>composer.json</code> and the other is versioned... <em>somehow</em>.</p>
 <p>Why use <a href="https://github.com/cweagans/composer-patches">composer patches</a> or custom forks, if you can version packages locally. It's fast, it's healthy, it's all you wish for.</p>
@@ -336,9 +271,7 @@ php -S localhost:8000 -t public</code></pre>
     If you don't version your <code>vendor</code>,<br>
     the migration is <strong>~10 % cheaper</strong>.
 </blockquote>
-<div class="text-center">
-    <em class="fas fa-4x fa-check text-success margin-auto"></em>
-</div>
+<p>✅</p>
 <h2 id="8-solid-gitlab-ci">8. Solid Gitlab CI</h2>
 <p>What if you have all the items above? When is the last time you've checked them? You don't know?</p>
 <p>If the answer is not &quot;at every commit&quot;, it's not good enough. You need to have CI. And I don't mean Bitbucket CI.</p>
@@ -355,9 +288,7 @@ php -S localhost:8000 -t public</code></pre>
     If you use Gitlab CI on every commit,<br>
     the migration is <strong>~10 % cheaper</strong>.
 </blockquote>
-<div class="text-center">
-    <em class="fas fa-4x fa-check text-success margin-auto"></em>
-</div>
+<p>✅</p>
 <h2 id="worth-it">Worth It?</h2>
 <img src="/assets/images/posts/2019/before/time.png" class="img-thumbnail">
 <p>Let's say your goal is to migrate the whole framework or switch a legacy framework for a modern one. If you had skills, time and money to do that, you'd probably be there. <strong>It takes the experience with many legacy migrations to there effectively without years of time and full-rewrite.</strong></p>
@@ -369,19 +300,29 @@ php -S localhost:8000 -t public</code></pre>
 
             <br>
 
-            <div class="row mb-5 mt-5">
-                <div class="col-12 mb-5">
-                                                                <a href="/blog/2019/12/09/how-to-get-rid-of-technical-debt-or-what-we-would-have-done-differently-2-years-ago" class="d-block pt-4 pb-4 pl-4 pr-4 btn btn-success btn-wrappable">
-                            <em class="fas fa-fw fa-forward"></em>
-                            <strong>Read Next</strong>
-                            <br>
-                            <span class="text-bigger">
-                                How to Get Rid of Technical Debt or What We Would Have Done Differently 2 Years ago
-                            </span>
+
+            <div class="card mt-5">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                                                <a href="/blog/2019/12/09/how-to-get-rid-of-technical-debt-or-what-we-would-have-done-differently-2-years-ago" class="d-block">
+                            <div>
+                                Read next → <strong>How to Get Rid of Technical Debt or What We Would Have Done Differently 2 Years ago</strong>
+                            </div>
                         </a>
                                     </div>
             </div>
 
+            <br>
             <br>
 
             <a name="comments"></a>
@@ -408,13 +349,7 @@ php -S localhost:8000 -t public</code></pre>
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
-        <script src="/assets/js/jquery-3.3.1.slim.min.js"></script>
-<script src="/assets/js/cleaning-lady-checklist.js"></script>
-
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-
-<script>
+        <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
     ga.l=+new Date;
@@ -422,64 +357,6 @@ php -S localhost:8000 -t public</code></pre>
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
 <script src="/assets/prism/prism.js"></script>
-
-<script>
-    // sortable table
-    $('.sortable_table').DataTable({
-        // see https://datatables.net/examples/basic_init/filter_only.html
-        "searching": false,
-        "paging": false,
-        "info": false,
-        "order": [[1, "desc"]],
-        // see https://datatables.net/examples/advanced_init/sort_direction_control.html
-        "aoColumns": [
-            null,
-            { "orderSequence": [ "desc", "asc" ] },
-            { "orderSequence": [ "desc", "asc" ] },
-            { "orderSequence": [ "desc", "asc" ] }
-        ]
-    });
-</script>
-
-<div class="text-center mt-5" id="footer">
-    <p class="mt-2">
-        Open-source is my life. Does my work help yours? <a href="https://github.com/sponsors/TomasVotruba">Sponsor Me</a> &nbsp;
-        <em class="fas fa-heart text-danger fa-lg"></em>
-
-        &nbsp;
-        <span class="pl-2 pr-2">•</span>
-        &nbsp;
-
-        See <a href="/archive">Post Archive</a>
-
-        &nbsp;
-        <span class="pl-2 pr-2">•</span>
-        &nbsp;
-
-        <a href="/rss.xml">Get RSS</a>
-    </p>
-</div>
     </body>
 </html>
-
-        <meta property="og:type" content="article" />
-    <meta property="og:title" content="8 Steps You Can Make Before Huge Upgrade to Make it Faster, Cheaper and More Stable" />
-    <meta property="og:description" content="&quot;How much will cost upgrade from Symfony 3 to Symfony 4 with Rector?&quot;
-
-Similar questions fill my personal and [Rector email](https://getrector.org/contact) in the last 3 months. It&#039;s hard to give a reasonable answer without actually seeing the repository, so I reply with follow-up questions to get get more details.
-
-Yet, I&#039;ve discovered there are few repeated patterns, that make the upgrade easier and that **most projects can do by themselves** before migration starts.
-" />
-    <meta property="og:url" content="/blog/2019/12/16/8-steps-you-can-make-before-huge-upgrade-to-make-it-faster-cheaper-and-more-stable" />
-
-        <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="@votrubaT">
-    <meta name="twitter:title" content="8 Steps You Can Make Before Huge Upgrade to Make it Faster, Cheaper and More Stable" />
-    <meta name="twitter:description" content="&quot;How much will cost upgrade from Symfony 3 to Symfony 4 with Rector?&quot;
-
-Similar questions fill my personal and [Rector email](https://getrector.org/contact) in the last 3 months. It&#039;s hard to give a reasonable answer without actually seeing the repository, so I reply with follow-up questions to get get more details.
-
-Yet, I&#039;ve discovered there are few repeated patterns, that make the upgrade easier and that **most projects can do by themselves** before migration starts.
-" />
