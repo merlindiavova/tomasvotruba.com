@@ -24,7 +24,7 @@
 
 <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
 
-<link href="/assets/css/style.css?1300911956" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?69323994" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Mock Final Classes in PHPUnit" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/03/28/how-to-mock-final-classes-in-phpunit" />
@@ -148,7 +148,7 @@ final class FinalClass
 <p>And enable:</p>
 <pre><code class="language-php">DG\BypassFinals::enable();</code></pre>
 <p>✅</p>
-<div class="alert alert-sm alert-warning mt-5 mb-5" role="alert">
+<div class="alert alert-warning mt-5 mb-5" role="alert">
     Do you want to know, <strong>how BypassFinals works?</strong> Read author's <a href="https://phpfashion.com/how-to-mock-final-classes">blog post</a> or check <a href="https://github.com/dg/bypass-finals/blob/8f0f7ab7a17a6b5c188dde1cf5edc6ceb06c70c1/src/BypassFinals.php#L217">this line on Github</a>.
     <br>
     I don't know much, but I think it loads file via stream and removes the <code>T_FINAL</code> token.
