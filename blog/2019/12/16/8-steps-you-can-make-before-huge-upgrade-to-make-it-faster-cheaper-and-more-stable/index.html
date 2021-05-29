@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1989800415" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?2119371706" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="8 Steps You Can Make Before Huge Upgrade to Make it Faster, Cheaper and More Stable" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/12/16/8-steps-you-can-make-before-huge-upgrade-to-make-it-faster-cheaper-and-more-stable" />
@@ -182,15 +182,13 @@ class Somecontroller
 <pre><code class="language-php">use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\EasyCodingStandard\ValueObject\Option;use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator-&gt;parameters();
-    $parameters-&gt;set(Option::SETS, [
-        SetList::PSR_12,
-        SetList::CLEAN_CODE,
-        SetList::COMMENTS,
-        // very nice to have ↓
-        SetList::SYMPLIFY,
-    ]);
+return function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator-&gt;import(SetList::PSR_12);
+    $containerConfigurator-&gt;import(SetList::CLEAN_CODE);
+    $containerConfigurator-&gt;import(SetList::COMMENTS);
+
+    // very nice to have ↓
+    $containerConfigurator-&gt;import(SetList::SYMPLIFY);
 };</code></pre>
 <p>Run it:</p>
 <pre><code class="language-bash">composer require symplify/easy-coding-standard --dev
@@ -275,6 +273,20 @@ php -S localhost:8000 -t public</code></pre>
 <p>What if you have all the items above? When is the last time you've checked them? You don't know?</p>
 <p>If the answer is not &quot;at every commit&quot;, it's not good enough. You need to have CI. And I don't mean Bitbucket CI.</p>
 <p>Why? It's not that Bitbucket CI is worse than Gitlab CI or GitHub actions. It's the ecosystem support. <strong>The Gitlab CI has the longest support for CI of a private project there is.</strong></p>
+<p><div class="card ml-4 mt-4 border-warning float-right post-snippet" style="width: 14em">
+    <div class="card-body">
+        Would you like to <strong>learn more about Rector</strong>? Step by step, from zero to hero?
+        <br>
+
+        <div class="text-center">
+            <a href="/book/the-power-of-automated-refactoring/">
+                <img src="/assets/images/rector_book.png" class="mb-3 mt-3 shadow">
+                Get our new book
+            </a>
+        </div>
+    </div>
+</div>
+</p>
 <p>That means:</p>
 <ul>
 <li>a lot of tutorials</li>
@@ -313,7 +325,8 @@ php -S localhost:8000 -t public</code></pre>
 
             <div class="card mt-4">
                 <div class="card-body text-white bg-success text-center">
-                                                                <a href="/blog/2019/12/09/how-to-get-rid-of-technical-debt-or-what-we-would-have-done-differently-2-years-ago" class="d-block">
+                    
+                                            <a href="/blog/2019/12/09/how-to-get-rid-of-technical-debt-or-what-we-would-have-done-differently-2-years-ago" class="d-block">
                             <div>
                                 Read next → <strong>How to Get Rid of Technical Debt or What We Would Have Done Differently 2 Years ago</strong>
                             </div>
@@ -348,6 +361,9 @@ php -S localhost:8000 -t public</code></pre>
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
         <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
@@ -356,9 +372,5 @@ php -S localhost:8000 -t public</code></pre>
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
-
-        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
-        <script src="/assets/prism/prism.js"></script>
     </body>
 </html>

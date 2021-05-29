@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?466006495" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1113522394" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="7 Tips to Write Exceptions Everyone Will Love" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/09/17/7-tips-to-write-exceptions-everyone-will-love" />
@@ -133,7 +133,7 @@ declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
+return function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator-&gt;parameters();
     $parameters-&gt;set('filters', [
         ' VeryLongNamespace\InNestedNamespace\WithMissingClassInTheEnd'
@@ -155,7 +155,7 @@ var_dump(class_exists(
 
  use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
- return static function (ContainerConfigurator $containerConfigurator): void {
+ return function (ContainerConfigurator $containerConfigurator): void {
      $parameters = $containerConfigurator-&gt;parameters();
      $parameters-&gt;set('filters', [
 -        ' VeryLongNamespace\InNestedNamespace\WithMissingClassInTheEnd'
@@ -207,7 +207,7 @@ declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
+return function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator-&gt;parameters();
     $parameters-&gt;set('page_name', [
         'main' =&gt; []
@@ -343,7 +343,8 @@ master/README.md#extra-autoloading</code></pre>
 
             <div class="card mt-4">
                 <div class="card-body text-white bg-success text-center">
-                                                                <a href="/blog/2018/09/13/your-brain-is-your-garden" class="d-block">
+                    
+                                            <a href="/blog/2018/09/13/your-brain-is-your-garden" class="d-block">
                             <div>
                                 Read next → <strong>Your Brain is Your Garden</strong>
                             </div>
@@ -378,6 +379,9 @@ master/README.md#extra-autoloading</code></pre>
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
         <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
@@ -386,9 +390,5 @@ master/README.md#extra-autoloading</code></pre>
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
-
-        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
-        <script src="/assets/prism/prism.js"></script>
     </body>
 </html>

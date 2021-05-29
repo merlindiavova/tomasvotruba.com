@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1262750006" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?2051657140" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How we Migrated from Nette to Symfony in 3 Weeks - Part 1" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/02/21/how-we-migrated-from-nette-to-symfony-in-3-weeks-part-1" />
@@ -108,7 +108,21 @@ Yet, you'd laugh if you knew what took us the most time.</p>
 <h2 id="3-automated-migration-gt-manual-changes">3. Automated Migration &gt; Manual Changes 🤖</h2>
 <p>The basic idea was to do automated instant migration. Anything manually changes on more than 1 place is a potential future black hole.</p>
 <p>We quickly discovered, it's better to use <a href="/blog/2019/02/14/why-config-coding-sucks/">PHP factories over config coding</a> and <a href="/blog/2019/01/24/how-to-kill-parents/">kill all parents we could</a> (except our own ones of course).</p>
-<h3 id="use-rector-to-php-changes">Use Rector to PHP Changes</h3>
+<p><div class="card ml-4 mt-4 border-warning float-right post-snippet" style="width: 14em">
+    <div class="card-body">
+        Would you like to <strong>learn more about Rector</strong>? Step by step, from zero to hero?
+        <br>
+
+        <div class="text-center">
+            <a href="/book/the-power-of-automated-refactoring/">
+                <img src="/assets/images/rector_book.png" class="mb-3 mt-3 shadow">
+                Get our new book
+            </a>
+        </div>
+    </div>
+</div>
+</p>
+<h3 id="use-rector-for-php-changes">Use Rector for PHP Changes</h3>
 <p>In the start, we run <strong>Rector with generic rules with brute-force way</strong>. Don't think, just try it. That gave us more idea about the code - we started to spot places we can write in Rector rule.</p>
 <p>In the end, <a href="https://getrector.org">Rector</a> helped us with many following changes:</p>
 <ul>
@@ -193,7 +207,8 @@ $this-&gt;translation-&gt;translate('Hi, my name is %name%', [
 
             <div class="card mt-4">
                 <div class="card-body text-white bg-success text-center">
-                                                                <a href="/blog/2019/02/18/how-we-automated-shopsys-packages-release-from-2-days-to-1-console-command" class="d-block">
+                    
+                                            <a href="/blog/2019/02/18/how-we-automated-shopsys-packages-release-from-2-days-to-1-console-command" class="d-block">
                             <div>
                                 Read next → <strong>How we Automated Shopsys Packages Release from 2 days to 1 Console Command</strong>
                             </div>
@@ -228,6 +243,9 @@ $this-&gt;translation-&gt;translate('Hi, my name is %name%', [
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
         <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
@@ -236,9 +254,5 @@ $this-&gt;translation-&gt;translate('Hi, my name is %name%', [
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
-
-        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
-        <script src="/assets/prism/prism.js"></script>
     </body>
 </html>

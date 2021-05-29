@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?830915637" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?694594292" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Delegate Code Reviews to CI" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/11/18/how-to-delegate-code-reviews-to-ci" />
@@ -103,6 +103,20 @@ The Travis was dropped, as it does not support open-source anymore and for priva
 <p>It's a lot. But you want more laziness, right?</p>
 <p><br></p>
 <p><strong>Rector can do much more without you even running it</strong>.</p>
+<p><div class="card ml-4 mt-4 border-warning float-right post-snippet" style="width: 14em">
+    <div class="card-body">
+        Would you like to <strong>learn more about Rector</strong>? Step by step, from zero to hero?
+        <br>
+
+        <div class="text-center">
+            <a href="/book/the-power-of-automated-refactoring/">
+                <img src="/assets/images/rector_book.png" class="mb-3 mt-3 shadow">
+                Get our new book
+            </a>
+        </div>
+    </div>
+</div>
+</p>
 <h2 id="what-do-you-review-in-code">What do you Review in Code?</h2>
 <p>If you do code-review, what do you mostly do?</p>
 <ol>
@@ -136,9 +150,8 @@ In the last <a href="/blog/2019/07/29/how-we-completed-thousands-of-missing-var-
 use Rector\Set\ValueObject\SetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator-&gt;parameters();
-    $parameters-&gt;set(Option::SETS, [SetList::DEAD_CODE]);
+return function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator-&gt;import(SetList::DEAD_CODE);
 };</code></pre>
 <ol start="3">
 <li>And add to your CI bash</li>
@@ -211,17 +224,14 @@ code-review:
 declare(strict_types=1);
 
 use Rector\Core\Configuration\Option;
-use Rector\Set\ValueObject\SetList;
+use Rector\Nette\Set\NetteSetList;use Rector\Set\ValueObject\SetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator-&gt;parameters();
-    $parameters-&gt;set(Option::SETS, [
-        SetList::CODING_STYLE,
-        SetList::CODE_QUALITY,
-        SetList::DEAD_CODE,
-        SetList::NETTE_UTILS_CODE_QUALITY,
-    ]);
+return function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator-&gt;import(SetList::CODING_STYLE);
+    $containerConfigurator-&gt;import(SetList::CODE_QUALITY);
+    $containerConfigurator-&gt;import(SetList::DEAD_CODE);
+    $containerConfigurator-&gt;import(NetteSetList::NETTE_UTILS_CODE_QUALITY);
 };</code></pre>
 <p>But you don't have to stop there. Pick <strong>any of <a href="https://github.com/rectorphp/rector/tree/main/config/set">100+ sets</a></strong> that Rector provides.</p>
 <p><br>
@@ -249,7 +259,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
             <div class="card mt-4">
                 <div class="card-body text-white bg-success text-center">
-                                                                <a href="/blog/2019/11/11/from-0-doc-types-to-full-type-declaration-with-dynamic-analysis" class="d-block">
+                    
+                                            <a href="/blog/2019/11/11/from-0-doc-types-to-full-type-declaration-with-dynamic-analysis" class="d-block">
                             <div>
                                 Read next → <strong>From 0 Doc Types to Full Type Declaration with Dynamic Analysis</strong>
                             </div>
@@ -284,6 +295,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
         <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
@@ -292,9 +306,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
-
-        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
-        <script src="/assets/prism/prism.js"></script>
     </body>
 </html>

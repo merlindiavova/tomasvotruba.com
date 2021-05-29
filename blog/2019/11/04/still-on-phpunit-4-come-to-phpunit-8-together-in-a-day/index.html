@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?674799016" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?308471796" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Still on PHPUnit 4? Come to PHPUnit 8 Together in a Day" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/11/04/still-on-phpunit-4-come-to-phpunit-8-together-in-a-day" />
@@ -154,6 +154,20 @@ The <a href="https://github.com/sebastianbergmann/phpunit/wiki/Development-and-R
 <strong>STOP!</strong>
 </span></p>
 <p>This is the easiest way <strong>to get stuck</strong> in broken tests, with dug up pieces of code all over the project, overheat our brain in <a href="/blog/2018/05/21/is-your-code-readable-by-humans-cognitive-complexity-tells-you/">huge cognitive complexity</a> and <del>give up</del> rage quit the upgrade saying &quot;it's hard as they say&quot;.</p>
+<p><div class="card ml-4 mt-4 border-warning float-right post-snippet" style="width: 14em">
+    <div class="card-body">
+        Would you like to <strong>learn more about Rector</strong>? Step by step, from zero to hero?
+        <br>
+
+        <div class="text-center">
+            <a href="/book/the-power-of-automated-refactoring/">
+                <img src="/assets/images/rector_book.png" class="mb-3 mt-3 shadow">
+                Get our new book
+            </a>
+        </div>
+    </div>
+</div>
+</p>
 <h3 id="the-golden-rule-of-successful-upgrade">The Golden Rule of Successful Upgrade</h3>
 <ul>
 <li>one minor version at a time</li>
@@ -177,13 +191,11 @@ The <a href="https://github.com/sebastianbergmann/phpunit/wiki/Development-and-R
 <pre><code class="language-bash">composer require phpunit/phpunit "^5.0" --dev</code></pre>
 <p>Update set in <code>rector.php</code></p>
 <pre><code class="language-php">// rector.php
-use Rector\Core\Configuration\Option;
-use Rector\Set\ValueObject\SetList;
+use Rector\PHPUnit\Set\PHPUnitSetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator-&gt;parameters();
-    $parameters-&gt;set(Option::SETS, [SetList::PHPUNIT_50]);
+return function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator-&gt;import(PHPUnitSetList::PHPUNIT_50);
 };</code></pre>
 <p>Run Rector</p>
 <pre><code class="language-bash">vendor/bin/rector process tests</code></pre>
@@ -246,13 +258,11 @@ This is hell for us human, luckily easy-pick for Rector.</p>
 <pre><code class="language-bash">composer require phpunit/phpunit "^6.0" --dev</code></pre>
 <p>Update set in <code>rector.php</code></p>
 <pre><code class="language-php">// rector.php
-use Rector\Core\Configuration\Option;
-use Rector\Set\ValueObject\SetList;
+use Rector\PHPUnit\Set\PHPUnitSetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator-&gt;parameters();
-    $parameters-&gt;set(Option::SETS, [SetList::PHPUNIT_60]);
+return function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator-&gt;import(PHPUnitSetList::PHPUNIT_60);
 };</code></pre>
 <p>Run Rector</p>
 <pre><code class="language-bash">vendor/bin/rector process tests</code></pre>
@@ -321,14 +331,12 @@ class SomeTestCase extends \PHPUnit\Framework\TestCase
 <pre><code class="language-bash">composer require phpunit/phpunit "^7.0" --dev</code></pre>
 <p>Update set in <code>rector.php</code></p>
 <pre><code class="language-php">// rector.php
-use Rector\Core\Configuration\Option;
-use Rector\Set\ValueObject\SetList;
+use Rector\PHPUnit\Set\PHPUnitSetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator-&gt;parameters();
-    $parameters-&gt;set(Option::SETS, [SetList::PHPUNIT_70]);
-    $parameters-&gt;set(Option::SETS, [SetList::PHPUNIT_75]);
+return function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator-&gt;import(PHPUnitSetList::PHPUNIT_70);
+    $containerConfigurator-&gt;import(PHPUnitSetList::PHPUNIT_75);
 };</code></pre>
 <p>Run Rector</p>
 <pre><code class="language-bash">vendor/bin/rector process tests</code></pre>
@@ -416,13 +424,11 @@ The proposed solution is <a href="https://github.com/rdohms/phpunit-arraysubset-
 <pre><code class="language-bash">composer require --dev dms/phpunit-arraysubset-asserts</code></pre>
 <p>Update set in <code>rector.php</code></p>
 <pre><code class="language-php">// rector.php
-use Rector\Core\Configuration\Option;
-use Rector\Set\ValueObject\SetList;
+use Rector\PHPUnit\Set\PHPUnitSetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator-&gt;parameters();
-    $parameters-&gt;set(Option::SETS, [SetList::PHPUNIT80_DMS]);
+return function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator-&gt;import(PHPUnitSetList::PHPUNIT80_DMS);
 };</code></pre>
 <p>Run Rector</p>
 <pre><code class="language-bash">vendor/bin/rector process tests</code></pre>
@@ -447,13 +453,11 @@ vendor/bin/phpunit-upgrader voids /tests</code></pre>
 <p><br></p>
 <p>Then back to Rector - Update set in <code>rector.php</code></p>
 <pre><code class="language-php">// rector.php
-use Rector\Core\Configuration\Option;
-use Rector\Set\ValueObject\SetList;
+use Rector\PHPUnit\Set\PHPUnitSetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator-&gt;parameters();
-    $parameters-&gt;set(Option::SETS, [SetList::PHPUNIT_80]);
+return function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator-&gt;import(PHPUnitSetList::PHPUNIT_80);
 };</code></pre>
 <p>Then:</p>
 <pre><code class="language-bash">composer require phpunit/phpunit "^8.0" --dev</code></pre>
@@ -483,7 +487,8 @@ $ PHPUnit 8.5.15 by Sebastian Bergmann and contributors.</code></pre>
 
             <div class="card mt-4">
                 <div class="card-body text-white bg-success text-center">
-                                                                <a href="/blog/2019/10/28/all-you-always-wanted-to-know-about-monorepo-but-were-afraid-to-ask" class="d-block">
+                    
+                                            <a href="/blog/2019/10/28/all-you-always-wanted-to-know-about-monorepo-but-were-afraid-to-ask" class="d-block">
                             <div>
                                 Read next → <strong>All You Always Wanted to Know About Monorepo But Were Afraid To Ask</strong>
                             </div>
@@ -518,6 +523,9 @@ $ PHPUnit 8.5.15 by Sebastian Bergmann and contributors.</code></pre>
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
         <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
@@ -526,9 +534,5 @@ $ PHPUnit 8.5.15 by Sebastian Bergmann and contributors.</code></pre>
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
-
-        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
-        <script src="/assets/prism/prism.js"></script>
     </body>
 </html>

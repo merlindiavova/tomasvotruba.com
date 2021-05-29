@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?740215243" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?16793410" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="4 Ways to Make Your Nette Project More Readable" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/08/10/4-ways-to-make-your-nette-project-more-readable" />
@@ -164,7 +164,7 @@ use Rector\NetteCodeQuality\Rector\Assign\ArrayAccessSetControlToAddComponentMet
 use Rector\NetteCodeQuality\Rector\Assign\MakeGetComponentAssignAnnotatedRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
+return function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator-&gt;services();
 
     $services-&gt;set(MakeGetComponentAssignAnnotatedRector::class);
@@ -190,7 +190,7 @@ $form-&gt;addText('name', 'Name');</code></pre>
 use Rector\NetteCodeQuality\Rector\ArrayDimFetch\ChangeControlArrayAccessToAnnotatedControlVariableRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
+return function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator-&gt;services();
     $services-&gt;set(ChangeControlArrayAccessToAnnotatedControlVariableRector::class);
 };</code></pre>
@@ -381,7 +381,8 @@ If we have to worry about every single line of code, we slowly freeze.
 
             <div class="card mt-4">
                 <div class="card-body text-white bg-success text-center">
-                                                                <a href="/blog/2020/08/03/how-give-away-1500-eur--in-1-tweet-and-help-25-people-learn-something-new" class="d-block">
+                    
+                                            <a href="/blog/2020/08/03/how-give-away-1500-eur--in-1-tweet-and-help-25-people-learn-something-new" class="d-block">
                             <div>
                                 Read next → <strong>How to Give Away 1500 € in 1 Tweet and Help 25 People Learn Something New</strong>
                             </div>
@@ -416,6 +417,9 @@ If we have to worry about every single line of code, we slowly freeze.
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
         <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
@@ -424,9 +428,5 @@ If we have to worry about every single line of code, we slowly freeze.
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
-
-        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
-        <script src="/assets/prism/prism.js"></script>
     </body>
 </html>

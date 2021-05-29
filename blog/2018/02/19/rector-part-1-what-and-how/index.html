@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?223697801" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1484874179" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Rector: Part 1 - What and How" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/02/19/rector-part-1-what-and-how" />
@@ -119,13 +119,11 @@ It only does what you tell it to do. You can use it to <em>instantly upgrade</em
 <ol start="3">
 <li>Configure it with set:</li>
 </ol>
-<pre><code class="language-php">use Rector\Core\Configuration\Option;
-use Rector\Set\ValueObject\SetList;
+<pre><code class="language-php">use Rector\Symfony\Set\SymfonySetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator-&gt;parameters();
-    $parameters-&gt;set(Option::SETS, [SetList::SYMFONY_33]);
+return function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator-&gt;import(SymfonySetList::SYMFONY_33);
 };</code></pre>
 <ol start="4">
 <li>Run Rector on <code>/src</code> directory:</li>
@@ -192,7 +190,7 @@ declare(strict_types=1);
 use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
+return function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator-&gt;services();
     $services-&gt;set(RenameMethodRector::class)
         -&gt;call('configure', [[
@@ -230,7 +228,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
             <div class="card mt-4">
                 <div class="card-body text-white bg-success text-center">
-                                                                <a href="/blog/2018/02/12/sleep-shorter-to-get-62-percent-smarter" class="d-block">
+                    
+                                            <a href="/blog/2018/02/12/sleep-shorter-to-get-62-percent-smarter" class="d-block">
                             <div>
                                 Read next → <strong>Sleep Shorter to Get 62 % Smarter</strong>
                             </div>
@@ -265,6 +264,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
         <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
@@ -273,9 +275,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
-
-        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
-        <script src="/assets/prism/prism.js"></script>
     </body>
 </html>

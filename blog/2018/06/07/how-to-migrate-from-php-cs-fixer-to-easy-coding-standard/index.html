@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1058454248" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?629766078" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Migrate From PHP CS Fixer to ECS in 6 Steps" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/06/07/how-to-migrate-from-php-cs-fixer-to-easy-coding-standard" />
@@ -98,14 +98,10 @@ There are <strong>a few simple A → B changes</strong>, but one has to know abo
 <p>ECS uses standard Symfony PHP config:</p>
 <pre><code class="language-php">// ecs.php
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator-&gt;parameters();
-    $parameters-&gt;set(Option::SETS, [
-        SetList::PSR_12,
-    ]);
+return function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator-&gt;import(SetList::PSR_12);
 };</code></pre>
 <p>And runs as CLI command:</p>
 <pre><code class="language-bash">vendor/bin/ecs check src</code></pre>
@@ -130,7 +126,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
+return function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator-&gt;services();
     $services-&gt;set(DeclareStrictTypesFixer::class);
 };</code></pre>
@@ -148,7 +144,7 @@ use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
+return function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator-&gt;parameters();
 
     $parameters-&gt;set(Option::SKIP, [
@@ -171,7 +167,7 @@ use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
+return function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator-&gt;parameters();
 
     $parameters-&gt;set(Option::SKIP, [
@@ -198,7 +194,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 <pre><code class="language-php">use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
+return function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator-&gt;services();
 
     $services-&gt;set(ArraySyntaxFixer::class)
@@ -224,14 +220,10 @@ vendor/bin/ecs check /path/to/project --fix</code></pre>
 <p><strong>to autocompleted set constant in PHP file in ECS</strong>:</p>
 <pre><code class="language-php">// ecs.php
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator-&gt;parameters();
-    $parameters-&gt;set(Option::SETS, [
-        SetList::PSR_12,
-    ]);
+return function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator-&gt;import(SetList::PSR_12);
 };</code></pre>
 <p><br></p>
 <h2 id="give-it-a-try">Give it a Try...</h2>
@@ -257,7 +249,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
             <div class="card mt-4">
                 <div class="card-body text-white bg-success text-center">
-                                                                <a href="/blog/2018/06/04/how-to-migrate-from-php-code-sniffer-to-easy-coding-standard" class="d-block">
+                    
+                                            <a href="/blog/2018/06/04/how-to-migrate-from-php-code-sniffer-to-easy-coding-standard" class="d-block">
                             <div>
                                 Read next → <strong>How to Migrate From PHP_CodeSniffer to ECS in 7 Steps</strong>
                             </div>
@@ -292,6 +285,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
         <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
@@ -300,9 +296,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
-
-        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
-        <script src="/assets/prism/prism.js"></script>
     </body>
 </html>

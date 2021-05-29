@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1386164566" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1440220784" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="4 Ways Symplify makes Working With Symfony More Fun" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2021/01/18/4-ways-symplify-makes-working-with-symfony-more-fun" />
@@ -145,7 +145,7 @@ From phpstan-rules package
 <p>One of these places is in Symfony PHP configs. If you haven't switched from YAML to PHP, <a href="/blog/2020/07/27/how-to-switch-from-yaml-xml-configs-to-php-today-with-migrify/">do it today</a>. Then you can have this bug too:</p>
 <pre><code class="language-php">use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
+return function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator-&gt;parameters();
     $parameters-&gt;set('secret_hash', 'ASDF1234');
 
@@ -175,7 +175,7 @@ From autowire-array-parameter package
 <pre><code class="language-php">use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
+return function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator-&gt;services();
 
     $resourceProcessorTag = 'resource_processor';
@@ -191,7 +191,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 <pre><code class="language-diff"> use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 - use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
- return static function (ContainerConfigurator $containerConfigurator): void {
+ return function (ContainerConfigurator $containerConfigurator): void {
      $services = $containerConfigurator-&gt;services();
 -
 -    $resourceProcessorTag = 'resource_processor';
@@ -245,7 +245,7 @@ use Symplify\Amnesia\ValueObject\Symfony\Extension\Doctrine\Mapping;
 use Symplify\Amnesia\ValueObject\Symfony\Extension\Doctrine\ORM;
 use Symplify\Amnesia\ValueObject\Symfony\Extension\DoctrineExtension;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
+return function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator-&gt;extension(DoctrineExtension::NAME, [
         DoctrineExtension::DBAL =&gt; [
             DBAL::DRIVER =&gt; 'pdo_mysql',
@@ -289,7 +289,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
             <div class="card mt-4">
                 <div class="card-body text-white bg-success text-center">
-                                                                <a href="/blog/2021/01/11/how-to-detect-complex-duplicated-methods-with-phpstan" class="d-block">
+                    
+                                            <a href="/blog/2021/01/11/how-to-detect-complex-duplicated-methods-with-phpstan" class="d-block">
                             <div>
                                 Read next → <strong>How to detect Complex Duplicated Methods With PHPStan</strong>
                             </div>
@@ -324,6 +325,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
         <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
@@ -332,9 +336,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
-
-        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
-        <script src="/assets/prism/prism.js"></script>
     </body>
 </html>

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1228546078" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?91369388" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How we Completed Thousands of Missing @var Annotations in a Day" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/07/29/how-we-completed-thousands-of-missing-var-annotations-in-a-day" />
@@ -326,6 +326,20 @@ class Product
 + * @var string|null
   */
   private $content;</code></pre>
+<p><div class="card ml-4 mt-4 border-warning float-right post-snippet" style="width: 14em">
+    <div class="card-body">
+        Would you like to <strong>learn more about Rector</strong>? Step by step, from zero to hero?
+        <br>
+
+        <div class="text-center">
+            <a href="/book/the-power-of-automated-refactoring/">
+                <img src="/assets/images/rector_book.png" class="mb-3 mt-3 shadow">
+                Get our new book
+            </a>
+        </div>
+    </div>
+</div>
+</p>
 <h3 id="9-from-doctrine-relation-annotations">9. From Doctrine Relation Annotations</h3>
 <p>Let's finish with the most complex case, yet brutally common. What do we mean by Doctrine Relation annotations?</p>
 <pre><code class="language-php">&lt;?php
@@ -377,7 +391,7 @@ composer require slevomat/coding-standard --dev</code></pre>
 <pre><code class="language-php">use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
+return function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator-&gt;services();
     // every property should have @var annotation
     $services-&gt;set(SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff::class);
@@ -448,7 +462,8 @@ return function (ContainerConfigurator $containerConfigurator): void {
 
             <div class="card mt-4">
                 <div class="card-body text-white bg-success text-center">
-                                                                <a href="/blog/2019/07/22/how-to-convert-listeners-to-subscribers-and-reduce-your-configs" class="d-block">
+                    
+                                            <a href="/blog/2019/07/22/how-to-convert-listeners-to-subscribers-and-reduce-your-configs" class="d-block">
                             <div>
                                 Read next → <strong>How to Convert Listeners to Subscribers and Reduce your Configs</strong>
                             </div>
@@ -483,6 +498,9 @@ return function (ContainerConfigurator $containerConfigurator): void {
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
         <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
@@ -491,9 +509,5 @@ return function (ContainerConfigurator $containerConfigurator): void {
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
-
-        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
-        <script src="/assets/prism/prism.js"></script>
     </body>
 </html>

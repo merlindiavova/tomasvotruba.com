@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?515457394" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1606450208" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Will Autowired Arrays Finally Deprecate Tags in Symfony and Nette?" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/11/12/will-autowired-arrays-finally-deprecate-tags-in-symfony-and-nette" />
@@ -130,7 +130,7 @@ final class CheckBlogHasReleasePostReleaseWorker implements ReleaseWorkerInterfa
 <p>and register it</p>
 <pre><code class="language-php">use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
+return function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator-&gt;services();
     $services-&gt;set(Moses\ReleaseWorker\CheckBlogHasReleasePostReleaseWorker::class);
 };</code></pre>
@@ -140,7 +140,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 <h3 id="1-tags">1. Tags!</h3>
 <pre><code class="language-php">use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
+return function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator-&gt;services();
     $services-&gt;set(Moses\ReleaseWorker\CheckBlogHasReleasePostReleaseWorker::class)
         -&gt;tag('release_worker');
@@ -251,7 +251,8 @@ final class Moses
 
             <div class="card mt-4">
                 <div class="card-body text-white bg-success text-center">
-                                                                <a href="/blog/2018/11/08/fatal-error-uncaught-error-operator-not-supported-for-strings-in" class="d-block">
+                    
+                                            <a href="/blog/2018/11/08/fatal-error-uncaught-error-operator-not-supported-for-strings-in" class="d-block">
                             <div>
                                 Read next → <strong>Fatal error: Uncaught Error: [] operator not supported for strings in</strong>
                             </div>
@@ -286,6 +287,9 @@ final class Moses
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
         <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
@@ -294,9 +298,5 @@ final class Moses
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
-
-        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
-        <script src="/assets/prism/prism.js"></script>
     </body>
 </html>

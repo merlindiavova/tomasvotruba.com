@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?753897648" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?78231753" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Effective Debug Tricks: Narrow Scoping" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2021/02/01/effective-debug-tricks-narrow-scoping" />
@@ -199,41 +199,41 @@ But what about debugging code that someone wrote a year ago?</p>
 <p>This technique can be applied to services, to PHPStan rules, to Rector rules, to a coding standard, to registered event subscribers... to anything. A similar algorithm is used to sort files in an array.</p>
 <p>The idea is comment out half of the configuration, run the tool and see if the bug still remains:</p>
 <pre><code class="language-diff"> // rector.php
- return static function (ContainerConfigurator $containerConfigurator): void {
+ return function (ContainerConfigurator $containerConfigurator): void {
+     $parameters = $containerConfigurator-&gt;parameters();
      $parameters-&gt;set(Option::AUTO_IMPORT_NAMES, true);
 
-     $parameters-&gt;set(Option::SETS, [
-         SetList::PHP_74,
-         SetList::PHP_80,
--        SetList::CODE_QUALITY,
-+//      SetList::CODE_QUALITY,
--        SetList::CODING_STYLE,
-+//      SetList::CODING_STYLE,
+     $containerConfigurator-&gt;import(SetList::PHP_74);
+     $containerConfigurator-&gt;import(SetList::PHP_80);
+-    $containerConfigurator-&gt;import(SetList::CODE_QUALITY);
++//  $containerConfigurator-&gt;import(SetList::CODE_QUALITY);
+-    $containerConfigurator-&gt;import(SetList::CODING_STYLE);
++//  $containerConfigurator-&gt;import(SetList::CODING_STYLE);
     ]);</code></pre>
 <p>Is the bug still there? Remove the commended lines and repeated the half-commented/half-active process with the other half:</p>
 <pre><code class="language-diff"> // rector.php
- return static function (ContainerConfigurator $containerConfigurator): void {
+ return function (ContainerConfigurator $containerConfigurator): void {
+     $parameters = $containerConfigurator-&gt;parameters();
      $parameters-&gt;set(Option::AUTO_IMPORT_NAMES, true);
 
-     $parameters-&gt;set(Option::SETS, [
-         SetList::PHP_74,
--        SetList::PHP_80,
-+//      SetList::PHP_80,
--        SetList::CODE_QUALITY,
--        SetList::CODING_STYLE,
-    ]);</code></pre>
+     $containerConfigurator-&gt;import(SetList::PHP_74);
+-    $containerConfigurator-&gt;import(SetList::PHP_80);
++//  $containerConfigurator-&gt;import(SetList::PHP_80);
+-    $containerConfigurator-&gt;import(SetList::CODE_QUALITY);
+-    $containerConfigurator-&gt;import(SetList::CODING_STYLE);
+ ]);</code></pre>
 <p>Is the bug gone? It must be one of those commented sets, so comment out half of them and let the ofher half active:</p>
 <pre><code class="language-diff"> // rector.php
- return static function (ContainerConfigurator $containerConfigurator): void {
+ return function (ContainerConfigurator $containerConfigurator): void {
+     $parameters = $containerConfigurator-&gt;parameters();
      $parameters-&gt;set(Option::AUTO_IMPORT_NAMES, true);
 
-     $parameters-&gt;set(Option::SETS, [
--        SetList::PHP_74,
--        SetList::PHP_80,
-         SetList::CODE_QUALITY,
--        SetList::CODING_STYLE,
-+//      SetList::CODING_STYLE,
-    ]);</code></pre>
+-    $containerConfigurator-&gt;import(SetList::PHP_74);
+-    $containerConfigurator-&gt;import(SetList::PHP_80);
+     $containerConfigurator-&gt;import(SetList::CODE_QUALITY);
+-    $containerConfigurator-&gt;import(SetList::CODING_STYLE);
++//  $containerConfigurator-&gt;import(SetList::CODING_STYLE);
+ ]);</code></pre>
 <p>This way, we discover quickly which exact set and which exact rule is causing the problem.</p>
 <p><br></p>
 <p>But, running <strong>the whole codebase to find out a single rule</strong> might take hours. How can we avoid it?
@@ -276,7 +276,8 @@ Thank you for reporting!</p>
 
             <div class="card mt-4">
                 <div class="card-body text-white bg-success text-center">
-                                                                <a href="/blog/2021/01/25/4-phpstan-rule-that-bring-order-to-nette-injects" class="d-block">
+                    
+                                            <a href="/blog/2021/01/25/4-phpstan-rule-that-bring-order-to-nette-injects" class="d-block">
                             <div>
                                 Read next → <strong>4 PHPStan Rules that Bring Order to Nette Injects</strong>
                             </div>
@@ -311,6 +312,9 @@ Thank you for reporting!</p>
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
         <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
@@ -319,9 +323,5 @@ Thank you for reporting!</p>
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
-
-        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
-        <script src="/assets/prism/prism.js"></script>
     </body>
 </html>

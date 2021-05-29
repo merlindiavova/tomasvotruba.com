@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?654270843" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?552633344" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Upgrade Symfony 2.8 to 3.4" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/02/28/how-to-upgrade-symfony-2-8-to-3-4" />
@@ -113,6 +113,20 @@ Now it's much easier to jump from one LTS to another - with <strong>instant upgr
 <li>Symfony 3.3 → 3.4</li>
 </ul>
 <p>If you split each of these lines into standalone pull-requests, you're the best!</p>
+<p><div class="card ml-4 mt-4 border-warning float-right post-snippet" style="width: 14em">
+    <div class="card-body">
+        Would you like to <strong>learn more about Rector</strong>? Step by step, from zero to hero?
+        <br>
+
+        <div class="text-center">
+            <a href="/book/the-power-of-automated-refactoring/">
+                <img src="/assets/images/rector_book.png" class="mb-3 mt-3 shadow">
+                Get our new book
+            </a>
+        </div>
+    </div>
+</div>
+</p>
 <h2 id="forget-code-upgrade-md-code">Forget <code>UPGRADE.md</code></h2>
 <p>You probably know I work almost part-time on <a href="https://getrector.org">the Rector project</a>. I gather feedback from conferences and meetups all over Europe and try to make Rector better every day. Recently he also migrated between <a href="/blog/2019/02/21/how-we-migrated-from-nette-to-symfony-in-3-weeks-part-1">2 PHP frameworks</a>, because why not?</p>
 <p>The PHP community gives me positive vibes about going the right direction. It helps me to make PHP and Symfony <strong>sets more and more complete</strong>.</p>
@@ -124,23 +138,20 @@ Now it's much easier to jump from one LTS to another - with <strong>instant upgr
 <pre><code class="language-bash">vendor/bin/rector init</code></pre>
 <p>Add Symfony sets in it:</p>
 <pre><code class="language-php">use Rector\Core\Configuration\Option;
-use Rector\Set\ValueObject\SetList;
+use Rector\Symfony\Set\SymfonySetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator-&gt;parameters();
-
-    $parameters-&gt;set(Option::SETS, [
-        SetList::SYMFONY_28,
-        // take it 1 set at a time to so next set works with output of the previous set; I do 1 set per pull-request
-        // SetList::SYMFONY_30,
-        // SetList::SYMFONY_31,
-        // SetList::SYMFONY_32,
-        // SetList::SYMFONY_33,
-        // SetList::SYMFONY_34,
-    ]);
+return function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator-&gt;import(SymfonySetList::SYMFONY_28);
+    // take it 1 set at a time to so next set works with output of the previous set; I do 1 set per pull-request
+    // $containerConfigurator-&gt;import(SetList::SYMFONY_30);
+    // $containerConfigurator-&gt;import(SetList::SYMFONY_31);
+    // $containerConfigurator-&gt;import(SetList::SYMFONY_32);
+    // $containerConfigurator-&gt;import(SetList::SYMFONY_33);
+    // $containerConfigurator-&gt;import(SetList::SYMFONY_34);
 
     // set paths to directories with your code
+    $parameters = $containerConfigurator-&gt;parameters();
     $parameters-&gt;set(Option::PATHS, [
         __DIR__ . '/app',
         __DIR__ . '/src',
@@ -152,17 +163,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 use Rector\Set\ValueObject\SetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator-&gt;parameters();
-
-    $parameters-&gt;set(Option::SETS, [
-        SetList::PHP_53,
-        // again 1 set at a time
-        // SetList::PHP_54,
-        // SetList::PHP_55,
-        // SetList::PHP_56,
-    ]);
-
+return function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator-&gt;import(SetList::PHP_53);
+    // again 1 set at a time
+    // $containerConfigurator-&gt;import(SetList::PHP_54);
+    // $containerConfigurator-&gt;import(SetList::PHP_55);
+    // $containerConfigurator-&gt;import(SetList::PHP_56);
     // ...
 };</code></pre>
 <h2 id="awesome-symfony-3-3-dependency-injection">Awesome Symfony 3.3+ Dependency Injection</h2>
@@ -187,7 +193,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
             <div class="card mt-4">
                 <div class="card-body text-white bg-success text-center">
-                                                                <a href="/blog/2019/02/25/5-tips-to-effective-work-with-github-repository" class="d-block">
+                    
+                                            <a href="/blog/2019/02/25/5-tips-to-effective-work-with-github-repository" class="d-block">
                             <div>
                                 Read next → <strong>5 Tips to Effective Work with Github Repository</strong>
                             </div>
@@ -222,6 +229,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
         <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
@@ -230,9 +240,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
-
-        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
-        <script src="/assets/prism/prism.js"></script>
     </body>
 </html>

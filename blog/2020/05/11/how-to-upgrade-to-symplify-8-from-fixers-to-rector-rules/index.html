@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1851243599" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1873838834" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Upgrade to Symplify 8 - From Fixers to Rector Rules" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/05/11/how-to-upgrade-to-symplify-8-from-fixers-to-rector-rules" />
@@ -96,8 +96,22 @@
 <pre><code class="language-bash">vendor/bin/ecs check</code></pre>
 <p>You might see such notices right before your code gets checked:</p>
 <pre><code class="language-bash">PHP Notice:  Fixer "..." is deprecated. Use "..." instead</code></pre>
-<h2 id="why-were-these-fixer-dropped">Why were These Fixer Dropped?</h2>
+<h2 id="why-were-these-fixers-dropped">Why were These Fixers Dropped?</h2>
 <p>You'll find answer to this question <a href="/blog/2020/05/04/how-to-upgrade-to-symplify-8-from-sniffs-to-phpstan-rules/">in previous post</a>. To extend answer specifically for this post: Fixer and Rector do the same job - <strong>they change code based on specific recipe</strong>.</p>
+<p><div class="card ml-4 mt-4 border-warning float-right post-snippet" style="width: 14em">
+    <div class="card-body">
+        Would you like to <strong>learn more about Rector</strong>? Step by step, from zero to hero?
+        <br>
+
+        <div class="text-center">
+            <a href="/book/the-power-of-automated-refactoring/">
+                <img src="/assets/images/rector_book.png" class="mb-3 mt-3 shadow">
+                Get our new book
+            </a>
+        </div>
+    </div>
+</div>
+</p>
 <h3 id="what-is-the-difference">What is the Difference?</h3>
 <ul>
 <li>Fixer works with <a href="https://www.php.net/manual/en/function.token-get-all.php">tokens</a> → which is <strong>great for spaces and <code>{}()</code> positions</strong> etc.,</li>
@@ -121,7 +135,7 @@
 
  use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
- return static function (ContainerConfigurator $containerConfigurator): void {
+ return function (ContainerConfigurator $containerConfigurator): void {
      $services = $containerConfigurator-&gt;services();
 -    $services-&gt;set(Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer::class);
 +    $services-&gt;set(PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer::class);
@@ -416,7 +430,8 @@ return function (ContainerConfigurator $containerConfigurator): void {
 
             <div class="card mt-4">
                 <div class="card-body text-white bg-success text-center">
-                                                                <a href="/blog/2020/05/04/how-to-upgrade-to-symplify-8-from-sniffs-to-phpstan-rules" class="d-block">
+                    
+                                            <a href="/blog/2020/05/04/how-to-upgrade-to-symplify-8-from-sniffs-to-phpstan-rules" class="d-block">
                             <div>
                                 Read next → <strong>How to Upgrade to Symplify 8 - From Sniffs to PHPStan Rules</strong>
                             </div>
@@ -451,6 +466,9 @@ return function (ContainerConfigurator $containerConfigurator): void {
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
         <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
@@ -459,9 +477,5 @@ return function (ContainerConfigurator $containerConfigurator): void {
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
-
-        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
-        <script src="/assets/prism/prism.js"></script>
     </body>
 </html>

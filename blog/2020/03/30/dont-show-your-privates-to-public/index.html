@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1573333985" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?93838814" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Don&#039;t Show Your Privates to Public" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/03/30/dont-show-your-privates-to-public" />
@@ -192,13 +192,11 @@ See pull-request
 <p>What now? Go to your code and check method one by one clicking on them in PHPStorm to <em>Find Usages</em>, if they're used somewhere else or <em>false public</em> and should be private. It will make your code much more robust and senior...</p>
 <p><em>Just kidding</em>. Let Rector handle it with <code>PRIVATIZATION</code> set:</p>
 <pre><code class="language-php">// rector.php
-use Rector\Core\Configuration\Option;
 use Rector\Set\ValueObject\SetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator-&gt;parameters();
-    $parameters-&gt;set(Option::SETS, [SetList::PRIVATIZATION]);
+return function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator-&gt;import(SetList::PRIVATIZATION);
 };</code></pre>
 <pre><code class="language-bash">vendor/bin/rector process src</code></pre>
 <p>It has now 4 rules:</p>
@@ -230,7 +228,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
             <div class="card mt-4">
                 <div class="card-body text-white bg-success text-center">
-                                                                <a href="/blog/2020/03/23/doctrine-entity-typed-properties-with-php74" class="d-block">
+                    
+                                            <a href="/blog/2020/03/23/doctrine-entity-typed-properties-with-php74" class="d-block">
                             <div>
                                 Read next → <strong>Doctrine Entity Typed Properties With PHP 7.4</strong>
                             </div>
@@ -265,6 +264,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
         <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
@@ -273,9 +275,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
-
-        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
-        <script src="/assets/prism/prism.js"></script>
     </body>
 </html>

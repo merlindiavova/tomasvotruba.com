@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?203231127" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?111194659" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Instantly Migrate PhpSpec to PHPUnit" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/03/21/how-to-instantly-migrate-phpspec-to-phpunit" />
@@ -161,9 +161,7 @@ Last week I was approached by 2 different people with single need - <strong>migr
 <p>Which one would you pick from this 2 information? I'd go for the last one, so did my client. <strong>So that's why we agreed to migrate PhpSpec</strong> (the middle one) <strong>to PHPUnit</strong>.</p>
 <p><br></p>
 <p>This is how 1 spec migration might look like:</p>
-<pre><code class="language-diff"> &lt;?php
-
--namespace spec\App\Product;
+<pre><code class="language-diff">-namespace spec\App\Product;
 +namespace Tests\App\Product;
 
 -use PhpSpec\ObjectBehavior;
@@ -197,36 +195,23 @@ Last week I was approached by 2 different people with single need - <strong>migr
 +        $this-&gt;expectException('SomeException');
 +        $this-&gt;createMe-&gt;item(5);
      }
-
--    public function it_should_be_called(Cart $cart)
-+    public function testCalled()
-     {
-+        /** @var Cart|\PHPUnit\Framework\MockObject\MockObject $cart */
-+        $cart = $this-&gt;createMock(Cart::class);
--        $cart-&gt;price()-&gt;shouldBeCalled()-&gt;willReturn(5);
-+        $cart-&gt;expects($this-&gt;atLeastOnce())-&gt;method('price')-&gt;willReturn(5);
--        $cart-&gt;shippingAddress(Argument::type(Address::class))-&gt;shouldBeCalled();
-+        $cart-&gt;expects($this-&gt;atLeastOnce())-&gt;method('shippingAddress')-&gt;with($this-&gt;isType(Address::class));
-     }
-
--     public function is_bool_check()
-+     public function testBoolCheck()
-      {
--         $this-&gt;hasFailed()-&gt;shouldBe(false);
-+         $this-&gt;assertFalse($this-&gt;createMe-&gt;hasFailed());
--         $this-&gt;hasFailed()-&gt;shouldNotBe(false);
-+         $this-&gt;assertNotFalse($this-&gt;createMe-&gt;hasFailed());
-      }
-
--     public function is_array_type()
-+     public function testArrayType()
-      {
--         $this-&gt;shippingAddresses()-&gt;shouldBeArray();
-+         $this-&gt;assertIsIterable($this-&gt;createMe-&gt;shippingAddresses());
-      }
  }</code></pre>
 <p>Pretty clear, right?</p>
 <h2 id="how-to-instantly-migrate-from-phpspec-to-phpunit">How to Instantly Migrate from PhpSpec to PHPUnit?</h2>
+<p><div class="card ml-4 mt-4 border-warning float-right post-snippet" style="width: 14em">
+    <div class="card-body">
+        Would you like to <strong>learn more about Rector</strong>? Step by step, from zero to hero?
+        <br>
+
+        <div class="text-center">
+            <a href="/book/the-power-of-automated-refactoring/">
+                <img src="/assets/images/rector_book.png" class="mb-3 mt-3 shadow">
+                Get our new book
+            </a>
+        </div>
+    </div>
+</div>
+</p>
 <p>First, take a 2-week paid vacation... Just kidding. Start with Rector which migrates ~95 % of code cases. It also renames <code>*Spec.php</code> to <code>*Test.php</code> and moves them from <code>/spec</code> to <code>/tests</code> directory:</p>
 <ol>
 <li>Add Rector</li>
@@ -240,9 +225,8 @@ use Rector\Core\Configuration\Option;
 use Rector\Set\ValueObject\SetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator-&gt;parameters();
-    $parameters-&gt;set(Option::SETS, [SetList::PHPSPEC_TO_PHPUNIT]);
+return function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator-&gt;import(SetList::PHPSPEC_TO_PHPUNIT);
 };</code></pre>
 <ol start="3">
 <li>Run Rector on your tests directories</li>
@@ -271,7 +255,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
             <div class="card mt-4">
                 <div class="card-body text-white bg-success text-center">
-                                                                <a href="/blog/2019/03/18/how-to-detect-dead-php-code-in-code-review-in-7-snippets" class="d-block">
+                    
+                                            <a href="/blog/2019/03/18/how-to-detect-dead-php-code-in-code-review-in-7-snippets" class="d-block">
                             <div>
                                 Read next → <strong>How to Detect Dead PHP Code in Code Review in 7 Snippets</strong>
                             </div>
@@ -306,6 +291,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
         <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
@@ -314,9 +302,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
-
-        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
-        <script src="/assets/prism/prism.js"></script>
     </body>
 </html>

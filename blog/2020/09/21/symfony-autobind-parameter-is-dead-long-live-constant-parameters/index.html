@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?342864927" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?2107421285" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Symfony AutoBind Parameter is Dead, Long live Constant Parameters" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/09/21/symfony-autobind-parameter-is-dead-long-live-constant-parameters" />
@@ -120,7 +120,7 @@ Welcome <strong>constant parameters</strong>.</p>
 <p>With <a href="/blog/2020/07/16/10-cool-features-you-get-after-switching-from-yaml-to-php-configs">Symfony configs in <code>*.php</code> format</a>, this is easypick:</p>
 <pre><code class="language-php">use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
+return function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator-&gt;parameters();
     $parameters-&gt;set('location', 'Prague');
 };</code></pre>
@@ -128,7 +128,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 <pre><code class="language-php">use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use App\Configuration\Option;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
+return function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator-&gt;parameters();
     $parameters-&gt;set(Option::LOCATION, 'Prague');
 };</code></pre>
@@ -197,7 +197,8 @@ final class SomeService
 
             <div class="card mt-4">
                 <div class="card-body text-white bg-success text-center">
-                                                                <a href="/blog/2020/09/14/how-to-apply-coding-standard-on-php-snippets-in-markdown-files" class="d-block">
+                    
+                                            <a href="/blog/2020/09/14/how-to-apply-coding-standard-on-php-snippets-in-markdown-files" class="d-block">
                             <div>
                                 Read next → <strong>How to Apply Coding Standard on PHP Snippets in Markdown Files?</strong>
                             </div>
@@ -232,6 +233,9 @@ final class SomeService
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
         <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
@@ -240,9 +244,5 @@ final class SomeService
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
-
-        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
-        <script src="/assets/prism/prism.js"></script>
     </body>
 </html>

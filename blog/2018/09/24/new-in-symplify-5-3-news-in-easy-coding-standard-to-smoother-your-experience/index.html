@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?598625671" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?157049973" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="New in Symplify 5: 3 News in EasyCodingStandard to Smoother Your Experience" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/09/24/new-in-symplify-5-3-news-in-easy-coding-standard-to-smoother-your-experience" />
@@ -100,7 +100,7 @@ See pull-request #948
 <pre><code class="language-php">use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
+return function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator-&gt;parameters();
 
     $parameters-&gt;set(Option::SKIP, [
@@ -153,7 +153,8 @@ See pull-request #967
 
             <div class="card mt-4">
                 <div class="card-body text-white bg-success text-center">
-                                                                <a href="/blog/2018/10/15/what-is-your-third-door-book-review" class="d-block">
+                    
+                                            <a href="/blog/2018/10/15/what-is-your-third-door-book-review" class="d-block">
                             <div>
                                 Read next → <strong>What is Your Third Door? - Book Review</strong>
                             </div>
@@ -188,6 +189,9 @@ See pull-request #967
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
         <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
@@ -196,9 +200,5 @@ See pull-request #967
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
-
-        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
-        <script src="/assets/prism/prism.js"></script>
     </body>
 </html>

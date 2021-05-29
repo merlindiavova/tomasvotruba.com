@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1130638456" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1097539811" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to turn Laravel from Static to Dependency Injection in one Day" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/03/04/how-to-turn-laravel-from-static-to-dependency-injection-in-one-day" />
@@ -126,6 +126,20 @@ $result = SomeService::someMethod();</code></pre>
 <h2 id="quot-so-how-do-i-get-rid-of-static-in-laravel-quot">&quot;So How do I get rid of Static in Laravel?&quot;</h2>
 <p>One option is change pattern by <strong>switching to another framework</strong>, that already promotes the feature you want. I did this once with Nette when the development stopped around 2015. First, I tried to add a feature, make packages with integration and propose PRs and issues. But after a few years of failure, I decided to switch to Symfony.</p>
 <p>The second option is to try the approach in your framework, regardless of what is considered <em>best practice</em> or the <em>framework-way</em>.</p>
+<p><div class="card ml-4 mt-4 border-warning float-right post-snippet" style="width: 14em">
+    <div class="card-body">
+        Would you like to <strong>learn more about Rector</strong>? Step by step, from zero to hero?
+        <br>
+
+        <div class="text-center">
+            <a href="/book/the-power-of-automated-refactoring/">
+                <img src="/assets/images/rector_book.png" class="mb-3 mt-3 shadow">
+                Get our new book
+            </a>
+        </div>
+    </div>
+</div>
+</p>
 <h2 id="how-move-to-dependency-injection-in-laravel">How move to Dependency Injection in Laravel?</h2>
 <p>I like the way suggested in <a href="https://medium.freecodecamp.org/moving-away-from-magic-or-why-i-dont-want-to-use-laravel-anymore-2ce098c979bd">post above</a>.</p>
 <pre><code class="language-diff"> &lt;?php
@@ -170,12 +184,11 @@ $result = SomeService::someMethod();</code></pre>
 <li>Create <code>rector.php</code> config with <code>SetList::LARAVEL_STATIC_TO_INJECTION</code> set</li>
 </ol>
 <pre><code class="language-php">use Rector\Core\Configuration\Option;
-use Rector\Set\ValueObject\SetList;
+use Rector\Laravel\Set\LaravelSetList;use Rector\Set\ValueObject\SetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator-&gt;parameters();
-    $parameters-&gt;set(Option::SETS, [SetList::LARAVEL_STATIC_TO_INJECTION]);
+return function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator-&gt;import(LaravelSetList::LARAVEL_STATIC_TO_INJECTION);
 };</code></pre>
 <ol start="3">
 <li>Run Rector</li>
@@ -201,7 +214,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
             <div class="card mt-4">
                 <div class="card-body text-white bg-success text-center">
-                                                                <a href="/blog/2019/02/28/how-to-upgrade-symfony-2-8-to-3-4" class="d-block">
+                    
+                                            <a href="/blog/2019/02/28/how-to-upgrade-symfony-2-8-to-3-4" class="d-block">
                             <div>
                                 Read next → <strong>How to Upgrade Symfony 2.8 to 3.4</strong>
                             </div>
@@ -236,6 +250,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
         <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
@@ -244,9 +261,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
-
-        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
-        <script src="/assets/prism/prism.js"></script>
     </body>
 </html>

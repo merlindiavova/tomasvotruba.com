@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?691544465" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?602840069" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Doctrine Entity Typed Properties With PHP 7.4" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/03/23/doctrine-entity-typed-properties-with-php74" />
@@ -305,17 +305,14 @@ class Training
 </li>
 </ol>
 <pre><code class="language-php">// rector.php
-use Rector\Core\Configuration\Option;
+use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\Set\ValueObject\SetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator-&gt;parameters();
-    $parameters-&gt;set(Option::SETS, [
-        SetList::PHP_74,
-        // Protip: Do you want to update your `Collection` syntax for PHPStorm and PHPStan friendly?
-        SetList::DOCTRINE_CODE_QUALITY,
-    ]);
+return function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator-&gt;import(SetList::PHP_74);
+    // Protip: Do you want to update your `Collection` syntax for PHPStorm and PHPStan friendly?
+    $containerConfigurator-&gt;import(DoctrineSetList::DOCTRINE_CODE_QUALITY);
 };</code></pre>
 <p>If you got any troubles, <a href="https://github.com/rectorphp/rector/issues/new/choose">let us know on GitHub</a>. That's all, folks.</p>
 <p><br></p>
@@ -337,7 +334,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
             <div class="card mt-4">
                 <div class="card-body text-white bg-success text-center">
-                                                                <a href="/blog/2020/03/16/statie-is-dead-long-live-symfony-static-dumper" class="d-block">
+                    
+                                            <a href="/blog/2020/03/16/statie-is-dead-long-live-symfony-static-dumper" class="d-block">
                             <div>
                                 Read next → <strong>Statie is Dead, Long live Symfony Static Dumper</strong>
                             </div>
@@ -372,6 +370,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
 
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
         <script>
     ga=function(){ ga.q.push(arguments) };
     ga.q=[];
@@ -380,9 +381,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-
-
-        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
-        <script src="/assets/prism/prism.js"></script>
     </body>
 </html>
