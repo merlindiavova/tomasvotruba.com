@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?50086363" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1947564551" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How Exception to the Convention Does More Harm than Good" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/how-exception-to-the-convention-does-more-harm-than-good" />
@@ -106,8 +106,7 @@ But sometimes, we get to a situation when these standards are stressful. We don'
 <h2 id="two-makes-a-crowd">Two Makes a Crowd</h2>
 <p>Soon the same colleague who made our code-review is contributing her PR. She comes to a similar situation when five files show some errors she does not understand. Using our trick, she ignores her files from ECS and Rector.</p>
 <p>A few weeks later, this approach is spreading from PR to PR. Now almost half of the tests are excluded from standards, and our CTO looks at the project. He has an idea: &quot;It's a mess; we should standardize this. Why not ignore all the tests?&quot;</p>
-<p>Now, all your tests and test fixtures have no requirements for standards at all. There is no need for autoloading, so we can finally drop the <code>psr-4</code> standard and move to <code>classmap</code> to autoload classes we need. So much freedom feels great.</p>
-<p>This is a scientifically <strong>proven effect called <a href="https://blog.codinghorror.com/the-broken-window-theory/">broken window theory</a></strong> (written by Stackoverflow co-founder).</p>
+<p>Now, all your tests and test fixtures have no requirements for standards at all. There is no need for autoloading, so we can finally drop the <code>psr-4</code> standard and move to <code>classmap</code> to autoload classes we need. So much freedom feels great. In case you're interested in psychology, this effect is called <a href="https://blog.codinghorror.com/the-broken-window-theory/">broken window theory</a> (written by Stackoverflow co-founder).</p>
 <h2 id="instant-gratification">Instant Gratification</h2>
 <p>We're happy now. We have a lot of freedom, and we can create code faster without arguing with some CI tools about it. But what about developers who will come to the project when we're long gone?</p>
 <blockquote class="blockquote blockquote-smaller text-center">
