@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?444687311" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?2042944693" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Switch from YAML/XML Configs to PHP Today with Symplify" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/07/27/how-to-switch-from-yaml-xml-configs-to-php-today-with-migrify" />
@@ -80,12 +80,12 @@ Or maybe... **5 minute job**?
             
                             <div class="card border-success mt-4">
                     <div class="card-header text-white bg-success">
-                        This post was updated at August 2020 with fresh know-how.
+                        This post was updated at June 2021 with fresh know-how.
                         <br>
                         <strong>What is new?</strong>
                     </div>
                                             <div class="card-body pb-2">
-                            <p>Updated Rector YAML to PHP configuration, as current standard.</p>
+                            <p>Updated Rector YAML to PHP configuration, as current standard. With automated input types.</p>
                         </div>
                                     </div>
 
@@ -115,39 +115,21 @@ Or maybe... <strong>5 minute job</strong>?</p>
 <h2 id="1-install-symplify-config-transformer">1. Install symplify/config-transformer</h2>
 <pre><code class="language-bash">composer require symplify/config-transformer --dev</code></pre>
 <h2 id="2-run-code-switch-format-code-command">2. Run <code>switch-format</code> Command</h2>
-<p>This command has 2 requires options and 1 argument:</p>
-<ul>
-<li><code>--input-format</code> - the format of the config you want to convert</li>
-<li><code>--output-format</code> - desired output format (PHP is the default, YAML is also supported, useful for legacy projects with XML and but old Symfony)</li>
-<li>the argument is paths to file/s or directories you want to convert</li>
-</ul>
-<pre><code class="language-bash">vendor/bin/config-transformer switch-format --input-format yaml app/config
-vendor/bin/config-transformer switch-format --input-format xml app/config</code></pre>
-<p>Are you lazy like me? Use shortcut:</p>
-<pre><code class="language-bash">vendor/bin/config-transformer switch-format -i yaml -o php app/config
-vendor/bin/config-transformer switch-format -i xml -o php app/config</code></pre>
-<h2 id="why-am-i-putting-the-path-argument-as-the-last-one">Why am I Putting the Path Argument as the Last one?</h2>
-<p>You've noticed, the path argument is the last in the command line. That's rather confusing, right?</p>
-<pre><code class="language-bash"># conventional
-vendor/bin/config-transformer PATH switch-format -i yaml -o php
-
-# convenient
-vendor/bin/config-transformer switch-format -i yaml -o php PATH</code></pre>
-<p>Do you need to switch multiple paths in separated commits or apply them on multiple projects?
-<br>
-Re-use previous command and <strong>change the last part only</strong>.</p>
+<p>This command takes 1 argument - paths to files or directories to convert:</p>
+<pre><code class="language-bash">vendor/bin/config-transformer switch-format app/config</code></pre>
+<p><br></p>
 <p>This is how my <strong>real workflow</strong> looks like: from low hanging fruit of 1 file to the main config, to all packages.
 Each followed by a separated commit, so it's easier to review and fix in case of regression.</p>
-<pre><code class="language-bash">vendor/bin/config-transformer switch-format -i yaml -o php ecs.yaml
+<pre><code class="language-bash">vendor/bin/config-transformer switch-format ecs.yaml
 # commit
 
-vendor/bin/config-transformer switch-format -i yaml -o php rector.yaml
+vendor/bin/config-transformer switch-format rector.yaml
 # commit
 
-vendor/bin/config-transformer switch-format -i yaml -o php app/packages
+vendor/bin/config-transformer switch-format app/packages
 # commit
 
-vendor/bin/config-transformer switch-format -i yaml -o php app/config/config.yaml
+vendor/bin/config-transformer switch-format app/config/config.yaml
 # commit</code></pre>
 <h2 id="3-upgrade-paths-to-php-in-extensions-and-kernel">3. Upgrade paths to PHP in Extensions and Kernel</h2>
 <p>The config format switch is one part; the next is to update loaders in PHP code.
@@ -188,10 +170,9 @@ return function (ContainerConfigurator $containerConfigurator): void {
         ]]);
 };</code></pre>
 <p>And let Rector handle the boring work:</p>
-<pre><code class="language-bash">vendor/bin/rector p app src</code></pre>
+<pre><code class="language-bash">vendor/bin/rector process app src</code></pre>
 <p><br></p>
-<p>And that's it!</p>
-<p>One little tool for you, one big leap for a PHP programmer-kind.</p>
+<p>That's it! One little tool for you, one big leap for a PHP programmer-kind.</p>
 <h2 id="supported-features">Supported Features</h2>
 <ul>
 <li>imports</li>
