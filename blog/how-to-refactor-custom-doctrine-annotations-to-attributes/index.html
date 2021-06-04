@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1187870221" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?880517190" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Refactor Custom Doctrine Annotations to Attributes" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/how-to-refactor-custom-doctrine-annotations-to-attributes" />
@@ -157,17 +157,15 @@ final class Validation
 <h2 id="make-use-of-named-arguments">Make use of Named Arguments</h2>
 <p>Ok, we already have upgraded all custom annotation classes to attribute ones. Now it's time to update the usage in our code:</p>
 <pre><code class="language-diff">-/**
-- * @Validation(validatorClass=RangeBoundariesValidator::class)
+- * @Validation(RangeBoundariesValidator::class, ['key' =&gt; 'value'])
 - */
-+#[Validation(validatorClass: RangeBoundariesValidator::class)]</code></pre>
-<p>As you can see, the syntax is very similar. In the first case, it's an <code>array</code> that can be anything. But in the second case, it's a value object with autocomplete:</p>
-<pre><code class="language-php">#[Validation(validatorClass: RangeBoundariesValidator::class)]</code></pre>
-<p>The <code>validatorClass</code> is <a href="https://php.watch/versions/8.0/named-parameters">named argument</a>. Compare to magical implicit key:</p>
-<pre><code class="language-php">#[Validation(RangeBoundariesValidator::class)]</code></pre>
-<p><em>Pst... there is <a href="https://github.com/symplify/phpstan-rules/blob/main/docs/rules_overview.md#requireattributenamerule">a PHPStan rule</a> to help with this in code-reviews.</em></p>
++#[Validation(RangeBoundariesValidator::class)]</code></pre>
+<p>As you can see, the syntax is very similar. In the first case, it's an <code>array</code> that can be anything. But in the second case, it's a value object. But what exactly is first and second value for? Without looking into the value object, we cannot know know... or can we?</p>
+<pre><code class="language-php">#[Validation(validatorClass: RangeBoundariesValidator::class, parameters: ['key' =&gt; 'value'])]</code></pre>
+<p>Thanks to <a href="https://php.watch/versions/8.0/named-parameters">named argument</a>, we can. There is also <a href="https://github.com/symplify/phpstan-rules/blob/main/docs/rules_overview.md#requireattributenamerule">a PHPStan rule</a> to help with this in code-reviews.</p>
 <p>Another advantage of named arguments is that we can click on the name and right to the typed promoted property:</p>
 <pre><code class="language-php">#[Validation(validatorClass: RangeBoundariesValidator::class)]</code></pre>
-<h2 id="refactor-annotation-reader-to-understand-attributes">Refactor Annotation Reader to Understand Attributes</h2>
+<h2 id="refactor-annotation-reader-to-native-attributes">Refactor Annotation Reader to Native Attributes</h2>
 <p>Last but not least, we have to upgrade our annotation reader that does not understand attributes yet. In the past, the only way to read custom annotations was to use a combination of reflection and Doctrine annotation reader:</p>
 <pre><code class="language-php">use Doctrine\Common\Annotations\Reader;
 
