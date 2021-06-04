@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>How I Redesigned my Website they Way I Refactor Legacy Projects | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+<meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
+
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?1852891751" rel="stylesheet" type="text/css" />
+
+                <meta property="og:title" content="How I Redesigned my Website they Way I Refactor Legacy Projects" />
+        <meta property="og:url" content="https://tomasvotruba.com/blog/how-i-redesigned-my-website-the-way-i-refactor-legacy-projects" />
+        <meta name="description" property="og:description" content="I have wanted to redesign my website since Autumn 2020. I felt it&#039;s overly detailed with attention shotgun feeling. Because of intensive &amp;&amp; extensive work on Rector to make it better, I could not get to it on the book with Matthias and writing posts. With no deadline, there is no rush, right?
+
+
+I had to hack around my brain to make it happen. It would be a shame to release Rector book on the old design, so I took [the book release](/blog/rector-the-power-of-automated-refactoring-book-released/) as a co-task.
+
+
+The first hour I struggled with the redesign approach, I realized I could use the skill I use daily - refactoring legacy.
+" />
+
+                    <meta property="og:image" content="https://tomasvotruba.com/assets/images/posts/2021/redesign_simple.png" />
+            <meta name="twitter:card" content="summary_large_image"/>
+            </head>
+
+    <body>
+                <!-- post_id: 321 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <h1>How I Redesigned my Website they Way I&nbsp;Refactor Legacy Projects</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2021/2021-06-03-how-i-redesigned-my-website-the-way-i-refactor-legacy-projects.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2021-06-Thu" class="text-muted">
+                2021-06-03
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>I have wanted to redesign my website since Autumn 2020. I felt it's overly detailed with attention shotgun feeling. Because of intensive &amp;&amp; extensive work on Rector to make it better, I could not get to it on the book with Matthias and writing posts. With no deadline, there is no rush, right?
+<br>
+<br>
+I had to hack around my brain to make it happen. It would be a shame to release Rector book on the old design, so I took <a href="/blog/rector-the-power-of-automated-refactoring-book-released/">the book release</a> as a co-task.
+<br>
+<br>
+The first hour I struggled with the redesign approach, I realized I could use the skill I use daily - refactoring legacy.</p>
+                </div>
+            </div>
+
+            <blockquote class="blockquote">
+    "Perfection is achieved, not when there is nothing more to add,<br>
+    but when there is nothing left to take away."
+    <footer class="blockquote-footer text-right">Antoine de Saint-Exupery</footer>
+</blockquote>
+<p><em>This redesign was inspired by Little Prince, <a href="https://sensible.com/">Don't Make me Think</a>, <a href="/blog/2017/09/25/3-non-it-books-that-help-you-to-become-better-programmer/#steal-like-and-artist-by-austing-kleon">Steal Like an Artist</a> and <a href="https://austinkleon.com/show-your-work/">Show Your Work</a>.</em></p>
+<p><br></p>
+<p>What do designer and legacy cleaner have in common? The final product must work, be intuitive and bring value to the user. I realized the old design had many spaces to improve, and a lot of <del>code</del> text and &quot;cool features&quot; should be removed.</p>
+<p>When we <a href="https://getrector.org/for-companies">get a project to refactor</a> in Rector company, the first 1-2 months we don't do any PHP or framework upgrades at all. We focus on preparing the environment, remove everything that is not needed for developers and business to grow. At first, it looks like we come to destroy the project by removing 30 % of it. But in the end, after solid and reliable code remains, we can move unbelievably fast with upgrades and pattern refactoring.</p>
+<h2 id="deprecating-clusters-use-words-people-understand">Deprecating Clusters - Use Words People Understand</h2>
+<p>3 years ago I wanted to write a little book about a single topic. I was too scared, so I created a new work instead.
+A word that is not for a book, not for a post. It's a collection of post on single topic - <a href="/blog/2018/07/02/cluster-more-interactive-than-book-deeper-than-post/">clusters</a>. There was a section &quot;Clusters&quot; in the menu for the last 3 years, and it contained eight groups of posts. The initial feedback was confusion. I was confused, too. It was time to <a href="/blog/2020/03/09/art-of-letting-go/">let go</a> old fears and remove this section. <strong>Either write a book or a post.</strong></p>
+<h2 id="occams-razor">Occams' Razor</h2>
+<p>I use this idea or rather technique during refactoring legacy projects a lot. If some external tool handles something better than our custom code, remove the custom code and delegate it to an external tool. We'll save ourselves from testing our code, maintaining it, and teaching it to every new programmer.</p>
+<p>One example from a project I was mentoring just yesterday: a custom autoload that finds all <code>autoload.php</code> files across the root directory and manually includes them. It was around 200 lines of magic (at least at first sight). We remove this part and used composer instead. Now it's 5 lines and code is <a href="/blog/how-exception-to-the-convention-does-more-harm-than-good/">standardized</a>. We will never have to think about autoloading again.</p>
+<h2 id="2600-lines-removed">2600 Lines Removed</h2>
+<img src="/assets/images/posts/2021/redesign_simple.png" class="img-thumbnail mb-5">
+<p>How did I apply Occams' razor to redesign my website?</p>
+<ul>
+<li>Google Search - there were two searches on the homepage, both with dummy website search - Could Google with &quot;last year&quot; filters beat this? Do people go to my website and only then google there? No, they just google instantly from the browser's URL field
+<br>→ <strong>Remove Google search and let people use Google instead</strong></li>
+</ul>
+<p><br></p>
+<ul>
+<li>Cleaning Lady List - the <a href="/blog/2020/07/06/cleaning-lady-notes-from-class-mess-to-psr4-step-by-step-with-confidence/">cleaning lady list</a> was similar to <em>clusters</em>, just little side project with check-list of refactoring legacy. Thank you, <a href="https://github.com/Kerrialn">Kerrial</a>, for working on it and pushing it further. I didn't maintain it, nor used it myself, because every legacy project has its special problems
+<br>→ <strong>Remove Cleaning Lady list and focus on content</strong></li>
+</ul>
+<p><br></p>
+<ul>
+<li>Blog, archive, clusters... - there were at least three places to find posts. Why?
+<br>→ <strong>Keep it simple on a &quot;blog&quot; page.</strong></li>
+</ul>
+<p><br></p>
+<ul>
+<li>Tested posts - 2 years ago, I wrote a post about how <a href="/blog/2019/09/16/why-software-articles-must-be-ci-tested/">posts should be tested in CI</a>, so the content is easy to upgrade. In reality, this lead to 2 actions - first, I put a lot of work into making sure the content is tested, so the content itself was a bit neglected. Second, I was discouraged from creating tests for a new post because it was too much work. In the end, there were about 20 tested posts, so the coverage was inferior and not useful. Let's save this for a book
+<br>→  <strong>Tests for articles are removed</strong></li>
+</ul>
+<p><br></p>
+<p>In the end, there are now fewer sections, less nesting, and more focus on content. You can read posts or get training. Simple. What changed in design?</p>
+<p><br></p>
+<h2 id="design-with-focus-on-content">Design With Focus on Content</h2>
+<p>What if we apply the refactoring legacy approach to the website design itself?</p>
+<ul>
+<li>Do we need 1609 Font Awesome icons for the content? I've checked the content, and 95 % of them are ✅ and ❌ emojis
+<br>→<strong>Drop Font Awesome</strong></li>
+</ul>
+<p><br></p>
+<ul>
+<li>Do we need a special menu for mobile and website with fluid, responsible design (that often breaks on various platforms)? We need links that work for people - click and work.
+<br>→<strong>Remove ul/li/nav/navbar/navbar-content mobile/laptop menu matrix and use simple a links instead</strong>.</li>
+</ul>
+<p><br></p>
+<ul>
+<li>Do we need three font styles for titles? With bold, thin, size, margin, padding differences?
+<br><strong>→Use one font and different by size.</strong></li>
+</ul>
+<p><br></p>
+<ul>
+<li>Do we need jQuery? No.
+<br><strong>→Drop it.</strong></li>
+</ul>
+<p><br></p>
+<h2 id="website-is-dead-long-live-the-website">Website is Dead, Long Live the Website</h2>
+<p>And the results? Simple, airy, with no clutter and content that is a joy to read on a laptop or in the tram.</p>
+<p><br></p>
+<div class="row text-center">
+    <div class="col-12 col-sm-6">
+        <img src="/assets/images/posts/2021/my_website_2020.png" class="img-thumbnail rounded">
+        2016–2020
+    </div>
+    <div class="col-12 col-sm-6">
+        <img src="/assets/images/posts/2021/my_website_2021.png" class="img-thumbnail rounded">
+        2021–?
+    </div>
+</div>
+<p><br></p>
+<h2 id="show-updated-and-deprecated-posts">Show Updated and Deprecated Posts</h2>
+<p>Did you know some posts get updated? Other posts are no longer valid and are deprecated to avoid spreading lousy practice as a way to go.</p>
+<div class="row text-center">
+    <div class="col-12 col-sm-6">
+        <img src="/assets/images/posts/2021/post_updated.png" class="img-thumbnail rounded">
+        Updated post
+    </div>
+    <div class="col-12 col-sm-6">
+        <img src="/assets/images/posts/2021/post_removed.png" class="img-thumbnail rounded">
+        Deprecated post
+    </div>
+</div>
+<p><br></p>
+<p>I'll write about reflection on past mistakes in one of my future posts.</p>
+<p><br></p>
+<h2 id="10-months-of-preparation-2-days-at-coffee-house">10 months of Preparation, 2 Days at Coffee House</h2>
+<p>Do you know the 80/20 rule? 20 % of a project takes 80 % of the time to finish. It's not true.</p>
+<p>I'm not sure if the stars were right, if I accidentally took some deep-focus drugs or if that was the right thing to do. I went to a coffee house in Tenerife at 10 AM. I'm thinking... what should I do today? I worked on a work project refactoring yesterday; Rector is running and released, and I already published a post for the week. Mmm, maybe I'll check what I can do on the website design.</p>
+<p>I turned off my phone, opened my laptop, got a cortado (it's like flat white for Spanish), and started working.</p>
+<p>Three hours later, I was tired, my battery was almost 0 %, and my table didn't have the electrical plug. The table next to me got it, but one family occupied it. Suddenly, when I was about to leave, they stood up and went to the counter. I thought... ok, I'll charge my laptop for 20 mins first. Suddenly it's 4 PM, and I'm leaving the coffee house with <strong>half of the website redesign done</strong>. Most importantly, with a clear vision of what to do next and how the website will look.</p>
+<p>Don't you believe me? See <a href="https://github.com/TomasVotruba/tomasvotruba.com/pull/1200">the pull-request</a>.</p>
+<p>Do you ever have moments like this? I guess it was the right time and right place to do the right thing :)</p>
+<p>How do you like it? Let me know and stay safe.</p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                    
+                                            <a href="/blog/how-to-refactor-custom-doctrine-annotations-to-attributes" class="d-block">
+                            <div>
+                                Read next → <strong>How to Refactor Custom Doctrine Annotations to Attributes</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+    </body>
+</html>
