@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1303850177" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1744645097" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Decouple Your Doctrine Filters" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2016/04/30/decouple-your-doctrine-filters" />
@@ -101,7 +101,7 @@
 <li>enable it</li>
 </ol>
 <p>You have to do all these steps just to turn something on. Imagine you'd have to do this for every Voter, Command or EventSubscriber.</p>
-<h2 id="could-we-make-it-easier">Could We Make It Easier?</h2>
+<h2 id="could-we-make-it-easier?">Could We Make It Easier?</h2>
 <p>In the tutorial from KnpUniversity, there is way to skip enabling filters in controller - by creating own <a href="https://knpuniversity.com/screencast/doctrine-queries/filters#enabling-a-filter-globally">BeforeRequestListener</a>.</p>
 <p>It's quite nice, but it just moves all these steps from controller's responsibility somewhere else. So you have to enable them again, just in different place.</p>
 <p>Let's say this is fine enough. <strong>But what about modular applications with own per module filters?</strong> Not so easy.</p>
@@ -114,7 +114,7 @@
 </ul>
 <p>That's all it does. Everything else is just syntax sugar, glue code or entry point to work with them.</p>
 <p>Saying that, we can <strong>get rid of Controllers, Subscribers, DoctrineBundle, <code>app/config/config.yml</code></strong> and yet still make use of them.</p>
-<h2 id="decouple-your-doctrine-filter-to-service">Decouple Your Doctrine Filter... to Service</h2>
+<h2 id="decouple-your-doctrine-filter...-to-service">Decouple Your Doctrine Filter... to Service</h2>
 <p>When we remove everything we don't need, we could end up with simple service:</p>
 <pre><code class="language-php">use Doctrine\ORM\Mapping\ClassMetadata;
 use Symplify\DoctrineFilters\Contract\Filter\FilterInterface;
@@ -138,9 +138,9 @@ services:
 <h2 id="decoupling-of-doctrine-filter-in-4-steps">Decoupling of Doctrine Filter in 4 steps</h2>
 <p>This is already possible thanks to <a href="https://github.com/Lekarna/DoctrineFilters">Lekarna/ModularDoctrineFilters</a> package.</p>
 <p>Let's try it together!</p>
-<h3 id="1-install-package">1. Install package</h3>
+<h3 id="1.-install-package">1. Install package</h3>
 <pre><code class="language-bash">composer require symplify/modular-doctrine-filters</code></pre>
-<h3 id="2-register-bundle">2. Register Bundle</h3>
+<h3 id="2.-register-bundle">2. Register Bundle</h3>
 <pre><code class="language-php">// app/AppKernel.php
 class AppKernel extends Kernel
 {
@@ -152,7 +152,7 @@ class AppKernel extends Kernel
         ];
     }
 }</code></pre>
-<h3 id="3-create-service">3. Create Service</h3>
+<h3 id="3.-create-service">3. Create Service</h3>
 <pre><code class="language-php">// src/SomeBundle/Doctrine/Filter/SoftdeletableFilter.php
 namespace SomeBundle\Doctrine\Filter;
 
@@ -175,14 +175,14 @@ final class SoftdeletableFilter implements FilterInterface
 <blockquote>
 <p>This could be filter for <a href="https://github.com/KnpLabs/DoctrineBehaviors#softDeletable">Softdeletable</a> from <a href="https://github.com/KnpLabs/DoctrineBehaviors">DoctrineBehaviors</a>.</p>
 </blockquote>
-<h3 id="4-register-it-as-a-service-to-your-module">4. Register it as a service to your module</h3>
+<h3 id="4.-register-it-as-a-service-to-your-module">4. Register it as a service to your module</h3>
 <pre><code class="language-yaml"># src/SomeBundle/Resources/config/services.yml
 services:
     some_module.softdeletable_filter:
         class: SomeBundle\Doctrine\Filter\SoftdeletableFilter</code></pre>
 <p>And that's it! Now your filter will be reflected in whole application.</p>
 <p>For further use <strong>just check Readme for <a href="https://github.com/Symplify/ModularDoctrineFilters">Symplify/ModularDoctrineFilters</a></strong>.</p>
-<h2 id="what-have-you-learned-today">What Have You Learned Today?</h2>
+<h2 id="what-have-you-learned-today?">What Have You Learned Today?</h2>
 <ul>
 <li>that Doctrine Filters can decorate every query in your application from single place</li>
 <li>that Doctrine Filter is basically just an object that might add some code to query</li>

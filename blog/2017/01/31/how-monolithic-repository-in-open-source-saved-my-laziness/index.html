@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1131482356" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?772513127" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How Monolithic Repository in Open Source saved my Laziness" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2017/01/31/how-monolithic-repository-in-open-source-saved-my-laziness" />
@@ -87,7 +87,7 @@ I never did. Today I will show you <strong>why I see monorepo approach in open-s
             <p>If you don't have 50 minutes to watch the talk (my case), here are <strong><a href="https://speakerdeck.com/fabpot/a-monorepo-vs-manyrepos">40 slides</a></strong> from it.</p>
 <p>Fabien introduces a tool, that helps you with splits - <a href="https://github.com/splitsh/lite">splitsh</a>. Do you understand it? Me neither. Splitsh is fast yet complex tool to maintain Symfony and Blackfire ecosystem. <strong>All we need is one git command</strong>.</p>
 <p>But we'll get to that later. First things first.</p>
-<h3 id="what-is-monorepo">What is Monorepo?</h3>
+<h3 id="what-is-monorepo?">What is Monorepo?</h3>
 <p><strong>Monorepo</strong> (for monolithic repository) is single repository, which contains code for group of packages (framework, application...).</p>
 <p>Not only Symfony, but also:</p>
 <ul>
@@ -113,8 +113,8 @@ I never did. Today I will show you <strong>why I see monorepo approach in open-s
 <li><strong>Every commit</strong> that does changes is Symfony\Console code in monorepo, is also in Symfony\Console manyrepo.</li>
 <li><strong>Every tag</strong> in monorepo, is also in all manyrepos.</li>
 </ul>
-<h2 id="what-are-top-4-advantages-of-monorepo">What Are top 4 Advantages of Monorepo?</h2>
-<h3 id="1-it-scales">1. It scales</h3>
+<h2 id="what-are-top-4-advantages-of-monorepo?">What Are top 4 Advantages of Monorepo?</h2>
+<h3 id="1.-it-scales">1. It scales</h3>
 <p>You have one repo to maintain.</p>
 <ul>
 <li>New package? Not a problem.</li>
@@ -122,21 +122,21 @@ I never did. Today I will show you <strong>why I see monorepo approach in open-s
 <li>Starting a framework? Ideal.</li>
 </ul>
 <p>That's the way Nette, Symfony and Laravel started and grew so much, even if only one person was behind majority of commits.</p>
-<h3 id="2-upgrade-fast-upgrade-safe">2. Upgrade Fast, Upgrade Safe</h3>
+<h3 id="2.-upgrade-fast,-upgrade-safe">2. Upgrade Fast, Upgrade Safe</h3>
 <p>It's easy to make changes that affect all packages - bump to PHP 7.1, Symfony 3.2 or Nette 3.0 is a matter of minutes.
 And I know it works on all packages. Before monorepo, I had to upgrade every package manually, which resulted in dissonance:
 one package used Symfony\Console 3.2, but other only 2.8 and it got messy for no reason.</p>
-<h3 id="3-test-both-on-monorepo-and-manyrepo-level-with-ease">3. Test Both on Monorepo and Manyrepo Level With Ease</h3>
+<h3 id="3.-test-both-on-monorepo-and-manyrepo-level-with-ease">3. Test Both on Monorepo and Manyrepo Level With Ease</h3>
 <p>Another thing I love is testing both monorepo (all packages together) and manyrepo level. Once I spend 5 hours fixing a bug in Symfony\Process. It was difficult to find, because all tests were passing. Even for testing just the Symfony\Process directory made it pass. But when I copied only the Symfony\Process code to the standalone directory, it failed. Few hours later I found out, it's somehow related to having Symfony\Stopwatch package. Yea, WTF.</p>
 <p><strong>That could be caught testing on monorepo level.</strong></p>
 <p>On the other hand, monorepo testing is also important. When Nette was split from monorepo to manyrepo only, all tests were passing packages were standalone. But in combination some of them didn't.</p>
 <p>This is not issue of the code itself, but of the testing architecture.</p>
-<h3 id="4-the-burnout-is-much-more-harder">4. The Burnout is Much More Harder</h3>
+<h3 id="4.-the-burnout-is-much-more-harder">4. The Burnout is Much More Harder</h3>
 <p>When maintaining 15 own packages, <a href="https://github.com/Apigen">ApiGen</a> and co-maintaining few more repositories, I spent a lot of time by package management and not coding. It wasn't fun and I contributed less and less.</p>
 <p>Many packages like <a href="https://github.com/doctrine">Doctrine</a> or <a href="https://github.com/Kdyby">Kdyby</a> are slowing down in evolution because of this.</p>
 <p>Again, it's a matter of project architecture rather than the code or maintainers.</p>
 <p>These are the best for me, but there are many more described in <a href="https://speakerdeck.com/fabpot/a-monorepo-vs-manyrepos">those slides</a> by Fabien.</p>
-<h2 id="example-how-it-s-done-in-symplify">Example: How it's done in Symplify</h2>
+<h2 id="example:-how-its-done-in-symplify">Example: How it's done in Symplify</h2>
 <h3 id="monorepo">Monorepo</h3>
 <p><a href="https://github.com/symplify/symplify">symplify/symplify</a></p>
 <pre><code class="language-bash">/packages
@@ -161,7 +161,7 @@ composer.json</code></pre>
 <h3 id="further-reading-local-packages">Further reading - Local Packages</h3>
 <p>I recommend to read <a href="http://www.whitewashing.de/2015/04/11/monolithic_repositories_with_php_and_composer.html">Monolithic Repositories with PHP and Composer</a> by Benjamin Eberlei (Doctrine Core Maintainer). It's surpassed by composer <em>local packages</em>, but points remain the same. Don't worry, I will write about <em>local packages</em> in the near future.</p>
 <p>If you like monorepo approach, but prefer own tagging per package, Martin Zlámal recently wrote about <a href="http://zlml.cz/vy-jeste-nemate-svuj-superprojekt">git submodule approach</a> (in Czech).</p>
-<h3 id="how-do-you-like-this">How do you like this?</h3>
+<h3 id="how-do-you-like-this?">How do you like this?</h3>
 <p>This is my point of view.</p>
 <p>Do you maintain lot of repositories? How do you make it fun to code and care for all of them?</p>
 <p>Let me know in the comments. Thank you.</p>

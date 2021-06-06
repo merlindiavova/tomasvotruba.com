@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1804296278" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1974019593" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How we Migrated 54 357-lines Application from Nette to Symfony in 2 People under 80 Hours" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/08/26/how-we-migrated-54-357-lines-of-code-nette-to-symfony-in-2-people-under-80-hours" />
@@ -93,12 +93,12 @@
 <div class="text-center">
 <img src="/assets/images/posts/2019/fw-migration/nette-to-symfony.png">
 </div>
-<h2 id="what-have-we-migrated">What Have We Migrated?</h2>
+<h2 id="what-have-we-migrated?">What Have We Migrated?</h2>
 <p>Backend of <a href="https://entry.do">Entry.do</a> project - API application built on controllers, routing, Kdyby integrations of Symfony, Doctrine, and a few Latte templates. The application has been running in production for the last 4 years. We migrated from Nette 2.4 to Symfony&nbsp;4.2.</p>
 <p>How big is it? If we don't count tests, migration, fixtures, etc., the application has <strong>270 PHP files</strong> in the length of <strong>54 357 lines</strong> (using <a href="https://github.com/sebastianbergmann/phploc">phploc</a>).</p>
 <p>How many unique routes does it have? 20...? 50...? <strong>151!</strong>
 Just to have an idea, the pehapkari.cz website has 35 routes.</p>
-<h2 id="why">Why?</h2>
+<h2 id="why?">Why?</h2>
 <p>The application used framework Nette, which worked and met the technical requirements. The primary motivation for the transcription was the dying ecosystem and the over-integration of Symfony. What does the &quot;dying ecosystem&quot; mean? Nette released just 1 minor version since July 2016, while Symfony had 6 releases during the same period.</p>
 <div class="text-center mb-4">
     <img src="/assets/images/posts/2019/fw-migration/extensions.png">
@@ -111,7 +111,7 @@ Just to have an idea, the pehapkari.cz website has 35 routes.</p>
     Nette was just Controllers, Routing and Dependency-Injection
 </div>
 <p>Why use unmaintained integrations of <a href="https://github.com/kdyby">Kdyby</a> and <a href="https://github.com/zenify">Zenify</a>, that only integrate Symfony to Nette\DI, if Symfony is already there? The last new minor version of Nette was published 3 years ago. Symfony releases a new minor version every 6 months with new features that will make your work easier.</p>
-<h2 id="how">How?</h2>
+<h2 id="how?">How?</h2>
 <p>I offered <a href="https://janmikes.cz">Honza Mikes</a> deal he couldn't refuse:</p>
 <blockquote class="blockquote text-center">
 "We will give it a week, and if we get stuck, we'll give up".
@@ -150,7 +150,7 @@ Just to have an idea, the pehapkari.cz website has 35 routes.</p>
 </li>
 </ul>
 <p>During those <strong>17 days, we put in 80 hours of work</strong> for both of us together (= 40 hours each).</p>
-<h2 id="20-of-good-old-manual-work">20 % of Good Old Manual Work</h2>
+<h2 id="20-%-of-good-old-manual-work">20 % of Good Old Manual Work</h2>
 <p>Although we do not like it, we had to do 20 % of the migration manually.</p>
 <p>One of the first steps was to move from <a href="/blog/2019/02/14/why-config-coding-sucks/">config programming to PHP programming</a>. Both frameworks try to promote their sugar syntax for Neon or YAML. It sounds cool to new programmers to write less code. Still, it's confusing, framework-specific, can be done in plain PHP anyway, and most importantly, static analysis and instant refactoring won't deal with it.</p>
 <p>How does &quot;config programming&quot; look like?</p>
@@ -183,7 +183,7 @@ final class FirstServiceFactory
         return new SomeService($this-&gt;secondService);
     }
 }</code></pre>
-<h3 id="what-did-we-gained-with-this-refactoring">What did we Gained with This Refactoring?</h3>
+<h3 id="what-did-we-gained-with-this-refactoring?">What did we Gained with This Refactoring?</h3>
 <ul>
 <li>Constructor injection!</li>
 <li>Framework independence - when we migrate to another framework or pattern in 3 years, we don't have to deal with this file anymore.</li>
@@ -203,12 +203,12 @@ final class FirstServiceFactory
 <li>In Nette, there is a Request/Response service, but in Symfony, it's an object</li>
 <li>Rewrite extension configs to Flex configs</li>
 </ul>
-<h2 id="80-of-work-automated">80 % of Work Automated</h2>
+<h2 id="80-%-of-work-automated">80 % of Work Automated</h2>
 <p>Automatic tools did another 80% of the pull-request you saw above. The first one was enough to write, the other one to set it up.</p>
-<h2 id="neon-to-yaml">Neon to YAML</h2>
+<h2 id="neon-to-y-a-m-l">Neon to YAML</h2>
 <p>Neon and YAML are de facto fields <a href="/blog/2018/03/12/neon-vs-yaml-and-how-to-migrate-between-them/">with minor differences in syntax</a>, but when it comes to services, each framework writes a little differently. Config with services had 316 lines in the services section. You don't want to migrate it manually, the Neon entities. Besides, just one error in related migration, and you can do it all over again.</p>
 <p>I took few hours and wrote <a href="https://github.com/symplify/neon-to-yaml-converter">Symplify/NeonToYamlConverter</a>. Just pass the path to the <code>*.neon</code> file, and it will convert into a beautiful <code>*.yaml</code> file.</p>
-<h2 id="php-migration">PHP Migration</h2>
+<h2 id="p-h-p-migration">PHP Migration</h2>
 <p>Again to the factory pattern - there were several custom Response classes in the code that inherited from Nette Response and added extra logic. We could edit them manually, but it was easier to extract them into the factory method:</p>
 <pre><code class="language-diff"> &lt;?php
 
@@ -231,7 +231,7 @@ final class FirstServiceFactory
      }
  }</code></pre>
 <p><a href="https://janmikes.cz">Honza</a> created new <code>NewObjectToFactoryCreateRector</code> rule that handled this.</p>
-<h2 id="what-else-was-left">What else was left?</h2>
+<h2 id="what-else-was-left?">What else was left?</h2>
 <ul>
 <li>Move the routing from <code>RouterFactory</code> to particular Controller actions</li>
 <li>Rename <code>Request</code> and <code>Response</code> classes + including their codes (<code>POST</code>, <code>GET</code>, <code>200</code>...)</li>
@@ -264,7 +264,7 @@ final class FirstServiceFactory
 +        $method = Request::METHOD_HPOST
      }
  }</code></pre>
-<h2 id="syntax-sugar-syntax-hell">Syntax Sugar? Syntax Hell</h2>
+<h2 id="syntax-sugar?-syntax-hell">Syntax Sugar? Syntax Hell</h2>
 <p>For a while, Kdyby\Translation screwed us with &quot;syntax sugar&quot;. In the Nette application, the listing of variables (Tom) worked for us:</p>
 <ul>
 <li>&quot;Hi, my name is Tom&quot;</li>
@@ -293,7 +293,7 @@ final class FirstServiceFactory
 <div class="text-center">
     <img src="/assets/images/posts/2019/fw-migration/event-rename.png">
 </div>
-<h2 id="from-code-routerfactory-code-to-controller-code-route-code-annotation">From <code>RouterFactory</code> to Controller <code>@Route</code> annotation</h2>
+<h2 id="from-<code>router-factory</code>-to-controller-<code>@route</code>-annotation">From <code>RouterFactory</code> to Controller <code>@Route</code> annotation</h2>
 <p>RouteFactory is <a href="https://github.com/nette/sandbox/blob/06a92123fb6a1d82de38037436ca06484afec8dc/app/Router/RouterFactory.php">single class</a> in Nette to define all routes for all controllers and their actions. In Symfony, this is quite the opposite. You define the routes directly at the Controller action. And to make matters worse, it <a href="https://symfony.com/doc/current/routing.html%23creating-routes">uses annotation</a>.</p>
 <p>What with this? Well, one option is to move one route at a time - <strong>all 151</strong>. To make it even more challenging, we had our own <code>RestRoute</code> and our own <code>RouteList</code>, including POST/GET/..., which Nette doesn't have.</p>
 <p>How does one change look like?</p>
@@ -343,7 +343,7 @@ vendor/bin/rector process app src --level nette-to-symfony</code></pre>
 <p>After a lot of static content changes, the code worked, and the tests went through, but it looked messy. Spaces were missing, fully qualified class names were not imported, etc.</p>
 <p>You can use your own PHP_CodeSniffer and PHP-CS-Fixer set. We used the [Rector-prepared set] with <a href="https://github.com/symplify/easy-coding-standard">ECS</a>:</p>
 <pre><code class="language-bash">vendor/bin/ecs check app src --config vendor/rector/rector/ecs-after-rector.php</code></pre>
-<h2 id="it-s-not-about-the-work-it-s-about-the-knowledge">It's not about the Work, It's about the Knowledge</h2>
+<h2 id="its-not-about-the-work,-its-about-the-knowledge">It's not about the Work, It's about the Knowledge</h2>
 <p>And so we migrated a 4-years old Nette application of 54 357 lines under 80 hours to Symfony and put it into production. Most of the time took us debugging events and writing migration rules and tools. Now <strong>the same application would take us (or you) 10 hours top to migrate</strong>.</p>
 <p><br></p>
 <p>As you can see, any application can be migrated from one framework to another under a month. Dare us!</p>

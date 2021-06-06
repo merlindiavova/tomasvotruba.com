@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1073747588" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1115293814" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to avoid @inject thanks to Decorator feature in Nette" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2016/12/24/how-to-avoid-inject-thanks-to-decorator-feature-in-nette" />
@@ -81,10 +81,10 @@ Today I will show you solution that will <strong>keep your code both small and c
             </div>
 
             <p>As <a href="https://www.ted.com/talks/simon_sinek_how_great_leaders_inspire_action">Derek Simons says</a> says...</p>
-<h2 id="start-with-quot-why-quot">...Start with &quot;Why&quot;</h2>
+<h2 id="...start-with-&quot;why&quot;">...Start with &quot;Why&quot;</h2>
 <p>Why am I writing this article? I try to improve knowledge interoperability between frameworks so it <strong>is easier to understand and use each other</strong>. The goal is to discourage Nette- (or any framework-) specific things <strong>in favor of those that may be common</strong>.</p>
 <p>Today, I will try to agree on setter injection with you.</p>
-<h2 id="code-inject-code-overuse-is-spreading"><code>@Inject</code> Overuse is Spreading</h2>
+<h2 id="<code>@inject</code>-overuse-is-spreading"><code>@Inject</code> Overuse is Spreading</h2>
 <p>This code is common to 80 % Nette applications I came across in last year:</p>
 <pre><code class="language-php">// app/Presenter/ProductPresenter.php
 
@@ -122,7 +122,7 @@ services:
 <h2 id="your-code-is-seen-as-manual-how-to-write">Your Code is Seen as Manual How to Write</h2>
 <p>Why? Because &quot;what you see is what you write&quot;. New programmer joins the teams, sees this handy <code>@inject</code> feature and uses when possible and handy.</p>
 <p>Some of you, who already talked about <code>@inject</code> method usage already there are some and only few specific places to use it.</p>
-<h2 id="where-to-only-code-inject-code">Where to only <code>@inject</code>?</h2>
+<h2 id="where-to-only-<code>@inject</code>?">Where to only <code>@inject</code>?</h2>
 <p><strong>To prevent constructor hell</strong>. If you meet this term first time, go read <a href="https://phpfashion.com/di-a-predavani-zavislosti#toc-constructor-hell">this short explanation</a> by David Grudl.</p>
 <p>The best use case is <code>AbstractBasePresenter</code>.
 Let's say I need <code>Translator</code> service in all of my presenters.</p>
@@ -222,10 +222,10 @@ services:
         class: App\Repository\CategoryRepository
         setup:
             - setEntityManager</code></pre>
-<h3 id="so-much-writing">SO much writing!</h3>
+<h3 id="s-o-much-writing!">SO much writing!</h3>
 <p>It is cleaner, but with so much writing? Thanks, but no, thanks. Let's go back to <code>@inject</code>...</p>
 <p>Wait! Before any premature conclusion, let's set the goal first.</p>
-<h3 id="what-is-desired-result">What is Desired Result?</h3>
+<h3 id="what-is-desired-result?">What is Desired Result?</h3>
 <pre><code class="language-yaml"># app/config.config.neon
 
 services:
@@ -248,7 +248,7 @@ decorator: # keyword used by Nette
         setup:
             - setTranslator</code></pre>
 <p>That's it!</p>
-<h2 id="what-have-you-learned-today">What Have You Learned Today?</h2>
+<h2 id="what-have-you-learned-today?">What Have You Learned Today?</h2>
 <ul>
 <li>It is easy to overuse <code>@inject</code> in places where it doesn't solve any problem</li>
 <li>The problem <code>@inject</code>/<code>inject&lt;method&gt;</code> method were born to solve is called <em>dependency hell</em></li>

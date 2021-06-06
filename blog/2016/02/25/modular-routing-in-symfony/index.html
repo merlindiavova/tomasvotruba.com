@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?292165228" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?172007000" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Modular Routing in Symfony" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2016/02/25/modular-routing-in-symfony" />
@@ -102,7 +102,7 @@ final class AppKernel extends Kernel
         ];
     }
 }</code></pre>
-<h2 id="so-what-you-can-do">So, what you can do?</h2>
+<h2 id="so,-what-you-can-do?">So, what you can do?</h2>
 <ul>
 <li>add your routes manually to <code>routing.yml</code> - <strong>requires routing.yml modification</strong></li>
 <li>implement <a href="https://symfony.com/doc/current/cookbook/routing/custom_route_loader.html">custom Route Loader</a> - <strong>requires routing.yml modification</strong></li>
@@ -150,9 +150,9 @@ public function getRouteCollection(): RouteCollection
 <h2 id="load-your-routes-in-modular-way-in-4-steps">Load your routes in modular way in 4 steps</h2>
 <p>All those options above are available in Symfony, thanks to <a href="https://github.com/Symplify/ModularRouting">Symplify\ModularRouting package</a>.</p>
 <p>Let's try it together.</p>
-<h3 id="1-install-package">1. Install package</h3>
+<h3 id="1.-install-package">1. Install package</h3>
 <pre><code class="language-bash">composer require symplify/modular-routing</code></pre>
-<h3 id="2-register-bundles">2. Register bundles</h3>
+<h3 id="2.-register-bundles">2. Register bundles</h3>
 <pre><code class="language-php">// app/AppKernel.php
 final class AppKernel extends Kernel
 {
@@ -166,7 +166,7 @@ final class AppKernel extends Kernel
         ];
     }
 }</code></pre>
-<h3 id="3-create-services-to-load-your-yaml-file">3. Create services to load your YAML file</h3>
+<h3 id="3.-create-services-to-load-your-y-a-m-l-file">3. Create services to load your YAML file</h3>
 <pre><code class="language-php">// src/SomeBundle/Routing/SomeRouteCollectionProvider.php
 namespace SomeBundle\Routing;
 
@@ -181,7 +181,7 @@ final class SomeRouteCollectionProvider extends AbstractRouteCollectionProvider
         return $this-&gt;loadRouteCollectionFromFile(__DIR__ . '/routes.yml');
     }
 }</code></pre>
-<h3 id="4-register-it-as-a-service-to-your-module">4. Register it as a service to your module</h3>
+<h3 id="4.-register-it-as-a-service-to-your-module">4. Register it as a service to your module</h3>
 <pre><code class="language-yaml"># src/SomeBundle/Resources/config/services.yml
 services:
     SomeBundle\Routing\SomeRouteCollectionProvider: ~</code></pre>
@@ -192,7 +192,7 @@ services:
     <img src="/assets/images/posts/2016/modular-router/you-are-king.jpg">
 </div>
 <p><br></p>
-<h2 id="what-have-you-learned-today">What have you learned today?</h2>
+<h2 id="what-have-you-learned-today?">What have you learned today?</h2>
 <ul>
 <li>that registering routes usually requires using <code>app/routing/routing.yml</code> - unfortunately :(</li>
 <li>that routes is basically array of <code>url</code> → <code>controller</code> records</li>

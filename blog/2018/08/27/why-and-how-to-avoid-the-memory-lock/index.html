@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1140280332" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1662494329" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Why and How to Avoid the Memory Lock" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/08/27/why-and-how-to-avoid-the-memory-lock" />
@@ -216,9 +216,9 @@ foreach ($this-&gt;visitors as $visitor) {
 <p><em>Drum rolls...</em></p>
 <p><br></p>
 <p><strong>Yes, all of them!</strong> I knew you'd reveal my poor confusion.</p>
-<h3 id="don-t-make-the-programmer-think">Don't make the Programmer Think</h3>
+<h3 id="dont-make-the-programmer-think">Don't make the Programmer Think</h3>
 <p>I'm taking the title from my favorite <a href="http://sensible.com/dmmt.html">intro UX book</a> because it really punches the line. <strong>There are 3 groups of memory-locks that could be done better</strong> in the code snippets above.</p>
-<h2 id="1-change-array-return">1. Change Array Return</h2>
+<h2 id="1.-change-array-return">1. Change Array Return</h2>
 <div class="card">
     <div class="card-body">
         The memory lock: <em>after I change array value, I have to put it back into an original set of an array or return it</em>.
@@ -233,7 +233,7 @@ foreach ($this-&gt;visitors as $visitor) {
 foreach ($this-&gt;publishingItems as $item) {
     $item['content'] = $this-&gt;decorateContent($item['content']);
 }</code></pre>
-<h3 id="how-to-solve-it">How to Solve it?</h3>
+<h3 id="how-to-solve-it?">How to Solve it?</h3>
 <pre><code class="language-diff"> &lt;?php
 
  // ...
@@ -253,7 +253,7 @@ foreach ($this-&gt;publishingItems as $item) {
 +     $item-&gt;changeContent($this-&gt;decorateContent($item['content']));
  }</code></pre>
 <p>Objects <a href="https://gist.github.com/nikic/5015323">consume less memory</a> anyway and <strong>you are safe</strong> - more importantly, <strong>anyone extending this code ever after is safer</strong>.</p>
-<h2 id="2-double-method-call">2. Double-Method Call</h2>
+<h2 id="2.-double-method-call">2. Double-Method Call</h2>
 <div class="card">
     <div class="card-body">
        The memory lock: <em>After I call this method I have to call that method to make it really work</em>.
@@ -268,7 +268,7 @@ $this-&gt;bookGenerator-&gt;generate();</code></pre>
 $this-&gt;bookGenerator-&gt;setBookDirectory($bookDirectory);</code></pre>
 <p>vs.</p>
 <pre><code class="language-php">$this-&gt;bookGenerator-&gt;generate();</code></pre>
-<h3 id="how-to-solve-it">How to Solve it?</h3>
+<h3 id="how-to-solve-it?">How to Solve it?</h3>
 <p>Use one method that handles it both:</p>
 <pre><code class="language-diff"> &lt;?php
 
@@ -286,7 +286,7 @@ $this-&gt;bookGenerator-&gt;setBookDirectory($bookDirectory);</code></pre>
 -$this-&gt;entityManager-&gt;flush();
 +$this-&gt;productRepository-&gt;save($product);</code></pre>
 <p>I dare you to generate the book or save the product the wrong way now!</p>
-<h2 id="3-parent-logic">3. Parent Logic</h2>
+<h2 id="3.-parent-logic">3. Parent Logic</h2>
 <p>Snippets 4, 6 and 7.</p>
 <div class="card">
     <div class="card-body">
@@ -308,7 +308,7 @@ public function __construct()
 {
     $this-&gt;visitors = [];
 }</code></pre>
-<h3 id="how-to-solve-it">How to Solve it?</h3>
+<h3 id="how-to-solve-it?">How to Solve it?</h3>
 <p>In this case just add default value to property itself:</p>
 <pre><code class="language-diff">-private $visitors;
 +private $visitors = [];</code></pre>

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?112623070" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1714645064" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="8 Steps You Can Make Before Huge Upgrade to Make it Faster, Cheaper and More Stable" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/12/16/8-steps-you-can-make-before-huge-upgrade-to-make-it-faster-cheaper-and-more-stable" />
@@ -88,7 +88,7 @@ Yet, I've discovered there are few repeated patterns, that make the upgrade easi
 
             <p>These points make any code migration faster and easier. It also <strong>decreases the time required to understand the code</strong> by a person who sees the code for the very first time.</p>
 <p>Based on my experience with 10+ legacy projects of size 100 k-800 k lines, these points can be applied generally.</p>
-<h2 id="1-psr-4-standard">1. PSR-4 Standard</h2>
+<h2 id="1.-p-s-r-4-standard">1. PSR-4 Standard</h2>
 <p>What are the benefits of using <a href="https://www.php-fig.org/psr/psr-4">PSR-4</a> standard? If you use it, all classes are <strong>unique</strong>, <strong>autoloaded</strong> and <strong>easy to relate to file path</strong>. We need that for effective coding - so we don't have to care about it - and thus also for effective migrations.</p>
 <p>If you have PSR-4 standard applied, your <code>composer.json</code> looks like this:</p>
 <pre><code class="language-json">{
@@ -140,7 +140,7 @@ class Somecontroller
     the migration is <strong>~20 % cheaper</strong>.
 </blockquote>
 <p>✅</p>
-<h2 id="2-explicit-php-version">2. Explicit PHP Version</h2>
+<h2 id="2.-explicit-p-h-p-version">2. Explicit PHP Version</h2>
 <p>What? Every project has a PHP version... that's obvious for many projects, but there is still that can go wrong. How?</p>
 <pre><code class="language-json">{
     "require": {
@@ -176,7 +176,7 @@ class Somecontroller
     the migration is <strong>~5 % cheaper</strong>.
 </blockquote>
 <p>✅</p>
-<h2 id="3-easycoding-standard-with-basic-sets">3. EasyCoding Standard with Basic Sets</h2>
+<h2 id="3.-easy-coding-standard-with-basic-sets">3. EasyCoding Standard with Basic Sets</h2>
 <p>Why are coding standards needed for the migration? The AST libraries that Rector uses aren't well-suited to make code look nice and consistent, so it's better to let coding standard tools do that.</p>
 <p>The basic <a href="https://github.com/symplify/easy-coding-standard">ECS</a> setup we use looks like:</p>
 <pre><code class="language-php">use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -198,7 +198,7 @@ vendor/bin/ecs check src --fix</code></pre>
     the migration is <strong>~5 % cheaper</strong>.
 </blockquote>
 <p>✅</p>
-<h2 id="4-phpstan-on-level-8">4. PHPStan on Level 8</h2>
+<h2 id="4.-p-h-p-stan-on-level-8">4. PHPStan on Level 8</h2>
 <p>Coding style is one of <em>smoke testing</em> layers. It means it runs all over your code, without being explicitly told to. From that, the static analysis is just one step away.</p>
 <pre><code class="language-bash">composer require phpstan/phpstan
 vendor/bin/phpstan analyse src --level 0</code></pre>
@@ -213,7 +213,7 @@ vendor/bin/phpstan analyse src --level 8</code></pre>
     the migration is <strong>~15 % cheaper</strong>.
 </blockquote>
 <p>✅</p>
-<h2 id="5-newbie-composer-install-under-2-hours">5. Newbie Composer Install Under 2 Hours</h2>
+<h2 id="5.-newbie-composer-install-under-2-hours">5. Newbie Composer Install Under 2 Hours</h2>
 <p>This is how we usually run a good-quality project:</p>
 <pre><code class="language-bash">git clone your-project.git
 
@@ -250,7 +250,7 @@ php -S localhost:8000 -t public</code></pre>
     the migration is <strong>~5 % cheaper</strong>.
 </blockquote>
 <p>✅</p>
-<h2 id="6-70-code-coverage">6. 70 % Code Coverage</h2>
+<h2 id="6.-70-%-code-coverage">6. 70 % Code Coverage</h2>
 <p>When we come to a completely new project, <strong>we need instant feedback, if we break something</strong>. It would be nice to have 100 % code coverage, but even my open-source project rates as high as 75 %.</p>
 <p><strong>It's like having CTO who rose the project constantly at your side for any change you make.</strong></p>
 <p>We don't care if it's functional, integration or unit tests - we just need the coverage to be sure nothing is wrong with the code. Without tests, <strong>any change in the code is like shooting blindfolded in the dark without hands at a target that is both invisible, moving and Shrodinger's cat</strong>.</p>
@@ -260,7 +260,7 @@ php -S localhost:8000 -t public</code></pre>
     the migration is <strong>~50 % cheaper</strong>.
 </blockquote>
 <p>✅</p>
-<h2 id="7-not-versioned-vendor">7. Not Versioned Vendor</h2>
+<h2 id="7.-not-versioned-vendor">7. Not Versioned Vendor</h2>
 <p>I know it sounds crazy again, but it's not. Many projects we get have 2 <code>vendor</code> directories. One is versioned by <code>composer.json</code> and the other is versioned... <em>somehow</em>.</p>
 <p>Why use <a href="https://github.com/cweagans/composer-patches">composer patches</a> or custom forks, if you can version packages locally. It's fast, it's healthy, it's all you wish for.</p>
 <p>But getting packages out of <em>local vendor</em> is the real adventure. We need to compare every file in both directories, <del>discover</del> guess the version, <del>test</del> hope it's the right one, prevent from duplications with <em>real vendor</em> and so on.</p>
@@ -269,7 +269,7 @@ php -S localhost:8000 -t public</code></pre>
     the migration is <strong>~10 % cheaper</strong>.
 </blockquote>
 <p>✅</p>
-<h2 id="8-solid-gitlab-ci">8. Solid Gitlab CI</h2>
+<h2 id="8.-solid-gitlab-c-i">8. Solid Gitlab CI</h2>
 <p>What if you have all the items above? When is the last time you've checked them? You don't know?</p>
 <p>If the answer is not &quot;at every commit&quot;, it's not good enough. You need to have CI. And I don't mean Bitbucket CI.</p>
 <p>Why? It's not that Bitbucket CI is worse than Gitlab CI or GitHub actions. It's the ecosystem support. <strong>The Gitlab CI has the longest support for CI of a private project there is.</strong></p>
@@ -300,7 +300,7 @@ php -S localhost:8000 -t public</code></pre>
     the migration is <strong>~10 % cheaper</strong>.
 </blockquote>
 <p>✅</p>
-<h2 id="worth-it">Worth It?</h2>
+<h2 id="worth-it?">Worth It?</h2>
 <img src="/assets/images/posts/2019/before/time.png" class="img-thumbnail">
 <p>Let's say your goal is to migrate the whole framework or switch a legacy framework for a modern one. If you had skills, time and money to do that, you'd probably be there. <strong>It takes the experience with many legacy migrations to there effectively without years of time and full-rewrite.</strong></p>
 <p>But... these steps above don't depend on such experience. You can implement in your in-house team. <strong>Such work will reduce work on our side and make your code solid on your side with not such a big overhead</strong>.</p>

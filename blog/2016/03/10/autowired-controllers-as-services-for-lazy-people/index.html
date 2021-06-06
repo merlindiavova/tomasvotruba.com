@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?2123758899" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?394576737" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Autowired controllers as services for lazy people" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2016/03/10/autowired-controllers-as-services-for-lazy-people" />
@@ -89,7 +89,7 @@ It does pretty much the same thing - <strong>registers autowired controllers</st
                 </div>
             </div>
 
-            <h3 id="disclaimer-why-even-use-controllers-as-services">Disclaimer: Why even use controllers as services?</h3>
+            <h3 id="disclaimer:-why-even-use-controllers-as-services?">Disclaimer: Why even use controllers as services?</h3>
 <p><strong>The goal of this article is not to discuss pro and cons of &quot;controller as service&quot; (further CAS) approach</strong>. If you
 haven't decided yet to use CAS, I recommend checking these articles:</p>
 <ul>
@@ -99,13 +99,13 @@ haven't decided yet to use CAS, I recommend checking these articles:</p>
 </ul>
 <p><br></p>
 <p>But now, back to the topic.</p>
-<h2 id="autowire-service-easy">Autowire service? Easy!</h2>
+<h2 id="autowire-service?-easy!">Autowire service? Easy!</h2>
 <p>With <a href="https://dunglas.fr/2015/10/new-in-symfony-2-83-0-services-autowiring">autowire feature</a>, managing dependencies for services is now as simple as:</p>
 <pre><code class="language-yaml">services:
     post.publisher:
         class: PostPublisher
         autowire: true # all you got to do is add this line</code></pre>
-<h2 id="autowire-controller-hell">Autowire controller? Hell!</h2>
+<h2 id="autowire-controller?-hell!">Autowire controller? Hell!</h2>
 <p>Managing dependencies for controllers in same way is complicated. To apply the same effect, you have to make following 3 steps:</p>
 <ol>
 <li>
@@ -154,7 +154,7 @@ $this-&gt;forward('post_controller:listAction'));</code></pre>
 <p>There is <a href="https://stackoverflow.com/questions/31366074/how-exactly-can-i-define-a-controller-as-service-using-annotations/31366589#31366589">nice answer on StackOverflow explaining with more details</a>.</p>
 </blockquote>
 <p>This process is exhausting already and difficult to remember.</p>
-<h3 id="did-you-make-it-here-comes-much-deeper-hell">Did you make it? Here comes much deeper hell</h3>
+<h3 id="did-you-make-it?-here-comes-much-deeper-hell">Did you make it? Here comes much deeper hell</h3>
 <p>Even if you do manage to finish these steps, <strong>these issues will appear</strong>:</p>
 <ul>
 <li>
@@ -165,7 +165,7 @@ $this-&gt;forward('post_controller:listAction'));</code></pre>
 <p>it's complicated to apply constructor dependency injection for extended 3rd party controllers (Sonata, FOS...), due to missing step 2 and 3 (that were mentioned above) and the &quot;bundle naming&quot; inside the bundle's code</p>
 </li>
 </ul>
-<h3 id="is-there-some-way-back-from-hell-to-heaven">Is there some way back from hell to heaven?</h3>
+<h3 id="is-there-some-way-back-from-hell-to-heaven?">Is there some way back from hell to heaven?</h3>
 <p>Author of autowiring feature and Symfony core contributor Kévin Dunglas <a href="https://github.com/symfony/symfony/pull/16863#issuecomment-162221353">sees similar problem</a> and <a href="https://dunglas.fr/2016/01/dunglasactionbundle-symfony-controllers-redesigned">proposes solution with ADR pattern</a>. I think it's the right direction, but it bends controllers too much.</p>
 <p>But my goal is to keep controllers the same way they are now, and just add support for...</p>
 <h2 id="autowiring-in-controllers">Autowiring in controllers</h2>
@@ -178,9 +178,9 @@ $this-&gt;forward('post_controller:listAction'));</code></pre>
 <li>and all on compile time</li>
 </ul>
 <p>Let's try it together.</p>
-<h3 id="1-install-package">1. Install package</h3>
+<h3 id="1.-install-package">1. Install package</h3>
 <pre><code class="language-yaml">composer require symplify/controller-autowire</code></pre>
-<h3 id="2-register-bundle">2. Register bundle</h3>
+<h3 id="2.-register-bundle">2. Register bundle</h3>
 <pre><code class="language-php">// app/AppKernel.php
 class AppKernel extends Kernel
 {
@@ -192,7 +192,7 @@ class AppKernel extends Kernel
         ];
     }
 }</code></pre>
-<h3 id="3-add-some-dependency-for-your-controller-via-constructor">3. Add some dependency for your controller via constructor</h3>
+<h3 id="3.-add-some-dependency-for-your-controller-via-constructor">3. Add some dependency for your controller via constructor</h3>
 <pre><code class="language-php">// src/AppBundle/Controller/DefaultController.php
 namespace AppBundle\Controller;
 
@@ -227,7 +227,7 @@ class DefaultController extends Controller
 }</code></pre>
 <p>And that's it!</p>
 <p>For further use, <strong>just check Readme for <a href="https://github.com/Symplify/ControllerAutowire">Symplify/ControllerAutowire</a>.</strong></p>
-<h2 id="best-practise-solution-proven-in-many-php-projects">Best practise solution - proven in many PHP projects</h2>
+<h2 id="best-practise-solution-proven-in-many-p-h-p-projects">Best practise solution - proven in many PHP projects</h2>
 <p>Check them out:</p>
 <ul>
 <li><a href="https://nette.org">Nette</a> with <a href="https://github.com/nette/application/pull/56">presenter autowire</a>, based on <a href="https://filip-prochazka.com/blog/presentery-v-di-containeru">Filip Prochazka's extension</a></li>

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?221814368" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1119307539" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Doctrine Behaviors 2.0 - Reloaded" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/12/30/doctrine-behaviors-2-0-reloaded" />
@@ -95,7 +95,7 @@ How does it look 3 weeks later?</p>
     There were only 2 options:<br>finished tagged version 2 or burn-out in the process.
 </blockquote>
 <p>I took the risk.</p>
-<h2 id="what-can-we-do-in-3-weeks">What Can We Do in 3 Weeks?</h2>
+<h2 id="what-can-we-do-in-3-weeks?">What Can We Do in 3 Weeks?</h2>
 <ul>
 <li><strong>39 merged pull-requests</strong></li>
 <li><strong>93 closed issues</strong></li>
@@ -107,7 +107,7 @@ How does it look 3 weeks later?</p>
 <p><br></p>
 <p><strong>Added/removed lines per week:</strong></p>
 <img src="/assets/images/posts/doc_beha_stats.png" class="img-thumbnail">
-<h2 id="what-is-new-in-doctrine-behaviors-2-0">What is new in Doctrine Behaviors 2.0?</h2>
+<h2 id="what-is-new-in-doctrine-behaviors-2.0?">What is new in Doctrine Behaviors 2.0?</h2>
 <p>All right, you get it. There were lots changes, but what exactly?</p>
 <p>Let's start with the <em>sad part</em>.</p>
 <h3 id="3-removed-behaviors">3 Removed Behaviors</h3>
@@ -264,7 +264,7 @@ $isTimestampableEntity = is_a($entityClass, TimestampableInterface::class, true)
 <p>Without the PHP community, packages are just chunks of code. Community around the package, city, or a meetup group is what makes it specials, gives it power and motivation to grow.</p>
 <p><strong>I'd love to thank <a href="https://github.com/laurentHCM">@laurentHCM</a> and <a href="https://github.com/nicolashachet">@nicolashachet</a></strong> for the testing process of version 2 and instant migration with Rector. For their patience to report issues, test new Rector rules, and trying to solve all the packages conflicts desperately.</p>
 <p>You gave me <strong>the motivation</strong> that helped me to overcome difficult moments when I got lost in the code.</p>
-<h2 id="how-to-migrate-from-version-1-to-2">How to Migrate From version 1 to 2?</h2>
+<h2 id="how-to-migrate-from-version-1-to-2?">How to Migrate From version 1 to 2?</h2>
 <p>What is the biggest problem of any significant refactoring? The backward compatibility (<em>BC</em>) breaks:</p>
 <ul>
 <li>Class rename?</li>
@@ -287,10 +287,10 @@ $isTimestampableEntity = is_a($entityClass, TimestampableInterface::class, true)
 <pre><code class="language-yaml">composer require rector/rector --dev
 vendor/bin/rector process src --config vendor/rector/rector/config/set/doctrine-behaviors-20.php</code></pre>
 <p>Single command turns to upgrade from 1 to 2 from days to few dozens of minutes.</p>
-<h2 id="how-does-it-compare-to-gedmo-stof">How does it Compare to Gedmo/Stof?</h2>
+<h2 id="how-does-it-compare-to-gedmo/stof?">How does it Compare to Gedmo/Stof?</h2>
 <p>Are you a stof/gedmo user? Then you're familiar <a href="https://github.com/stof/StofDoctrineExtensionsBundle/issues">with Symfony 5 issues</a> around it. Don't worry. The KnpLabs\DoctrineBehaviors 2 was developed bearing you in mind.</p>
 <p>KnpLabs\DoctrineBehaviors don't support softdeletable and non-materialized tree path <em>yet</em>, but the rest of the features are covered.</p>
-<h3 id="how-do-you-migrate-from-gedmo-stof-to-knplabs-doctrinebehaviors">How do you Migrate from Gedmo/Stof to KnpLabs\DoctrineBehaviors?</h3>
+<h3 id="how-do-you-migrate-from-gedmo/stof-to-knp-labs\doctrine-behaviors?">How do you Migrate from Gedmo/Stof to KnpLabs\DoctrineBehaviors?</h3>
 <p>Read <a href="/blog/2020/01/06/migrate-gedmo-to-knplabs/">Migrate Gedmo to KnpLabs</a> post to find the answer.</p>
 <p><br></p>
 <p>That's all for me. Use it, bend it, break it, and report issues or pull-request so that we can make migration path together even smoother.</p>

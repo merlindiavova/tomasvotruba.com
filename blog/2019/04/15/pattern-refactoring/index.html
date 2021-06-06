@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?763273505" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?46197436" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Pattern Refactoring" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/04/15/pattern-refactoring" />
@@ -86,7 +86,7 @@
 <p>For pattern, refactoring is not important what I believe is the best or is considered <em>general best practice</em> (if such weak thing can even exist). I'm kicking myself in the nuts now, but I feel I have to write it.</p>
 <p>No external consultant or blog post can give you a qualified answer on what to do with a code he or she saw for a few days. I mean, they can give you tip and qualified feedback, because they saw dozens of similar code bases, but in the end, it's up to you to do the experiment and verify it on your code base.</p>
 <p>The best thing in the code is decided by the team, that works with the code every day.</p>
-<h2 id="and-for-a-time-it-was-good">And for a Time, It Was Good</h2>
+<h2 id="and-for-a-time,-it-was-good">And for a Time, It Was Good</h2>
 <p>Let's look at our use case inspired by the problems of the people around me. Imagine you have an active record pattern all over your code base. In 1 000 places, so it's easier to work with it:</p>
 <pre><code class="language-php">&lt;?php
 
@@ -95,7 +95,7 @@ $product-&gt;name = 'Train Ticket';
 $product-&gt;save();</code></pre>
 <p>This pattern helped you to grow your minimal viable product, deliver features, enjoy growth and make money. It was very useful to you at a certain time in the past. The same way it was useful to live with parents when we went to school.</p>
 <p>Your company grew every year for last 5 years, with growing code bases and new modules you have more bugs with weak typing and you've <strong>decided to move</strong> to Doctrine and separate Entity and Repository.</p>
-<h2 id="let-s-refactor">Let's Refactor</h2>
+<h2 id="lets-refactor">Let's Refactor</h2>
 <p>The <strong>why</strong> is clear and the decision to change the codebase has been made. Now <strong>how</strong> do you refactor your 1000 places that use active record?</p>
 <p>Before answering, keep in mind, that you have to explain these options to your boss (CEO, product owner...) because he or she cares about following in this order:</p>
 <ul>
@@ -104,7 +104,7 @@ $product-&gt;save();</code></pre>
 <li><strong>How big code good quality</strong> it brings? The <em>higher</em> the better</li>
 </ul>
 <p>Well, your boss will probably not ask the last question, but I've added it just for the sake of our programming perception of the relationship of code and business.</p>
-<h3 id="1-rewrite-write-the-same-code-in-clean-way">1. Rewrite = Write the Same Code in Clean Way</h3>
+<h3 id="1.-rewrite-=-write-the-same-code-in-clean-way">1. Rewrite = Write the Same Code in Clean Way</h3>
 <p>How could the pitch for rewrite look like?</p>
 <p>&quot;<em>The active record is coupled with everything, it's in controllers, in commands, and in services. Even if we change it in a single class, it will probably influence most of the rest code. After we rewrite adding features would be much easier, because we would not have to switch between the old and new code base. We know what we want and it would take less time in the end than any other solution.</em>&quot;</p>
 <p>Suddenly, your colleague comes. You don't like him, because he's too &quot;smart&quot;, younger and has less experience than you (he's younger, how can he have more experience, right?) and he starts to argue:</p>
@@ -117,18 +117,18 @@ $product-&gt;save();</code></pre>
 </div>
 <p>Imagine you're the new CEO of your company. Would you go for rewrite after hearing this?</p>
 <p>In my experience, every developer has to fuck-up one project by rewriting from scratch, to obtain this knowledge, so no article can help you if you're not there yet. Still, it's fun to <strong>read about failures of others</strong>.</p>
-<h3 id="2-gradual-refactoring-change-old-code-while-adding-new-features">2. Gradual Refactoring = Change Old Code while Adding new Features</h3>
+<h3 id="2.-gradual-refactoring-=-change-old-code-while-adding-new-features">2. Gradual Refactoring = Change Old Code while Adding new Features</h3>
 <p>Your ballsy colleague continues his pitch: <em>It's much better to refactor as part of our coding. Only if we need it. If there is a new feature that affects, e.g. product object, we should refactor product to repository and entity. That way we can keep delivering features, we'll always have one code base that works and we don't have to split our attention for a month or potentially years.</em></p>
-<h2 id="which-approach-is-better">Which Approach is Better?</h2>
+<h2 id="which-approach-is-better?">Which Approach is Better?</h2>
 <p>Let's get to the questions that are in the position of CEO. The goal of the CEO is to keep the project running, make it grow in all fronts together. He or she will assess both options:</p>
 <ul>
 <li><strong>How much time</strong> will it take?</li>
 <li><strong>How much money</strong> will it cost?</li>
 <li><strong>How big code good quality</strong> it brings? <em>Pretty good</em></li>
 </ul>
-<h3 id="how-is-rewrite-doing">How is Rewrite Doing?</h3>
+<h3 id="how-is-rewrite-doing?">How is Rewrite Doing?</h3>
 <p>The CEO: <em>&quot;So we have to basically pay programmers to create the same set of features as we had before, but it will cost us 2 months of work whole team? And in the end, we'll have exactly the same set of features, but the code will be nicer for you to work with?&quot;</em></p>
-<h3 id="how-is-continuous-refactoring-doing">How is Continuous Refactoring Doing?</h3>
+<h3 id="how-is-continuous-refactoring-doing?">How is Continuous Refactoring Doing?</h3>
 <p>The CEO: <em>&quot;If I understand this correctly, you say that our application will slowly transform into a new one, we can still add features, it will only take slightly longer. In the end, it might take 12-14 months, but we'll get there? And during those 12-14 months, you'll have to work with 2 approaches in the same code-base?&quot;</em></p>
 <p><br></p>
 <p><em>&quot;Well, both solutions are expensive and slow, but I slightly prefer...&quot;</em></p>

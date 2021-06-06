@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1230483939" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?792906606" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to change PHP code with Abstract Syntax Tree" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2017/11/06/how-to-change-php-code-with-abstract-syntax-tree" />
@@ -81,9 +81,9 @@ Let's create first its synapse!</p>
             </div>
 
             <p>We need to make clear what are we talking about right at the beginning. When we say &quot;PHP AST&quot;, you can talk about 2 things:</p>
-<h3 id="1-php-ast">1. php-ast</h3>
+<h3 id="1.-php-ast">1. php-ast</h3>
 <p>This is native extension which exports the AST internally used by PHP 7.0+. It allows <strong>read-only</strong> and is very fast, since it's native C extension. Internal AST was added to PHP 7.0 by skill-full Nikita Popov in <a href="https://wiki.php.net/rfc/abstract_syntax_tree">this RFC</a>. You can find it on GitHub under <a href="https://github.com/nikic/php-ast">nikic/php-ast</a>.</p>
-<h3 id="2-php-ast">2. PHP AST</h3>
+<h3 id="2.-p-h-p-a-s-t">2. PHP AST</h3>
 <p>This is AST of PHP in Object PHP. It will take your PHP code, turn into PHP object with autocomplete in IDE and <strong>allows you to modify code</strong>. You can find it on GitHub under <a href="https://github.com/nikic/PHP-Parser"><code>nikic/PHP-Parser</code></a>.</p>
 <p>Nikita explains <a href="https://github.com/nikic/php-ast#differences-to-php-parser">differences between those 2 in more detailed technical way</a>. Personally I love <a href="https://github.com/nikic/PHP-Parser/blob/master/doc/0_Introduction.markdown#what-is-this-for">this human reason</a> the most:</p>
 <p><br></p>
@@ -93,9 +93,9 @@ Let's create first its synapse!</p>
 </blockquote>
 <p><br></p>
 <p>Which one would you pick? If you're <strong>lazy like me and hate reading code and writing code</strong> over and over again, the 2nd one.</p>
-<h2 id="what-work-can-code-nikic-php-parser-code-do-for-us">What work can <code>nikic/PHP-Parser</code> do for us?</h2>
+<h2 id="what-work-can-<code>nikic/p-h-p-parser</code>-do-for-us?">What work can <code>nikic/PHP-Parser</code> do for us?</h2>
 <p>Saying that, <strong>we skip the read-feature</strong> of this package - it's used by <a href="https://github.com/phpstan/phpstan">PHPStan</a> or <a href="https://github.com/Roave/BetterReflection">BetterReflection</a> - and <strong>move right to the writing-feature</strong>. Btw, back in 2012, even <a href="https://github.com/nikic/PHP-Parser/issues/41">Fabien wanted to use it in PHP CS Fixer</a>, but it wasn't ready yet.</p>
-<h3 id="when-we-say-em-modify-em-and-em-ast-em-together-what-can-you-brainstorm">When we say <em>modify</em> and <em>AST</em> together, what can you brainstorm?</h3>
+<h3 id="when-we-say-<em>modify</em>-and-<em>a-s-t</em>-together,-what-can-you-brainstorm?">When we say <em>modify</em> and <em>AST</em> together, what can you brainstorm?</h3>
 <ul>
 <li>change method name</li>
 <li>change class name</li>
@@ -110,7 +110,7 @@ Let's create first its synapse!</p>
 </ul>
 <p>It can do many things for you, depends on how much work you put in it. Today we will try to <strong>change method name</strong>.</p>
 <h2 id="4-steps-to-changing-a-name">4 Steps to Changing a name</h2>
-<h3 id="1-parse-code-to-nodes">1. Parse code to Nodes</h3>
+<h3 id="1.-parse-code-to-nodes">1. Parse code to Nodes</h3>
 <pre><code class="language-bash">composer require nikic/php-parser</code></pre>
 <p>Create parser and parse the file:</p>
 <pre><code class="language-php">use PhpParser\Parser;
@@ -118,7 +118,7 @@ use PhpParser\ParserFactory;
 
 $parser = (new ParserFactory)-&gt;create(ParserFactory::PREFER_PHP7); # or PREFER_PHP5, if your code is older
 $nodes = $parser-&gt;parse(file_get_contents(__DIR__ . '/SomeClass.php'));</code></pre>
-<h3 id="2-find-method-node">2. Find Method Node</h3>
+<h3 id="2.-find-method-node">2. Find Method Node</h3>
 <p>The best way to work with Nodes is to <strong>traverse them with <a href="https://github.com/nikic/PHP-Parser/blob/master/lib/PhpParser/NodeTraverser.php"><code>PhpParser\NodeTraverser</code></a></strong>:</p>
 <pre><code class="language-php">$nodeTraverser = new PhpParser\NodeTraverser;
 $traversedNodes = $nodeTraverser-&gt;traverse($nodes);</code></pre>
@@ -145,7 +145,7 @@ final class ChangeMethodNameNodeVisitor extends NodeVisitorAbstract
         // so we got it, what now?
     }
 }</code></pre>
-<h3 id="3-change-method-name">3. Change Method Name</h3>
+<h3 id="3.-change-method-name">3. Change Method Name</h3>
 <p>No we find it's name and change it!</p>
 <pre><code class="language-php">use PhpParser\Node;
 use PhpParser\Node\Name;
@@ -171,7 +171,7 @@ final class ChangeMethodNameNodeVisitor extends NodeVisitorAbstract
 <pre><code class="language-php">$nodeTraverser = new PhpParser\NodeTraverser;
 $traversedNodes-&gt;addVisitor(new ChangeMethodNameNodeVisitor);
 $traversedNodes = $nodeTraverser-&gt;traverse($nodes);</code></pre>
-<h3 id="4-save-to-file">4. Save to File</h3>
+<h3 id="4.-save-to-file">4. Save to File</h3>
 <p>Last step is saving the file (<a href="https://github.com/nikic/PHP-Parser/blob/master/doc/component/Pretty_printing.markdown">see docs</a>). We have 2 options here:</p>
 <p><br></p>
 <p><strong>A. Dumb Saving</strong></p>
@@ -219,7 +219,7 @@ $newStmts = $traversedNodes = $nodeTraverser-&gt;traverse($newStmts);
 
 $newCode = (new Standard)-&gt;printFormatPreserving($newStmts, $oldStmts, $oldTokens);</code></pre>
 <p>Congrats, now you've successfully renamed method to <code>newName</code>!</p>
-<h2 id="advanced-changes-with-rector">Advanced Changes? With Rector!</h2>
+<h2 id="advanced-changes?-with-rector!">Advanced Changes? With Rector!</h2>
 <p>Do you want to see more advanced operations, like those we <a href="#when-we-say-em-modify-em-and-em-ast-em-together-what-can-you-brainstorm">brainstormed in the beginning</a>? Look at package I'm working on which should <strong>automate application upgrades</strong> - <strong><a href="https://github.com/RectorPHP/Rector">RectorPHP</a></strong>.</p>
 <p><br></p>
 <p>Let me know in the comments, what would you like to read about AST and its Traversing and Modification. I might inspire by your ideas.</p>

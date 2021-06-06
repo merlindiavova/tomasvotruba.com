@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?542564301" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?921979906" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Is Your Code Readable By Humans? Cognitive Complexity Tells You" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/05/21/is-your-code-readable-by-humans-cognitive-complexity-tells-you" />
@@ -98,7 +98,7 @@ Today, we'll see why is the later better and how to check it in your code with a
                 </div>
             </div>
 
-            <h2 id="what-is-cognitive-complexity">What is Cognitive Complexity?</h2>
+            <h2 id="what-is-cognitive-complexity?">What is Cognitive Complexity?</h2>
 <p><em>Tomáš Horváth</em> referenced me to <a href="https://blog.sonarsource.com/cognitive-complexity-because-testability-understandability">Cognitive Complexity, Because Testability != Understandability</a> under the <a href="https://pehapkari.cz/blog/2018/04/04/cyklomaticka-komplexita">Cyclomatic Complexity</a> post. Thank you Tomas.</p>
 <p>The most important source about <em>Cognitive Complexity</em> is <a href="https://www.sonarsource.com/docs/CognitiveComplexity.pdf">a 21-page long PDF</a>. Instead of explaining in words (you can read that in the PDF), <strong>here are 2 examples that speak more than a thousand words</strong>:</p>
 <p><br></p>
@@ -189,7 +189,7 @@ parameters:
 See pull-request
 </a></p>
 <p>Saying &quot;refactoring this&quot; is very simple, but actual work and teaching others is a very challenging task. To make this a bit easier for you, I've extracted few refactorings I made in Symplify thanks to this Sniff.</p>
-<h3 id="1-refactoring-to-shorter-condition">1. Refactoring to Shorter Condition</h3>
+<h3 id="1.-refactoring-to-shorter-condition">1. Refactoring to Shorter Condition</h3>
 <pre><code class="language-diff">index 83ca0da5..125f7c7f 100644
 --- a/packages/TokenRunner/src/Wrapper/FixerWrapper/DocBlockWrapper.php
 +++ b/packages/TokenRunner/src/Wrapper/FixerWrapper/DocBlockWrapper.php
@@ -213,7 +213,7 @@ See pull-request
 +        return $typeNode instanceof ArrayTypeNode;
      }
  }</code></pre>
-<h3 id="2-refactoring-with-method-extraction">2. Refactoring with Method Extraction</h3>
+<h3 id="2.-refactoring-with-method-extraction">2. Refactoring with Method Extraction</h3>
 <pre><code class="language-diff">--- a/packages/CodingStandard/src/Fixer/Commenting/RemoveEmptyDocBlockFixer.php
 +++ b/packages/CodingStandard/src/Fixer/Commenting/RemoveEmptyDocBlockFixer.php
 @@ -48,16 +48,7 @@ final class RemoveEmptyDocBlockFixer extends AbstractFixer
@@ -253,7 +253,7 @@ See pull-request
 +        return (bool) ! preg_match('#^/\*\*[\s\*]*\*/$#', $token-&gt;getContent());
 +    }
  }</code></pre>
-<h3 id="3-refactoring-to-responsible-method">3. Refactoring to Responsible Method</h3>
+<h3 id="3.-refactoring-to-responsible-method">3. Refactoring to Responsible Method</h3>
 <pre><code class="language-diff">diff --git a/packages/CodingStandard/src/Fixer/Import/ImportNamespacedNameFixer.php b/packages/CodingStandard/src/Fixer/Import/ImportNamespacedNameFixer.php
 index 1d532ca58..8aa7981cb 100644
 --- a/packages/CodingStandard/src/Fixer/Import/ImportNamespacedNameFixer.php

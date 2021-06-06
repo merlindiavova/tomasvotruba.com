@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1475518373" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?514458856" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="The Bulletproof Event Naming For Symfony Event Dispatcher" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/05/25/the-bulletproof-event-naming-for-symfony-event-dispatcher" />
@@ -92,7 +92,7 @@ But when it comes to dispatching events, you can choose from 4 different ways. W
                 </div>
             </div>
 
-            <h2 id="1-start-with-em-stringly-em">1. Start with <em>Stringly</em></h2>
+            <h2 id="1.-start-with-<em>stringly</em>">1. Start with <em>Stringly</em></h2>
 <p>You can start with simple <em>string named event</em>:</p>
 <pre><code class="language-php">$postEvent = new PostEvent($post);
 $this-&gt;eventDispatcher-&gt;dispatch('post_added', $postEvent);</code></pre>
@@ -105,7 +105,7 @@ $this-&gt;eventDispatcher-&gt;dispatch('post_add', $postEvent);</code></pre>
 <p><em>Oh, you've got &quot;post_add&quot; there, but there should be &quot;post_added&quot;.</em></p>
 <p>YAY! I copied the previous subscriber with &quot;post_added&quot; but <strong>I made a typo</strong> while dispatching event.</p>
 <p>There must be a cure for this, I wished.</p>
-<h2 id="2-group-file-with-events-names-as-constants">2. Group File with Events Names as Constants</h2>
+<h2 id="2.-group-file-with-events-names-as-constants">2. Group File with Events Names as Constants</h2>
 <p>Then I got inspired by Symfony <a href="https://github.com/symfony/symfony/blob/d203ee33954f4e0c5b39cdc6224fe4fb96cac0c3/src/Symfony/Component/Console/ConsoleEvents.php"><code>ConsoleEvents</code> class</a> that collects all events from one domain in constants.</p>
 <pre><code class="language-php">final class PostEvents
 {
@@ -179,7 +179,7 @@ $this-&gt;eventDispatcher(PostEvents::ON_POST_ADDED, $postAddedEvent)</code></pr
 }</code></pre>
 <p>I wanted to respect open-closed principle, so global class was a no-go.</p>
 <p>Maybe, I could put those...</p>
-<h2 id="3-constant-names-in-particular-event-classes">3. Constant Names in Particular Event Classes</h2>
+<h2 id="3.-constant-names-in-particular-event-classes">3. Constant Names in Particular Event Classes</h2>
 <p>Like this:</p>
 <pre><code class="language-php">final class PostAddedEvent
 {
@@ -223,7 +223,7 @@ $this-&gt;eventDispatcher(PostAddedEvent::NAME, $postAddedEvent)</code></pre>
 <li>doesn't allow me to make naming errors and typos</li>
 </ul>
 <p>Can you see it? I think you do :)</p>
-<h2 id="4-class-based-event-naming">4. Class-based Event Naming</h2>
+<h2 id="4.-class-based-event-naming">4. Class-based Event Naming</h2>
 <pre><code class="language-php">$postAddedEvent = new PostAddedEvent($post);
 $this-&gt;eventDispatcher(PostAddedEvent::class, $postAddedEvent)</code></pre>
 <p>It could not be simpler and meets all the conditions!</p>
@@ -234,7 +234,7 @@ $this-&gt;eventDispatcher(PostAddedEvent::class, $postAddedEvent)</code></pre>
 <li>It uses PHP <strong>native <code>::class</code> support</strong>.</li>
 <li>It's addictively easy.</li>
 </ul>
-<h2 id="which-type-do-you-like">Which Type Do You Like?</h2>
+<h2 id="which-type-do-you-like?">Which Type Do You Like?</h2>
 <p>This is my story for event naming evolution. But what is yours - <strong>which event naming system do you use</strong>? I'm curious and ready to be wrong, so please let me know in the comments if you like it or do it any different way.</p>
 <h3 id="taking-it-step-further">Taking it Step Further</h3>
 <p><a href="http://enumag.cz">Enumag</a> suggested such different way by removing first argument:</p>

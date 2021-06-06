@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?356783714" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1713777224" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Astral - The Best Kit for php-parser AST Developers" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/astral-the-best-kit-for-php-parser-ast-developers" />
@@ -88,7 +88,7 @@ That's where <strong>Astral package helps</strong>.</p>
     Keeping simple changes in code,<br>
     simple in AST as well.
 </blockquote>
-<h2 id="supports-native-php-rector-and-phpstan">Supports native php, Rector and PHPStan</h2>
+<h2 id="supports-native-php,-rector-and-p-h-p-stan">Supports native php, Rector and PHPStan</h2>
 <p>The <a href="https://github.com/symplify/astral">Astral package</a> works for your php-parser code, Rector rules, and PHPStan rules too.</p>
 <pre><code class="language-bash">composer require symplify/astral</code></pre>
 <p><strong>A. For PHPStan</strong>, include the config in <code>phpstan.neon</code>:</p>
@@ -102,7 +102,7 @@ return [
     Symplify\Astral\Bundle\AstralBundle::class =&gt; ['all' =&gt; true],
 ];</code></pre>
 <p>Now we have the package installed, so how can we use it in real code?</p>
-<h2 id="1-get-node-name">1. Get Node Name</h2>
+<h2 id="1.-get-node-name">1. Get Node Name</h2>
 <p>Let's say we have this input code we want to process with AST:</p>
 <pre><code class="language-php">$someMethod-&gt;someCall(100);</code></pre>
 <p>We want to:</p>
@@ -178,7 +178,7 @@ $this-&gt;simpleNameResolver-&gt;isNames($node, ['assertTrue', 'assertFalse']);
 // useful for PHPStan class name
 $this-&gt;simpleNameResolver-&gt;getClassNameFromScope($scope);</code></pre>
 <p>And so on.</p>
-<h2 id="2-get-node-value">2. Get Node Value</h2>
+<h2 id="2.-get-node-value">2. Get Node Value</h2>
 <p>While writing rules for Rector or PHPStan, we need to know the exact values of the argument. E.g., here we want to get <code>100</code>.</p>
 <pre><code class="language-php">$someMethod-&gt;someCall(100);</code></pre>
 <p>How can we get the 1st argument value of our method call with plain php-parser?</p>
@@ -239,7 +239,7 @@ final class SomeRule
     }
 }</code></pre>
 <p>Straightforward and simple. The <code>NodeValueResolver</code> can deal with constant references to another class, with magical <code>__DIR__</code> or with <code>SomeClass::class</code> references.</p>
-<h2 id="3-change-the-node">3. Change the Node</h2>
+<h2 id="3.-change-the-node">3. Change the Node</h2>
 <p>Now we put all three parts together to demonstrate the real power of Astral. <strong>We already know that simple operations in AST are very hard to write</strong>. AST is a low-level language that has to account for various errors.</p>
 <p>How to change node in pure php-parser? It's a topic so extensive it would make a standalone post. Fortunately, there is one. I wrote <a href="/blog/2017/11/06/how-to-change-php-code-with-abstract-syntax-tree/">How to change PHP code with Abstract Syntax Tree</a> 3 years ago. Beware, it's a lot of code simple method rename.</p>
 <p><br></p>

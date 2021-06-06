@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1081209665" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1872753832" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="What if We Remove Strings from Symfony Extension Configuration" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/08/24/what-if-we-remove-strings-from-symfony-extension-configuratoin" />
@@ -128,7 +128,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
     In the worst possible order. When you least expect it."
 </blockquote>
 <p><br></p>
-<h2 id="how-can-we-make-extension-as-good-as-service-registration">How can we make Extension as Good as Service Registration?</h2>
+<h2 id="how-can-we-make-extension-as-good-as-service-registration?">How can we make Extension as Good as Service Registration?</h2>
 <p>If we look at <a href="https://github.com/symfony/symfony/blob/master/src/Symfony/Component/DependencyInjection/Loader/Configurator/ContainerConfigurator.php"><code>ContainerConfigurator</code></a>, it inherits from abstract class <a href="https://github.com/symfony/symfony/blob/master/src/Symfony/Component/DependencyInjection/Loader/Configurator/AbstractConfigurator.php"><code>AbstractConfigurator</code></a>.</p>
 <p>What if we use per-extension Configurator... e.g. <code>DoctrineConfigurator</code>?</p>
 <pre><code class="language-php">return static function (DoctrineConfigurator $doctrineConfigurator): void {
@@ -188,7 +188,7 @@ return static function (DoctrineConfigurator $doctrineConfigurator): void {
     $doctrineConfigurator-&gt;dbal()
         -&gt;database(DoctrineEnvParams::DATABASE_NAME);
 };</code></pre>
-<h2 id="what-are-benefits-over-array-configuration">What are Benefits over Array configuration?</h2>
+<h2 id="what-are-benefits-over-array-configuration?">What are Benefits over Array configuration?</h2>
 <ul>
 <li><strong>the parameter is validated by standard PHP</strong> - if you put database name with <code>int</code>, the PHP throws an exception right on that line</li>
 </ul>
@@ -217,7 +217,7 @@ return static function (DoctrineConfigurator $doctrineConfigurator): void {
             -&gt;... // only connection specific methods
 };</code></pre>
 <p>The <code>DoctrineConfigurator</code> with specific <code>methods()</code> and <code>Constant::KEYS</code> is one way to get rid of all string possible.</p>
-<h2 id="what-about-value-objects">What about Value Objects?</h2>
+<h2 id="what-about-value-objects?">What about Value Objects?</h2>
 <p>With PHP 8.0 to be released in 11/2020 will come <a href="https://stitcher.io/blog/php-8-named-arguments">named arguments</a>. With them, the IDE autocomplete becomes more powerful. If we combine it along with <code>__construct</code> validation in value objects, we have another solid way to add parameters:</p>
 <pre><code class="language-php">return static function (DoctrineConfigurator $doctrineConfigurator): void {
     $doctrineConfigurator-&gt;dbal()

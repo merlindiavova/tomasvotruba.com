@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?157201187" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?213248062" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Write Custom Fixer for PHP CS Fixer 2.12" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2017/07/24/how-to-write-custom-fixer-for-php-cs-fixer-24" />
@@ -99,7 +99,7 @@ Today we'll explore a bit younger tool - <a href="https://github.com/FriendsOfPH
             <p><strong>Are you new to PHP Coding Standard Tools</strong>? You can read intro <a href="/blog/2017/07/31/how-php-coding-standard-tools-actually-work/">How PHP Coding Standard Tools Actually Work</a> to grasp the idea behind them. Or <a href="https://www.youtube.com/watch?v=t99KH0TR-J4&amp;feature=youtu.be&amp;t=16">just go on</a> if you're ready to start...</p>
 <p><br></p>
 <p>When a coding standard tool finds over 1000 violations in our code is nice to know, but it doesn't save us any time and energy we need for <a href="http://calnewport.com/books/deep-work/">a deep work</a>.</p>
-<h3 id="find-amp-fix-it">Find &amp; Fix It</h3>
+<h3 id="find-&amp;-fix-it">Find &amp; Fix It</h3>
 <p>That main difference of PHP CS Fixer to PHP_CodeSniffer is that <strong>every Fixer has to fix issues it finds</strong>. That's why there is no <code>LineLengthFixer</code>, because fixing line length is difficult to automate.</p>
 <p>Personally I like PHP CS Fixer a bit more, <strong>because of more friendlier API, active community and openness to 3rd party packages</strong>:</p>
 <div class="text-center">
@@ -121,7 +121,7 @@ Today we'll explore a bit younger tool - <a href="https://github.com/FriendsOfPH
 and <a href="/blog/2017/07/17/how-to-write-custom-sniff-for-code-sniffer-3/#2-dispatcher">subscribers</a>.</p>
 <p>Yet still, working with tokens is counter intuitive to way we work with the code (class, method, property...), but I'll write about that later.</p>
 <p>Now we jump to writing the Fixer class.</p>
-<h2 id="7-steps-to-make-an-code-exceptionnamefixer-code">7 Steps to Make an <code>ExceptionNameFixer</code></h2>
+<h2 id="7-steps-to-make-an-<code>exception-name-fixer</code>">7 Steps to Make an <code>ExceptionNameFixer</code></h2>
 <p>&quot;An exception class should have &quot;Exception&quot; suffix.&quot;</p>
 <p>In last post, we made
 <a href="/blog/2017/07/17/how-to-write-custom-sniff-for-code-sniffer-3/#let-s-make-code-exceptionnamesniff-code-together">ExceptionNameSniff</a>, that will:</p>
@@ -135,7 +135,7 @@ and <a href="/blog/2017/07/17/how-to-write-custom-sniff-for-code-sniffer-3/#2-di
 <ul>
 <li><strong>fix the name to end with &quot;Exception&quot;</strong></li>
 </ul>
-<h3 id="1-implement-an-interface">1. Implement an Interface</h3>
+<h3 id="1.-implement-an-interface">1. Implement an Interface</h3>
 <p>Create a fixer class and implement a <code>PhpCsFixer\Fixer\DefinedFixerInterface</code> interface.</p>
 <p>It covers 7 required methods, but most of them are easy one-liners:</p>
 <pre><code class="language-php">use PhpCsFixer\Fixer\DefinedFixerInterface;
@@ -177,7 +177,7 @@ final class ExceptionNameFixer implements DefinedFixerInterface
     {
     }
 }</code></pre>
-<h3 id="2-easypicks-first">2. Easypicks First</h3>
+<h3 id="2.-easypicks-first">2. Easypicks First</h3>
 <p>I start with implementing first 5 methods, to make the easy work first:</p>
 <pre><code class="language-php">&lt;?php
 
@@ -232,14 +232,14 @@ final class ExceptionNameFixer implements DefinedFixerInterface
         return 0;
     }
 }</code></pre>
-<h3 id="3-subscribe-the-fixer">3. Subscribe the Fixer</h3>
+<h3 id="3.-subscribe-the-fixer">3. Subscribe the Fixer</h3>
 <p>Now we get to more interesting parts. Method <code>isCandidate(Tokens $tokens): bool</code> is like a <strong>subscriber</strong>. It gets all tokens of the file. We can check <strong>more than one token and create more strict conditions</strong> thanks to that:</p>
 <pre><code class="language-php">public function isCandidate(Tokens $tokens): bool
 {
     return $tokens-&gt;isAllTokenKindsFound([T_CLASS, T_EXTENDS, T_STRING]);
 }</code></pre>
 <p><code>extends</code> token without class and its name is useless and not a code we want to match.</p>
-<h3 id="4-add-quot-fix-it-quot-part">4. Add &quot;Fix it&quot; part</h3>
+<h3 id="4.-add-&quot;fix-it&quot;-part">4. Add &quot;Fix it&quot; part</h3>
 <pre><code class="language-php">public function fix(SplFileInfo $file, Tokens $tokens): void
 {
 }</code></pre>
@@ -251,7 +251,7 @@ final class ExceptionNameFixer implements DefinedFixerInterface
 <li>and fix if so.</li>
 </ul>
 <p>Let's take it one a by one:</p>
-<h3 id="5-detect-the-exception-class">5. Detect the Exception Class</h3>
+<h3 id="5.-detect-the-exception-class">5. Detect the Exception Class</h3>
 <p><em>A class that extends another class that has suffix &quot;Exception&quot;.</em></p>
 <p>There is a bit different paradigm compared to PHP_CodeSniffer. We don't get position of the <code>extends</code> token, but <strong>all the tokens</strong>. Instead of investigating one token and it's relation to other, <strong>we need to iterate through all tokens and match them with conditions</strong>:</p>
 <pre><code class="language-php">public function fix(SplFileInfo $file, Tokens $tokens): void
@@ -312,12 +312,12 @@ private function stringEndsWith(string $name, string $needle): bool
 
     }
 }</code></pre>
-<h3 id="6-fixing-the-error">6. Fixing the Error</h3>
+<h3 id="6.-fixing-the-error">6. Fixing the Error</h3>
 <p>Fixing is right to the point. To change a name, replace old name (<code>T_STRING</code> <code>Token</code>) with new <code>Token</code> object with different value:</p>
 <pre><code class="language-php">// Token(token type, value)
 $tokens[$classNamePosition] = new Token([T_STRING, $classNameToken-&gt;getContent() . 'Exception']);</code></pre>
 <p>Is that it? Yea, that's it :)</p>
-<h3 id="7-put-together-the-final-fixer">7. Put Together The Final Fixer</h3>
+<h3 id="7.-put-together-the-final-fixer">7. Put Together The Final Fixer</h3>
 <pre><code class="language-php">&lt;?php
 
 namespace App\CodingStandard\Fixer;
@@ -407,8 +407,8 @@ final class ExceptionNameFixer implements DefinedFixerInterface
         return (substr($name, -strlen($needle)) === $needle);
     }
 }</code></pre>
-<h2 id="how-to-run-it">How to run it?</h2>
-<h3 id="the-php-cs-fixer-way">The PHP CS Fixer way</h3>
+<h2 id="how-to-run-it?">How to run it?</h2>
+<h3 id="the-p-h-p-c-s-fixer-way">The PHP CS Fixer way</h3>
 <p>Create <code>.php_cs</code> config and register fixer with <code>registerCustomFixers()</code> method, like here in <a href="https://github.com/shopsys/coding-standards/blob/5f7c5e61f3a5ddd279887ac51a2bcb5f6bc81d78/build/phpcs-fixer.php_cs#L54"><code>shopsys/coding-standard</code></a>.</p>
 <pre><code class="language-php">return PhpCsFixer\Config::create()
     -&gt;registerCustomFixers([
@@ -416,7 +416,7 @@ final class ExceptionNameFixer implements DefinedFixerInterface
     ]);</code></pre>
 <p>And run:</p>
 <pre><code class="language-bash">vendor/bin/php-cs-fixer fix src --config=.php_cs --dry-run</code></pre>
-<h3 id="the-a-href-https-github-com-symplify-easy-coding-standard-ecs-a-way">The <a href="https://github.com/symplify/easy-coding-standard">ECS</a> way</h3>
+<h3 id="the-<a-href="https://github.com/symplify/easy-coding-standard">e-c-s</a>-way">The <a href="https://github.com/symplify/easy-coding-standard">ECS</a> way</h3>
 <p>Put the class to <code>ecs.php</code>:</p>
 <pre><code class="language-php">&lt;?php
 

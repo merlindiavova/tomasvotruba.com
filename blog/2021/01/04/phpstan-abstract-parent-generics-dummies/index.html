@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?721674895" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1044546016" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="PHPStan Abstract Parent Generics for Dummies" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2021/01/04/phpstan-abstract-parent-generics-dummies" />
@@ -131,7 +131,7 @@ So I tried to use <a href="https://phpstan.org/blog/generics-in-php-using-phpdoc
 }</code></pre>
 <p>Pretty straightforward, right?</p>
 <p>Now we'll try to solve the hard question...</p>
-<h2 id="what-type-is-code-product-code">What Type is <code>$product</code>?</h2>
+<h2 id="what-type-is-<code>$product</code>?">What Type is <code>$product</code>?</h2>
 <pre><code class="language-php">$product = $this-&gt;productRepository-&gt;get($id);</code></pre>
 <p>The class method <code>AbstractRepository-&gt;get()</code> returns and <code>object</code>, so for PHP, PHPStan, Rector and IDE it's an <code>object</code>. Nothing less, nothing more.</p>
 <p>But what <strong>do you see</strong>? You probably assume it's a specific <code>object</code> with a specific type - <code>Product</code>. How can we get this knowledge to the code?</p>
@@ -173,13 +173,13 @@ So I tried to use <a href="https://phpstan.org/blog/generics-in-php-using-phpdoc
 +    throw new ShouldNotHappenException('$product is not a ' . Product:class);
 +}</code></pre>
 <p>We can see these solutions out in the wild. All of them are valid. They verify an assumption - is object a <code>Product</code> type?</p>
-<h2 id="validation-type-declaration">Validation !== Type Declaration</h2>
+<h2 id="validation-!==-type-declaration">Validation !== Type Declaration</h2>
 <p>But <strong>validation is not designed for type specification</strong>. It's a layer to verify external input from QA when they walk in a bar order beer, <code>-5</code>, <code>$^@'ł</code>, an array of <code>T_INF</code>, and a bottomless glass of invisible water.</p>
 <p>Here <strong>we know</strong> the <code>$product</code> is always the <code>Product</code> type unless some very nasty bug will get into Doctrine.
 How can we teach our PHP code this knowledge?</p>
-<h2 id="generics">Generics!</h2>
+<h2 id="generics!">Generics!</h2>
 <p>Adding generics to 2 classes is 2-steps</p>
-<h3 id="1-open-parent">1. Open Parent</h3>
+<h3 id="1.-open-parent">1. Open Parent</h3>
 <p><strong>First</strong>, we need to tell the abstract class to be opened to type override from children. By convention, the generics are not defined with the <code>@generics</code> keyword but by <code>@template</code>. It has nothing to do with rendering templates.</p>
 <p><br></p>
 <p>With <code>@template</code> we define a keyword and a type. Same as <code>@param int $age</code> does.</p>
@@ -201,7 +201,7 @@ How can we teach our PHP code this knowledge?</p>
      }
  }</code></pre>
 <p>Good job, we're halfway through.</p>
-<h3 id="2-specify-child">2. Specify Child</h3>
+<h3 id="2.-specify-child">2. Specify Child</h3>
 <p>So how do we tell <code>ProductRepository</code> to treat every object as <code>Product</code>?</p>
 <pre><code class="language-diff">+/**
 + * @template TEntity as Product
@@ -214,7 +214,7 @@ How can we teach our PHP code this knowledge?</p>
 // "object"</code></pre>
 <p>Damn, what's going on?</p>
 <p>I stuck on this part and could not go on. We defined <code>TEntity</code> in both of our classes. We defined <code>TEntity</code> as <code>Product</code>. What is wrong?</p>
-<h2 id="how-to-promote-the-code-tentity-code-type-to-parent-class">How to promote the <code>TEntity</code> type to Parent Class?</h2>
+<h2 id="how-to-promote-the-<code>t-entity</code>-type-to-parent-class?">How to promote the <code>TEntity</code> type to Parent Class?</h2>
 <p>The problem is, PHPStan sees <strong>generic types only in the classes they're defined</strong> by default.
 While <code>@return int</code> gets promoted to child methods, <code>@template</code> does not.</p>
 <ul>
@@ -251,7 +251,7 @@ While <code>@return int</code> gets promoted to child methods, <code>@template</
 <p>Now the <code>TEntity</code> in <code>AbstractRepository</code> will be overridden by type defined here. So <code>TEntity</code> will be treated as <code>Product</code> ✅</p>
 <p>Beware! Even though it looks like any <code>array&lt;shape&gt;</code>, it has nothing to do with arrays.</p>
 <p><br></p>
-<h2 id="how-to-propagate-2-and-more-types">How to Propagate 2 and more Types?</h2>
+<h2 id="how-to-propagate-2-and-more-types?">How to Propagate 2 and more Types?</h2>
 <p>Let's say you have 2 generics types in your abstract class:</p>
 <pre><code class="language-php">/**
  * @template TEntity as object

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?95452398" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1411651423" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="New in Symplify 9: More than 110 PHPStan Rules" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/12/14/new-in-symplify-9-more-than-110-phpstan-rules" />
@@ -103,7 +103,7 @@ Was it worth it? Hell yea!</p>
 </ul>
 <p>We'll take them one by one, from the simplest to most powerful.
 <br></p>
-<h2 id="1-static-rules">1. Static Rules</h2>
+<h2 id="1.-static-rules">1. Static Rules</h2>
 <p>These rules are not configurable. You either use them or not. Dare to try them all and see what happens?</p>
 <pre><code class="language-yaml">includes:
     - vendor/symplify/phpstan-rules/config/static-rules.neon</code></pre>
@@ -115,7 +115,7 @@ Was it worth it? Hell yea!</p>
 <pre><code class="language-yaml">includes:
     - vendor/symplify/phpstan-rules/config/services/services.neon</code></pre>
 <p>That's it!</p>
-<h2 id="2-prepared-sets">2. Prepared Sets</h2>
+<h2 id="2.-prepared-sets">2. Prepared Sets</h2>
 <p>Special group of static rules are <a href="https://github.com/symplify/phpstan-rules/tree/master/config/symplify-rules.neon">prepared sets</a>. Similar to ECS sets, each has one area it focuses on:</p>
 <pre><code class="language-yaml">includes:
     - vendor/symplify/phpstan-rules/config/array-rules.neon
@@ -130,14 +130,14 @@ Was it worth it? Hell yea!</p>
     - vendor/symplify/phpstan-rules/config/symfony-rules.neon
     - vendor/symplify/phpstan-rules/config/test-rules.neon</code></pre>
 <p>Pick what you like and drop the rest.</p>
-<h2 id="3-configurable-rules">3. Configurable Rules</h2>
+<h2 id="3.-configurable-rules">3. Configurable Rules</h2>
 <p>This is the powerful part that PHPStan advanced users will appreciate.</p>
 <p><strong>You can tune configurable rules to your project context</strong>. Do you need more strict <a href="/blog/2018/05/21/is-your-code-readable-by-humans-cognitive-complexity-tells-you/">cognitive complexity</a>? No problem. Do you want to allow fewer dependencies in the constructor? Just set it.</p>
 <p>Configurable rules are configured for Symplify by defaults. You can find them in:</p>
 <pre><code class="language-yaml">includes:
     - vendor/symplify/phpstan-rules/config/configurable-rules.neon</code></pre>
 <p>Symplify standards might not fit your standard, so it's better to use rules separately.</p>
-<h3 id="example-configuring-code-forbiddennoderule-code">Example: Configuring <code>ForbiddenNodeRule</code></h3>
+<h3 id="example:-configuring-<code>forbidden-node-rule</code>">Example: Configuring <code>ForbiddenNodeRule</code></h3>
 <p>Let's look at <a href="https://github.com/symplify/phpstan-rules/blob/master/docs/rules_overview.md#forbiddennoderule"><code>ForbiddenNodeRule</code></a>. In this rule, you can say what <a href="https://github.com/rectorphp/php-parser-nodes-docs">nodes</a> are forbidden to use.</p>
 <p>We don't like <code>switch()</code>, <code>empty()</code> and <code>@</code>, so we forbid them:</p>
 <pre><code class="language-yaml">services:

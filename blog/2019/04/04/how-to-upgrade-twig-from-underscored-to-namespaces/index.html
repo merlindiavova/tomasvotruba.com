@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1521857404" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?2041226296" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Upgrade Twig from Underscored to Namespaces" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/04/04/how-to-upgrade-twig-from-underscored-to-namespaces" />
@@ -120,7 +120,7 @@ Today I'll show you how to upgrade from <code>_</code> to <code>\\</code> in few
     </div>
 </div>
 </p>
-<h2 id="find-and-replace">Find and Replace?</h2>
+<h2 id="find-and-replace?">Find and Replace?</h2>
 <p>So all we need to do is replace <code>Twig_</code> with <code>Twig\</code>?</p>
 <pre><code class="language-diff">-Twig_Function
 +Twig\Function</code></pre>
@@ -146,7 +146,7 @@ Today I'll show you how to upgrade from <code>_</code> to <code>\\</code> in few
 +   new \Twig\Loader\ArrayLoader([])
 );</code></pre>
 <p>In a reaction to the Symfony blog post, I see many developers <a href="https://github.com/sculpin/sculpin/pull/423/files">do upgrades manually</a>. In case of 50 changes, it's ok, but private code bases will go 1000+ use cases.</p>
-<h2 id="del-code-del-pattern-refactoring"><del>Code</del> Pattern Refactoring</h2>
+<h2 id="<del>code</del>-pattern-refactoring"><del>Code</del> Pattern Refactoring</h2>
 <p>For <a href="https://github.com/rectorphp/rector">Rector</a> it just 1 pattern to refactor. Just tell him to process your files <code>src</code>:</p>
 <ol>
 <li>Install Rector</li>

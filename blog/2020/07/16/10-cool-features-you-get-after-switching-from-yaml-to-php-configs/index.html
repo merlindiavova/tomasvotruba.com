@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?73648638" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?19504952" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="10 Cool Features You Get after switching from YAML to PHP Configs" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/07/16/10-cool-features-you-get-after-switching-from-yaml-to-php-configs" />
@@ -98,7 +98,7 @@ Today we look at 10 cool features you get by switching to PHP configs that make 
 </blockquote>
 <p><br></p>
 <p>There are the cool features I've observed from migration of <strong>50+ YAML configs to PHP</strong>:</p>
-<h2 id="1-absolute-paths-over-random-paths">1. Absolute Paths over Random Paths</h2>
+<h2 id="1.-absolute-paths-over-random-paths">1. Absolute Paths over Random Paths</h2>
 <p>In configs, we often define paths to files or directories. Could you tell me what exact path this is?</p>
 <pre><code class="language-yaml">parameters:
     paths:
@@ -115,23 +115,23 @@ Today we look at 10 cool features you get by switching to PHP configs that make 
 <p>Now the same config in PHP:</p>
 <img src="/assets/images/posts/2020/yaml_php_absolute_click.gif" class="img-thumbnail">
 <p>Pretty clear, right?</p>
-<h2 id="2-we-can-see-del-deprecated-classes-del-in-phpstorm">2. We Can See <del>Deprecated Classes</del> in PHPStorm</h2>
+<h2 id="2.-we-can-see-<del>deprecated-classes</del>-in-p-h-p-storm">2. We Can See <del>Deprecated Classes</del> in PHPStorm</h2>
 <p>The YAML config <strong>will not show you</strong>, if class was deprecated:</p>
 <img src="/assets/images/posts/2020/yaml_php_deprecated_class_yaml.png" class="img-thumbnail">
 <p>PHPStorm will <del>cross the deprecated class</del> and prepare you better for the future:</p>
 <img src="/assets/images/posts/2020/yaml_php_deprecated.png" class="img-thumbnail">
-<h2 id="3-missing-classes-in-parameters">3. Missing Classes in Parameters</h2>
+<h2 id="3.-missing-classes-in-parameters">3. Missing Classes in Parameters</h2>
 <p>In YAML, everything is a string by default, so YAML doesn't know that you mean <em>a class</em>.</p>
 <p>PHPStorm shows that pretty clearly:</p>
 <img src="/assets/images/posts/2020/yaml_php_missing_class.png" class="img-thumbnail">
-<h2 id="4-ide-autocomplete-just-works">4. IDE Autocomplete Just Works</h2>
+<h2 id="4.-i-d-e-autocomplete-just-works">4. IDE Autocomplete Just Works</h2>
 <p>Do you recall YAML struggle, when you want to <strong>register a service</strong>?</p>
 <img src="/assets/images/posts/2018/symfony-plugin/yaml-class.gif" class="img-thumbnail">
 <p><br></p>
 <p>In PHP config you can <a href="/blog/2018/08/27/why-and-how-to-avoid-the-memory-lock/">forget it</a> and just type:</p>
 <img src="/assets/images/posts/2020/yaml_php_class_autocomplete.gif" class="img-thumbnail">
 <p>Even with typos like &quot;Appication&quot; ;)</p>
-<h2 id="5-how-was-that-code-calls-code-syntax">5. How was that <code>calls</code> Syntax?</h2>
+<h2 id="5.-how-was-that-<code>calls</code>-syntax?">5. How was that <code>calls</code> Syntax?</h2>
 <p>Do you remember how to set a call on the service setup?</p>
 <pre><code class="language-yaml">services:
     SomeClass:
@@ -148,7 +148,7 @@ Today we look at 10 cool features you get by switching to PHP configs that make 
 <p><br></p>
 <p>In PHP we <strong>can use intuitive approach</strong> and see what IDE tells us:</p>
 <img src="/assets/images/posts/2020/yaml_php_calls.gif" class="img-thumbnail">
-<h2 id="6-no-more-magic-yaml-syntax-for-constants">6. No More Magic YAML syntax for Constants</h2>
+<h2 id="6.-no-more-magic-y-a-m-l-syntax-for-constants">6. No More Magic YAML syntax for Constants</h2>
 <p>In YAML everything is a string:</p>
 <pre><code class="language-yaml">parameters:
     line_ending: PHP_EOL</code></pre>
@@ -170,7 +170,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 };</code></pre>
 <p><strong>It just works</strong>, no headache!</p>
 <p><br></p>
-<h2 id="7-one-way-to-add-arguments">7. One Way to Add Arguments</h2>
+<h2 id="7.-one-way-to-add-arguments">7. One Way to Add Arguments</h2>
 <p>These 2 files will produce the same configuration:</p>
 <pre><code class="language-yaml">services:
     SomeService:
@@ -194,7 +194,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
         -&gt;arg('key', 'value');
 };</code></pre>
 <p><br></p>
-<h2 id="8-no-more-magic-tags-without-name">8. No More Magic Tags Without Name</h2>
+<h2 id="8.-no-more-magic-tags-without-name">8. No More Magic Tags Without Name</h2>
 <p>For tags, these 2 files produce the same output:</p>
 <pre><code class="language-yaml">services:
     SomeService:
@@ -207,13 +207,13 @@ return function (ContainerConfigurator $containerConfigurator): void {
             - { name: 'kernel.event_subscriber' }</code></pre>
 <p>In PHP, there is just 1 way for both:</p>
 <img src="/assets/images/posts/2020/yaml_php_event_tag.gif" class="img-thumbnail">
-<h2 id="9-ecs-rector-amp-phpstan-watches-your-config-now">9. ECS, Rector &amp; PHPStan watches your Config Now</h2>
+<h2 id="9.-e-c-s,-rector-&amp;-p-h-p-stan-watches-your-config-now">9. ECS, Rector &amp; PHPStan watches your Config Now</h2>
 <p>This feature is my favorite by far because it finally opens the door for next-level automation.</p>
 <p>YAML doesn't have any static analyzer or instant upgrade tool. This makes the upgrade of Symfony projects double the work - in PHP,  in YAML.</p>
 <p>Since <code>*.php</code> is PHP code, all the powerful CI tools have access to it.</p>
 <p><br></p>
 <p><strong>Fewer bugs, effortless changes, less upgrade work, new PHPStan rules, more fun coding.</strong></p>
-<h2 id="10-constants-over-strings">10. Constants over Strings 🎉</h2>
+<h2 id="10.-constants-over-strings-🎉">10. Constants over Strings 🎉</h2>
 <p>Last but not least. You've probably noticed I hete typoes. I'm so used to tool watching my back, that I type much faster than my fingers can. Then I run the tools and code works (usually).</p>
 <p>If you give me a choice of <code>"string"</code> or <code>CONSTANT</code>, 10 of 10 <a href="/blog/2020/05/25/the-bulletproof-event-naming-for-symfony-event-dispatcher/">I pick the <code>CONSTANT</code></a> (unless the string is <code>"really sexy and smart, verified"</code>).</p>
 <p><br></p>
@@ -234,9 +234,9 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <li>Does the constant name change in the future? Rector handles it</li>
 <li>Is the constant missing? PHPStan reports it</li>
 </ul>
-<h2 id="">🚀🚀🚀</h2>
+<h2 id="🚀🚀🚀">🚀🚀🚀</h2>
 <p><br></p>
-<h2 id="start-today-time-passes-anyway">Start Today, Time passes Anyway</h2>
+<h2 id="start-today,-time-passes-anyway">Start Today, Time passes Anyway</h2>
 <p>Do you need more real-life examples to try it yourself? Learn from merged pull-requests:</p>
 <ul>
 <li><a href="https://github.com/bolt/core/pull/1636"><code>bolt/core</code> migration of <code>ecs.yaml</code> to <code>ecs.php</code></a></li>

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?152217180" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?751174970" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Hidden Gems of PHP Packages: Psalm Fixing Your Code" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/05/13/hidden-gems-of-php-packages-psalm-fixing-your-code" />
@@ -99,7 +99,7 @@ But did you know it can automatically fix these issues?</p>
 <p>We can assume PHPStan and Phan will follow Psalm path since human-fixing is hard to scale and will become annoying in time compared to automated instant upgrades.</p>
 <p><br></p>
 <p>So what Psalm can do for you?</p>
-<h2 id="1-missing-type-declaration">1. Missing Type Declaration?</h2>
+<h2 id="1.-missing-type-declaration?">1. Missing Type Declaration?</h2>
 <p>Do you know that feeling when PHPStan reports &quot;Method X is returning an int, but should be a string&quot; in 10 000 places? Yes, you can use <a href="/blog/2019/04/22/hidden-gems-of-php-packages-srab/">Baseliner</a> to ignore them and check only new code, <strong>but that only postpones the problem</strong>. One day there still will be 3-4 days of full-time boring work ahead of you.</p>
 <pre><code class="language-php">/**
  * @return int
@@ -117,7 +117,7 @@ function foo()
  {
    return 'hello';
  }</code></pre>
-<h3 id="how-to-run-it">How to Run it?</h3>
+<h3 id="how-to-run-it?">How to Run it?</h3>
 <p>Just use binary with <code>--alter</code> (that says &quot;fix&quot; this) + the <code>--issues</code> option:</p>
 <pre><code class="language-bash">vendor/bin/psalm src --alter --issues=MissingReturnType
 vendor/bin/psalm src --alter --issues=MissingClosureReturnType
@@ -125,7 +125,7 @@ vendor/bin/psalm src --alter --issues=InvalidReturnType
 vendor/bin/psalm src --alter --issues=InvalidNullableReturnType</code></pre>
 <p>The docs doesn't say if they stack together, but I'd assume so by the plural in &quot;issues&quot;:</p>
 <pre><code class="language-bash">vendor/bin/psalm src --alter --issues=MissingReturnType,MissingClosureReturnType,InvalidReturnType,InvalidNullableReturnType</code></pre>
-<h2 id="2-falseable-strings">2. Falseable Strings?</h2>
+<h2 id="2.-falseable-strings?">2. Falseable Strings?</h2>
 <p>Though the same kind of <em>detect type → complete it</em> logic, this example is really nice:</p>
 <pre><code class="language-php">function foo(): string {
   return rand(0, 1) ? 'hello' : false;
@@ -137,7 +137,7 @@ vendor/bin/psalm src --alter --issues=InvalidNullableReturnType</code></pre>
 function foo() {
   return rand(0, 1) ? 'hello' : false;
 }</code></pre>
-<h2 id="3-unused-property-or-method">3. Unused Property or Method?</h2>
+<h2 id="3.-unused-property-or-method?">3. Unused Property or Method?</h2>
 <p>I wish this would be run before each code-review. Imagine you decouple a method during refactoring and stop using one of the existing methods in the same class. A dead method is born. <strong>A dead method that you need to maintain, test and upgrade to new version of PHP or your framework.</strong></p>
 <p>Not anymore.</p>
 <pre><code class="language-diff"> class A {
@@ -157,12 +157,12 @@ function foo() {
  }
 
  new A();</code></pre>
-<h3 id="how-to-run-it">How to Run it?</h3>
+<h3 id="how-to-run-it?">How to Run it?</h3>
 <pre><code class="language-bash">vendor/bin/psalm src --alter --issues=UnusedMethod
 vendor/bin/psalm src --alter --issues=PossiblyUnusedMethod
 vendor/bin/psalm src --alter --issues=UnusedProperty
 vendor/bin/psalm src --alter --issues=PossiblyUnusedProperty</code></pre>
-<h2 id="4-undefined-variable">4. Undefined Variable?</h2>
+<h2 id="4.-undefined-variable?">4. Undefined Variable?</h2>
 <p>How do you like this code?</p>
 <pre><code class="language-php">if (rand(0, 1)) {
   $a = 5;
@@ -178,14 +178,14 @@ echo $a;</code></pre>
  echo $a;</code></pre>
 <p>If you're into static analysis, you know it's very hard to examine this flow of control and moreover add the variable not just the beginning of file or method, but to the right place where you or I would add it.</p>
 <p>Cudos to <a href="https://github.com/muglug">Mathew</a>! 👍</p>
-<h3 id="how-to-run-it">How to Run it?</h3>
+<h3 id="how-to-run-it?">How to Run it?</h3>
 <pre><code class="language-bash">vendor/bin/psalm src --alter --issues=PossiblyUndefinedVariable</code></pre>
 <h2 id="check-all-13-of-them">Check all 13 of them</h2>
 <p>At the time of writing this post, there is 13 issue alters now. I believe we can expect up to 100 more in next year or two.</p>
 <p>You can run them all like this:</p>
 <pre><code class="language-bash">vendor/bin/psalm src --alter --issues=all</code></pre>
 <p><strong>Read about them and about extra options like <code>--php-version</code>, <code>--dry-run</code> or <code>--safe-types</code> in <a href="https://psalm.dev/docs/fixing_code">very beautiful and short documentation</a></strong>.</p>
-<h2 id="try-it-even-if-you-use-phpstan">Try it, Even if you use PHPStan</h2>
+<h2 id="try-it,-even-if-you-use-p-h-p-stan">Try it, Even if you use PHPStan</h2>
 <p>Personally, I use PHPStan because I'm not good with XML. But even if I should <strong>install Psalm just to complete type-declarations and remove dead code</strong>, it's worth the 10 minutes time to set it up. Give a try, it's huge time saver the bigger code base you have.</p>
 <p>You don't have to take my word for it:</p>
 <blockquote class="twitter-tweet mt-5 mb-5" data-lang="en"><p lang="en" dir="ltr">Damn, <a href="https://twitter.com/psalmphp?ref_src=twsrc%5Etfw">@psalmphp</a> type declarations are saving me *TONS* of time and testing.</p>— null (@Ocramius) <a href="https://twitter.com/Ocramius/status/1120797947921350656?ref_src=twsrc%5Etfw">April 23, 2019</a></blockquote>

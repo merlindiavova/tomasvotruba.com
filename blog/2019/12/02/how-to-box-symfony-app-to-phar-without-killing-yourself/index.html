@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?842884646" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1953636117" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Box Symfony App to PHAR without Killing Yourself" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/12/02/how-to-box-symfony-app-to-phar-without-killing-yourself" />
@@ -95,24 +95,24 @@ Composer is actually pretty simple - just see the <a href="https://github.com/co
 <p>You'll end up with an error:</p>
 <pre><code class="language-bash">rector/rector cannot be installed, because it requires symfony/* ^3.4|^4.4... but you have 2.8</code></pre>
 <p>This leads to many issues reported on Github, mostly <a href="https://github.com/rectorphp/rector/issues/177">grouped around this one</a>.</p>
-<h2 id="php-version-conflicts">PHP Version Conflicts</h2>
+<h2 id="p-h-p-version-conflicts">PHP Version Conflicts</h2>
 <p>If you have PHP 5.6, you'll get a different error:</p>
 <pre><code class="language-bash">rector/rector needs at least PHP 7.2, you have PHP 5.6</code></pre>
 <p>That's where Docker becomes useful. Yet, it still <strong>doesn't solve the Symfony 2.8 in your project vs Symfony 4.4 in Rector project issue</strong>.</p>
 <p>That's why <strong>prefixed <code>rector.phar</code> is needed</strong>. With such a file, you don't care about Rector's dependencies, you just use it.</p>
-<h2 id="how-does-quot-scoping-quot-work">How Does &quot;Scoping&quot; Work?</h2>
+<h2 id="how-does-&quot;scoping&quot;-work?">How Does &quot;Scoping&quot; Work?</h2>
 <p>Basically any <code>Symfony\Component\Console\Command</code> becomes <code>UniquePrefix\Symfony\Component\Console\Command</code>. That way there will never be conflicts between your code without prefix and unique Rector code.</p>
-<h2 id="box-scope-industry-standard">Box + Scope Industry Standard</h2>
+<h2 id="box-+-scope-industry-standard">Box + Scope Industry Standard</h2>
 <p>To make it happen, we <strong>don't need to re-invent the wheel</strong>. There are 2 amazing tools maintained and developed by <a href="https://github.com/theofidry">Théo Fidry</a> (thank you!):</p>
 <ul>
 <li><a href="https://github.com/humbug/box">box</a> - a tool that creates PHAR (~= PHP zip) from an input directory</li>
 <li><a href="https://github.com/humbug/php-scoper">php-scoper</a> - box <em>plugin</em> that adds namespace prefix to all the files</li>
 </ul>
 <p>It takes around 10 seconds to scope + wraps 5 000 files of Rector to <code>rector.phar</code>. <strong>This speed is amazing.</strong></p>
-<h3 id="nobody-ever-used-symfony-in-phar-before">Nobody Ever used Symfony in PHAR Before</h3>
+<h3 id="nobody-ever-used-symfony-in-p-h-a-r-before">Nobody Ever used Symfony in PHAR Before</h3>
 <p>These 2 tools work very well for PHP-based <em>manual</em> containers like PHPStan has. But fails for Symfony autodiscovery that uses globs. It's not the fault of these tools, but rather Symfony, because nobody ever tested it to compiled PHAR :).</p>
 <p><strong>Where and how to overcome it?</strong> There are 4 steps you need to watch out for:</p>
-<h2 id="1-from-code-excluded-code-files-to-globs">1. From <code>excluded</code> files to Globs</h2>
+<h2 id="1.-from-<code>excluded</code>-files-to-globs">1. From <code>excluded</code> files to Globs</h2>
 <p>If you have following config:</p>
 <pre><code class="language-yaml">services:
     Rector\TypeDeclaration\:
@@ -124,7 +124,7 @@ Composer is actually pretty simple - just see the <a href="https://github.com/co
 <p>Where does it come from? It's an error from <a href="https://github.com/symfony/symfony/blob/c62bb82e27974ef4e389da523f0de451b6632266/src/Symfony/Component/Finder/Finder.php#L589">Symfony/Finder</a>.</p>
 <p>But how did Symfony got there? Well, the Symfony takes missing files from <a href="https://github.com/symfony/symfony/blob/c62bb82e27974ef4e389da523f0de451b6632266/src/Symfony/Component/DependencyInjection/Loader/FileLoader.php#L162">&quot;excluded&quot; as directory</a> and the rest is history.</p>
 <p>My super random guess is for missing local <code>phar://</code> prefix.</p>
-<h3 id="how-to-fix-it">How to Fix it?</h3>
+<h3 id="how-to-fix-it?">How to Fix it?</h3>
 <p>Just change the relative path to each file to glob (<code>*</code>) and move your files there:</p>
 <pre><code class="language-diff"> services:
      Rector\TypeDeclaration\:
@@ -134,13 +134,13 @@ Composer is actually pretty simple - just see the <a href="https://github.com/co
 +          - '../src/ValueObject/*'</code></pre>
 <h3 id="positive-side-effect">Positive Side-Effect</h3>
 <p>In the end, it was architecture improvement, as we had to move files to a generic directory, that clearly states it's not a service - here <code>ValueObject</code>.</p>
-<h2 id="2-symfony-autodiscovery-slash-fail">2. Symfony Autodiscovery Slash Fail</h2>
+<h2 id="2.-symfony-autodiscovery-slash-fail">2. Symfony Autodiscovery Slash Fail</h2>
 <p>This one give me an headache, but is simple to fix:</p>
 <pre><code class="language-diff"> services:
      Rector\TypeDeclaration\:
 -        resource: '../src/'
 +        resource: '../src'</code></pre>
-<h2 id="3-sha1-cannot-be-verified">3. SHA1 cannot be Verified...</h2>
+<h2 id="3.-s-h-a1-cannot-be-verified...">3. SHA1 cannot be Verified...</h2>
 <p>This one is not strictly related to Symfony, but it happened while we shipped <code>box.phar</code>:</p>
 <pre><code class="language-bash">Error: Fatal error: Uncaught PharException: phar "compiler/build/box.phar" SHA1
 the signature could not be verified: broken signature in ...</code></pre>
@@ -156,7 +156,7 @@ the signature could not be verified: broken signature in ...</code></pre>
 -* text=auto
 -* text eol=lf</code></pre>
 <p>Because <a href="https://stackoverflow.com/questions/24763948/git-warning-lf-will-be-replaced-by-crlf">it changed line-endings</a> in the <code>box.phar</code> on commit and thus made it valid locally, but broken remotely on Travis CI.</p>
-<h2 id="4-don-t-do-multiple-code-bin-code-files">4. Don't do Multiple <code>bin</code> Files</h2>
+<h2 id="4.-dont-do-multiple-<code>bin</code>-files">4. Don't do Multiple <code>bin</code> Files</h2>
 <p>Rector had multiple bin files, just to split the complexity:</p>
 <ul>
 <li><code>bin/rector</code> that included
@@ -166,7 +166,7 @@ the signature could not be verified: broken signature in ...</code></pre>
 </ul></li>
 </ul>
 <p>The Box takes only the file in <code>compser.json</code> &gt; <code>bin</code> section, so the latter 2 were missed. I tried to change configuration many times, but it mostly failed on malformed paths.</p>
-<h3 id="how-to-solve-it">How to solve it?</h3>
+<h3 id="how-to-solve-it?">How to solve it?</h3>
 <p>Now we have just <strong>single file</strong>:</p>
 <ul>
 <li><code>bin/rector</code></li>

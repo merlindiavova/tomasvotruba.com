@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1555346230" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1524094678" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Make Github and Travis Split Monorepo to Multiple Git Repositories for You" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/07/19/how-to-make-github-and-travis-split-monorepo-to-multiple-git-repositories-for-you" />
@@ -114,15 +114,15 @@ Are you and your monorepo ready? Today we'll focus on <strong>fast, secured and 
 </ul>
 <p>Why? So you could amaze your friends at the party that you just set-up a monorepo split and they can enjoy merged PRs in a matter of minutes (even if you know almost nothing about git or PHP).</p>
 <p>Do you think we can get there? You'll see.</p>
-<h2 id="the-best-solutions-to-split-so-far">The Best Solutions to Split (So Far)</h2>
+<h2 id="the-best-solutions-to-split-(so-far)">The Best Solutions to Split (So Far)</h2>
 <p>Feel free to explore these following solutions. I did it for you and here are a few blockers that hold them from being massively adopted.</p>
 <p>On the other hand, <strong>I'm grateful for each one of them, because they're pushing the evolution further and further. Thanks to them we don't have to reinvent the wheel and we can build on their shoulders</strong>.</p>
-<h3 id="1-splitsh-lite">1. splitsh/lite</h3>
+<h3 id="1.-splitsh/lite">1. splitsh/lite</h3>
 <ul>
 <li><a href="https://github.com/splitsh/lite">https://github.com/splitsh/lite</a></li>
 <li>You need to know Go and bash and be able to resolve conflicts of their dependencies.</li>
 </ul>
-<h3 id="2-dflydev-git-subsplit">2. dflydev/git-subsplit</h3>
+<h3 id="2.-dflydev/git-subsplit">2. dflydev/git-subsplit</h3>
 <ul>
 <li><a href="https://github.com/dflydev/git-subsplit">https://github.com/dflydev/git-subsplit</a></li>
 <li>Extra splits that are not needed</li>
@@ -130,7 +130,7 @@ Are you and your monorepo ready? Today we'll focus on <strong>fast, secured and 
 <li>Requires manual bash install</li>
 <li>It was used by Laravel and then by Symplify</li>
 </ul>
-<h2 id="what-would-the-ideal-state-look-like">What Would the Ideal State Look Like?</h2>
+<h2 id="what-would-the-ideal-state-look-like?">What Would the Ideal State Look Like?</h2>
 <p>Before diving into solution and how to do it, I try to stop and go into a wonderland. What would the ideal solution look like? How would I use it? How would I explain it to others? How fast would it be? Try to break away from your know-how limits (because they're limiting your thinking) and be free to come up with absolutely non-sense answers:</p>
 <ul>
 <li>&quot;1 command to install&quot;</li>
@@ -151,7 +151,7 @@ parameters:
 <p><br></p>
 <p>But what would <a href="https://www.michalspacek.com">security expert Michal Špaček</a> say to lousy code like that?</p>
 <img src="/assets/images/posts/2018/monorepo-split/found-keys.jpg" class="img-thumbnail">
-<h2 id="how-to-avoid-rape-on-github-and-travis">How To Avoid Rape on Github and Travis?</h2>
+<h2 id="how-to-avoid-rape-on-github-and-travis?">How To Avoid Rape on Github and Travis?</h2>
 <blockquote class="blockquote text-center">
     "So, anyone can now push to your repository whatever he wants?"
 </blockquote>
@@ -161,7 +161,7 @@ Travis is basically a terminal, that runs few command lines. What would prevent 
 <pre><code class="language-bash">git@github.com:Symplify/MonorepoBuilder.git</code></pre>
 <p>This basically means <strong>we need to make ssh key or username and a password public</strong>. Does that sound like a good idea to you?</p>
 <p>Don't worry, Github and Travis thought about these cases - with a hashed <code>GITHUB_TOKEN</code> environment variable.</p>
-<h3 id="1-create-a-personal-access-token-on-github">1. Create a Personal Access Token on Github</h3>
+<h3 id="1.-create-a-personal-access-token-on-github">1. Create a Personal Access Token on Github</h3>
 <p>First, you need to create a custom token, that will authorize access to your Github repositories from any command line where it will be used.</p>
 <p>Read <a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line">the Github docs</a> or use <strong>tl;dr;</strong>:</p>
 <ul>
@@ -171,7 +171,7 @@ Travis is basically a terminal, that runs few command lines. What would prevent 
 <img src="/assets/images/posts/2018/monorepo-split/github-token.png" class="img-thumbnail"></li>
 <li>Click <em>Generate token</em></li>
 </ul>
-<h3 id="2-add-code-github-token-code-in-repository-settings-on-travis">2. Add <code>GITHUB_TOKEN</code> in Repository Settings on Travis</h3>
+<h3 id="2.-add-<code>g-i-t-h-u-b-t-o-k-e-n</code>-in-repository-settings-on-travis">2. Add <code>GITHUB_TOKEN</code> in Repository Settings on Travis</h3>
 <p>Then we need to store this token to Travis build, so Travis can be authorized to manipulate with your repositories without any password or ssh key.</p>
 <p>Read <a href="https://docs.travis-ci.com/user/environment-variables/#Defining-Variables-in-Repository-Settings-">the Travis docs</a> or use <strong>tl;dr;</strong>:</p>
 <ul>
@@ -184,7 +184,7 @@ Travis is basically a terminal, that runs few command lines. What would prevent 
 <div class="text-center">
     <img src="/assets/images/posts/2018/monorepo-split/token-after.png" class="img-thumbnail">
 </div>
-<h3 id="github-and-travis-protects-you">GitHub and Travis Protects You</h3>
+<h3 id="git-hub-and-travis-protects-you">GitHub and Travis Protects You</h3>
 <p>Now the best part. If you accidentally commit your access token in <code>.travis.yml</code> (like I did while testing), <strong>GitHub will immediately disable it</strong> and sends you an email (to bad I found that out the next day after 4 hours of debugging with that token).</p>
 <p>And if you add the token to your repository on Travis as above, <strong>it will hide it in all logs for you</strong>. No need to hash it.</p>
 <p>So instead of insecure</p>
@@ -204,7 +204,7 @@ https://aFjk02FJlkj1675jlk@github.com/Symplify/MonorepoBulder.git</code></pre>
 </ul>
 <p>Something is missing...</p>
 <p>Oh right, <strong>when</strong> will the monorepo be split? Do we have to do it manually? How often? Should Travis CRON do it on daily basis?</p>
-<h2 id="when-is-the-best-time-to-split-our-monorepo">When is the Best Time to Split our Monorepo?</h2>
+<h2 id="when-is-the-best-time-to-split-our-monorepo?">When is the Best Time to Split our Monorepo?</h2>
 <p>In times like these, get back to our ideal product:</p>
 <ul>
 <li>&quot;1 command to install&quot;</li>

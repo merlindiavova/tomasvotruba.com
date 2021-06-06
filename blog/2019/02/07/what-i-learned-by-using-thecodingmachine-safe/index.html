@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?988418466" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1566799273" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="What I Learned by Using thecodingmachine/safe" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/02/07/what-i-learned-by-using-thecodingmachine-safe" />
@@ -85,7 +85,7 @@
     If you don't know, just try it.
 </blockquote>
 <p><strong>This is my experience after 2 months of using Safe</strong>.</p>
-<h2 id="what-i-like">What I like 😍</h2>
+<h2 id="what-i-like-😍">What I like 😍</h2>
 <ul>
 <li>
 <p>Less potential errors. I don't have to think about <code>false</code> verification. Mainly on Windows, the paths can fail, because of the <code>\</code> vs <code>/</code> problem, absolute paths not starting with <code>/</code> and different end of lines.</p>
@@ -94,11 +94,11 @@
 <p>Less PHPStan reporting with <a href="https://github.com/thecodingmachine/phpstan-safe-rule">Safe rule</a>. Not sure if the package is useful without it since there is no CI control to tell you where you missed the <em>Safe</em> version of a function.</p>
 </li>
 </ul>
-<h2 id="what-i-didn-t-like">What I didn't like 🙁</h2>
-<h3 id="function-autoloading-sucks-in-php">Function Autoloading Sucks in PHP</h3>
+<h2 id="what-i-didnt-like-🙁">What I didn't like 🙁</h2>
+<h3 id="function-autoloading-sucks-in-p-h-p">Function Autoloading Sucks in PHP</h3>
 <p>Function autoloading has much worse support than PSR-4 class autoloading. 3rd party tool is not ready for it, because it's very rare out in the wild. I personally don't know about any other function-based package.</p>
 <p>I got stuck with building prefixed <code>rector.phar</code> for a week. See <a href="https://github.com/humbug/box/issues/352">humbug/box#352</a> for more.</p>
-<h3 id="the-api-changes-fast">The API Changes Fast</h3>
+<h3 id="the-a-p-i-changes-fast">The API Changes Fast</h3>
 <p>In 0.11.1 there was added a new function, that caused ci to fail due to PHPStan rule that required to be used for all new functions. I added it to make CI pass. Then 0.11.2 it was removed - PHPStan passed, but function was removed and the code was broken.</p>
 <p>BC breaks on patch versions caused Symplify packages to break down. This is allowed on the 0.x version (see <a href="https://semver.org">Semver point 4</a>), so it really resulted from my over-trust.</p>
 <p>If this was the only issue, <strong>I could solve it with patch-lock</strong> in <code>composer.json</code>:</p>
@@ -124,8 +124,8 @@
     A problem that doesn't exist, doesn't need a solution.
 </blockquote>
 <p>Hence, I <a href="https://github.com/symplify/symplify/pull/1409/files">removed the Safe package</a> from my workflow.</p>
-<h2 id="what-are-real-issues-with-native-functions">What are Real Issues with Native Functions?</h2>
-<h3 id="code-sprintf-code"><code>sprintf</code></h3>
+<h2 id="what-are-real-issues-with-native-functions?">What are Real Issues with Native Functions?</h2>
+<h3 id="<code>sprintf</code>"><code>sprintf</code></h3>
 <p>During the code cleanup, I found this:</p>
 <pre><code class="language-php">&lt;?php
 
@@ -135,7 +135,7 @@ throw new ShouldNotHappenException(
 <p>Can you spot the problem? <a href="https://3v4l.org/5bmvp">See code on 3v4l.org</a>.</p>
 <p>It reports the <code>$message</code>, <strong>but the location of the error - <code>__METHOD__</code> is skipped silently</strong>.</p>
 <p>I'd expect Safe function to help me exactly with this because this is a real problem. The code doesn't work as supposed to.</p>
-<h3 id="code-realpath-code"><code>realpath</code></h3>
+<h3 id="<code>realpath</code>"><code>realpath</code></h3>
 <p>Another real problem I have is <code>realpath</code> (it clear from the function name, right? :)):</p>
 <pre><code class="language-php">&lt;?php
 
@@ -148,7 +148,7 @@ $fileInfo = new SplFileInfo($realFilePath);
 var_dump($fileInfo-&gt;getRealPath());</code></pre>
 <p>Here PHP creates <code>$fileInfo</code> object, that might be a file... but is it?</p>
 <p><a href="https://3v4l.org/Xflr4">See code on 3v4l.org</a>.</p>
-<h3 id="code-preg-code"><code>preg_*</code></h3>
+<h3 id="<code>preg-*</code>"><code>preg_*</code></h3>
 <p>David Grudl wrote about this issue <a href="https://phpfashion.com/zradne-regularni-vyrazy-v-php">many years ago</a>. How to make <code>preg_*</code> really safe? He suggests the following:</p>
 <pre><code class="language-php">&lt;?php
 
@@ -176,7 +176,7 @@ function safeReplaceCallback($pattern, $callback, $subject)
     return $result;
 }</code></pre>
 <p>So...</p>
-<h2 id="is-there-a-better-way">Is there a Better Way?</h2>
+<h2 id="is-there-a-better-way?">Is there a Better Way?</h2>
 <p>Have you read <em>Hidden Gems of PHP Packages</em>?</p>
 <ul>
 <li><a href="/blog/2018/08/13/hidden-gems-of-php-packages-symfony-finder-and-spl-file-info/">Hidden Gems of PHP Packages: Symfony\Finder and SplFileInfo</a></li>

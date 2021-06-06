@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?605704174" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?562050990" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How we Automated Shopsys Packages Release from 2 days to 1 Console Command" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/02/18/how-we-automated-shopsys-packages-release-from-2-days-to-1-console-command" />
@@ -87,7 +87,7 @@ Good news, it's not a single day-task, but this whole process can be automated. 
             <p>Monorepo release management has <del>few</del> many gotchas. The one that requires most of your attention I described in <a href="/blog/2019/01/31/monorepo-composer-magic/">Monorepo Composer Magic</a> post. <strong>1 missed commit or forgotten version change</strong> in <code>composer.json</code> of your package and <strong>you've just released a broken package</strong>!</p>
 <p>I mean the ugly kind of errors you'll find out only after someone tries to install the package. Of course, you can improve this by <a href="/blog/2018/11/22/how-to-test-monorepo-in-3-layers/">3-layer monorepo tests</a>, but there is still a 50 % chance for human error.</p>
 <p>Let's get practical!</p>
-<h2 id="the-em-manual-em-shopsys-release-process">The <em>Manual</em> Shopsys Release Process</h2>
+<h2 id="the-<em>manual</em>-shopsys-release-process">The <em>Manual</em> Shopsys Release Process</h2>
 <p><a href="https://github.com/shopsys/shopsys">Shopsys</a> is an open-source e-commerce build on Symfony. I helped them with monorepo, Symfony and open-source standards setup through 2018.</p>
 <p>When we first looked at release todo-document, it had roughly 17 steps. After a bit deeper look we realized some steps have actually 5-10 more steps in it. In the end, we found over <strong>40 steps in 3 various stages</strong>.</p>
 <p>Just to give you the idea...</p>
@@ -179,7 +179,7 @@ final class UpdateChangelogToDateReleaseWorker implements ReleaseWorkerInterface
 Do you want to include stages? We did, so the worker implemented <code>Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\StageAwareInterface</code>.
 </p>
 <p>In these workers, you can trigger Travis CI with API, use Packagist API to check new version are released... sky it the limit.</p>
-<h2 id="shopsys-release-process-em-now-em">Shopsys Release Process <em>Now</em>?</h2>
+<h2 id="shopsys-release-process-<em>now</em>?">Shopsys Release Process <em>Now</em>?</h2>
 <pre><code class="language-bash">vendor/bin/monorepo-builder release v7.0.0-beta6 --stage release-candidate
 
 # → review...

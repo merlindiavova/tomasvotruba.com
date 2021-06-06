@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1937330806" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1846577642" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Why use One-Time Migration Scripts" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/07/15/why-use-one-time-migration-scripts" />
@@ -89,11 +89,11 @@
             </div>
 
             <p>You already probably know about instant refactoring and <a href="/blog/2019/04/15/pattern-refactoring/">pattern refactoring</a> (I'm deprecating refactoring as you know it) that's possible thanks to <a href="https://github.com/rectorphp/rector">Rector</a>. But they require a certain knowledge of code and it's patterns.</p>
-<h2 id="instant-refactoring-today">Instant Refactoring Today?</h2>
+<h2 id="instant-refactoring-today?">Instant Refactoring Today?</h2>
 <p>I was wondering, <strong>how can you use instant refactoring at your work today with what you already know?</strong> So did <em>Andrew Hunt</em> and <em>David Thomas</em>, authors of <a href="https://www.amazon.com/Pragmatic-Programmer-Journeyman-Master/dp/020161622X">Pragmatic Programmer</a>.</p>
 <p>They write about a migration script, that you <strong>write, use once and then delete it</strong>. Like a mandala-script :).
 In the end, you only commit changed files, but no the script you've made for it.</p>
-<h2 id="where-to-use-em-mandala-script-em">Where to use <em>Mandala-Script</em>?</h2>
+<h2 id="where-to-use-<em>mandala-script</em>?">Where to use <em>Mandala-Script</em>?</h2>
 <ul>
 <li>move files from one directory to another</li>
 <li>rename files from <code>*.yml</code> to <code>*.yaml</code></li>
@@ -110,13 +110,13 @@ In the end, you only commit changed files, but no the script you've made for it.
 <li>is <strong>more fun (effective)</strong> to write than to do manually</li>
 <li>has the potential to be reused or extended in the future</li>
 </ul>
-<h3 id="it-s-good-for-business">It's Good for Business</h3>
+<h3 id="its-good-for-business">It's Good for Business</h3>
 <p>From a business point of view, it's very useful in cases, <strong>where it can be done wrong</strong>. We talk about configuration files like ENV and YAML. Usually, they have poor (= no) validation, so finding a bug is like reading a manual written all over the walls of your house about how to open door.</p>
 <p>Just last month the <code>KEY=value</code> vs <code>KEY: value</code> lead to 4-5 hours wasted in my current work.</p>
 <p><br></p>
 <p>As you can see, the idea is very simple, so let's use it in a simple case.
 I have prepared 2 related examples for you:</p>
-<h2 id="1-migrate-code-app-config-code-to-code-config-code">1. Migrate <code>app/config</code> to <code>config</code></h2>
+<h2 id="1.-migrate-<code>app/config</code>-to-<code>config</code>">1. Migrate <code>app/config</code> to <code>config</code></h2>
 <p>In Symfony 4 the <a href="http://fabien.potencier.org/symfony4-directory-structure.html">base directory was changed</a>. We need to use new locations. In one project it's simple and better done manually. But we use monorepo and have  20+ <code>/packages/X/config</code> directories.</p>
 <p>Let's code:</p>
 <pre><code class="language-bash">composer require symfony/filesystem --dev
@@ -158,7 +158,7 @@ foreach ($configDirectories as $configDirectory) {
 <p>Improve <code>move_config_to_root.php</code> and re-run again:</p>
 <pre><code class="language-bash">php move_config_to_root.php</code></pre>
 <p>It took me around 5 iterations to make it right, but the script was ready in 10 minutes. As a bonus, we could re-use it to move <code>/templates</code>, <code>/translations</code> etc. as well <strong>for just 1 minute of extra work</strong>.</p>
-<h2 id="2-update-code-resource-code-paths-in-code-services-yaml-code">2. Update <code>resource:</code> Paths in <code>services.yaml</code></h2>
+<h2 id="2.-update-<code>resource:</code>-paths-in-<code>services.yaml</code>">2. Update <code>resource:</code> Paths in <code>services.yaml</code></h2>
 <p>But since we moved config files one level up, we also need to <strong>update paths inside the files</strong>. How?
 You can use <code>str_replace</code> or (like me) regular expressions.</p>
 <pre><code class="language-bash">composer require nette/utils --dev</code></pre>
@@ -190,7 +190,7 @@ foreach ($configFiles as $configFile) {
 -        resource: ..
 +        resource: ../src</code></pre>
 <p>Again, it took us 3-4 iterations to cover all edge cases, but then it was ready and bullet-proof.</p>
-<h2 id="start-small-then-take-it-to-the-next-level">Start Small, then Take it to the Next Level</h2>
+<h2 id="start-small,-then-take-it-to-the-next-level">Start Small, then Take it to the Next Level</h2>
 <p><strong>If you want to get deeper into this thinking and find more inspiration, read the <em>Pragmatic Programmer</em> book</strong>. I personally found useful about 60 % of the content (compared to usual ~30 % in technical books), so 👍</p>
 <img src="/assets/images/posts/2019/one-time/pragmatic_programmer.jpg" class="img-thumbnail">
 <p>I use this approach in Rector to create new rule + test in 1 file:</p>

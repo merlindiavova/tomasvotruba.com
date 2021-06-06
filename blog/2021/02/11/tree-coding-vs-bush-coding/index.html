@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?386319246" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1468852392" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Tree Coding vs. Bush Coding" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2021/02/11/tree-coding-vs-bush-coding" />
@@ -125,20 +125,20 @@ In the past, we used singletons and static calls to get anything anywhere instan
 </ul></li>
 </ul>
 <p><br></p>
-<h2 id="why-tree">Why Tree?</h2>
+<h2 id="why-tree?">Why Tree?</h2>
 <p>The significant advantage of trees is that they grow strong and tall. They're robust and can produce a lot of branches and leaves to rise to the sun. The sun gives them more energy to grow even further. A typical example of tree coding is dependency injection.</p>
 <div class="text-center">
     <img src="/assets/images/posts/2021/tree_vs_bush.jpg" class="img-thumbnail mt-4 mb-2">
     <br>
     <em>Tree Coding vs Bush Coding</em>
 </div>
-<h2 id="why-bush">Why Bush?</h2>
+<h2 id="why-bush?">Why Bush?</h2>
 <p>At first sight, a bush grows much faster than a tree. Its goal is to grow as many leaves as possible in a short time. It does not care about the future as much as a tree.
 A typical example of bush coding is static method calls and static classes.</p>
 <p><br></p>
 <h2 id="power-of-tree-coding">Power of Tree Coding</h2>
 <p>Tree coding is similar to <a href="/blog/2018/04/30/programming-climbing-a-huge-mountain/">climbing a huge mountain</a>. Let's focus on the basic idea:</p>
-<h3 id="what-is-the-goal-of-tree-coding">What is The Goal of Tree Coding?</h3>
+<h3 id="what-is-the-goal-of-tree-coding?">What is The Goal of Tree Coding?</h3>
 <ul>
 <li>It has a <strong>clear hierarchy</strong> from the bottom up, as you have guessed from dependency injection over static calls</li>
 <li><strong>Single place for single responsibility</strong>
@@ -163,7 +163,7 @@ A typical example of bush coding is static method calls and static classes.</p>
 </ul>
 <p><br></p>
 <p>Today we look on 3 more examples that can be easily missed while slowly poluting your code:</p>
-<h2 id="1-service-inside-value-object">1. Service Inside Value Object</h2>
+<h2 id="1.-service-inside-value-object">1. Service Inside Value Object</h2>
 <p>By value object, we talk about any entity, value object, or data transfer object. Anything that can be created multiple times, like vaccines.</p>
 <pre><code class="language-php">final class Vaccine
 {
@@ -201,7 +201,7 @@ $vaccine-&gt;vaccinateAnimal($animal);</code></pre>
     }
  }</code></pre>
 <p>That's not a way to go.</p>
-<h3 id="how-to-refactor">How to Refactor?</h3>
+<h3 id="how-to-refactor?">How to Refactor?</h3>
 <p>It can happen to anyone. I'm aware of 3 such places in Rector itself that we plan to refactor. What can we do about it?</p>
 <p>Let's refactor service from the object...</p>
 <pre><code class="language-diff"> final class Vaccine
@@ -227,7 +227,7 @@ $vaccine-&gt;vaccinateAnimal($animal);</code></pre>
 -$vaccine-&gt;vaccinateAnimal($animal);
 +$vaccinatingService-&gt;vaccinate($animal);</code></pre>
 <p>✅</p>
-<h2 id="2-trait-adding-dependency">2. Trait adding Dependency</h2>
+<h2 id="2.-trait-adding-dependency">2. Trait adding Dependency</h2>
 <p>Let's stay with a vaccine from previous example. We got into the same problem:</p>
 <pre><code class="language-php">$vaccine-&gt;orderNewOne();
 $vaccine-&gt;vaccinateHuman($human);
@@ -264,7 +264,7 @@ $vaccine-&gt;vaccinateAnimal($animal);</code></pre>
 <p>Oh, so it's using frameworks (Nette/Symfony) dependency injection to add dependencies... how <del>smart</del> bush coding!</p>
 <p>❌</p>
 <p>To be honest, I put similar crap code into Rector. Shame on me. It took <a href="https://github.com/rectorphp/rector/pull/5385">bunch</a> <a href="https://github.com/rectorphp/rector/pull/5466">of</a> <a href="https://github.com/rectorphp/rector/pull/5383">pull</a> <a href="https://github.com/rectorphp/rector/pull/5384">request</a> to get rid of completely.</p>
-<h3 id="how-to-refactor">How to Refactor?</h3>
+<h3 id="how-to-refactor?">How to Refactor?</h3>
 <p>The same way as the example above. Get rid of traits...</p>
 <pre><code class="language-diff"> final class Vaccine
  {
@@ -279,7 +279,7 @@ $vaccinatingService-&gt;vaccinate($human);
 $vaccinatingService-&gt;vaccinate($animal);</code></pre>
 <p>✅</p>
 <p>After this incident, we <a href="https://github.com/symplify/phpstan-rules/blob/master/docs/rules_overview.md#notraitrule">forbid trait completely</a> with PHPStan.</p>
-<h2 id="3-using-nette-template-to-transfer-data">3. Using Nette Template to Transfer Data</h2>
+<h2 id="3.-using-nette-template-to-transfer-data">3. Using Nette Template to Transfer Data</h2>
 <p>Last but not least, there are template objects. It about any object that magically <strong>sets its variables on the fly</strong>:</p>
 <pre><code class="language-php">$someObject = new stdClass;
 $someObject-&gt;name = 'Maybe' + 'Some';
@@ -363,7 +363,7 @@ $this-&gt;template-&gt;welcomeHere .= PHP_EOL . 'Thank you!';
 </li>
 </ul>
 <p>❌</p>
-<h3 id="how-to-refactor">How to Refactor?</h3>
+<h3 id="how-to-refactor?">How to Refactor?</h3>
 <p>How can we get out of this bush? It's simpler than the two examples before. What would you do?</p>
 <p>Use a variable, of course.</p>
 <pre><code class="language-diff">-$this-&gt;template-&gt;welcomeHere = '...';

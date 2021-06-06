@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?298699302" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?192315289" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="5 Steps to Your First Fixer or Sniff Test" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/04/16/5-steps-to-your-first-fixer-or-sniff-test" />
@@ -90,14 +90,14 @@ When <a href="/blog/2017/07/24/how-to-write-custom-fixer-for-php-cs-fixer-24/">I
 <pre><code class="language-diff">-$value = TRUE;
 +$value = true;</code></pre>
 <p>And nothing more. How do we take this test case to PHPUnit? That is what <a href="https://github.com/symplify/easy-coding-standard-tester">ECS Tester</a> package will help us with.</p>
-<h2 id="1-install-the-package">1. Install the package</h2>
+<h2 id="1.-install-the-package">1. Install the package</h2>
 <pre><code class="language-bash">composer require symplify/easy-coding-standard-tester --dev</code></pre>
-<h2 id="2-create-a-config-with-checker-s-you-want-to-test">2. Create a config with checker(s) you want to test</h2>
+<h2 id="2.-create-a-config-with-checker(s)-you-want-to-test">2. Create a config with checker(s) you want to test</h2>
 <pre><code class="language-yaml"># /tests/Fixer/LowerBoolConstantsFixer/config.yml
 services:
     Your\CodingStandard\LowerBoolConstantsFixer: ~</code></pre>
 <p>(<em>Checker</em> is a group name for sniff and fixer, nothing more.)</p>
-<h2 id="3-create-a-test-case-and-provide-the-config">3. Create a Test Case and Provide the Config</h2>
+<h2 id="3.-create-a-test-case-and-provide-the-config">3. Create a Test Case and Provide the Config</h2>
 <p>Create a test case that extends <code>Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase</code> class.</p>
 <pre><code class="language-php">&lt;?php declare(strict_types=1);
 
@@ -129,7 +129,7 @@ final class LowerBoolConstantsFixerTest extends AbstractCheckerTestCase
 +        return __DIR__ . '/config.yml';
 +    }
  }</code></pre>
-<h2 id="4-test-the-checker-behavior">4. Test The Checker Behavior</h2>
+<h2 id="4.-test-the-checker-behavior">4. Test The Checker Behavior</h2>
 <p>You can make use of 3 testing methods:</p>
 <ul>
 <li><code>doTestCorrectFile($correctFile)</code> - the file should not be affected by this checker</li>
@@ -160,7 +160,7 @@ final class LowerBoolConstantsFixerTest extends AbstractCheckerTestCase
         return __DIR__ . '/config.yml';
     }
 }</code></pre>
-<h2 id="5-the-best-for-last-create-the-code-snippets">5. The Best For Last - Create the Code Snippets</h2>
+<h2 id="5.-the-best-for-last-create-the-code-snippets">5. The Best For Last - Create the Code Snippets</h2>
 <p><strong>This part you enjoy the most because your job is to break the checker</strong>... well, at least verify it behaves as you want it to behave.</p>
 <p>What should it skip? Well, since <code>NULL</code> / <code>null</code> is not a bool value...</p>
 <pre><code class="language-php">// correct/correct.php.inc

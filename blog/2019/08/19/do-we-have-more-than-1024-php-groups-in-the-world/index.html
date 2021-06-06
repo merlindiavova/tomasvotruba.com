@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1507775769" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?351779562" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Do We Have More than 1024 PHP Groups in The World?" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/08/19/do-we-have-more-than-1024-php-groups-in-the-world" />
@@ -142,10 +142,10 @@ Today, it's a much bigger project with over...</p>
 </li>
 </ul>
 <p>Any tips? <a href="https://github.com/TomasVotruba/friendsofphp.org/issues">Add new issue</a></p>
-<h2 id="how-does-the-website-work">How Does the Website Work?</h2>
+<h2 id="how-does-the-website-work?">How Does the Website Work?</h2>
 <p>Meetups are downloaded every day by Travis CRON job from Meetup.com for each group. You'll find them manually added in <a href="https://github.com/TomasVotruba/friendsofphp.org/blob/master/config/_data/groups.yaml">this YAML file in repository</a>. No surprise <strong>it runs on <a href="https://github.com/symplify/symfony-static-dumper">Symfony Static Dumper</a> and is fully <a href="https://github.com/tomasvotruba/friendsofphp.org">open-sourced on Github</a></strong>.</p>
 <p>Although there <a href="https://www.meetup.com/meetup_api">Meetup API</a> often works as documented, it's impossible to find all PHP groups with it. There is an issue <strong>when you search for groups in a specific location, it ignores the area and sets back to your origin city</strong>. Pity, that exactly what we need here.</p>
-<h3 id="what-now">What now?</h3>
+<h3 id="what-now?">What now?</h3>
 <p>Maybe instead of API... a <strong>crawler could help</strong> - <a href="https://github.com/meetup/api/issues/249#issuecomment-427548572">and it did</a>:</p>
 <pre><code class="language-php">&lt;?php
 
@@ -176,7 +176,7 @@ Provide a list of codes for all countries in the world, and in a few minutes you
    Lesson learned: use what works.
 </blockquote>
 <p>Events are stored with their location and rendered to Open Street Maps with fantastic <a href="https://leafletjs.com">Leaflet framework</a>. You don't have to know any Javascript. Documentation is that good.</p>
-<h2 id="how-much-does-it-cost-to-travel-abroad-meetup">How much Does it Cost to Travel abroad Meetup?</h2>
+<h2 id="how-much-does-it-cost-to-travel-abroad-meetup?">How much Does it Cost to Travel abroad Meetup?</h2>
 <p>There is <a href="/blog/2018/07/23/5-signs-should-never-have-a-talk-abroad/">plenty of reasons not-to-go</a> visit PHP meetup abroad, but the one I hear the most <strong>are money</strong>.</p>
 <p>To give you an idea, here <strong>are costs of my trips from Prague</strong> to cities nearby:</p>
 <table class="table table-bordered">
@@ -212,7 +212,7 @@ Provide a list of codes for all countries in the world, and in a few minutes you
     </tr>
 </table>
 <p>At the start, I had to pay Airbnb. But when you go to meetups more than once, you'll remember people; they'll remember you, and they're beneficial with your subsequent visits. <strong> ask to stay over for one night on the floor</strong>.</p>
-<h3 id="do-you-need-help-with-or-ask-where-to-start">Do You Need Help With $ or Ask Where to Start?</h3>
+<h3 id="do-you-need-help-with-$-or-ask-where-to-start?">Do You Need Help With $ or Ask Where to Start?</h3>
 <p>Let <a href="/contact">me know</a> - I might know a way to help you.</p>
 <p><br></p>
 <p>That's all, folks. Enjoy your offline PHP friends - <a href="https://friendsofphp.org">friendsofphp.org</a> and have fun!</p>

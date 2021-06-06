@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1794883986" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1514150959" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="New in Symplify 3: 4 Improvements in EasyCodingStandard" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/03/01/new-in-symplify-3-4-improvements-in-easy-coding-standard" />
@@ -93,7 +93,7 @@ Nice diffs for fixable sniffs, smart excluding, support for sniff warnings and o
                 </div>
             </div>
 
-            <h2 id="1-exclude-files-or-dirs">1. Exclude Files or Dirs</h2>
+            <h2 id="1.-exclude-files-or-dirs">1. Exclude Files or Dirs</h2>
 <p>Do you have <code>src/Migrations</code> that you need to skip from your <code>vendor/bin/ecs check src</code> command?</p>
 <pre><code class="language-php">use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\EasyCodingStandard\ValueObject\Option;
@@ -107,14 +107,14 @@ return function (ContainerConfigurator $containerConfigurator): void {
 };
 </code></pre>
 <p>With favorite <a href="http://php.net/manual/en/function.fnmatch.php"><code>fnmatch()</code> function</a> on board.</p>
-<h2 id="2-warnings-are-reported-for-specific-sniffs">2. Warnings are Reported for Specific Sniffs</h2>
+<h2 id="2.-warnings-are-reported-for-specific-sniffs">2. Warnings are Reported for Specific Sniffs</h2>
 <p><a href="https://github.com/symplify/symplify/pull/481" class="btn btn-dark btn-sm mb-3 mt-2">
 Check the PR #481
 </a></p>
 <p>Sniff warnings are skipped by default, because it doesn't make sense to differentiate errors vs warnings. Yet some official Sniffs only produce warnings and that made them useless. Like <code>PHP_CodeSniffer\Standards\Squiz\Sniffs\PHP\CommentedOutCodeSniff</code>.</p>
 <p>That changed. New property <a href="https://github.com/symplify/symplify/blob/3d058becb57efefe2307c88ee94acbfbd15ebd1c/packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php#L52"><code>$reportWarningsSniffs</code> in <code>Symplify\EasyCodingStandard\SniffRunner\File\File</code></a> now lists all sniffs, that report warnings in ECS as well.</p>
 <p><strong>Do you miss useful Sniff that reports only warnings?</strong> Send PR to add it.</p>
-<h2 id="3-nice-and-clear-diff-over-boring-table-report">3. Nice and Clear Diff over Boring Table Report</h2>
+<h2 id="3.-nice-and-clear-diff-over-boring-table-report">3. Nice and Clear Diff over Boring Table Report</h2>
 <p><a href="https://github.com/symplify/symplify/pull/474" class="btn btn-dark btn-sm mb-3 mt-2">
 Check the PR #474
 </a></p>
@@ -143,7 +143,7 @@ Applied checkers:
 
  - SomeSniff</code></pre>
 <p>Which one do you prefer?</p>
-<h2 id="4-skip-sniff-codes-instead-of-whole-sniffs">4. Skip Sniff Codes instead of Whole Sniffs</h2>
+<h2 id="4.-skip-sniff-codes-instead-of-whole-sniffs">4. Skip Sniff Codes instead of Whole Sniffs</h2>
 <p><a href="https://github.com/symplify/symplify/pull/388" class="btn btn-dark btn-sm mb-3 mt-2">
 Check the PR #388
 </a></p>

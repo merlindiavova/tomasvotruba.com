@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?2000032846" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?206711161" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Migrate From PHP CS Fixer to ECS in 6 Steps" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/06/07/how-to-migrate-from-php-cs-fixer-to-easy-coding-standard" />
@@ -106,7 +106,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <p>And runs as CLI command:</p>
 <pre><code class="language-bash">vendor/bin/ecs check src</code></pre>
 <p>But what if you already have PHP CS Fixer on your project and want to switch?</p>
-<h2 id="1-from-string-codes-to-autocompleted-classes">1. From String Codes to Autocompleted Classes</h2>
+<h2 id="1.-from-string-codes-to-autocompleted-classes">1. From String Codes to Autocompleted Classes</h2>
 <p>You use string references like <code>strict_types</code> in your <code>.php_cs</code> file. You need to remember them, <a href="https://github.com/friendsofphp/php-cs-fixer">copy paste them from README</a> and <strong>copy-paste them right</strong>.</p>
 <pre><code class="language-php">return PhpCsFixer\Config::create()
     -&gt;setRules([
@@ -131,7 +131,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
     $services-&gt;set(DeclareStrictTypesFixer::class);
 };</code></pre>
 <p>No more typos with <em>strong</em> over <em>string typing</em>.</p>
-<h2 id="2-from-code-notpath-code-to-code-skip-code-parameter">2. From <code>notPath()</code> to <code>skip</code> Parameter</h2>
+<h2 id="2.-from-<code>not-path()</code>-to-<code>skip</code>-parameter">2. From <code>notPath()</code> to <code>skip</code> Parameter</h2>
 <p>If you'd like to skip nasty code from being analyzed, you'd probably use this in PHP CS Fixer.</p>
 <pre><code class="language-php">$finder = PhpCsFixer\Finder::create()
     -&gt;exclude('somedir')
@@ -175,7 +175,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
     ]);
 };</code></pre>
 <p>For all other <code>skip</code> options, <a href="https://github.com/symplify/easy-coding-standard/#ignore-what-you-cant-fix">see README</a>.</p>
-<h2 id="3-from-code-php-cs-code-to-php-config">3. From <code>.php_cs</code> to PHP Config</h2>
+<h2 id="3.-from-<code>.php-cs</code>-to-p-h-p-config">3. From <code>.php_cs</code> to PHP Config</h2>
 <p>PHP CS Fixer looks for <code>.php_cs</code> file in the root directory by default.</p>
 <p><strong>And ECS looks for <code>ecs.php</code></strong></p>
 <p>What about non-default locations or names?</p>
@@ -183,7 +183,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <pre><code class="language-bash">vendor/bin/php-cs-fixer fix /path/to/project --config=custom/location.yml --dry-run</code></pre>
 <p><strong>to:</strong></p>
 <pre><code class="language-bash">vendor/bin/ecs check /path/to/project --config custom/location.php</code></pre>
-<h2 id="4-configuring-fixer-values">4. Configuring Fixer Values</h2>
+<h2 id="4.-configuring-fixer-values">4. Configuring Fixer Values</h2>
 <p>From PHP configuration in PHP CS Fixer:</p>
 <pre><code class="language-php">return PhpCsFixer\Config::create()
     -&gt;setRules([
@@ -203,14 +203,14 @@ return function (ContainerConfigurator $containerConfigurator): void {
         ]]);
 };</code></pre>
 <p>Nice and clear!</p>
-<h2 id="5-from-no-code-dry-run-code-to-code-fix-code-option">5. From no <code>--dry-run</code> to <code>--fix</code> option</h2>
+<h2 id="5.-from-no-<code>-dry-run</code>-to-<code>-fix</code>-option">5. From no <code>--dry-run</code> to <code>--fix</code> option</h2>
 <p>From PHP CS Fixer:</p>
 <pre><code class="language-bash">vendor/bin/php-cs-fixer fix /path/to/project --dry-run
 vendor/bin/php-cs-fixer fix /path/to/project</code></pre>
 <p>to ECS equivalent:</p>
 <pre><code class="language-bash">vendor/bin/ecs check /path/to/project
 vendor/bin/ecs check /path/to/project --fix</code></pre>
-<h2 id="6-from-code-rules-code-to-code-imports-code">6. From <code>@Rules</code> to <code>imports</code></h2>
+<h2 id="6.-from-<code>@rules</code>-to-<code>imports</code>">6. From <code>@Rules</code> to <code>imports</code></h2>
 <p>Do you like to use standards like PSR-2 or even <a href="/blog/2018/04/09/try-psr-12-on-your-code-today/">PSR-12</a>?</p>
 <p>From <code>@strings</code> in PHP CS Fixer:</p>
 <pre><code class="language-php">$config = PhpCsFixer\Config::create()
@@ -226,7 +226,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator-&gt;import(SetList::PSR_12);
 };</code></pre>
 <p><br></p>
-<h2 id="give-it-a-try">Give it a Try...</h2>
+<h2 id="give-it-a-try...">Give it a Try...</h2>
 <p>...and you won't regret it. Sylius, <a href="https://github.com/pestphp/drift">PestPHP</a>, LMC, Shopsys and Nette did and never came back.</p>
 <p><br></p>
 <p>Did I forget a step that you had to fight with? <strong>Please, let me know in the comments or just send PR to this post to add it</strong>, so we help other readers.</p>

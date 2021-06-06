@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?344958820" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?253121947" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Statie is Dead, Long live Symfony Static Dumper" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/03/16/statie-is-dead-long-live-symfony-static-dumper" />
@@ -89,7 +89,7 @@
 <p>In short, it looks like this:</p>
 <img src="/assets/images/posts/2020/dump_static_site_demo.gif" class="img-thumbnail">
 <p><br></p>
-<h2 id="killer-features">Killer Features?</h2>
+<h2 id="killer-features?">Killer Features?</h2>
 <p>What I love the most about it, that the Symfony Static Dumper <strong>only handles the missing part - generate HTML and CSS</strong>. All the rest is up to you, your imagination. You code standard Symfony application, nothing special, nothing weird.</p>
 <p>Do you want more advantages?</p>
 <ul>
@@ -102,7 +102,7 @@
 <li>use Symfony plugin ✅</li>
 <li>single command use ✅</li>
 </ul>
-<h2 id="how-to-migrate-from-statie-to-symfony-static-site-dumper">How to Migrate from Statie to Symfony Static Site Dumper?</h2>
+<h2 id="how-to-migrate-from-statie-to-symfony-static-site-dumper?">How to Migrate from Statie to Symfony Static Site Dumper?</h2>
 <p>Do you still use Statie? Don't worry; we have a migration path for you.</p>
 <h3 id="add-symfony-packages">Add Symfony Packages</h3>
 <p>First, you need to install Symfony packages:</p>
@@ -115,12 +115,12 @@ composer require symplify/symfony-static-dumper</code></pre>
 <li>add <a href="https://github.com/symfony/demo/blob/main/bin/console"><code>bin/console</code></a></li>
 <li>add <a href="https://github.com/TomasVotruba/friendsofphp.org/blob/master/src/HttpKernel/FopKernel.php"><code>src/HttpKernel/YourAppKernel.php</code></a></li>
 </ul>
-<h3 id="move-code-source-code">Move <code>/source</code></h3>
+<h3 id="move-<code>/source</code>">Move <code>/source</code></h3>
 <ul>
 <li>Templates to <code>/templates</code></li>
 <li>Public content, e.g. <code>robots.txt</code> or <code>CNAME</code> to <code>/public</code></li>
 </ul>
-<h3 id="update-ci">Update CI</h3>
+<h3 id="update-c-i">Update CI</h3>
 <pre><code class="language-diff">-vendor/bin/statie generate source
 +bin/console dump-static-site</code></pre>
 <h3 id="pages-to-controller-templates">Pages to Controller Templates</h3>
@@ -174,7 +174,7 @@ final class ThankYouController extends AbstractController
 <li><a href="https://github.com/TomasVotruba/tomasvotruba.com/pull/940">migration of TomasVotruba.com</a></li>
 <li><a href="https://github.com/TomasVotruba/friendsofphp.org/pull/162">migration of FriendsOfPhp.org</a> - <a href="https://github.com/TomasVotruba/friendsofphp.org/pull/169">part #2</a></li>
 </ul>
-<h2 id="how-to-set-it-up">How to Set it Up?</h2>
+<h2 id="how-to-set-it-up?">How to Set it Up?</h2>
 <p>All the essential information is in <a href="https://github.com/symplify/symfony-static-dumper">README</a>.</p>
 <p>Install the package via composer:</p>
 <pre><code class="language-bash">composer require symplify/symfony-static-dumper</code></pre>

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?694250058" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1517110864" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Symplify Monorepo Builder Split - Fractal of Bad Design" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/11/02/symplify-monorepo-builder-split-fractal-of-bad-design" />
@@ -78,7 +78,7 @@
                 </div>
             </div>
 
-            <h2 id="1-it-s-super-slow">1. It's Super Slow</h2>
+            <h2 id="1.-its-super-slow">1. It's Super Slow</h2>
 <p><a href="https://github.com/symplify/monorepo-builder">Symplify/MonorepoBuilder</a> is easy to set up and easy to use:</p>
 <pre><code class="language-bash">vendor/bin/monorepo split</code></pre>
 <p>But the split operation itself is not really Usain Bolt among <a href="/blog/2020/01/13/why-is-first-instant-feedback-crucial-to-developers/">instant feedbacks</a>:</p>
@@ -92,11 +92,11 @@
 <p>As for Symplify, if we merge pull-request, <strong>it takes ~8 minutes to use the code</strong>.
 It takes ~4&nbsp;minutes of waiting for Travis to notice, then 3 minutes to split ~15 packages, and 1 minute to trigger Packagist.</p>
 <p>Found a typo in the return type? Commit and... wait 8 minutes. That is bad and breaks the flow and your productivity.</p>
-<h2 id="2-it-s-so-slow-despite-having-parallel-run">2. It's so Slow, Despite having Parallel Run</h2>
+<h2 id="2.-its-so-slow,-despite-having-parallel-run">2. It's so Slow, Despite having Parallel Run</h2>
 <p>A typical solution for such performance issues is <a href="https://phpstan.org/blog/from-minutes-to-seconds-massive-performance-gains-in-phpstan">running it in parallel processes</a>. The speed gain is x-times, where <code>x</code> is the number of CPUs your machine has.</p>
 <pre><code class="language-bash">vendor/bin/monorepo-builder split --max-processes 6</code></pre>
 <p><a href="https://github.com/symplify/symplify/pull/620">Before we added parallel run</a>, it took <strong>over 7 minutes</strong> on just <strong>8 packages</strong>!</p>
-<h2 id="3-it-s-rocket-science-at-it-s-worst">3. It's Rocket Science at it's Worst</h2>
+<h2 id="3.-its-rocket-science-at-its-worst">3. It's Rocket Science at it's Worst</h2>
 <p><strong>What is a monorepo split?</strong></p>
 <ul>
 <li>take some subdirectory</li>
@@ -113,12 +113,12 @@ It takes ~4&nbsp;minutes of waiting for Travis to notice, then 3 minutes to spli
 </ul>
 <img src="/assets/images/posts/2020/symplify_monorepo_split.jpg" class="img-thumbnail">
 <p>Why keep it simple, right?</p>
-<h2 id="4-it-has-the-worst-error-message-output">4. It has The Worst Error Message Output</h2>
+<h2 id="4.-it-has-the-worst-error-message-output">4. It has The Worst Error Message Output</h2>
 <p>Thanks to previous Inception-complexity, the code can break in any of these layers. From git to invalid bash syntax to a tool that wraps the Git API in PHP or typo in the target directory.</p>
 <p>In <a href="https://travis-ci.com/github/symplify/symplify/jobs/363743493">reality</a>, you get something like this:</p>
 <img src="/assets/images/posts/2020/symplify_monorepo_fail.png" class="img-thumbnail">
 <p>I do appreciate a good error message.</p>
-<h2 id="5-it-depends-on-both-travis-and-github">5. It Depends on both Travis and GitHub</h2>
+<h2 id="5.-it-depends-on-both-travis-and-git-hub">5. It Depends on both Travis and GitHub</h2>
 <p>If you want to make it work on your monorepo, <a href="/blog/2018/07/19/how-to-make-github-and-travis-split-monorepo-to-multiple-git-repositories-for-you/">you have to follow these steps</a>:</p>
 <ul>
 <li>go to GitHub to get a token</li>

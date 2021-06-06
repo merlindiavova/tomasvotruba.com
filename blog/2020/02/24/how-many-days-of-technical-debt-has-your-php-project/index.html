@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?648211076" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?621285278" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How Many Days of Technical Debt Has your PHP Project" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/02/24/how-many-days-of-technical-debt-has-your-php-project" />
@@ -102,7 +102,7 @@ This year I've started to use CI service, which tells you the number in days. An
             <p><a href="https://sonarcloud.io/dashboard?id=rectorphp_rector"></p>
 <img src="/assets/images/posts/2020/sonar_rector.png" class="img-thumbnail">
 <p></a></p>
-<h2 id="how-reliable-is-technical-dept-metric">How Reliable is Technical Dept Metric?</h2>
+<h2 id="how-reliable-is-technical-dept-metric?">How Reliable is Technical Dept Metric?</h2>
 <p>When I first analyzed Rector, <strong>top 5 worst classes had these in common</strong>:</p>
 <ul>
 <li>&quot;instanceof programming&quot;, e.g., 10-15 cases of <code>instanceof</code>, then do return some logic</li>
@@ -112,7 +112,7 @@ This year I've started to use CI service, which tells you the number in days. An
 </ul>
 <p>As the first experiment, I picked a class that had <strong>5 hours and 40 minutes</strong> of technical debt, and I gradually converted it to <a href="/blog/2018/06/14/collector-pattern-for-dummies/">collector pattern</a>.</p>
 <p>Do you want to see <strong>real code</strong>? Look at <a href="https://github.com/rectorphp/rector/pull/2767/files#diff-23d92ff042a5c83870af8b8d30bbdd8d">this PR with <code>NodeTypeResolver</code> decoupling to 10 new classes</a>.</p>
-<h2 id="i-thought-removing-legacy-would-be-fun">I Thought Removing Legacy Would be Fun...</h2>
+<h2 id="i-thought-removing-legacy-would-be-fun...">I Thought Removing Legacy Would be Fun...</h2>
 <p>...but removing my legacy code was rather painful. I had to <a href="/blog/2018/05/21/is-your-code-readable-by-humans-cognitive-complexity-tells-you/">load huge methods</a> to my working memory, think about relations of huge monolithic class and try to split into the smallest standalone pieces.</p>
 <p><strong>After 3 hours of work, I was exhausted</strong>, but CI was passing, and the god class was gone. I pushed my work, merged the PR to the <code>master</code>, and waited for SonarCloud analysis... <strong>from 5:40 I got into 2:40</strong>. What?</p>
 <p>After all this work, only such a small improvement? Don't take me wrong; the code was much improved, I'm just used to work more effectively with Rector-wave refactoring approach... no more <a href="https://freek.dev/1518-automatically-convert-your-code-to-php-74-syntax-using-rector">from months to days</a>?</p>
@@ -130,17 +130,17 @@ This year I've started to use CI service, which tells you the number in days. An
 <p>...<strong>to keep code base fit for years</strong></p>
 <p><br></p>
 <p>Do you wonder <strong>how many days you have on your back</strong>? 10, 50 or over 100? Add your first SonarCube check into the CI and share with us in comments ↓</p>
-<h2 id="how-to-add-sonarcube-to-your-github-project-in-6-steps">How to add SonarCube to your Github Project in 6 Steps?</h2>
+<h2 id="how-to-add-sonar-cube-to-your-github-project-in-6-steps?">How to add SonarCube to your Github Project in 6 Steps?</h2>
 <p>SonarCube is free for open-source and has a 1-week trial for private projects. I tried the 1-week trial on one private project, and then I saw the debt... <strong>365</strong>, <del>hours</del> days... you have to love it :D.</p>
-<h2 id="1-add-project-on-sonarcloud">1. Add Project on SonarCloud</h2>
+<h2 id="1.-add-project-on-sonar-cloud">1. Add Project on SonarCloud</h2>
 <ul>
 <li><a href="https://sonarcloud.io/projects/create">Create new project</a></li>
 </ul>
 <img src="/assets/images/posts/2020/sonar_step_1.png" class="img-thumbnail">
-<h2 id="2-authorize-your-github-project">2. Authorize Your Github Project</h2>
+<h2 id="2.-authorize-your-github-project">2. Authorize Your Github Project</h2>
 <img src="/assets/images/posts/2020/sonar_step_2.png" class="img-thumbnail">
 <p>Add the file and commit to <code>master</code>.</p>
-<h2 id="3-add-github-action">3. Add Github Action</h2>
+<h2 id="3.-add-github-action">3. Add Github Action</h2>
 <p>We need to have a way to tell the Sonar that new code was pushed. That's what Github Actions are for.</p>
 <p>Add new workflow:</p>
 <pre><code class="language-yaml"># .github/workflows/sonarcube.yaml
@@ -162,14 +162,14 @@ jobs:
                     ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
                     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}</code></pre>
 <p>As you can see, there are 2 tokens to authorize.</p>
-<h3 id="how-to-get-tokens">How to get Tokens?</h3>
+<h3 id="how-to-get-tokens?">How to get Tokens?</h3>
 <ul>
 <li><a href="https://github.com/settings/tokens">https://github.com/settings/tokens</a> → <code>ACCESS_TOKEN</code></li>
 <li><a href="https://sonarcloud.io/account/security">https://sonarcloud.io/account/security</a> → <code>SONAR_TOKEN</code></li>
 </ul>
-<h3 id="where-to-place-them">Where to place Them?</h3>
+<h3 id="where-to-place-them?">Where to place Them?</h3>
 <p>Add both tokens to your <em>secrets</em> sections in your repository: <a href="https://github.com/TomasVotruba/tomasvotruba.com/settings/secrets">https://github.com/TomasVotruba/tomasvotruba.com/settings/secrets</a></p>
-<h2 id="4-add-badge-for-quick-link-to-sonarcloud-analysis">4. Add Badge for Quick Link to SonarCloud Analysis</h2>
+<h2 id="4.-add-badge-for-quick-link-to-sonar-cloud-analysis">4. Add Badge for Quick Link to SonarCloud Analysis</h2>
 <p>What is analysis good for if you can't reach it from your <code>README</code>? Be sure to add it there, so you can enter it quickly and share your excellent results with others.</p>
 <ul>
 <li>You can use the standard link: <a href="https://sonarcloud.io/dashboard?id=TomasVotruba_tomasvotruba.com">SonarCube</a></li>
@@ -178,7 +178,7 @@ jobs:
 <pre><code class="language-markdown">[![SonarCube](https://img.shields.io/badge/SonarCube_Debt-%3C2-brightgreen.svg?style=flat-square)](https://sonarcloud.io/dashboard?id=TomasVotruba_tomasvotruba.com)</code></pre>
 <p><a href="https://sonarcloud.io/dashboard?id=TomasVotruba_tomasvotruba.com"><img src="https://img.shields.io/badge/SonarCube_Debt-%3C2-brightgreen.svg?style=flat-square" alt="SonarCube" /></a></p>
 <p>Almost done...</p>
-<h2 id="5-where-is-the-code">5. Where is the Code?</h2>
+<h2 id="5.-where-is-the-code?">5. Where is the Code?</h2>
 <p>We still have to tell SonarCube where to look for the <code>src</code> code. To do this, we need to add <code>sonar-project.properties</code>.</p>
 <pre><code class="language-bash"># sonar-project.properties
 # see https://sonarcloud.io/documentation/project-administration/narrowing-the-focus/
@@ -188,7 +188,7 @@ sonar.projectKey=tomasvotruba.com
 # relative paths to the source, wildcards don't work
 sonar.sources=src</code></pre>
 <p>To get <code>organization</code> and and <code>projectKey</code>, just split the key (<code>TomasVotruba_tomasvotruba.com</code>) by <code>_</code>.</p>
-<h2 id="6-remove-spam-bot">6. Remove Spam Bot</h2>
+<h2 id="6.-remove-spam-bot">6. Remove Spam Bot</h2>
 <p><strong>Do this AFTER the first analysis of <code>master</code> branch is completed.</strong> If you do it earlier, the Github Action will not work.</p>
 <p><br></p>
 <p>There is a price for all the excellent features... you need to tolerate SonarCube <strong>spam bot on every commit</strong>.</p>
@@ -206,7 +206,7 @@ sonar.sources=src</code></pre>
 <p></a></p>
 <p><br></p>
 <h2 id="trouble-shooting">Trouble Shooting</h2>
-<h3 id="quot-please-add-the-secret-github-token-to-the-github-action-for-sonarcloud-quot">&quot;Please add the secret GITHUB_TOKEN to the GitHub action for SonarCloud&quot;</h3>
+<h3 id="&quot;please-add-the-secret-g-i-t-h-u-b-t-o-k-e-n-to-the-git-hub-action-for-sonar-cloud&quot;">&quot;Please add the secret GITHUB_TOKEN to the GitHub action for SonarCloud&quot;</h3>
 <p>If you see this message, don'T try to add <code>GITHUB_TOKEN</code> to your Secrets in GitHub repository. It won't let you.
 Instead, re-use already existing secret in your <code>.github/workflows/sonarcube.yaml</code>:</p>
 <pre><code class="language-diff"># .github/workflows/sonarcube.yaml
@@ -217,11 +217,11 @@ Instead, re-use already existing secret in your <code>.github/workflows/sonarcub
                      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 +                    GITHUB_TOKEN: ${{ secrets.SONAR_TOKEN }}</code></pre>
 <p><br></p>
-<h3 id="dual-analysis">Dual Analysis?</h3>
+<h3 id="dual-analysis?">Dual Analysis?</h3>
 <p>When CI fails for having both automatic and Github Action analysis, go to your project on SonarCube and disable it:</p>
 <img src="/assets/images/posts/2020/sonar_one_method.png" class="img-thumbnail">
 <p><br></p>
-<h3 id="quot-project-was-never-analyzed-a-regular-analysis-is-required-before-a-branch-analysis-quot">&quot;Project was never analyzed. A regular analysis is required before a branch analysis.&quot;</h3>
+<h3 id="&quot;project-was-never-analyzed.-a-regular-analysis-is-required-before-a-branch-analysis.&quot;">&quot;Project was never analyzed. A regular analysis is required before a branch analysis.&quot;</h3>
 <p>I tried many paths, but I'm not aware of any specific solution for this. <strong>Delete</strong> project on Sonarcloud, <strong>hide</strong> local GitHub Action workflow and <strong>star over</strong>.</p>
 <p><br></p>
 <p><strong>Now you see your weakest points and <a href="https://joshkaufman.net/how-to-fight-a-hydra">Fight the Hydra</a> with courage!</strong></p>

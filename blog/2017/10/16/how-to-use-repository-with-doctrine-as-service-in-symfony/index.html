@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?765800734" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?814594202" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to use Repository with Doctrine as Service in Symfony" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2017/10/16/how-to-use-repository-with-doctrine-as-service-in-symfony" />
@@ -100,7 +100,7 @@ The way out from <em>service locators</em> to <em>repository as service</em> was
 
             <p>This post is follow up to <a href="https://stackoverflow.com/questions/38346281/symfony-3-outsourcing-controller-code-into-service-layer/38349271#38349271">StackOverflow answer</a> to clarify key points and show the sweetest version yet.</p>
 <p>The person who kicked me to do this post was <a href="http://www.ucinnejsiweb.cz">Václav Keberdle</a> - <em>thank you for that</em>.</p>
-<h2 id="clean-reusable-independent-and-solid-goal">Clean, Reusable, Independent and SOLID Goal</h2>
+<h2 id="clean,-reusable,-independent-and-s-o-l-i-d-goal">Clean, Reusable, Independent and SOLID Goal</h2>
 <p>Our goal is to have clean code using <em>constructor injection</em>, <em>composition over inheritance</em> and <em>dependency inversion principles</em>.</p>
 <p>With as simple registration as:</p>
 <pre><code class="language-php">// app/config/services.php
@@ -115,8 +115,8 @@ return function (ContainerConfigurator $containerConfigurator): void {
     $services-&gt;load('App\\Repository\\', __DIR__ . '/../src/Repository');
 };</code></pre>
 <p>Nothing more, nothing less. Today, we'll try to get there.</p>
-<h2 id="how-do-we-register-repositories-now">How do we Register Repositories Now?</h2>
-<h3 id="1-entity-repository">1. Entity Repository</h3>
+<h2 id="how-do-we-register-repositories-now?">How do we Register Repositories Now?</h2>
+<h3 id="1.-entity-repository">1. Entity Repository</h3>
 <pre><code class="language-php">namespace App\Repository;
 
 use App\Entity\Post;
@@ -177,7 +177,7 @@ $this-&gt;postRepository-&gt;find('someString');</code></pre>
 // some object?
 $post-&gt;whatMethods()!</code></pre>
 <p><br></p>
-<h3 id="2-entity">2. Entity</h3>
+<h3 id="2.-entity">2. Entity</h3>
 <pre><code class="language-php">namespace App\Entity;
 
 use Doctrine\ORM\Entity;
@@ -219,7 +219,7 @@ final class Post
 </li>
 </ul>
 <p><br></p>
-<h3 id="3-use-in-controller">3. Use in Controller</h3>
+<h3 id="3.-use-in-controller">3. Use in Controller</h3>
 <p>You have to use this <a href="https://matthiasnoback.nl/2014/05/inject-a-repository-instead-of-an-entity-manager/#factory-service">complicated service registration in YAML</a>:</p>
 <pre><code class="language-php">// app/config/services.php
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -296,7 +296,7 @@ $post-&gt;getName();</code></pre>
 <li>We cannot use constructor injection in repositories, which <strong>can easily lead you to creating static helper classes</strong> ❌</li>
 <li>Also, you directly depend on Doctrine's or Symfony's API, so if <code>find()</code> changes to <code>get()</code> in one <code>composer update</code>, your app is down ❌</li>
 </ul>
-<h2 id="how-to-make-this-better-with-symfony-3-3-and-composition">How to make this Better with Symfony 3.3+ and Composition?</h2>
+<h2 id="how-to-make-this-better-with-symfony-3.3+-and-composition?">How to make this Better with Symfony 3.3+ and Composition?</h2>
 <p>It require few steps, but <strong>all builds on single one change</strong>. Have you heard about <em>composition over inheritance</em>?</p>
 <pre><code class="language-diff"> namespace App\Repository;
 
@@ -338,7 +338,7 @@ $post-&gt;getName();</code></pre>
 </ul>
 <p><strong>And how it influenced our 4 steps?</strong></p>
 <p><br></p>
-<h3 id="1-entity-repository">1. Entity Repository</h3>
+<h3 id="1.-entity-repository">1. Entity Repository</h3>
 <pre><code class="language-php">&lt;?php declare(strict_types=1);
 
 namespace App\Repository;
@@ -372,7 +372,7 @@ final class PostRepository
 <li>You can get another dependency if you like ✅</li>
 </ul>
 <p><br></p>
-<h3 id="2-entity">2. Entity</h3>
+<h3 id="2.-entity">2. Entity</h3>
 <pre><code class="language-php">namespace App\Entity;
 
 use Doctrine\ORM\Entity;
@@ -404,7 +404,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
     $services-&gt;set(App\Repository\ProductBenchmarkRepository::class);
 };</code></pre>
 <p><br></p>
-<h3 id="3-use-in-controller">3. Use in Controller</h3>
+<h3 id="3.-use-in-controller">3. Use in Controller</h3>
 <pre><code class="language-php">namespace App\Controller;
 
 use App\Repository\PostRepository;
@@ -427,7 +427,7 @@ final class PostController
 <li>The possibility to decouple to <a href="/blog/2017/02/07/how-to-decouple-monolith-like-a-boss-with-composer-local-packages/">local packages</a> is now opened ✅</li>
 </ul>
 <p><br></p>
-<h3 id="4-registration-code-services-php-code">4. Registration <code>services.php</code></h3>
+<h3 id="4.-registration-<code>services.php</code>">4. Registration <code>services.php</code></h3>
 <p>We have a new extra step - registration of services in application container:</p>
 <pre><code class="language-php">// app/config/services.php
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -442,7 +442,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 };</code></pre>
 <p><br></p>
 <p>All we needed is to apply <strong>composition over inheritance</strong> pattern.</p>
-<h2 id="quality-test-how-to-add-new-repository">Quality Test: How to Add new Repository?</h2>
+<h2 id="quality-test:-how-to-add-new-repository?">Quality Test: How to Add new Repository?</h2>
 <p>The main goal of all this was to make work with repositories typehinted, safe and reliable for you to use and easy to extend. <strong>It also minimized space for error</strong>, because <strong>strict types and constructor injection now validates</strong> much of your code for you.</p>
 <p>The answer is now simple: <strong>just create repository in <code>App\Repository</code></strong>.</p>
 <p>Try the same example with your current approach and let me know in the comments.</p>

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?262684972" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?492559665" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Upgrade to Symplify 8 - From Fixers to Rector Rules" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/05/11/how-to-upgrade-to-symplify-8-from-fixers-to-rector-rules" />
@@ -96,7 +96,7 @@
 <pre><code class="language-bash">vendor/bin/ecs check</code></pre>
 <p>You might see such notices right before your code gets checked:</p>
 <pre><code class="language-bash">PHP Notice:  Fixer "..." is deprecated. Use "..." instead</code></pre>
-<h2 id="why-were-these-fixers-dropped">Why were These Fixers Dropped?</h2>
+<h2 id="why-were-these-fixers-dropped?">Why were These Fixers Dropped?</h2>
 <p>You'll find answer to this question <a href="/blog/2020/05/04/how-to-upgrade-to-symplify-8-from-sniffs-to-phpstan-rules/">in previous post</a>. To extend answer specifically for this post: Fixer and Rector do the same job - <strong>they change code based on specific recipe</strong>.</p>
 <p><div class="card ml-4 mt-4 border-warning float-right post-snippet" style="width: 14em">
     <div class="card-body">
@@ -112,20 +112,20 @@
     </div>
 </div>
 </p>
-<h3 id="what-is-the-difference">What is the Difference?</h3>
+<h3 id="what-is-the-difference?">What is the Difference?</h3>
 <ul>
 <li>Fixer works with <a href="https://www.php.net/manual/en/function.token-get-all.php">tokens</a> → which is <strong>great for spaces and <code>{}()</code> positions</strong> etc.,</li>
 <li>Rector works with abstract syntax tree → <strong>great for refactoring, method/property position changes</strong>, rename across the code base, etc.</li>
 </ul>
 <p>Now we know <em>why</em>. Let's look <em>how</em> to deal with that.</p>
-<h2 id="what-to-do-with-these-deprecations">What to do With These Deprecations?</h2>
+<h2 id="what-to-do-with-these-deprecations?">What to do With These Deprecations?</h2>
 <p>So what does it mean? Remove all the rules from <code>ecs.php</code> and let go?</p>
 <p>No, <strong>all you need to do is switch to Rector rules</strong>. It's better working and more reliable since it works with context and not token positions. So at first, you might see new changes in your code.</p>
-<h2 id="how-to-handle-upgrade-in-30-minutes">How to Handle Upgrade in 30 minutes?</h2>
+<h2 id="how-to-handle-upgrade-in-30-minutes?">How to Handle Upgrade in 30 minutes?</h2>
 <p>There are dozen deprecated fixers in total. Let's take it one by one.</p>
 <p>First - if you don't have Rector, install it:</p>
 <pre><code class="language-bash">composer require rector/rector --dev</code></pre>
-<h2 id="1-no-empty-doc-block">1. No Empty Doc Block</h2>
+<h2 id="1.-no-empty-doc-block">1. No Empty Doc Block</h2>
 <p>The <code>RemoveEmptyDocBlockFixer</code> rule basically copied behavior of native <code>NoEmptyPhpdocFixer</code>, so just it instead:</p>
 <pre><code class="language-diff"> &lt;?php
 
@@ -140,7 +140,7 @@
 -    $services-&gt;set(Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer::class);
 +    $services-&gt;set(PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer::class);
  };</code></pre>
-<h2 id="2-preg-delimiter-character">2. Preg Delimiter Character</h2>
+<h2 id="2.-preg-delimiter-character">2. Preg Delimiter Character</h2>
 <p>The <code>PregDelimiterFixer</code> was checking consistent preg delimiter, in this case <code>#</code>:</p>
 <pre><code class="language-diff"> class SomeClass
  {
@@ -168,7 +168,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
         // default
         -&gt;arg('delimiter', '#');
 };</code></pre>
-<h2 id="3-required-must-be-followed-by-absolute-path">3. Required Must be followed by Absolute Path</h2>
+<h2 id="3.-required-must-be-followed-by-absolute-path">3. Required Must be followed by Absolute Path</h2>
 <pre><code class="language-diff"> class SomeClass
  {
      public function run()
@@ -193,7 +193,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator-&gt;services();
     $services-&gt;set(FollowRequireByDirRector::class);
 };</code></pre>
-<h2 id="4-match-exception-variable-name-to-its-type">4. Match Exception variable name to its Type</h2>
+<h2 id="4.-match-exception-variable-name-to-its-type">4. Match Exception variable name to its Type</h2>
 <pre><code class="language-diff"> class SomeClass
  {
      public function run()
@@ -223,7 +223,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator-&gt;services();
     $services-&gt;set(CatchExceptionNameMatchingTypeRector::class);
 };</code></pre>
-<h2 id="5-match-property-and-variable-to-its-type">5. Match Property and Variable to its Type</h2>
+<h2 id="5.-match-property-and-variable-to-its-type">5. Match Property and Variable to its Type</h2>
 <pre><code class="language-diff"> class SomeClass
  {
      /**
@@ -254,7 +254,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator-&gt;services();
     $services-&gt;set(RenamePropertyToMatchTypeRector::class);
 };</code></pre>
-<h2 id="6-set-default-values-to-bool-and-array-type-to-prevent-undefined-value">6. Set Default Values to bool and array Type to Prevent Undefined Value</h2>
+<h2 id="6.-set-default-values-to-bool-and-array-type-to-prevent-undefined-value">6. Set Default Values to bool and array Type to Prevent Undefined Value</h2>
 <pre><code class="language-diff"> class SomeClass
  {
      /**
@@ -296,7 +296,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
     $services-&gt;set(AddFalseDefaultToBoolPropertyRector::class);
     $services-&gt;set(AddArrayDefaultToArrayPropertyRector::class);
 };</code></pre>
-<h2 id="7-use-code-class-code-over-strings-names">7. Use <code>::class</code> over Strings Names</h2>
+<h2 id="7.-use-<code>::class</code>-over-strings-names">7. Use <code>::class</code> over Strings Names</h2>
 <p>This feature is here since PHP 5.5, and it's a massive help for static analysis and instant migrations.</p>
 <pre><code class="language-diff"> class AnotherClass
  {
@@ -326,7 +326,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator-&gt;services();
     $services-&gt;set(StringClassNameToClassConstantRector::class);
 };</code></pre>
-<h2 id="8-order-property-by-complexity-private-methods-by-use">8. Order Property by Complexity, Private Methods by Use</h2>
+<h2 id="8.-order-property-by-complexity,-private-methods-by-use">8. Order Property by Complexity, Private Methods by Use</h2>
 <p>How do you order your methods? Random?</p>
 <p><strong>Be sure to read <a href="/blog/2018/11/01/how-teach-your-team-private-method-sorting-in-3-mins/">How to Teach Your Team Private Method Sorting in 3 mins</a>.</strong></p>
 <p>Instead of:</p>
@@ -351,7 +351,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
     $services-&gt;set(OrderPrivateMethodsByUseRector::class);
     $services-&gt;set(OrderPropertyByComplexityRector::class);
 };</code></pre>
-<h2 id="9-specific-order-by-parent-contract">9. Specific Order By Parent Contract</h2>
+<h2 id="9.-specific-order-by-parent-contract">9. Specific Order By Parent Contract</h2>
 <p>Do you implement one interface over and over? Do you have dozens of such classes and want their public methods to have a specific order?</p>
 <pre><code class="language-diff"> final class SomeFixer implements FixerInterface
  {
@@ -390,7 +390,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
             ]
         ]]);
 };</code></pre>
-<h2 id="10-make-classes-code-final-code-if-you-can">10. Make Classes <code>final</code>, if You Can</h2>
+<h2 id="10.-make-classes-<code>final</code>,-if-you-can">10. Make Classes <code>final</code>, if You Can</h2>
 <p>This will be the biggest added value, as tokens have no idea if your class is extended by another class.</p>
 <p>Rector knows that, so be ready for more solid code after you run it.</p>
 <p>Instead of <del><code>Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer</code></del> Fixer:</p>

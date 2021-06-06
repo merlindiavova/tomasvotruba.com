@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1919847079" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1229639618" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="5 New Combos opened by Symfony 5.2 and PHP 8.0" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/12/21/5-new-combos-opened-by-symfony-52-and-php-80" />
@@ -101,7 +101,7 @@ I wanted to give them a fresh try, so I've updated <code>composer.json</code> in
 <p><em>Kaizen</em> is a Japanese technique about daily continuous little improvements. Today <strong>we open the door to PHP 8, then another to Symfony 5.2</strong>. Only then can we see what is in the room we've never been to.</p>
 <p><br></p>
 <p>Here is what I saw:</p>
-<h2 id="1-switch-code-route-code-annotations-to-code-route-code-attributes">1. Switch <code>@Route</code> Annotations to <code>#[Route]</code> Attributes</h2>
+<h2 id="1.-switch-<code>@route</code>-annotations-to-<code>#[route]</code>-attributes">1. Switch <code>@Route</code> Annotations to <code>#[Route]</code> Attributes</h2>
 <p>PHP 8 brings attributes and Symfony 5.2 brings <code>#[Route]</code> attribute. Now we can finally get rid of stringy annotations and get robust reliable native PHP attributes code:</p>
 <pre><code class="language-diff">-/**
 - * @Route(path="/archive", name="blog_archive")
@@ -112,7 +112,7 @@ I wanted to give them a fresh try, so I've updated <code>composer.json</code> in
      // ...
  }</code></pre>
 <p>Named properties included.</p>
-<h2 id="2-route-names-can-be-constants">2. Route Names Can be Constants</h2>
+<h2 id="2.-route-names-can-be-constants">2. Route Names Can be Constants</h2>
 <p>Annotations have kind-of autocomplete support, but lack of docblock standard makes parsing problematic. One parser supports syntax with trailing <code>,</code>, the other does not.</p>
 <p>With attributes, we can forget this bag of problems and welcome features we use in standard PHP code. E.g., <strong>using constants for repeated strings across many PHP files</strong>.</p>
 <p><br></p>
@@ -136,7 +136,7 @@ I wanted to give them a fresh try, so I've updated <code>composer.json</code> in
 <p><br></p>
 <p><strong>How can we rename a route?</strong> In 1 line ✅</p>
 <p>Wait, why should we ever rename a route? That's a good question. But a better question is: why should we think about route names at all? We'll get into that.</p>
-<h2 id="3-property-promotion-empowers-invokable-controllers">3. Property Promotion empowers Invokable Controllers</h2>
+<h2 id="3.-property-promotion-empowers-invokable-controllers">3. Property Promotion empowers Invokable Controllers</h2>
 <p>What is property promotion? It's a PHP 8 feature that does this:</p>
 <pre><code class="language-diff">-    private PostRepository $postRepository;
 
@@ -181,7 +181,7 @@ I wanted to give them a fresh try, so I've updated <code>composer.json</code> in
 -    }
  }</code></pre>
 <p>This opens another door... now, we'll get to the route naming...</p>
-<h2 id="4-door-for-new-phpstan-rules">4. Door for New PHPStan Rules</h2>
+<h2 id="4.-door-for-new-p-h-p-stan-rules">4. Door for New PHPStan Rules</h2>
 <p>What do you think about this controller?</p>
 <pre><code class="language-php"> final class BlogArchiveController
  {
@@ -222,7 +222,7 @@ I wanted to give them a fresh try, so I've updated <code>composer.json</code> in
 <li><code>BlogArchiveController</code> - route name: <code>CONTACT</code> ❌</li>
 <li><code>ContactController</code> - route name: <code>CONTACT</code> ✅</li>
 </ul>
-<h2 id="5-move-from-yaml-to-php-to-get-rep">5. Move from YAML to PHP to get REP</h2>
+<h2 id="5.-move-from-y-a-m-l-to-p-h-p-to-get-r-e-p">5. Move from YAML to PHP to get REP</h2>
 <p>REP works best with pure PHP code. Not YAML, not TWIG, not NEON nor Latte. Pure PHP.
 <br><strong>R</strong>ector, <strong>E</strong>CS and <strong>P</strong>HPStan.
 If you're still on old YAML configs, switch now - <a href="/blog/2020/07/27/how-to-switch-from-yaml-xml-configs-to-php-today-with-migrify/">there is a tool for that</a>.</p>

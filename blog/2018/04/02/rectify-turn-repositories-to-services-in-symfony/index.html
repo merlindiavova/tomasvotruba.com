@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?706800917" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1181889706" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Rectify: Turn All Doctrine Repositories From Inheritance To Composition in Seconds" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/04/02/rectify-turn-repositories-to-services-in-symfony" />
@@ -125,9 +125,9 @@ final class PostRepository
     }
 }</code></pre>
 <h2 id="4-steps-to-instant-refactoring-of-all-repositories">4 Steps to Instant Refactoring of All Repositories</h2>
-<h3 id="1-install-rector">1. Install Rector</h3>
+<h3 id="1.-install-rector">1. Install Rector</h3>
 <pre><code class="language-bash">composer install rector/rector --dev</code></pre>
-<h3 id="2-setup-code-rector-php-code">2. Setup <code>rector.php</code></h3>
+<h3 id="2.-setup-<code>rector.php</code>">2. Setup <code>rector.php</code></h3>
 <p>There you name all the changes you'd like to perform on you code:</p>
 <pre><code class="language-php">&lt;?php
 
@@ -146,7 +146,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
     // this will move the repository from parent to constructor
     $services-&gt;set(MoveRepositoryFromParentToConstructorRector::class);
 };</code></pre>
-<h3 id="3-add-repository-entity-provider">3. Add Repository → Entity Provider</h3>
+<h3 id="3.-add-repository-→-entity-provider">3. Add Repository → Entity Provider</h3>
 <p>But how does Rector know what entity should it add to which repository? For that reasons, there is <code>Rector\Bridge\Contract\DoctrineEntityAndRepositoryMapperInterface</code> you need to implement.</p>
 <p>It could be as simple as:</p>
 <pre><code class="language-php">&lt;?php declare(strict_types=1);
@@ -196,7 +196,7 @@ final class DoctrineEntityAndRepositoryMapper implements DoctrineEntityAndReposi
 
 +    $services-&gt;set(\App\Rector\DoctrineEntityAndRepositoryMapper::class);
  };</code></pre>
-<h3 id="4-run-on-your-code">4. Run on Your Code</h3>
+<h3 id="4.-run-on-your-code">4. Run on Your Code</h3>
 <p>Now the fun part:</p>
 <pre><code class="language-bash">vendor/bin/rector process /app --dry-run # "--config rector.php" as default</code></pre>
 <p>You should see diffs like:</p>
@@ -232,7 +232,7 @@ final class DoctrineEntityAndRepositoryMapper implements DoctrineEntityAndReposi
 <h3 id="safety-first">Safety First</h3>
 <p>When the Rector finishes, be sure to check your code. While it can manage 80 % of cases for you, it's not perfect. I love to use <code>git diff</code> and <em>PgDown</em> - the best use case for this key I know.</p>
 <p>Ready? Add, commit, send an invoice for big refactoring and enjoy your coffee :)</p>
-<h2 id="clean-code-done-but-what-about-beautiful">Clean Code... Done, but What About Beautiful?</h2>
+<h2 id="clean-code...-done,-but-what-about-beautiful?">Clean Code... Done, but What About Beautiful?</h2>
 <p>You've probably noticed that code itself is not looking too good. Rector's jobs is not to clean, but to change the code. It's not a hipster designer, but rather a thermonuclear engineer. <strong>That's why there are coding standards. You can apply your own or if not good enough use Rector's prepared set</strong>:</p>
 <pre><code class="language-bash">composer require symplify/easy-coding-standard --dev
 vendor/bin/ecs --config vendor/rector/rector/ecs-after-rector.php --fix</code></pre>

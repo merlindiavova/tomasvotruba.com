@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?320847382" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1343272671" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Develop Multiple Symfony Applications Fast while Keeping the Quality" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/09/06/how-to-develop-multiple-symfony-applications-fast-while-keeping-the-quality" />
@@ -93,7 +93,7 @@ Or maybe you're successful, you grow and have 10 such projects.
 <p><br></p>
 <p>Yet I never saw such approach in PHP world. I mean, I saw monoliths but never a monorepo. Last year I started to work more closely with Shopsys and they did one crazy thing - <a href="https://github.com/shopsys/shopsys/tree/master/project-base">put the sandbox project into monorepo repository</a>. Instead of having 2 repositories - <strong>monorepo and showcase project separated</strong> - like <a href="https://github.com/symfony/symfony">Symfony</a> and its <a href="https://github.com/symfony/demo">Demo</a>, Laravel, CakePHP, Nette or basically any PHP framework I've seen, <strong> it is just one</strong>.</p>
 <p>I had my concerns about how packages and project development will go together, but now I see it was just fear from unknown.</p>
-<h2 id="i-hate-repetitive-work-i-hate-repetitive-work">I hate Repetitive Work, I Hate Repetitive Work</h2>
+<h2 id="i-hate-repetitive-work,-i-hate-repetitive-work">I hate Repetitive Work, I Hate Repetitive Work</h2>
 <p>The fuel for the next step of this approach came last month. I'm currently working on 2 open-sourced Symfony Application (non CLI!) - <a href="https://github.com/TomasVotruba/open-training">open-training</a> and <a href="https://github.com/TomasVotruba/open-project">open-real-estate</a>.</p>
 <p><strong>How are 2 Symfony applications different</strong>? Well, the entities, repository queries, templates, design and controller actions are unique.
 But the PHP, used framework, bundle integration, database type, deploy strategy, own packages that <a href="https://github.com/TomasVotruba/open-project/tree/master/packages/auto-discovery">auto-discover entities</a> for example, Kernel boilerplate are the same.</p>
@@ -110,7 +110,7 @@ But the PHP, used framework, bundle integration, database type, deploy strategy,
 <p>After a few hours of playing with the code (my favorite game), I started to see light in the darkness.
 I'm right in the very start of using this architecture, so you'll have the knowledge in the rawest form of fresh experience. It's easier to explain and understand, rather than something I do daily for the last 5 years and don't have to think about it.</p>
 <h2 id="4-steps-to-turn-single-repository-project-to-parts-of-monorepo">4 Steps to turn Single-Repository project to Parts of Monorepo</h2>
-<h3 id="1-del-app-del-unique-namespace">1. <del>App</del> Unique Namespace</h3>
+<h3 id="1.-<del>app</del>-unique-namespace">1. <del>App</del> Unique Namespace</h3>
 <p>If there are 2 <code>App\Kernel</code> classes the application would break. Pick a name that is specific for the project - here it's &quot;OpenTraining&quot; - and rename it in <code>namespace App\</code>, <code>namespace App;</code>, <code>use App\</code> in PHP code. Don't forget the <code>composer.json</code> as well.</p>
 <div class="text-center">
     <img src="/assets/images/posts/2018/multi-symfony/replace.png" class="img-thumbnail">
@@ -130,7 +130,7 @@ I'm right in the very start of using this architecture, so you'll have the knowl
 <p><br></p>
 <p>And let composer know, what we did:</p>
 <pre><code class="language-bash">composer dump-autoload</code></pre>
-<h3 id="2-fix-autoload-paths">2. Fix Autoload Paths</h3>
+<h3 id="2.-fix-autoload-paths">2. Fix Autoload Paths</h3>
 <ul>
 <li><code>bin/console</code></li>
 </ul>
@@ -156,13 +156,13 @@ I'm right in the very start of using this architecture, so you'll have the knowl
 +        require $possibleAutoloadFile;
 +    }
 +}</code></pre>
-<h3 id="3-bin-console">3. Bin\Console</h3>
+<h3 id="3.-bin\console">3. Bin\Console</h3>
 <p>Instead of the old root as you're used to...</p>
 <pre><code class="language-bash">bin/console server:run</code></pre>
 <p>...you have to use projects' <code>bin/console</code>:</p>
 <pre><code class="language-bash">projects/open-training/bin/console server:run
 projects/open-real-estate/bin/console server:run</code></pre>
-<h3 id="4-merge-projects-composer">4. Merge Projects Composer</h3>
+<h3 id="4.-merge-projects-composer">4. Merge Projects Composer</h3>
 <p>You might be already wondering <em>How do manage composer dependencies in all this madness?</em> Well, you have to update projects' <code>composer.json</code> separately, pick them all and copy to root <code>composer.json</code>. And <strong>be careful</strong> not to use different versions, it might cause the project to work on monorepo but fail after deploying on production...</p>
 <p><em>Just kidding</em>, you know I'm too lazy for this</p>
 <p>All you need to do is to update projects' <code>composer.json</code>. For the rest, there is a tool I use to manage Symplify monorepo dependencies that does the dirty work for you:</p>

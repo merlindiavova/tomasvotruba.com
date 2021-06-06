@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1141636923" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?343618573" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Combine power of PHP_CodeSniffer and PHP CS Fixer in 3 lines" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2017/05/03/combine-power-of-php-code-sniffer-and-php-cs-fixer-in-3-lines" />
@@ -123,16 +123,16 @@ return function (ContainerConfigurator $containerConfigurator): void {
 };</code></pre>
 <p>Great job! <strong>You have just combined PHP_CodeSniffer and PHP CS Fixer in 3 lines.</strong></p>
 <p>With a help of <a href="https://github.com/symplify/easy-coding-standard">ECS</a>. Now, when title promise is fulfilled, I will show how to install it, run it and how nice and clear reports it generates.</p>
-<h2 id="how-to-add-ecs-in-3-steps">How to add ECS in 3 steps</h2>
-<h3 id="1-install-package">1. Install Package</h3>
+<h2 id="how-to-add-e-c-s-in-3-steps">How to add ECS in 3 steps</h2>
+<h3 id="1.-install-package">1. Install Package</h3>
 <pre><code class="language-bash">composer require symplify/easy-coding-standard --dev</code></pre>
-<h3 id="2-configure">2. Configure</h3>
+<h3 id="2.-configure">2. Configure</h3>
 <p>Create a <code>ecs.php</code> file in your project and desired checkers as above.</p>
 <p>You can add a comment to groups, so everyone can easily orientate when there are more checkers.</p>
-<h3 id="be-lazy-with-php">Be Lazy with PHP</h3>
+<h3 id="be-lazy-with-p-h-p">Be Lazy with PHP</h3>
 <p>Do you use PHPStorm? Just use PHP to autocomplete everything as you're used to since ECS 8.</p>
 <p><strong>No more looking to documentation</strong>, what string matches what sniff or fixer, if there are any checkers for arrays or debugging typos.</p>
-<h3 id="3-run-it-amp-fix-it">3. Run it &amp; Fix it</h3>
+<h3 id="3.-run-it-&amp;-fix-it">3. Run it &amp; Fix it</h3>
 <pre><code class="language-bash">vendor/bin/ecs check src
 
 # ...

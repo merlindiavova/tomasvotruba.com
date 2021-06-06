@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1417641734" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1545937249" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Split Test Monorepo with Composer 2" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/10/19/how-to-split-test-monorepo-with-composer-2" />
@@ -91,7 +91,7 @@ Today, we'll look on how to use Composer in Github Actions with monorepo split t
             <p>Monorepo split testing is made easier by <a href="https://github.com/symplify/monorepo-builder"><code>symplify/monorepo-builder</code> package</a>. This is how it <a href="/blog/2020/02/10/how-to-test-monorepo-after-split-before-actual-split/">&quot;works&quot; for Composer 1</a>. Why &quot;works&quot;? There are 2 problems, that we fix during upgrade to Composer 2.</p>
 <p><br></p>
 <p>Let's say we have a <code>symplify/symplify</code> monorepo, where we develop all <code>symplify</code> package. We need to test all packages together <strong>with their local version</strong>, even in pull-request.</p>
-<h2 id="1-installing-packages-that-needs-local-version-package">1. Installing Packages that needs Local version Package</h2>
+<h2 id="1.-installing-packages-that-needs-local-version-package">1. Installing Packages that needs Local version Package</h2>
 <p>We want to test <code>symplify/coding-standard</code> package:</p>
 <ul>
 <li>the <code>symplify/coding-standard</code> package needs <code>symplify/autowire-array-parameter</code> package
@@ -122,7 +122,7 @@ Today, we'll look on how to use Composer in Github Actions with monorepo split t
 <li>Package <em>c</em> is used in local version ✅</li>
 </ul>
 <img src="/assets/images/posts/2020/test_split_composer_2_require_3rd_package_fixed.png" class="img-thumbnail">
-<h2 id="2-state-local-packages-as-code-dev-master-code">2. State Local packages as <code>dev-master</code></h2>
+<h2 id="2.-state-local-packages-as-<code>dev-master</code>">2. State Local packages as <code>dev-master</code></h2>
 <p>So we upgrade to Composer 2 with Symplify 9 and that's it? No.</p>
 <p>Local and GitHub Action development are different. Locally, Composer can see them as <code>dev-master</code> branch, which works with using <code>branch-alias</code>. But on GitHub Actoin (or your any favorite CI, the pull-request branch is <code>dev-&lt;commit-hash&gt;</code>).</p>
 <p><br></p>

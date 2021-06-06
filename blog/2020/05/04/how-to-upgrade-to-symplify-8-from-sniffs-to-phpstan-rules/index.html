@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?171407675" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?2013437846" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Upgrade to Symplify 8 - From Sniffs to PHPStan Rules" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/05/04/how-to-upgrade-to-symplify-8-from-sniffs-to-phpstan-rules" />
@@ -98,7 +98,7 @@ What to do with these deprecations? Why were these sniffs dropped? How to handle
 <pre><code class="language-bash">vendor/bin/ecs check</code></pre>
 <p>You might see such notices right before your code gets checked:</p>
 <pre><code class="language-bash">PHP Notice:  Sniff "..." is deprecated. Use "..." instead</code></pre>
-<h2 id="why-were-these-sniffs-dropped">Why were These Sniffs Dropped?</h2>
+<h2 id="why-were-these-sniffs-dropped?">Why were These Sniffs Dropped?</h2>
 <p>Symplify 7 used lots of sniffs based on coding standard <a href="https://www.php.net/manual/en/function.token-get-all.php">tokens</a>. In time they were made, they were as good. <a href="/blog/2018/10/25/why-ast-fixes-your-coding-standard-better-than-tokens/#shifting-the-scope">Tokens are best at spaces, abstract syntax tree is best at logical code structure</a>.</p>
 <p>E.g. <code>TraitNameSniff</code> check name of traits and makes sure the name ends with &quot;Trait&quot;:</p>
 <pre><code class="language-php">&lt;?php
@@ -123,10 +123,10 @@ trait Product
 It's better to use <em>abstract syntax tree</em> technology, in this case <a href="https://phpstan.org">PHPStan</a>.</p>
 <p><br></p>
 <p><strong>That's why</strong> all the &quot;AST&quot; sniffs were migrated to PHPStan rules.</p>
-<h2 id="what-to-do-with-these-deprecations">What to do With These Deprecations?</h2>
+<h2 id="what-to-do-with-these-deprecations?">What to do With These Deprecations?</h2>
 <p>So what does it mean? Remove all the rules from <code>ecs.php</code> and let go?</p>
 <p>No, <strong>all you need to do is switch to PHPStan rules</strong>. It's better working and more reliable since it works with context and not token positions. So at first, you might discover a few new reported errors here and there.</p>
-<h2 id="how-to-handle-upgrade-in-1-hour">How to Handle Upgrade in 1 hour?</h2>
+<h2 id="how-to-handle-upgrade-in-1-hour?">How to Handle Upgrade in 1 hour?</h2>
 <p>There are 14 deprecated sniffs in total. Don't worry, while it might seem like a considerable number, the replacement is a matter of an hour.</p>
 <p>Have you used a full Symplify set?</p>
 <pre><code class="language-php">
@@ -139,7 +139,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 };</code></pre>
 <p>Then you won't see any deprecations, because rules were removed from the config for you.
 Still, I recommend adding these rules to <code>phpstan.neon</code>.</p>
-<h2 id="1-abstract-trait-and-interface-naming-sniffs">1. Abstract, Trait and Interface Naming Sniffs</h2>
+<h2 id="1.-abstract,-trait-and-interface-naming-sniffs">1. Abstract, Trait and Interface Naming Sniffs</h2>
 <p>These rules were removed:</p>
 <ul>
 <li><del><code>Symplify\CodingStandard\Sniffs\Naming\AbstractClassNameSniff</code></del></li>
@@ -152,7 +152,7 @@ Still, I recommend adding these rules to <code>phpstan.neon</code>.</p>
 <pre><code class="language-yaml"># phpstan.neon
 rules:
     - SlamPhpStan\ClassNotationRule</code></pre>
-<h2 id="2-cognitive-complexity">2. Cognitive Complexity</h2>
+<h2 id="2.-cognitive-complexity">2. Cognitive Complexity</h2>
 <p>The <a href="/blog/2018/05/21/is-your-code-readable-by-humans-cognitive-complexity-tells-you/">only <del>sniff</del> rule your coding standard should have</a>... just got better.</p>
 <p>The orifinal sniffs were removed:</p>
 <ul>
@@ -170,12 +170,12 @@ parameters:
     symplify:
         max_cognitive_complexity: 10
         max_class_cognitive_complexity: 60</code></pre>
-<h2 id="3-make-sure-classes-used-in-param-var-and-return-exists">3. Make sure Classes used in @param, @var and @return Exists</h2>
+<h2 id="3.-make-sure-classes-used-in-@param,-@var-and-@return-exists">3. Make sure Classes used in @param, @var and @return Exists</h2>
 <ul>
 <li><del><code>Symplify\CodingStandard\Sniffs\Commenting\AnnotationTypeExistsSniff</code></del></li>
 </ul>
 <p>Just drop it. PHPStan level 0 handles this.</p>
-<h2 id="4-forbidden-static-explicit-static">4. Forbidden Static → Explicit Static</h2>
+<h2 id="4.-forbidden-static-→-explicit-static">4. Forbidden Static → Explicit Static</h2>
 <p>Static functions <a href="/blog/2019/04/01/removing-static-there-and-back-again/">are best way to slowly create technical dept</a>. But sometimes it's tough to code without them.</p>
 <p>So instead of forbidding them:</p>
 <ul>
@@ -189,7 +189,7 @@ rules:
 <p>The same way you see a &quot;trait&quot; in a file name and know it's a trait,
 this rule makes sure that classes with static methods have &quot;static&quot; in its name.</p>
 <p>I've been using it for 4 days, and oh, what a shame I feel when I want to use a &quot;Static&quot; &quot;service&quot;. It <strong>makes me think twice both about the design and consequences</strong>.</p>
-<h2 id="5-forbidden-parent-class">5. Forbidden Parent Class</h2>
+<h2 id="5.-forbidden-parent-class">5. Forbidden Parent Class</h2>
 <p>Even though it's repeated over, again and again, that composition beats inheritance, the PHP code I see is full of it.</p>
 <p>Sometimes the only way to <a href="/blog/2017/10/16/how-to-use-repository-with-doctrine-as-service-in-symfony/">promote so-far-the-best practise</a>, is to enforce it.</p>
 <ul>
@@ -204,7 +204,7 @@ parameters:
     symplify:
         forbidden_parent_classes:
             - 'Doctrine\ORM\EntityRepository'</code></pre>
-<h2 id="6-use-custom-exceptions-over-basic-ones">6. Use Custom Exceptions over Basic Ones</h2>
+<h2 id="6.-use-custom-exceptions-over-basic-ones">6. Use Custom Exceptions over Basic Ones</h2>
 <ul>
 <li><del><code>Symplify\CodingStandard\Sniffs\Architecture\ExplicitExceptionSniff</code></del></li>
 </ul>
@@ -212,7 +212,7 @@ parameters:
 <pre><code class="language-yaml"># phpstan.neon
 rules:
     - Symplify\CodingStandard\Rules\NoDefaultExceptionRule</code></pre>
-<h2 id="7-prefer-one-class-over-another">7. Prefer One Class over Another</h2>
+<h2 id="7.-prefer-one-class-over-another">7. Prefer One Class over Another</h2>
 <ul>
 <li><del><code>Symplify\CodingStandard\Sniffs\Architecture\PreferredClassSniff</code></del></li>
 </ul>
@@ -225,7 +225,7 @@ parameters:
 
 rules:
     - Symplify\CodingStandard\Rules\PreferredClassRule</code></pre>
-<h2 id="8-no-duplicated-short-classes">8. No Duplicated Short Classes</h2>
+<h2 id="8.-no-duplicated-short-classes">8. No Duplicated Short Classes</h2>
 <ul>
 <li><del><code>Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff</code></del></li>
 </ul>
@@ -233,7 +233,7 @@ rules:
 <pre><code class="language-yaml"># phpstan.neon
 rules:
     - Symplify\CodingStandard\Rules\NoDuplicatedShortClassNameRule</code></pre>
-<h2 id="9-use-explicit-return-over-code-amp-code-reference">9. Use explicit Return over <code>&amp;</code> Reference</h2>
+<h2 id="9.-use-explicit-return-over-<code>&amp;</code>-reference">9. Use explicit Return over <code>&amp;</code> Reference</h2>
 <ul>
 <li><del><code>Symplify\CodingStandard\Sniffs\CleanCode\ForbiddenReferenceSniff</code></del></li>
 </ul>
@@ -241,7 +241,7 @@ rules:
 <pre><code class="language-yaml"># phpstan.neon
 rules:
     - Symplify\CodingStandard\Rules\NoReferenceRule</code></pre>
-<h2 id="10-don-t-leave-code-dump-code-function-in-the-code">10. Don't leave <code>dump()</code> Function in the Code</h2>
+<h2 id="10.-dont-leave-<code>dump()</code>-function-in-the-code">10. Don't leave <code>dump()</code> Function in the Code</h2>
 <ul>
 <li><del><code>Symplify\CodingStandard\Sniffs\Debug\DebugFunctionCallSniff</code></del></li>
 </ul>
@@ -249,7 +249,7 @@ rules:
 <pre><code class="language-yaml"># phpstan.neon
 rules:
     - Symplify\CodingStandard\Rules\NoDebugFuncCallRule</code></pre>
-<h2 id="11-respect-naming-of-your-parents">11. Respect Naming of Your Parents</h2>
+<h2 id="11.-respect-naming-of-your-parents">11. Respect Naming of Your Parents</h2>
 <ul>
 <li><del><code>Symplify\CodingStandard\Sniffs\Naming\ClassNameSuffixByParentSniff</code></del></li>
 </ul>

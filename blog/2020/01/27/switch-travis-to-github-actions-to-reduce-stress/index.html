@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?363394462" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?498441459" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Switch Travis to GitHub Actions to Reduce Stress" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/01/27/switch-travis-to-github-actions-to-reduce-stress" />
@@ -90,11 +90,11 @@ Yes, in code samples :)</p>
     From ~15 minutes to just 3 minutes.
 </blockquote>
 <p>I mean, that's a crazy improvement of 80 %. You can read about in <a href="/blog/2020/01/13/why-is-first-instant-feedback-crucial-to-developers/">the previous post</a>, so let's move on.</p>
-<h2 id="the-developer-s-joy">The Developer's Joy</h2>
+<h2 id="the-developers-joy">The Developer's Joy</h2>
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Github Actions just make everything so easy... <br><br>We merged 177 PR in <a href="https://twitter.com/rectorphp?ref_src=twsrc%5Etfw">@rectorphp</a> in the last month.<br><br>Instant feedback is killer feature for you devs. Don't let them wait...<a href="https://t.co/hP9Epe2CZW">https://t.co/hP9Epe2CZW</a> <a href="https://t.co/0Md9iIisXm">pic.twitter.com/0Md9iIisXm</a></p>— Tomas Votruba (@VotrubaT) <a href="https://twitter.com/VotrubaT/status/1220126675436032005?ref_src=twsrc%5Etfw">January 22, 2020</a></blockquote>
 <p>Cocaine, Facebook, Twitter, and Instagram work the same way. A short feedback loop of dopamine.</p>
 <p>The significant advantage of GitHub is that at the end of your addiction is not an endless loop in the brain, but <strong>higher productivity of your project</strong>.</p>
-<h2 id="simple-unit-test-in-multiple-php-versions">Simple Unit Test in Multiple PHP Versions</h2>
+<h2 id="simple-unit-test-in-multiple-p-h-p-versions">Simple Unit Test in Multiple PHP Versions</h2>
 <p>We'll jump right into the most common case - unit tests.</p>
 <p>In <strong>Travis CI</strong>, we had to:</p>
 <ul>
@@ -160,12 +160,12 @@ jobs:
             -   run: vendor/bin/phpunit</code></pre>
 <p>That's pretty huge for single and confusing to read at the same time, right?</p>
 <p>All that clutter just for <code>vendor/bin/phpunit</code> to pass.</p>
-<h2 id="re-use-code-in-github-actions-hell-no">Re-Use Code in Github Actions? Hell No!</h2>
+<h2 id="re-use-code-in-github-actions?-hell-no!">Re-Use Code in Github Actions? Hell No!</h2>
 <p>What is this?</p>
 <pre><code class="language-yaml">-   uses: actions/checkout@v2</code></pre>
 <p>Github Actions allow references to external <em>recipes</em>. It's usually just a set of actions, packages into a couple of lines in our workflow. You can see it on Github, e.g. <a href="https://github.com/actions/checkout">actions/checkout</a>. It's the recommended way to re-use code because there is no other way.</p>
 <p>In reality: &quot;Do you want to re-use 5 lines of install and setup YAML code? Create a repository on Github, write 100 lines in JavaScript, and you're ready to go!&quot;</p>
-<h3 id="no-dry">No DRY</h3>
+<h3 id="no-d-r-y">No DRY</h3>
 <p>Saying that we'll either have to create custom workflow repository or get used to these lines being repeated over and over:</p>
 <pre><code class="language-yaml">-   uses: actions/checkout@v2
 
@@ -235,7 +235,7 @@ jobs:
 <p>Some organizations don't have access to Github Actions because of some open-sources/private accounts.
 This sucks a lot. I tried to have GitHub Actions on <a href="https://github.com/KnpLabs/DoctrineBehaviors/pull/494#issue-360222690">KnpLabs/DoctrineBehaviors</a>, but it's not possible unless the whole <em>KnpLabs</em> switches to some paid accounts. I spoke with support over a dozen emails, and it's wont fix.</p>
 <p>How to work around this? If we create a new organization that is <strong>open-source only</strong>, it will work. Or we can just move the repository to an existing <strong>open-source only</strong> one.</p>
-<h2 id="add-badge">Add Badge?</h2>
+<h2 id="add-badge?">Add Badge?</h2>
 <p><strong>In Travis</strong>, you could add a badge for the whole build on a specific branch. It was nice that it skipped allowed failure.</p>
 <p><strong>In GitHub Actions</strong>, it's different. <del>The badge covers <strong>1 specific workflow</strong>. This workflow should contain all the relevant jobs</del>.</p>
 <p>Actually, on GitHub repository, there is only one badge for all:</p>
@@ -250,10 +250,10 @@ This sucks a lot. I tried to have GitHub Actions on <a href="https://github.com/
 <li><code>bin/console lint:container</code></li>
 </ul>
 <p>When <code>bin/console lint:twig</code> fails, we know right in the pull-request it's something in our templates. That's good quality, precise feedback.</p>
-<h2 id="where-should-we-stay-with-travis-ci">Where Should We Stay with Travis CI</h2>
+<h2 id="where-should-we-stay-with-travis-c-i">Where Should We Stay with Travis CI</h2>
 <h3 id="local-git">Local Git</h3>
 <p>GitHub Actions are tough to work with local git. I migrated Symplify/MonorepoBuilder and Symplfiy/ChangelogLinker to Github Actions, and it's only troubling.</p>
-<h3 id="building-of-phar-and-push-to-another-repository">Building of PHAR and Push to Another Repository</h3>
+<h3 id="building-of-p-h-a-r-and-push-to-another-repository">Building of PHAR and Push to Another Repository</h3>
 <p>Another weakness is the inability to get the current tag. That's right. Getting something as simple as an existing tag is rocket science.</p>
 <p>That's why we had to <a href="https://github.com/rectorphp/rector/blob/1f4b36dfedb1b07d8425093474fc5951358b0590/.travis.yml">revert <code>rector.phar</code> build and publish to Travis CI</a>.</p>
 <h3 id="monorepo-split">Monorepo Split</h3>

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1877519057" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1812798378" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Migrate Gedmo to KnpLabs" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/01/06/migrate-gedmo-to-knplabs" />
@@ -121,7 +121,7 @@ But what if you're using old broken Gedmo?
 <p><br></p>
 <p>If you <strong>use other Gedmo behavior that is not listed here</strong>, you might request or better add it to <a href="https://github.com/KnpLabs/DoctrineBehaviors">KnpLabs</a> repository via pull-request. I assure you I'll provide <a href="/blog/2019/12/30/doctrine-behaviors-2-0-reloaded/">stable maintenance support</a> for KnpLabs package. It's not that hard with CI on steroids it has now.</p>
 <p><br></p>
-<h2 id="1-migrate-timestampable">1. Migrate Timestampable</h2>
+<h2 id="1.-migrate-timestampable">1. Migrate Timestampable</h2>
 <h3 id="gedmo">Gedmo</h3>
 <pre><code class="language-php">&lt;?php
 
@@ -140,7 +140,7 @@ class Meetup
     use TimestampableEntity;
 }</code></pre>
 <p>↓</p>
-<h3 id="knplabs">KnpLabs</h3>
+<h3 id="knp-labs">KnpLabs</h3>
 <ul>
 <li>Replace trait with <code>Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait</code></li>
 <li>Add <code>Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface</code> interface</li>
@@ -162,7 +162,7 @@ class Meetup implements TimestampableInterface
 {
     use TimestampableTrait;
 }</code></pre>
-<h2 id="2-migrate-sluggable">2. Migrate Sluggable</h2>
+<h2 id="2.-migrate-sluggable">2. Migrate Sluggable</h2>
 <h3 id="gedmo">Gedmo</h3>
 <pre><code class="language-php">&lt;?php
 
@@ -194,7 +194,7 @@ class Meetup
     }
 }</code></pre>
 <p>↓</p>
-<h3 id="knplabs">KnpLabs</h3>
+<h3 id="knp-labs">KnpLabs</h3>
 <ul>
 <li>
 <p>Add <code>Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait</code> trait</p>
@@ -254,7 +254,7 @@ class Category implements SluggableInterface
         return ['name'];
     }
 }</code></pre>
-<h2 id="3-migrate-tree">3. Migrate Tree</h2>
+<h2 id="3.-migrate-tree">3. Migrate Tree</h2>
 <p>This one will be tricky, because:</p>
 <ul>
 <li>Gedmo supports <em>nested-set</em>, <em>closure-table</em> and <em>materialized-path</em>.</li>
@@ -339,7 +339,7 @@ class Category
     }
 }</code></pre>
 <p>↓</p>
-<h3 id="knplabs">KnpLabs</h3>
+<h3 id="knp-labs">KnpLabs</h3>
 <ul>
 <li>Add <code>Knp\DoctrineBehaviors\Model\Tree\TreeNodeTrait</code> trait</li>
 <li>Add <code>Knp\DoctrineBehaviors\Contract\Entity\TreeNodeInterface</code> interface</li>
@@ -364,8 +364,8 @@ class Category implements TreeNodeInterface
 {
     use TreeNodeTrait;
 }</code></pre>
-<h2 id="4-migrate-translatable">4. Migrate Translatable</h2>
-<h3 id="what-about-performance">What about Performance?</h3>
+<h2 id="4.-migrate-translatable">4. Migrate Translatable</h2>
+<h3 id="what-about-performance?">What about Performance?</h3>
 <p>I recall picking the behavior package for new Lekarna.cz 6 years ago. I was young, and a quantity was more than quality to me, so I was leaning towards Gedmo since it had more downloads.</p>
 <p>But it's performance surprised me. Why? The translated item had 1:many dependency on translation table, so for every single item, it <strong>joined an X extra lines forever single translated column</strong>.</p>
 <p>So even if you use Symfony 4 and <strong>everything works well</strong> for you, <strong>consider comparing performance with KnpLabs translations</strong>. Who knows, it might get your multi-lingual application <strong>10x faster</strong>.</p>
@@ -413,7 +413,7 @@ class Category implements Translatable
     }
 }</code></pre>
 <p>↓</p>
-<h3 id="knplabs">KnpLabs</h3>
+<h3 id="knp-labs">KnpLabs</h3>
 <ul>
 <li>Replace interface with <code>Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface</code></li>
 <li>Add <code>Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait</code></li>
@@ -461,7 +461,7 @@ class CategoryTranslation implements TranslationInterface
 <p>Usage stays the same:</p>
 <pre><code class="language-php">$category-&gt;getTitle();</code></pre>
 <p>That's all for the migration. Oh, you're still reading? Are you waiting for some easy solution to cover it all?</p>
-<h2 id="5-migrate-blameable">5. Migrate Blameable</h2>
+<h2 id="5.-migrate-blameable">5. Migrate Blameable</h2>
 <h3 id="gedmo">Gedmo</h3>
 <pre><code class="language-php">&lt;?php
 
@@ -498,7 +498,7 @@ class Category
     }
 }</code></pre>
 <p>↓</p>
-<h3 id="knplabs">KnpLabs</h3>
+<h3 id="knp-labs">KnpLabs</h3>
 <ul>
 <li>Add <code>Knp\DoctrineBehaviors\Contract\Entity\BlameableInterface</code> interface</li>
 <li>Add <code>Knp\DoctrineBehaviors\Model\Blameable\BlameableTrait</code> trait</li>
@@ -521,7 +521,7 @@ class Category implements BlameableInterface
 {
     use BlameableTrait;
 }</code></pre>
-<h2 id="6-migrate-loggable">6. Migrate Loggable</h2>
+<h2 id="6.-migrate-loggable">6. Migrate Loggable</h2>
 <h3 id="gedmo">Gedmo</h3>
 <pre><code class="language-php">&lt;?php
 
@@ -545,7 +545,7 @@ class Category
     private $title;
 }</code></pre>
 <p>↓</p>
-<h3 id="knplabs">KnpLabs</h3>
+<h3 id="knp-labs">KnpLabs</h3>
 <ul>
 <li>Add <code>Knp\DoctrineBehaviors\Model\Loggable\LoggableTrait</code> trait</li>
 <li>Add <code>Knp\DoctrineBehaviors\Contract\Entity\LoggableInterface</code> interface</li>
@@ -573,7 +573,7 @@ class Category implements LoggableInterface
      */
     private $title;
 }</code></pre>
-<h2 id="7-migrate-softdeletable">7. Migrate SoftDeletable</h2>
+<h2 id="7.-migrate-soft-deletable">7. Migrate SoftDeletable</h2>
 <h3 id="gedmo">Gedmo</h3>
 <pre><code class="language-php">&lt;?php
 
@@ -606,7 +606,7 @@ class Category
     }
 }</code></pre>
 <p>↓</p>
-<h3 id="knplabs">KnpLabs</h3>
+<h3 id="knp-labs">KnpLabs</h3>
 <ul>
 <li>Add <code>Knp\DoctrineBehaviors\Contract\Entity\SoftDeletableInterface</code> interface</li>
 <li>Add <code>Knp\DoctrineBehaviors\Model\SoftDeletable\SoftDeletableTrait</code> trait</li>
@@ -626,7 +626,7 @@ class Category implements SoftDeletableInterface
     use SoftDeletableTrait;
 }</code></pre>
 <p>Would you like to avoid doing this manually? Rector has a set just for you:</p>
-<h2 id="3-step-to-migrate-gedmo-to-knplabs-with-rector">3 Step to Migrate Gedmo to KnpLabs with Rector</h2>
+<h2 id="3-step-to-migrate-gedmo-to-knp-labs-with-rector">3 Step to Migrate Gedmo to KnpLabs with Rector</h2>
 <ol>
 <li>Install Rector</li>
 </ol>

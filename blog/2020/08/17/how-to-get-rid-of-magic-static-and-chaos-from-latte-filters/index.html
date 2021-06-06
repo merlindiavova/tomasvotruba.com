@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1638409723" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?747970674" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Get Rid of Magic, Static and Chaos from Latte Filters" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/08/17/how-to-get-rid-of-magic-static-and-chaos-from-latte-filters" />
@@ -115,7 +115,7 @@ final class LatteFactory
         return $engine;
     }
 }</code></pre>
-<h2 id="how-to-register-a-new-latte-filter">How to register a new Latte Filter?</h2>
+<h2 id="how-to-register-a-new-latte-filter?">How to register a new Latte Filter?</h2>
 <p>This simple question can add easily add an anti-pattern to your code, that spreads like COVID and <a href="https://blog.codinghorror.com/the-broken-window-theory/">inspires developers to add more anti-patterns</a>. It's easy to <a href="/blog/2018/04/26/how-i-got-into-static-trap-and-made-fool-of-myself//">submit to static infinite loop</a>, I did it too.</p>
 <p>But let's look at practice... <strong>how to add a filter</strong>?</p>
 <p>Let's say we want to format money. The filter code is not relevant here, so we go with the simplest version possible:</p>
@@ -131,7 +131,7 @@ final class LatteFactory
 &lt;strong&gt;{$amount|money}&lt;/strong&gt;
 
 Thank you</code></pre>
-<h2 id="1-register-static-magic-loader">1. Register Static Magic Loader</h2>
+<h2 id="1.-register-static-magic-loader">1. Register Static Magic Loader</h2>
 <p>This used to be the best practice in 2014. Just add a class and magically delegate called filter name:</p>
 <pre><code class="language-diff"> namespace App\Latte;
 
@@ -173,7 +173,7 @@ Thank you</code></pre>
 <pre><code class="language-php">$engine-&gt;addFilter(null, SomeFilter::class . '::loader');</code></pre>
 <p>Do you have any what is happening there? I don't.</p>
 <p><br></p>
-<h4 id="pros-amp-cons">Pros &amp; Cons</h4>
+<h4 id="pros-&amp;-cons">Pros &amp; Cons</h4>
 <ul>
 <li>We have to use <code>static</code> ❌</li>
 <li>We can't use any service in <code>SomeFilter</code>, we have to use static only ❌</li>
@@ -182,7 +182,7 @@ Thank you</code></pre>
 </ul>
 <p><br></p>
 <p>Can we do better?</p>
-<h2 id="2-register-function-manually-with-code-addfilter-code">2. Register Function manually with <code>addFilter()</code></h2>
+<h2 id="2.-register-function-manually-with-<code>add-filter()</code>">2. Register Function manually with <code>addFilter()</code></h2>
 <p>The <code>addFilter()</code> can be used in the way <a href="https://github.com/nette/latte/blob/82a85d31caeaf9a9d307e910a2d1476f5460cee0/src/Latte/Engine.php#L267">it's designed for</a>:</p>
 <pre><code class="language-diff"> namespace App\Latte;
 
@@ -203,7 +203,7 @@ Thank you</code></pre>
     }
  }</code></pre>
 <p>Straight forward, transparent, and a few lines of code.</p>
-<h4 id="pros-amp-cons">Pros &amp; Cons</h4>
+<h4 id="pros-&amp;-cons">Pros &amp; Cons</h4>
 <ul>
 <li>We have very little code ✅</li>
 <li>The framework part (Latte) is now directly bounded to our application domain - this makes code hard to refactor, decopule from framework or re-use in another context ❌</li>
@@ -213,7 +213,7 @@ Thank you</code></pre>
 </ul>
 <p><br></p>
 <p>Can we do better?</p>
-<h2 id="3-add-filter-provider-service">3. Add Filter Provider Service?</h2>
+<h2 id="3.-add-filter-provider-service?">3. Add Filter Provider Service?</h2>
 <p>The previous solution looks fine, if only we could get rid of coupling between framework and our code.</p>
 <pre><code class="language-diff"> namespace App\Latte;
 
@@ -258,7 +258,7 @@ final class FilterProvider
     }
 }</code></pre>
 <p>The filter class is decoupled - no more hard-coded filters!</p>
-<h4 id="pros-amp-cons">Pros &amp; Cons</h4>
+<h4 id="pros-&amp;-cons">Pros &amp; Cons</h4>
 <ul>
 <li>We can add a new filter without every touching <code>LatteFactory</code> ✅</li>
 <li>We can use services in filters ✅</li>
@@ -266,7 +266,7 @@ final class FilterProvider
 </ul>
 <p><br></p>
 <p>Can we do better?</p>
-<h2 id="4-filter-provider-contract">4. Filter Provider Contract</h2>
+<h2 id="4.-filter-provider-contract">4. Filter Provider Contract</h2>
 <p>The ultimate solution is almost perfect. We only need to get rid of the God class completely. How can we do that?</p>
 <p>The goal is simple:</p>
 <ul>
@@ -334,7 +334,7 @@ interface FilterProviderInterface
          ];
      }
  }</code></pre>
-<h4 id="pros-amp-cons">Pros &amp; Cons</h4>
+<h4 id="pros-&amp;-cons">Pros &amp; Cons</h4>
 <ul>
 <li>We have decoupled framework and our domain-specific filter ✅</li>
 <li>To add a new filters, we only need to create a new service ✅</li>
@@ -344,7 +344,7 @@ interface FilterProviderInterface
 <p><br></p>
 <p>Can we do better?</p>
 <p><br></p>
-<h2 id="5-from-callbacks-to-private-methods">5. From Callbacks to Private Methods</h2>
+<h2 id="5.-from-callbacks-to-private-methods">5. From Callbacks to Private Methods</h2>
 <pre><code class="language-diff"> use App\Contract\FilterProviderInterface;
 
  final class MoneyFilterProvider implements FilterProviderInterface
@@ -398,7 +398,7 @@ interface FilterProviderInterface
 -        return $amount . ' €';
 -    }
  }</code></pre>
-<h4 id="pros-amp-cons">Pros &amp; Cons</h4>
+<h4 id="pros-&amp;-cons">Pros &amp; Cons</h4>
 <ul>
 <li>We have decoupled domain logic from filters ✅</li>
 <li>We can re-use the used-to-be filter logic with <code>MoneyFormatResolver</code> in other places of application ✅</li>
@@ -410,7 +410,7 @@ interface FilterProviderInterface
 <p>My question is: can we do better...?</p>
 <hr />
 <p><strong>Update 1 month later with new option:</strong></p>
-<h2 id="6-invokable-filter-providers">6. Invokable Filter Providers</h2>
+<h2 id="6.-invokable-filter-providers">6. Invokable Filter Providers</h2>
 <p>In fashion of <a href="https://symfony.com/doc/current/controller/service.html#invokable-controllers">single-action controller</a> a tip from <a href="https://twitter.com/FrantisekMasa">@FrantisekMasa</a> and <a href="https://twitter.com/dada_amater">@dada_amater</a> for similar approach in filters. It look weird, new... so I had to try it in practise to see for myself.</p>
 <pre><code class="language-php">namespace App\Contract;
 
@@ -468,7 +468,7 @@ final class LatteFactory
         return $engine;
     }
 }</code></pre>
-<h4 id="pros-amp-cons">Pros &amp; Cons</h4>
+<h4 id="pros-&amp;-cons">Pros &amp; Cons</h4>
 <ul>
 <li>All of the advantages of previous approaches ✅</li>
 <li>1 class = 1 rule, this is really challenge to clutter ✅</li>

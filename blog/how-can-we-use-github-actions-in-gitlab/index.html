@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?892745072" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1971513657" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How can We use GitHub Actions in Gitlab?" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/how-can-we-use-github-actions-in-gitlab" />
@@ -99,7 +99,7 @@ I was like: &quot;that's not possible... you need to switch to GitHub&quot;.</p>
 <li>Gitlab split</li>
 <li>Gitlab repositories</li>
 </ul>
-<h2 id="del-can-we-get-there-del-how-can-we-get-there"><del>Can We Get There?</del> How Can We Get There?</h2>
+<h2 id="<del>can-we-get-there?</del>-how-can-we-get-there?"><del>Can We Get There?</del> How Can We Get There?</h2>
 <ol>
 <li>From GitHub mono repository to Gitlab mono repository. Basically, we need to switch the <code>origin</code> reference in git:</li>
 </ol>
@@ -114,7 +114,7 @@ git push origin</code></pre>
 </ol>
 <p>My first idea was: <em>&quot;I have no idea&quot;</em>. Let's be honest here. It's not a very good solution, not a solution at all, not working, but we always have to start somewhere.</p>
 <p>What is the next idea? Let's describe <strong>world in simple words</strong>.</p>
-<h2 id="what-is-a-github-action">What is a GitHub Action?</h2>
+<h2 id="what-is-a-git-hub-action?">What is a GitHub Action?</h2>
 <p>&quot;GitHub Action is some script that you call, and it does some work for you. Mostly in CI regularly.&quot;</p>
 <p>Good. GitHub Actions is a CI, and Gitlab CI is a CI. <strong>We have a mental bridge that we can use</strong>.</p>
 <p>&quot;Yea, but GitHub Action is tailor-made for GitHub CI&quot;.</p>
@@ -130,7 +130,7 @@ git push origin</code></pre>
 <p>&quot;Yes!&quot;</p>
 <p><br></p>
 <p><em>Note:</em> there is 2nd way to build GitHub Action <a href="https://docs.github.com/en/actions/creating-actions/about-actions#types-of-actions">via Javascript</a>. I didn't follow that path, as I know Docker better than Javascript.</p>
-<h2 id="1-from-github-action-syntax-to-pseudo-syntax">1. From GitHub Action Syntax to Pseudo Syntax</h2>
+<h2 id="1.-from-git-hub-action-syntax-to-pseudo-syntax">1. From GitHub Action Syntax to Pseudo Syntax</h2>
 <p>Let's look at CI configuration. In GitHub, it's YAML files located in the <code>.github/workflows</code> directory, in Gitlab, it's <code>.gitlab-ci.yml</code>.</p>
 <p><br></p>
 <p>This is how looks real <strong>GitHub Action in normal syntax</strong>:</p>
@@ -158,7 +158,7 @@ env:
 script:
     - docker run symplify/monorepo-split-github-action $FROM_PACKAGE $TO_REPOSITORY</code></pre>
 <p>This is great! Now we know the exact steps that have to be reproduced in the next CI.</p>
-<h2 id="2-from-pseudo-syntax-to-gitlab-ci-syntax">2. From Pseudo Syntax to GitLab CI Syntax</h2>
+<h2 id="2.-from-pseudo-syntax-to-git-lab-c-i-syntax">2. From Pseudo Syntax to GitLab CI Syntax</h2>
 <p>Now we take the pseudo syntax and try to fit in Gitlab conventions:</p>
 <pre><code class="language-yaml"># .gitlab-ci.yml
 split_monorepo:
@@ -172,7 +172,7 @@ split_monorepo:
         - docker run symplify/monorepo-split $FROM_PACKAGE $TO_REPOSITORY</code></pre>
 <p>That's it! <strong>Now we're using GitHub Action in a Gitlab CI.</strong></p>
 <p><br></p>
-<h2 id="how-to-make-github-actions-that-gitlab-developers-can-use">How to make GitHub Actions that GitLab Developers can use?</h2>
+<h2 id="how-to-make-git-hub-actions-that-git-lab-developers-can-use?">How to make GitHub Actions that GitLab Developers can use?</h2>
 <p>Not every GitHub Action will work out of the box. There are steps we have to think about:</p>
 <ol>
 <li>build GitHub Action as a <strong>Docker image</strong> and not Javascript one</li>

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?319575943" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1294526120" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="New in Symplify 3: Statie Generators" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2017/12/11/new-in-symplify-3-statie-generators" />
@@ -154,7 +154,7 @@ But what if you want a web porfolio, not with posts but with features projects? 
     generators:
         posts:
             object: 'MyWebsite\Statie\SimplePostFile'</code></pre>
-<h2 id="how-to-add-own-generator">How to Add Own Generator?</h2>
+<h2 id="how-to-add-own-generator?">How to Add Own Generator?</h2>
 <p>So how did we solved lectures in Pehapkari.cz website?</p>
 <p>Adding new Generator Element is now easy:</p>
 <pre><code class="language-yaml"># statie.yml
@@ -169,7 +169,7 @@ parameters:
             object: 'Pehapkari\Website\Statie\Generator\LectureFile'</code></pre>
 <p>Do you want <strong>real code</strong>? See <a href="https://github.com/pehapkari/pehapkari.cz/pull/358/commits/e68d8f98172b2a04e4cf80e635c036c3f2a7bef2">this commit</a> that has it all.</p>
 <p>The configuration is as simple as possible, so <code>object</code> is optional. You can read <strong>how to set own file</strong> in <a href="https://www.statie.org/docs/generators">documentation</a>.</p>
-<h3 id="how-to-add-new-lecture">How to add new Lecture?</h3>
+<h3 id="how-to-add-new-lecture?">How to add new Lecture?</h3>
 <ol>
 <li>Create <a href="https://github.com/pehapkari/pehapkari.cz/pull/358/commits/e68d8f98172b2a04e4cf80e635c036c3f2a7bef2#diff-f5b8e6c24f5a089810b255d7d0757105">new <code>*.md</code> file</a> in <code>source/_lectures/</code> directory</li>
 <li>Have <a href="https://github.com/pehapkari/pehapkari.cz/pull/358/commits/e68d8f98172b2a04e4cf80e635c036c3f2a7bef2#diff-63d6418d873273aad1011eb0c40b5f3b"><code>_layout/lecture.twig</code></a> ready</li>
@@ -185,7 +185,7 @@ parameters:
 <p>Just upgrade Statie:</p>
 <pre><code class="language-bash">composer update symplify/statie</code></pre>
 <p>and add lectures, talks with details, docs... anything you need.</p>
-<h3 id="date-me">Date Me!</h3>
+<h3 id="date-me!">Date Me!</h3>
 <p>One more surprise to prevent. In case you use <code>route_prefix</code> with date in it:</p>
 <pre><code class="language-yaml"># statie.yaml
 parameters:
@@ -196,7 +196,7 @@ parameters:
 <pre><code class="language-bash">_lectures/2018-01-30-use-open-source-statie-for-open-blogging.md</code></pre>
 <p>When setup properly, you get this file in generated code:</p>
 <pre><code class="language-bash">2018/01/30/use-open-source-statie-for-open-blogging</code></pre>
-<h2 id="how-to-upgrade-from-statie-2-to-statie-3">How to Upgrade from Statie 2 to Statie 3?</h2>
+<h2 id="how-to-upgrade-from-statie-2-to-statie-3?">How to Upgrade from Statie 2 to Statie 3?</h2>
 <blockquote class="blockquote text-center mt-lg-5 mb-5">
     "Real code is worth of thousand words describing it."
     <footer class="blockquote-footer">Anonymous Lazy Programmer</footer>

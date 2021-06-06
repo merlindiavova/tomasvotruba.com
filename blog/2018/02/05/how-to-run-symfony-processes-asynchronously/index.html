@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?2066848080" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1957526780" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Run Symfony Processes Asynchronously" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/02/05/how-to-run-symfony-processes-asynchronously" />
@@ -110,13 +110,13 @@ Could we go 200 % faster by putting processes from serial to parallel?</p>
         $repository
     ));
 }</code></pre>
-<h2 id="how-to-go-async-in-php">How to Go Async in PHP?</h2>
+<h2 id="how-to-go-async-in-p-h-p?">How to Go Async in PHP?</h2>
 <p>We tried <a href="https://github.com/spatie/async">spatie/async</a> which has very nice README at first sight and works probably very well for simple functions. But it turned out to be rather magic <a href="https://github.com/spatie/async/blob/master/src/Runtime/ParentRuntime.php">by passing service as serialized string</a> to <a href="https://github.com/spatie/async/blob/master/src/Runtime/ChildRuntime.php">CLI that desirializes it and runs on own thread</a>. It also caused other process commands fail on success message. It is probably good enought for Laravel, but not for my <a href="https://github.com/jupeter/clean-code-php#solid">SOLID standards</a>.</p>
-<h3 id="what-are-the-other-options">What are the Other options?</h3>
+<h3 id="what-are-the-other-options?">What are the Other options?</h3>
 <p>We could go <a href="https://github.com/amphp/amp">amp</a> or <a href="https://reactphp.org">reactphp</a>, but wouldn't that be an overkill?</p>
 <p>There is also faster way like <a href="https://github.com/splitsh/lite">splitsh/lite</a>, but <strong>we aim on PHP + Git combination so PHP developers could extend the code</strong>.</p>
 <p>Luckily, Symfony Process already <strong>allows <a href="https://symfony.com/doc/current/components/process.html#running-processes-asynchronously">standalone process</a></strong> without waiting on each other.</p>
-<h2 id="what-we-actually-need">What We Actually Need?</h2>
+<h2 id="what-we-actually-need?">What We Actually Need?</h2>
 <p>Picking the right tool is important, since it vendor locks our code to package, but lets step back a little.</p>
 <p><strong>What is the exact goal we need?</strong></p>
 <ol>
@@ -124,7 +124,7 @@ Could we go 200 % faster by putting processes from serial to parallel?</p>
 <li>Wait until they're finished</li>
 <li>Report their success/error status</li>
 </ol>
-<h2 id="1-to-run-all-processes-at-once">1. To run all Processes at Once</h2>
+<h2 id="1.-to-run-all-processes-at-once">1. To run all Processes at Once</h2>
 <pre><code class="language-php">$runningProcesses = [];
 
 foreach ($splitConfiguration as $directory =&gt; $repository) {
@@ -138,7 +138,7 @@ foreach ($splitConfiguration as $directory =&gt; $repository) {
 <p>This foreach starts all processes in parallel. Without knowing they're finished or not.</p>
 <p><strong>Don't forget to check that your CPU is not burned by running many processes at once</strong> by limiting concurrency.
 In our case it's only 8, so we survive this.</p>
-<h2 id="2-wait-until-they-re-finished">2. Wait Until They're Finished</h2>
+<h2 id="2.-wait-until-theyre-finished">2. Wait Until They're Finished</h2>
 <pre><code class="language-php">while (count($activeProcesses)) {
     foreach ($activeProcesses as $i =&gt; $runningProcess) {
         // specific process is finished, so we remove it
@@ -152,7 +152,7 @@ In our case it's only 8, so we survive this.</p>
 }
 
 // here we know that all are finished</code></pre>
-<h2 id="3-report-their-success-error-status">3. Report their Success/Error Status</h2>
+<h2 id="3.-report-their-success/error-status">3. Report their Success/Error Status</h2>
 <pre><code class="language-php">$symfonyStyle-&gt;success('Split was successful');</code></pre>
 <p>But how useful is this message compared to previous one?</p>
 <pre><code class="language-php">$symfonyStyle-&gt;success(sprintf(
@@ -161,7 +161,7 @@ In our case it's only 8, so we survive this.</p>
     $repository
 ));</code></pre>
 <p>And what if any processes failed?</p>
-<h3 id="let-s-improve-this">Let's improve this</h3>
+<h3 id="lets-improve-this">Let's improve this</h3>
 <pre><code class="language-diff"> $runningProcesses = [];
 +$allProcessInfos = [];
 

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1833060460" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?707355954" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Find Dead Symfony Routes" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/04/06/how-to-find-dead-symfony-routes" />
@@ -108,7 +108,7 @@ But when dealing with legacy code, knowing <strong>dead routes will save you doz
                 </div>
             </div>
 
-            <h2 id="why-are-dead-routes-important-for-your-code">Why are Dead Routes Important for Your Code?</h2>
+            <h2 id="why-are-dead-routes-important-for-your-code?">Why are Dead Routes Important for Your Code?</h2>
 <p>If you know that 20 % is never used, you can <strong>drop it and ease your maintenance</strong>. Also, it's a must-have pre-step <a href="/blog/2019/12/16/8-steps-you-can-make-before-huge-upgrade-to-make-it-faster-cheaper-and-more-stable/">to code migrations</a>.</p>
 <p><strong>Static analysis</strong> can help you with <a href="/blog/2019/03/18/how-to-detect-dead-php-code-in-code-review-in-7-snippets/">dead code that is never used</a> and with <a href="/blog/2019/03/14/remove-dead-public-methdos-from-your-code/">public methods that are never called</a>, e.g.:</p>
 <pre><code class="language-diff">-$discount = $this-&gt;getDiscount();
@@ -129,16 +129,16 @@ But when dealing with legacy code, knowing <strong>dead routes will save you doz
 <p>We'll have to use similar approach we used for <a href="/blog/2019/11/11/from-0-doc-types-to-full-type-declaration-with-dynamic-analysis/">From 0 Doc Types to Full Type Declaration</a>.</p>
 <img src="/assets/images/posts/2020/dead_routes_branch.jpg" class="img-thumbnail mt-4 mb-2">
 <p><em>Such branch is in your code... somewhere. Would you still water it for next couple years?</em></p>
-<h2 id="coffee-shop-static-vs-dynamic-analysis">Coffee Shop - Static vs. Dynamic Analysis</h2>
+<h2 id="coffee-shop-static-vs.-dynamic-analysis">Coffee Shop - Static vs. Dynamic Analysis</h2>
 <p>Imagine you're a coffee franchise owner. Not just 1, but 30 coffee houses. Suddenly, there comes corona, and shops have to be locked down.
 Luckily, you have an emergency fund to keep them running... well, just 15 of them. <strong>Which one you choose to close?</strong></p>
 <p>Coffee shop with a property of specific size, location, number of chairs, and toilets - that's static analysis. It won't help us here. What if the shop with the smallest area is making more money than the biggest one?</p>
 <p>Let's use <strong>dynamic analysis</strong> here - you <strong>measure data in time</strong> and decide based on it. E.g., income for last year from all of them compared to expenses to run them.</p>
 <h2 id="2-steps-to-add-route-usage-to-your-symfony-app">2 Steps to add Route Usage to Your Symfony App</h2>
 <p>Inspired by the Laravel package, I've made a <a href="https://github.com/symplify/symfony-route-usage">Symfony Route Usage</a>.</p>
-<h3 id="1-install-it">1. Install it</h3>
+<h3 id="1.-install-it">1. Install it</h3>
 <pre><code class="language-bash">composer require symplify/symfony-route-usage</code></pre>
-<h3 id="2-enable-bundle">2. Enable Bundle</h3>
+<h3 id="2.-enable-bundle">2. Enable Bundle</h3>
 <pre><code class="language-php">// config/bundles.php
 return [
     Symplify\SymfonyRouteUsage\SymfonyRouteUsageBundle::class =&gt; ['all' =&gt; true],
@@ -149,7 +149,7 @@ return [
 <p>↓</p>
 <img src="/assets/images/posts/2020/dead_routes_used_routes.png" class="img-thumbnail mt-4 mb-2">
 <p><br></p>
-<h2 id="what-routes-have-never-been-used">What Routes Have Never Been Used?</h2>
+<h2 id="what-routes-have-never-been-used?">What Routes Have Never Been Used?</h2>
 <p>Just run:</p>
 <pre><code class="language-bash">bin/console show-dead-routes</code></pre>
 <p>↓</p>

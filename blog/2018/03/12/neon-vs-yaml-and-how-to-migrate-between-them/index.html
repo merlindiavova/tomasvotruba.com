@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?171073270" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?665393058" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="NEON vs. YAML and How to Migrate Between Them" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/03/12/neon-vs-yaml-and-how-to-migrate-between-them" />
@@ -106,7 +106,7 @@ And <code>*.yaml</code> is similar format used almost everywhere else.
     </footer>
 </blockquote>
 <p>Here is a summary of what I found and how to migrate to each other. I'll write about differences and places, where syntax fail me the most.</p>
-<h2 id="how-is-syntax-differ">How is Syntax Differ?</h2>
+<h2 id="how-is-syntax-differ?">How is Syntax Differ?</h2>
 <p>70 % of syntax is similar:</p>
 <pre><code class="language-yaml">services:
     Symplify\CodingStandard\Fixer\Import\ImportNamespacedNameFixer: ~</code></pre>
@@ -120,13 +120,13 @@ And <code>*.yaml</code> is similar format used almost everywhere else.
 <li><a href="http://yaml-online-parser.appspot.com">yaml-online-parser.appspot.com</a></li>
 </ul>
 <p><br></p>
-<h3 id="1-tabs-vs-spaces">1. Tabs vs. Spaces</h3>
+<h3 id="1.-tabs-vs.-spaces">1. Tabs vs. Spaces</h3>
 <p><strong>Neon</strong></p>
 <p>As neon was born as free format, it allows to use both spaces and tabs.</p>
 <p><strong>Yaml</strong></p>
 <p>Only spaces are allowed. Since most of projects have coding standards, I prefer using one format in whole code.</p>
 <p><br></p>
-<h3 id="2-magic-list-combination-vs-single-type">2. Magic List Combination vs. Single Type</h3>
+<h3 id="2.-magic-list-combination-vs.-single-type">2. Magic List Combination vs. Single Type</h3>
 <pre><code class="language-yaml">services:
     - SomeService
     SomeService: ~</code></pre>
@@ -153,7 +153,7 @@ And do you work with or create with such lists in PHP?</p>
 # with 1 item</code></pre>
 <p>This difference is one of the biggest WTFs, because I had to think about format and possible merge error every time I used lists... or indexed arrays... or is it arrays? Uff.</p>
 <p><br></p>
-<h3 id="3-content-on-multi-lines">3. Content on Multi-lines</h3>
+<h3 id="3.-content-on-multi-lines">3. Content on Multi-lines</h3>
 <p>I write posts in Statie, where you can use Yaml to configure per-post variables like perex:</p>
 <p><strong>Neon</strong></p>
 <pre><code class="language-yaml">perex: '''
@@ -167,7 +167,7 @@ that takes too much space.
     that takes too much space.</code></pre>
 <p>But here it must be indented on every line.</p>
 <p><br></p>
-<h3 id="4-very-complex-syntax">4. Very Complex Syntax</h3>
+<h3 id="4.-very-complex-syntax">4. Very Complex Syntax</h3>
 <p><strong>Neon</strong></p>
 <p>In Neon you can use <em>entities</em> and do this:</p>
 <pre><code class="language-yaml">someValue: Column(type=int, nulls=true)</code></pre>
@@ -190,9 +190,9 @@ that takes too much space.
     App\Mailer:
         arguments: ["@=service('App\\\\Mail\\\\MailerConfiguration').getMailerMethod()"]</code></pre>
 <p>If you want to see real-life example, I <a href="/blog/2018/03/08/why-is-collector-pattern-so-awesome/#2-use-expression-language">tried it once</a>. But went quickly back because I could not remember what exactly that means and how it work.</p>
-<h2 id="how-is-the-ecosystem-support">How is the Ecosystem Support?</h2>
+<h2 id="how-is-the-ecosystem-support?">How is the Ecosystem Support?</h2>
 <p>This is the most important question when it comes to open-source code. You can create your own natural language, that is smart, easy to learn, context aware and super fast. But what if <a href="https://en.wikipedia.org/wiki/List_of_languages_by_total_number_of_speakers">1.39 billion people speaks English already</a>?</p>
-<h3 id="phpstorm-support">PHPStorm Support</h3>
+<h3 id="p-h-p-storm-support">PHPStorm Support</h3>
 <p><strong>Neon</strong></p>
 <p>You can install <a href="https://plugins.jetbrains.com/plugin/7060-neon-support">Neon Plugin</a>, that handles param and class autocomplete very nicely. It's enabled for every <code>*.neon</code> file by default.</p>
 <p><strong>Yaml</strong></p>
@@ -205,20 +205,20 @@ that takes too much space.
     ManuallyTypedService: ~</code></pre>
 <p>And it is missing autocomplete in time being. <strong>Do you want autocomplete for this case too?</strong> <a href="https://github.com/Haehnchen/idea-php-symfony2-plugin/issues/1153">Upvote this issue</a> or send PR in Java to the plugin.</p>
 <p>Also <a href="https://github.com/phpstan/phpstan/pull/222">Github lacks of Neon support</a>.</p>
-<h2 id="who-is-the-winner">Who is the Winner?</h2>
+<h2 id="who-is-the-winner?">Who is the Winner?</h2>
 <p>Which one to pick? It depends on what is <strong>important to you</strong>. If you use Nette and work in Czech company and Neon is weapon of choice for you - it's ok.</p>
 <p>But what if you're <strong>making open source for the whole world</strong>?</p>
 <p><a href="https://xkcd.com/927/"></p>
 <img src="https://imgs.xkcd.com/comics/standards.png">
 <p></a></p>
-<h3 id="why-are-standards-so-important">Why are Standards so Important?</h3>
+<h3 id="why-are-standards-so-important?">Why are Standards so Important?</h3>
 <p>I was on a train trip in Hungary and I was thirsty. I went to classic food shop and pick first bottle <strong>with still water</strong> I saw. I wanted still water cause gas hurts me and wanted to drink a lot. And I'm drunk when it comes to water in summer.</p>
 <img src="/assets/images/posts/2018/neon-yaml/bottle-mixed.jpg" class="img-thumbnail">
 <p>At least I though I picked the right one until I opened it. In every single country I've been to so far, the <strong>blue is always still water</strong>. But not in Hungary!</p>
 <p>As <a href="http://chrisinbrnocr.blogspot.cz/2015/08/european-heat-wave.html">Chris says</a>: &quot;In Hungary the color code is reversed where blue means sparkling and red means flat.&quot; And there is even question <a href="https://www.tripadvisor.com.au/ShowTopic-g274887-i263-k7231074-Water_bottle_cap_colour_codes-Budapest_Central_Hungary.html">on Tripadvisor</a> on this topic.</p>
 <p><br></p>
 <p>For all the reasons above (thirsty-human-friendly-bottle-colors included), after looking at problem from various points of view and discussing with my Github and PHP friends, I came to conclusion that Yaml is better for me.</p>
-<h2 id="how-to-migrate-from-neon-to-yaml">How to Migrate from Neon to YAML?</h2>
+<h2 id="how-to-migrate-from-neon-to-y-a-m-l?">How to Migrate from Neon to YAML?</h2>
 <p>But EasyCodingStandard was running on Neon that was loaded by my few classes to Symfony Kernel, so how to migrate to Yaml?</p>
 <p><strong>Imports</strong></p>
 <pre><code class="language-diff">-includes:

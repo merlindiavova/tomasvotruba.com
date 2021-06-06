@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1983900157" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1167075815" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to write open-source in PHP 2: Rise value of your package with help of skeleton" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2016/09/16/how-to-write-open-source-in-php-2-enjoy-skeletons" />
@@ -100,7 +100,7 @@ To estimate the value they need <strong>to answer 4 important questions</strong>
 </ol>
 <p>Even if you know your code is the best and the cleanest, if they don't trust you, they will never use it.</p>
 <p>I will let you think about them a little bit. We will relate with specific files to them in second part of this article.</p>
-<h2 id="use-solid-skeleton-start-solid-brand">Use solid skeleton → start solid brand</h2>
+<h2 id="use-solid-skeleton-→-start-solid-brand">Use solid skeleton → start solid brand</h2>
 <p>Now, the first step that can positively influence all the 4 answers is <strong>using a skeleton</strong> with prepared metadata files. Guys from <a href="https://thephpleague.com">The PHP League</a> already did the job for you and created a <a href="https://github.com/thephpleague/skeleton">skeleton</a> package.</p>
 <h2 id="how-to-get-skeleton-code-to-your-local-repository-in-4-steps">How to get Skeleton code to your local Repository in 4 steps</h2>
 <ol>
@@ -114,7 +114,7 @@ git commit -m "add metadata files"
 git push origin master</code></pre>
 </li>
 </ol>
-<h3 id="great-for-start-yet-obsolete-later">Great for start, yet obsolete later</h3>
+<h3 id="great-for-start,-yet-obsolete-later">Great for start, yet obsolete later</h3>
 <p>This skeleton is great for start and to learn about metadata files.</p>
 <p>But when I create my package now, <strong>I just copy the most recent package I made</strong>, delete <code>/src</code> and <code>/tests</code>
 directories and I'm ready to roll. This is because:</p>
@@ -125,7 +125,7 @@ directories and I'm ready to roll. This is because:</p>
 <li>e.g. A new PHP version is out, I tune my continuous integration (CI) setup etc.</li>
 </ul></li>
 </ul>
-<h2 id="what-is-the-purpose-of-these-files">What is the Purpose of these Files?</h2>
+<h2 id="what-is-the-purpose-of-these-files?">What is the Purpose of these Files?</h2>
 <p>Now we look on every directory and file and how it's related to the 4 key questions.
 Just to remind you, the end user is interested in:</p>
 <ol>
@@ -134,7 +134,7 @@ Just to remind you, the end user is interested in:</p>
 <li>Trust - <strong>Is it trustworthy?</strong></li>
 <li>Maintenance - <strong>How well maintained is it?</strong></li>
 </ol>
-<h3 id="code-src-code-directory"><code>/src</code> directory</h3>
+<h3 id="<code>/src</code>-directory"><code>/src</code> directory</h3>
 <p><em>Meaning</em></p>
 <ul>
 <li>all your PHP source code will go here</li>
@@ -143,7 +143,7 @@ Just to remind you, the end user is interested in:</p>
 <ul>
 <li>musthave :)</li>
 </ul>
-<h3 id="code-tests-code-directory"><code>/tests</code> directory</h3>
+<h3 id="<code>/tests</code>-directory"><code>/tests</code> directory</h3>
 <p><em>Meaning</em></p>
 <ul>
 <li>all tests for your code in <code>/src</code></li>
@@ -158,7 +158,7 @@ Just to remind you, the end user is interested in:</p>
 <li><strong>Quality</strong>: tested code is perceived better quality</li>
 <li><strong>Trust</strong>: I don't have to hope that code works, <strong>I can trust the code</strong></li>
 </ul>
-<h3 id="code-gitattributes-code"><code>.gitattributes</code></h3>
+<h3 id="<code>.gitattributes</code>"><code>.gitattributes</code></h3>
 <p><em>Meaning</em></p>
 <ul>
 <li>here are all files that are ignored by composer (using the <code>export-ignore</code> attribute)</li>
@@ -169,7 +169,7 @@ Just to remind you, the end user is interested in:</p>
 <ul>
 <li><strong>Usability</strong>: Since your package save some internet traffic and space on hard drives, it's a bit more usable.</li>
 </ul>
-<h3 id="code-gitignore-code"><code>.gitignore</code></h3>
+<h3 id="<code>.gitignore</code>"><code>.gitignore</code></h3>
 <p><em>Meaning</em></p>
 <ul>
 <li>here are files, that you will have locally but won't be uploaded to the remote git repository</li>
@@ -180,7 +180,7 @@ Just to remind you, the end user is interested in:</p>
 <ul>
 <li><strong>Trust</strong>: Without this I would not trust you know anything about open-source.</li>
 </ul>
-<h3 id="code-ecs-php-code"><code>ecs.php</code></h3>
+<h3 id="<code>ecs.php</code>"><code>ecs.php</code></h3>
 <p><em>Meaning</em></p>
 <ul>
 <li>config for <a href="https://github.com/symplify/easy-coding-standard">Easy Coding Standard</a> - the easiest tool for coding standard</li>
@@ -190,7 +190,7 @@ Just to remind you, the end user is interested in:</p>
 <ul>
 <li><strong>Quality</strong>: coders can contribute in any format their like and the coding standard tool will take care of it for them</li>
 </ul>
-<h3 id="code-phpstan-neon-code"><code>phpstan.neon</code></h3>
+<h3 id="<code>phpstan.neon</code>"><code>phpstan.neon</code></h3>
 <p><em>Meaning</em></p>
 <ul>
 <li>configuration for <a href="https://phpstan.org/">PHPStan</a> - <em>the</em> best static analyzer to PHP</li>
@@ -201,7 +201,7 @@ Just to remind you, the end user is interested in:</p>
 <li><strong>Trust</strong>: you and your contributors can stop thinking about detailed code and go a relax - everyone can contribute easily</li>
 <li><strong>Quality</strong>: tested code is perceived better quality</li>
 </ul>
-<h3 id="code-composer-json-code"><code>composer.json</code></h3>
+<h3 id="<code>composer.json</code>"><code>composer.json</code></h3>
 <ul>
 <li>list of dependencies</li>
 <li>configuration for <a href="https://packagist.org">Packagist</a>, where you need to add your package, so it can be installed by others</li>
@@ -213,7 +213,7 @@ Just to remind you, the end user is interested in:</p>
 <li>select &quot;Packagist&quot; and add your name and token from your <a href="https://packagist.org/profile">user profile</a></li>
 </ul></li>
 </ul>
-<h3 id="code-license-code"><code>LICENSE</code></h3>
+<h3 id="<code>l-i-c-e-n-s-e</code>"><code>LICENSE</code></h3>
 <p><em>Meaning</em></p>
 <ul>
 <li>license goes here</li>
@@ -224,7 +224,7 @@ Just to remind you, the end user is interested in:</p>
 <ul>
 <li><strong>Usability</strong>: With licence, I know what I can do with the code. Usually everything.</li>
 </ul>
-<h3 id="code-phpunit-xml-code"><code>phpunit.xml</code></h3>
+<h3 id="<code>phpunit.xml</code>"><code>phpunit.xml</code></h3>
 <p><em>Meaning</em></p>
 <ul>
 <li>configuration for <a href="https://phpunit.de">PHPUnit</a> - testing tool</li>
@@ -234,7 +234,7 @@ Just to remind you, the end user is interested in:</p>
 <ul>
 <li><strong>Usability</strong>: I can run <code>vendor/bin/phpunit</code> with no manual configuration. It makes life easy.</li>
 </ul>
-<h3 id="code-readme-code"><code>README</code></h3>
+<h3 id="<code>r-e-a-d-m-e</code>"><code>README</code></h3>
 <p><em>Meaning</em></p>
 <ul>
 <li>last but the most important - your welcome article for user</li>
@@ -247,7 +247,7 @@ Just to remind you, the end user is interested in:</p>
 <li><strong>Trust</strong>: Having code quality, Travis and coverage badges helps to identify the quality of the package.</li>
 </ul>
 <p>So that are all files and their purpose.</p>
-<h2 id="no-time-fast-now-tell-your-story-with-an-image">No time! Fast! Now! → Tell your story with an image</h2>
+<h2 id="no-time!-fast!-now!-→-tell-your-story-with-an-image">No time! Fast! Now! → Tell your story with an image</h2>
 <p>Today people are scanning the text rather then actually reading. That's why badges are so important!</p>
 <p>Look on these 2 - what information can we get?</p>
 <img src="/assets/images/posts/2016/open-source/badge-2.png" alt="Confusing badge">
@@ -267,13 +267,13 @@ Just to remind you, the end user is interested in:</p>
 <li>It has 166 downloads. Here it depends on the age of package. → Go check release date! - <strong>GOOD</strong></li>
 <li>It's tagged and has stable version. - <strong>GOOD</strong></li>
 </ul>
-<h2 id="what-have-we-done-today">What have we Done Today?</h2>
+<h2 id="what-have-we-done-today?">What have we Done Today?</h2>
 <ul>
 <li>Where to go when <strong>starting a new repository</strong>.</li>
 <li>What is <strong>the purpose meta files</strong>.</li>
 <li>How to <strong>enable online services</strong> that help us to build better code.</li>
 </ul>
-<h2 id="what-s-next">What's next?</h2>
+<h2 id="whats-next?">What's next?</h2>
 <ul>
 <li>We'll peek on <strong>coding standards</strong>.</li>
 <li>How do <strong>releases</strong> work a what is <strong>semantic versioning</strong>.</li>

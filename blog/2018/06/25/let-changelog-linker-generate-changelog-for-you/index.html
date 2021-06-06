@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1462959949" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1641755508" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Let Changelog Linker Generate CHANGELOG.md for You" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/06/25/let-changelog-linker-generate-changelog-for-you" />
@@ -105,11 +105,11 @@ Yes? Then you'll love <em>Changelog Linker</em>. A PHP CLI tool that does all th
 <img src="/assets/images/posts/2018/generate-changelog/symfony.png" class="img-thumbnail">
 <p>Over <a href="https://github.com/phpstan/phpstan/releases/tag/0.10">PHPStan Release notes</a>:</p>
 <img src="/assets/images/posts/2018/generate-changelog/phpstan.png" class="img-thumbnail">
-<h2 id="why-is-every-changelog-different">Why is Every Changelog Different?</h2>
+<h2 id="why-is-every-changelog-different?">Why is Every Changelog Different?</h2>
 <p>There is a standard recommendation in <a href="https://keepachangelog.com/en/1.0.0">keepachangelog.com</a>, so it can all be the same, right?
 I think it's because <strong>there is no easy way to generate such changelog</strong>. And by easy I mean automated = 1 click solution. And we don't even talk about <a href="/cluster/monorepo-from-zero-to-hero/">monorepo</a> changelog yet.</p>
 <p>When I looked on Github <a href="https://github.com/symplify/symplify/issues/841">for inspiration</a>, I found only <a href="https://github.com/github-changelog-generator/github-changelog-generator">github-changelog-generator</a> - that has over 4600 stars on Github. Yet, it still doesn't work with <em>Added</em>, <em>Changed</em> etc. categories and requires labeling issues and pull-requests and adding milestones. <strong>I wanted to save time, not to add extra work.</strong></p>
-<h2 id="category-monorepo-support">Category + Monorepo Support?</h2>
+<h2 id="category-+-monorepo-support?">Category + Monorepo Support?</h2>
 <p>All I wanted to do is run 1 command and update <code>CHANGELOG.md</code> with content like this:</p>
 <pre><code class="language-markdown">## [v4.4.0] - 2018-06-03
 
@@ -136,7 +136,7 @@ I think it's because <strong>there is no easy way to generate such changelog</st
 <pre><code class="language-bash">vendor/bin/changelog-linker dump-mergers</code></pre>
 <p>That would be much better than looking on Github, going through commits and putting it all together manually, right? Or bare git dump that no-one except you orients in.</p>
 <p>Well, 2 months of work later and after detailed feedback from <a href="https://github.com/MattCzerner">Matouš Czerner</a> and <a href="https://github.com/vitek-rostislav">Rosťa Vítek</a> whom I'm very thankful, a <a href="https://github.com/symplify/changeloglinker">Symplify\ChangelogLinker</a> package was born.</p>
-<h2 id="5-steps-to-your-generated-changelog">5 Steps to Your Generated CHANGELOG</h2>
+<h2 id="5-steps-to-your-generated-c-h-a-n-g-e-l-o-g">5 Steps to Your Generated CHANGELOG</h2>
 <ol>
 <li>
 <p>Install it</p>
@@ -201,10 +201,10 @@ vendor/bin/changelog-linker dump-merges --dry-run --in-packages --in-categories<
 <pre><code class="language-bash">vendor/bin/changelog-linker dump-merges --in-packages --in-categories</code></pre>
 </li>
 </ol>
-<h2 id="do-you-have-existing-code-changelog-md-code">Do You Have Existing <code>CHANGELOG.md</code>?</h2>
+<h2 id="do-you-have-existing-<code>c-h-a-n-g-e-l-o-g.md</code>?">Do You Have Existing <code>CHANGELOG.md</code>?</h2>
 <p>The Changelog Linker doesn't work only for new changes, <strong>it can also link your existing file</strong>:</p>
 <pre><code class="language-bash">vendor/bin/changelog-linker linkify</code></pre>
-<h2 id="protip-use-composer-script-and-forget">ProTip: Use Composer Script and Forget</h2>
+<h2 id="pro-tip:-use-composer-script-and-forget">ProTip: Use Composer Script and Forget</h2>
 <p>Composer scripts are handy, if you use CLI command with many options and <strong>you don't want to remember and type them over and over again</strong>.</p>
 <p>This is how I simplify my setup for Symplify <code>CHANGELOG.md</code>:</p>
 <pre><code class="language-json">{

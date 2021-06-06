@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?971892832" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1837816421" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="7 Tips to Write Exceptions Everyone Will Love" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/09/17/7-tips-to-write-exceptions-everyone-will-love" />
@@ -98,7 +98,7 @@ Exceptions are not just error state. <strong>Exceptions are the new documentatio
             </div>
 
             <p>I wrote a <a href="/blog/2018/02/12/sleep-shorter-to-get-62-percent-smarter/">50-page thesis about polyphasic sleep</a>. My opponent told me, that there is a missing part about uncontrolled intervening values. The part in pages 34-36 he probably skipped. Today we have too much going on <strong>we have to scan</strong>. Anything longer than 140 chars is exhausting. Moreover for us programmers, who dance among tsunami of information coming every hour as they code and investigate code of others.</p>
-<h3 id="do-you-find-this-quot-circle-of-code-quot-familiar">Do you Find this &quot;Circle of Code&quot; Familiar?</h3>
+<h3 id="do-you-find-this-&quot;circle-of-code&quot;-familiar?">Do you Find this &quot;Circle of Code&quot; Familiar?</h3>
 <ol>
 <li>you open the application</li>
 <li>you code and code, life is great!</li>
@@ -111,7 +111,7 @@ Exceptions are not just error state. <strong>Exceptions are the new documentatio
 <p><strong>What if you could stay between 1, 2 and 3 much more often?</strong></p>
 <p><br></p>
 <p>When people used EasyCodingStandard for their first time, they experienced many WTFs. After 30&nbsp;minutes they gave up saying &quot;coding standards are hard&quot;. When I asked them to show me how they used it, <strong>it took me 3 minutes to solve</strong>. Why? Because I made it? Well maybe. But also because <strong>exceptions were so lousy, that nobody knew how to solve them</strong> and that's wrong. Shame on me.</p>
-<h2 id="1-make-exception-names-for-humans">1. Make Exception Names for Humans</h2>
+<h2 id="1.-make-exception-names-for-humans">1. Make Exception Names for Humans</h2>
 <p>Not machines but people read exceptions. Well, machines read it to but they just log it - humans have to make code work again.</p>
 <blockquote class="blockquote">
     <em>InvalidStateException</em>
@@ -123,7 +123,7 @@ Exceptions are not just error state. <strong>Exceptions are the new documentatio
 <p>A-ha, I create <code>ecs.php</code> and it works!</p>
 <p><strong>+10 % happier programmer</strong></p>
 <p>Do you need help with this? There is <a href="https://github.com/symplify/coding-standard#use-explicit-and-informative-exception-names-over-generic-ones">Sniff</a> that makes sure no exception is generic.</p>
-<h2 id="2-use-quot-around-quot-statements">2. Use &quot; around&quot; Statements</h2>
+<h2 id="2.-use-&quot;-around&quot;-statements">2. Use &quot; around&quot; Statements</h2>
 <blockquote class="blockquote">
      <em>Filter class  VeryLongNamespace\InNestedNamespace\WithMissingClassInTheEnd was not found</em>
 </blockquote>
@@ -175,7 +175,7 @@ var_dump(class_exists(
     $filterClass
 ));</code></pre>
 <p><strong>+20 % happier programmer</strong></p>
-<h2 id="3-what-exactly-is-wrong">3. What Exactly is Wrong?</h2>
+<h2 id="3.-what-exactly-is-wrong?">3. What Exactly is Wrong?</h2>
 <blockquote class="blockquote">
      <em>main parameter is invalid</em>
 </blockquote>
@@ -214,7 +214,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
     ]);
 };</code></pre>
 <p><strong>+20 % happier programmer</strong></p>
-<h2 id="4-what-is-the-wrong-value">4. What is The Wrong Value?</h2>
+<h2 id="4.-what-is-the-wrong-value?">4. What is The Wrong Value?</h2>
 <blockquote class="blockquote">
      <em>Parameter in "parameters &gt; page_name &gt; main" is invalid</em>
 </blockquote>
@@ -239,7 +239,7 @@ throw new InvalidParameterException(sprintf(
 ));</code></pre>
 <p><strong>+15 % happier programmer</strong></p>
 <p>Tip: You can use <a href="https://github.com/nette/tracy">Tracy</a> to delegate the value dumping.</p>
-<h2 id="5-what-file-exactly-is-broken">5. What File Exactly is Broken?</h2>
+<h2 id="5.-what-file-exactly-is-broken?">5. What File Exactly is Broken?</h2>
 <blockquote class="blockquote">
      <em>Invalid file</em>
 </blockquote>
@@ -268,7 +268,7 @@ throw new FileProcessingException(sprintf(
     $relativePath
 ));</code></pre>
 <p><strong>+20 % happier programmer</strong></p>
-<h2 id="6-what-options-do-i-have">6. What Options do I have?</h2>
+<h2 id="6.-what-options-do-i-have?">6. What Options do I have?</h2>
 <pre><code class="language-bash">vendor/bin/finder show laravel</code></pre>
 <blockquote class="blockquote">
      <em>"laravel" was not found</em>
@@ -292,7 +292,7 @@ throw new OptionNotFoundException(sprintf(
     implode('", "', $allOptions)
 ));</code></pre>
 <p><strong>+40 % happier programmer</strong></p>
-<h2 id="7-link-what-you-can-t-fit-140-chars">7. Link what You can't Fit 140 Chars</h2>
+<h2 id="7.-link-what-you-cant-fit-140-chars">7. Link what You can't Fit 140 Chars</h2>
 <p>Sometimes you might find yourself writing a poem instead of an exception:</p>
 <pre><code class="language-php">throw new ConfigurationFileNotFound(
     'Class not found. Configure autoload, you can use either `parameters &gt; autoload_files`' .

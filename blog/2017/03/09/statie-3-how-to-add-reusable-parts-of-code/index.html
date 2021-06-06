@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1038971584" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?579202405" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Statie - part 3: How to Add Reusable Parts of Code" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2017/03/09/statie-3-how-to-add-reusable-parts-of-code" />
@@ -140,11 +140,11 @@ Today you'll learn how to <strong>decouple big templates to smaller and reusable
 &lt;/html&gt;</code></pre>
 <p>This layout might be small, but it will be definitely bigger in real app and <strong>will keep growing and growing in time</strong>.</p>
 <p>Google Analytics code is not something we change or extend too much. Why not outsource it?</p>
-<h2 id="sexy-amp-small-snippet">Sexy &amp; Small Snippet</h2>
+<h2 id="sexy-&amp;-small-snippet">Sexy &amp; Small Snippet</h2>
 <p>What if you could use some &quot;include googleAnalytics snippet&quot; command?</p>
 <p>With Statie you can!</p>
 <pre><code class="language-twig">{% include "_snippets/googleAnalytics.twig" %}</code></pre>
-<h3 id="how-does-it-work">How does it Work?</h3>
+<h3 id="how-does-it-work?">How does it Work?</h3>
 <p>Statie scans <code>/_snippets</code> directory and turns all files to snippets. Relative path of the file in <code>/source</code> directory = key for including the snippets.</p>
 <ul>
 <li>&quot;_snippets/googleAnalytics.twig&quot; =&gt; <code>snippets/googleAnalytics.twig</code></li>
@@ -177,7 +177,7 @@ Today you'll learn how to <strong>decouple big templates to smaller and reusable
 <p>There is one last think that bothers me:</p>
 <pre><code class="language-javascript">ga('create', 'XYZ', 'auto');</code></pre>
 <p>Can you see it?</p>
-<h2 id="protip-1-why-always-put-ids-to-config-and-not-to-code">ProTip #1: Why Always Put IDs to Config and Not to Code</h2>
+<h2 id="pro-tip-#1:-why-always-put-i-ds-to-config-and-not-to-code">ProTip #1: Why Always Put IDs to Config and Not to Code</h2>
 <p>When you start using static site generator, you'll <strong>appreciate its power in scaling</strong>:</p>
 <ul>
 <li>First web might take some time to setup.</li>
@@ -190,7 +190,7 @@ Today you'll learn how to <strong>decouple big templates to smaller and reusable
 <p>So you should end up with this:</p>
 <pre><code class="language-javascript">ga('create', '{{ $googleAnalytics }}', 'auto');</code></pre>
 <p>Nice work!</p>
-<h2 id="protip-2-too-many-snippets-group-them-by-type">ProTip #2: Too Many Snippets? Group them by Type</h2>
+<h2 id="pro-tip-#2:-too-many-snippets?-group-them-by-type">ProTip #2: Too Many Snippets? Group them by Type</h2>
 <p>Often, I've ended up with many unrelated snippets in one directory.</p>
 <pre><code class="language-bash">/source
     /_snippets

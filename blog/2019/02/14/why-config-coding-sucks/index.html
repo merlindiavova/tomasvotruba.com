@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?209291446" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?883056373" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Why Config Coding Sucks" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/02/14/why-config-coding-sucks" />
@@ -119,10 +119,10 @@ One of the biggest evils is <em>config coding</em>. <strong>How it can hurt you 
 <p>PHP code written in config format has the same value to these tools as a screen-shot of code... with scrollbar:</p>
 <img src="/assets/images/posts/2019/config-evil/useless.png" alt="" class="img-thumbnail">
 <p>Here are <strong>3 problems you invite to your code</strong> with config coding and how to get rid of them with PHP.</p>
-<h2 id="1-crappy-code-refactoring-automation">1. Crappy Code Refactoring Automation</h2>
+<h2 id="1.-crappy-code-refactoring-automation">1. Crappy Code Refactoring Automation</h2>
 <pre><code class="language-yaml">services:
     - FirstService(@secondService::someMethod())</code></pre>
-<h3 id="what-if">What if...</h3>
+<h3 id="what-if...">What if...</h3>
 <ul>
 <li>...we <strong>change</strong> method name <code>someMethod</code>?</li>
 <li>...we <strong>change</strong> class name <code>FirstService</code>?</li>
@@ -132,7 +132,7 @@ One of the biggest evils is <em>config coding</em>. <strong>How it can hurt you 
 <img src="/assets/images/posts/2019/config-evil/rename.gif" alt="" class="img-thumbnail">
 <p>But the config has to be changed manually - everywhere where Symfony/Nette/... plugins cannot reach.</p>
 <p><em>How can we do this better?</em></p>
-<h3 id="in-php">In PHP ✅</h3>
+<h3 id="in-p-h-p-✅">In PHP ✅</h3>
 <pre><code class="language-php">&lt;?php
 
 final class FirstServiceFactory
@@ -155,7 +155,7 @@ final class FirstServiceFactory
 <pre><code class="language-diff"> services:
 -   - FirstService(@secondService::someMethod())
 +   - FirstServiceFactory</code></pre>
-<h2 id="2-learn-the-neon-yaml-syntax-by-heart">2. Learn the Neon/YAML Syntax by Heart</h2>
+<h2 id="2.-learn-the-neon/y-a-m-l-syntax-by-heart">2. Learn the Neon/YAML Syntax by Heart</h2>
 <p>When you start to use more and more &quot;cool&quot; syntax of your favorite markup language, you'll have to remember the spacing, chars and key names:</p>
 <pre><code class="language-yaml">services:
     FirstService:
@@ -170,7 +170,7 @@ final class FirstServiceFactory
 <p>You can also say goodbye to <em>rename method</em> refactoring.</p>
 <p>We don't want to pollute our brains with these syntax details, <strong>we want to code</strong> with light and clear mind.</p>
 <p><em>How can we do this better?</em></p>
-<h3 id="in-php">In PHP ✅</h3>
+<h3 id="in-p-h-p-✅">In PHP ✅</h3>
 <pre><code class="language-php">&lt;?php
 
 namespace App;
@@ -196,7 +196,7 @@ final class FirstServiceFactory
     }
 }</code></pre>
 <p>The service is autowired by return type declaration <code>public function create(): FirstService</code>.</p>
-<h2 id="3-service-re-use-with-bugs">3. Service Re-use With Bugs</h2>
+<h2 id="3.-service-re-use-with-bugs">3. Service Re-use With Bugs</h2>
 <pre><code class="language-yaml">services:
     - EmailCodeCleaner(HTMLPurifier(HTMLPurifier_Config::create({
         Attr.EnableID: true
@@ -227,7 +227,7 @@ final class MicrositeHtmlCodeCleaner
 <p>A few months later, you have an email campaign with a link to a microsite. Both with the same content. But a weird bug is reported - the microsite and email have different HTML outputs with the same content.</p>
 <p>You already know, that's because <code>create()</code> had different arguments.</p>
 <p><em>How can we remove this potential bug?</em></p>
-<h3 id="in-php">In PHP ✅</h3>
+<h3 id="in-p-h-p-✅">In PHP ✅</h3>
 <pre><code class="language-php">&lt;?php
 
 namespace App;

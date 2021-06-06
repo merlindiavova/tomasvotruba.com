@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1204688623" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1362590944" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Decouple Monolith like a Boss with Composer Local Packages" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2017/02/07/how-to-decouple-monolith-like-a-boss-with-composer-local-packages" />
@@ -97,7 +97,7 @@
 <p>Benjamin wrote about an idea, that is <strong>now integrated in composer by default</strong>. To my surprise, nobody knows about it!
 That's similar case for great Composer tools like <a href="https://github.com/hirak/prestissimo">prestissimo</a> or <a href="https://github.com/Soullivaneuh/composer-versions-check">versions-check</a>.</p>
 <p>But first, we'll look at current solutions and why I don't see them scalable. We all tried them in Lekarna.cz and learned by painful experience that they don't work.</p>
-<h2 id="1-just-put-the-code-to-code-libs-code-or-code-src-code-directory">1. Just Put The Code to <code>/libs</code> or <code>/src</code> Directory</h2>
+<h2 id="1.-just-put-the-code-to-<code>/libs</code>-or-<code>/src</code>-directory">1. Just Put The Code to <code>/libs</code> or <code>/src</code> Directory</h2>
 <p>This is most common solution I see. Is there a login logic? Just put the code to <code>/libs/Login</code> or <code>/src/LoginBundle</code>.
 Add it to <code>$robotLoader</code> (Nette) or Composer in Symfony and it works.</p>
 <h3 id="advantages">Advantages</h3>
@@ -114,7 +114,7 @@ Add it to <code>$robotLoader</code> (Nette) or Composer in Symfony and it works.
 <li>dependencies of this &quot;package&quot; are unknown</li>
 </ul>
 <p><strong>It doesn't scale!</strong></p>
-<h2 id="2-create-private-packages">2. Create Private Packages</h2>
+<h2 id="2.-create-private-packages">2. Create Private Packages</h2>
 <p>This way is a bit pro. We used Gitlab and Satis - it took a month to set up all access rights correctly (Gitlab CI and Satis server tend to argue). It's so much pain, there is even <a href="https://packagist.com">official paid service</a> for it.</p>
 <h3 id="advantages">Advantages</h3>
 <ul>
@@ -135,7 +135,7 @@ Add it to <code>$robotLoader</code> (Nette) or Composer in Symfony and it works.
 <li>it's premature decoupling that doesn't bring joy</li>
 </ul>
 <p><strong>It doesn't scale!</strong></p>
-<h2 id="3-publish-open-source-packages">3. Publish Open-source Packages</h2>
+<h2 id="3.-publish-open-source-packages">3. Publish Open-source Packages</h2>
 <p>I love this most and it was great for some packages. That's how many <a href="https://github.com/Zenify">Zenify</a> Doctrine-related packages were born.</p>
 <h3 id="advantages">Advantages</h3>
 <ul>
@@ -151,7 +151,7 @@ Add it to <code>$robotLoader</code> (Nette) or Composer in Symfony and it works.
 </ul>
 <p><strong>It doesn't scale.</strong></p>
 <p>During this path of packages we started to feel desperate. Nothing was good enough. I was losing my belief in open source packages and packages themselves.</p>
-<h2 id="composer-saved-my-life">Composer Saved my Life!</h2>
+<h2 id="composer-saved-my-life!">Composer Saved my Life!</h2>
 <p>Not sure why and how, but in composer <a href="https://getcomposer.org/doc/05-repositories.md#path">&quot;path&quot; feature</a> was added. <strong>And it was exactly what we looked for!</strong></p>
 <p>This is so simple that many people find it hard to believe. Forget private and open-sourced packages. Forget Gitlab, Satis and Github. This is <strong>local filesystem only</strong> solution. <strong>All you need is composer</strong>.</p>
 <h3 id="lets-create-first-local-package-filesystem">Lets create First Local Package - Filesystem</h3>
@@ -159,11 +159,11 @@ Add it to <code>$robotLoader</code> (Nette) or Composer in Symfony and it works.
 <p>People started to create new classes and methods for what was already there, because there was too much code and nobody knew about it.</p>
 <p>I had enough!</p>
 <p>So I started to decouple this filesystem logic. How?</p>
-<h3 id="1-create-directory-for-local-package">1. Create Directory For Local Package</h3>
+<h3 id="1.-create-directory-for-local-package">1. Create Directory For Local Package</h3>
 <pre><code class="language-bash">/packages
     /lekarna
         /filesystem</code></pre>
-<h3 id="2-add-basic-package-directories-and-files">2. Add Basic Package Directories and Files</h3>
+<h3 id="2.-add-basic-package-directories-and-files">2. Add Basic Package Directories and Files</h3>
 <pre><code class="language-bash">/packages
     /lekarna
         /filesystem
@@ -171,7 +171,7 @@ Add it to <code>$robotLoader</code> (Nette) or Composer in Symfony and it works.
             /tests
             README.md
             composer.json</code></pre>
-<h3 id="3-name-the-package-in-its-code-composer-json-code">3. Name the Package in its <code>composer.json</code></h3>
+<h3 id="3.-name-the-package-in-its-<code>composer.json</code>">3. Name the Package in its <code>composer.json</code></h3>
 <p>The file is <code>packages/lekarna/filesystem/composer.json</code>:</p>
 <pre><code class="language-javascript">{
     "name": "lekarna/filesystem",
@@ -185,7 +185,7 @@ Add it to <code>$robotLoader</code> (Nette) or Composer in Symfony and it works.
         }
     }
 }</code></pre>
-<h3 id="4-register-package-to-main-code-composer-json-code">4. Register Package to Main <code>composer.json</code></h3>
+<h3 id="4.-register-package-to-main-<code>composer.json</code>">4. Register Package to Main <code>composer.json</code></h3>
 <pre><code class="language-javascript">{
     "require": {
         "lekarna/filesystem": "@dev"

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?275995128" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?786415575" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Forget &quot;autowire&quot; and just use it" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2016/07/18/forget-autowire-just-use-it" />
@@ -94,7 +94,7 @@ Today I will show you, how to get rid of that line.</p>
                 </div>
             </div>
 
-            <h2 id="when-to-autowire">When to autowire?</h2>
+            <h2 id="when-to-autowire?">When to autowire?</h2>
 <p>If you use autowiring daily, you might came across this thinking process before you place <code>autowired: true</code> to your config:</p>
 <p><em>1) Has this service constructor dependency?</em></p>
 <ul>
@@ -116,7 +116,7 @@ Today I will show you, how to get rid of that line.</p>
 <li>Start from point 1.</li>
 </ul>
 <p>Plus some more logic for edge cases like parameters and factories.</p>
-<h2 id="seems-like-function-could-this-be-automated">Seems like function... Could this be automated?</h2>
+<h2 id="seems-like-function...-could-this-be-automated?">Seems like function... Could this be automated?</h2>
 <p>You are right! <strong>It can be automated.</strong></p>
 <p>This is exactly what <a href="https://github.com/Symplify/DefaultAutowire">Symplify/DefaultAutowire</a> bundle does.</p>
 <p>Apart handling feature above for you, it will turn this...</p>
@@ -139,9 +139,9 @@ services:
 
     UserFactory: ~</code></pre>
 <h2 id="get-it-done-in-2-steps">Get It Done in 2 steps</h2>
-<h3 id="1-install-package">1. Install package</h3>
+<h3 id="1.-install-package">1. Install package</h3>
 <pre><code class="language-yaml">composer require symplify/default-autowire</code></pre>
-<h3 id="2-register-bundle">2. Register bundle</h3>
+<h3 id="2.-register-bundle">2. Register bundle</h3>
 <pre><code class="language-php">// app/AppKernel.php
 
 final class AppKernel extends Kernel
