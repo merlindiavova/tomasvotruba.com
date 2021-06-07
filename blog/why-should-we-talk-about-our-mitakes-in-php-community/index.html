@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Why Should We Talk about Our Mistakes in PHP Community? | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+<meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
+
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?1808392403" rel="stylesheet" type="text/css" />
+
+                <meta property="og:title" content="Why Should We Talk about Our Mistakes in PHP Community?" />
+        <meta property="og:url" content="https://tomasvotruba.com/blog/why-should-we-talk-about-our-mitakes-in-php-community" />
+        <meta name="description" property="og:description" content="Sometimes we fell in love with technology or a tool. We see only the best in it, and we want everyone to know it. We&#039;re spreading the love on a wave of serotonin. We&#039;re spreading the knowledge and helping others.
+
+As we grow and learn, we realize the path we took is not as epic as we thought. We change a direction and pick a better alternative. That&#039;s how we learn in everyday life, and it&#039;s only natural.
+
+But what if we promote technology in a post, and that post is still out there? Readers learn from it and follow the path, even though we know it&#039;s two years old and a blind road to station frustration. What then?
+" />
+
+                    <meta property="og:image" content="https://user-images.githubusercontent.com/924196/121019604-e1fb4380-c79f-11eb-95ec-3ca5a77b8598.png" />
+            <meta name="twitter:card" content="summary_large_image"/>
+            </head>
+
+    <body>
+                <!-- post_id: 322 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <h1>Why Should We Talk about Our Mistakes in PHP Community?</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2021/2021-06-07-why-should-we-talk-about-our-mitakes-in-php-community.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2021-06-Mon" class="text-muted">
+                2021-06-07
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>Sometimes we fell in love with technology or a tool. We see only the best in it, and we want everyone to know it. We're spreading the love on a wave of serotonin. We're spreading the knowledge and helping others.
+<br><br>
+As we grow and learn, we realize the path we took is not as epic as we thought. We change a direction and pick a better alternative. That's how we learn in everyday life, and it's only natural.
+<br><br>
+But what if we promote technology in a post, and that post is still out there? Readers learn from it and follow the path, even though we know it's two years old and a blind road to station frustration. What then?</p>
+                </div>
+            </div>
+
+            <blockquote class="blockquote text-center">
+"Change a mind and you'll change a world."
+</blockquote>
+<h2 id="long-tail-effect">Long Tail Effect</h2>
+<p>You know this from everyday life. We google for an answer on a technical problem and find an answer on Stackoverflow. We go through it - yes, it's the same problem we have - deprecation notice in PHP 7.3 for a function that will be removed from PHP. The first answer is accepted and has 270 votes. The second one has only 20. Let's go for the first one.</p>
+<p>Little do we know, the following answer is from 2021 and 1 week old. The first answer is from 2015. Which one do you think was right? It depends on <em>when</em> you read it.</p>
+<p>This is a problem long-tail effect. <strong>We tend to repeat old solutions because we know them for a long time, and they must be correct</strong>. Voting algorithms also promote them (human-based in &quot;like&quot; systems or by inner rating, e.g., Google search).</p>
+<p>But these sources <strong>might be misleading</strong>. I mean - what would you use to deliver a message to your loved one: a post office that's been 300 years in your city or that 3-years old app on your phone you know she uses?</p>
+<h2 id="p-h-p-influencers">PHP Influencers</h2>
+<p>We've been writing a book with Matthias Noback (<a href="/blog/rector-the-power-of-automated-refactoring-book-released">it's here</a> if you're interested, but that's not what this post is about) for the past 7 months. It was an inventive way to chat with him weekly and have back and forth discussions about PHP and our role in it. Not in a way how to spread &quot;our wisdom&quot; to more places, but how we're responsible for shaping the PHP community.</p>
+<p>In one topic we talked about how we're responsible for what we write about. If we say something is a best practise, many long-time readers might follow the rule without much critical thinking.</p>
+<blockquote class="blockquote text-center">
+    "Promote best practice when you believe in them,<br>
+    but own your shit if you were wrong."
+</blockquote>
+<p>It's hard to say &quot;I'm sorry, I was wrong&quot; in personal life, even in the online world, where everyone is watching for your mistakes. Elon Musk is a very fitting example from recent weeks. He promoted using Bitcoin to use as a payment credit. Then he concluded that it's not the way he wants to go. Not just personally, but in a community around him.  You already know how people reacted to this statements and how strong such statement is.</p>
+<h2 id="im-right-today,-i-can-be-wrong-tomorrow">I'm Right Today, I can be Wrong Tomorrow</h2>
+<p>As a part of the community, I used to follow <em>the-framework-I-was-using</em> as a primary source of the best practice. Its in-group effect was powerful, even for approaches that the community leaders didn't promote anymore.</p>
+<p>You might not be Elon Musk, with two world-known companies and a vast community circle around you &ndash; I know I'm not &ndash; but your voice still matters to your close ones. To the users of your open-source package, to your post readers, to people who follow you on Twitter. It's not relevant if it's 1 person, 10, or a thousand. That's just a scale. <strong>What matters is the behavior we spread among the people around us</strong>.</p>
+<p>If I wrote a book about static locators in 2010 and figured that the last few companies I used them in went bankrupt, I would feel terrible and not use them personally anymore. I might tell it to a friend in 2021 as a joke from my past.</p>
+<h2 id="no-response?-no-responsibility">No Response? No Responsibility</h2>
+<p>What change would happen in the world? How would the book readers who are still using the pattern see it? They would probably still think static locators are great because they've read the book and saw so many great examples I proposed.</p>
+<p>That is the coward in me hiding in the corner. I know I would have to act. I don't mean we have to write a book with an inverted title and opposite ideas. But some <strong>public response is needed</strong> - whether a talk, a post, or a public interview.</p>
+<h2 id="how-do-i-handle-past-mistakes-in-my-posts?">How do I Handle Past Mistakes in My Posts?</h2>
+<p>When I realized I'm part of the problem, I wanted to act in way I would love to see in Google. <strong>Explain right in the article</strong> that this approach is wrong and should not be used.</p>
+<p><br></p>
+<p>That's why the mistaken post is cleared marked with red color:</p>
+<p><a href="/blog/2018/11/05/do-you-autowire-services-in-symfony-you-can-autowire-parameters-too/"></p>
+<img src="https://user-images.githubusercontent.com/924196/121019390-ac565a80-c79f-11eb-8b52-dd80fbd78c15.png" class="img-thumbnail mb-4">
+<p></a></p>
+<p>There is also &quot;why&quot; above the post:</p>
+<p><a href="/blog/2018/11/05/do-you-autowire-services-in-symfony-you-can-autowire-parameters-too/"></p>
+<img src="https://user-images.githubusercontent.com/924196/121019604-e1fb4380-c79f-11eb-95ec-3ca5a77b8598.png" class="img-thumbnail">
+<p></a></p>
+<h2 id="learning-from-mistakes">Learning From Mistakes</h2>
+<p>If we write a website project and it works without any mistake, we didn't learn anything new. We only repeated the knowledge we already had to achieve a goal. A mistake is not doing something the wrong way and being ashamed. <strong>It's a delta between what we knew at the start and what we know now</strong>. &quot;Wow, that was a huge mistake&quot; = &quot;he learned a lot by doing that.&quot;</p>
+<blockquote class="blockquote text-center">
+"In order to succeed, you must fail,<br>
+so that you know what not to do the next time."
+</blockquote>
+<p>That's why making mistakes is so important. Reading other people's mistakes is an excellent source of knowledge. I would love to travel around the world and the PHP community one day. Let's say I meet a woman who's traveled around the world in the past 6 months. She has an hour to have coffee with me. What is a better use of my time for my future trip?</p>
+<ul>
+<li>&quot;What were the best five cities you've visited?&quot;</li>
+<li>&quot;What were the worst five events that happened to you?&quot;</li>
+</ul>
+<h2 id="from-inspiration-to-action">From Inspiration to Action</h2>
+<p>Writing these lines, I recall a post from Martin Michalek - co-founder of Czech front-end community - <a href="https://www.vzhurudolu.cz/blog/100-2016-podelal">What I fucked up in 2016?</a>  It was a huge source of inspiration, Martin being honest about finances, writing a book, and personal risks. Hats off to him. In my next post, I'll write about a couple of mines.</p>
+<p>Last but now least, have you heard of <a href="https://www.fuckupnights.cz/">Fuck Up Nights</a>? Every month 5 speakers share their worst in life. I've visited a couple of them, and they're a profound source of knowledge and laughter.</p>
+<p><br></p>
+<p>To sum up, it's important to share our success and happy days. We'll fail, we'll make mistakes, and that's ok. That's how we learn. Sharing these experiences with each other in an honest way is how we help each other grow and be stronger as a community.</p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                    
+                                            <a href="/blog/how-i-redesigned-my-website-the-way-i-refactor-legacy-projects" class="d-block">
+                            <div>
+                                Read next → <strong>How I Redesigned my Website the Way I Refactor Legacy Projects</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+    </body>
+</html>
