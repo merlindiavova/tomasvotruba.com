@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1398868222" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1381750984" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Migrate From PHP_CodeSniffer to ECS in 7 Steps" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/06/04/how-to-migrate-from-php-code-sniffer-to-easy-coding-standard" />
@@ -128,7 +128,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
     $services-&gt;set(DocCommentSniff::class);
 };</code></pre>
 <p>No more typos with strong over string typing.</p>
-<h2 id="2.-from-<code>@coding-standards-ignore-start</code>-to-<code>skip</code>-parameter">2. From <code>@codingStandardsIgnoreStart</code> to <code>skip</code> Parameter</h2>
+<h2 id="2.-from-@coding-standards-ignore-start-to-skip-parameter">2. From <code>@codingStandardsIgnoreStart</code> to <code>skip</code> Parameter</h2>
 <p>If you'd like to skip nasty code from being analyzed, you'd use <code>@codingStandardsIgnoreStart</code> in PHP_CodeSniffer.</p>
 <pre><code class="language-php">#  packages/framework/src/Component/Constraints/EmailValidator.php
 
@@ -159,7 +159,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
         ]
     ]);
 };</code></pre>
-<h2 id="3.-from-<code>&lt;severity&gt;0&lt;/severity&gt;</code>-and-<code>&lt;exclude-name="..."&gt;</code>-to-<code>skip</code>-parameter">3. From <code>&lt;severity&gt;0&lt;/severity&gt;</code> and <code>&lt;exclude name="..."&gt;</code> to <code>skip</code> Parameter</h2>
+<h2 id="3.-from-&lt;severity&gt;0&lt;/severity&gt;-and-&lt;exclude-name="..."&gt;-to-skip-parameter">3. From <code>&lt;severity&gt;0&lt;/severity&gt;</code> and <code>&lt;exclude name="..."&gt;</code> to <code>skip</code> Parameter</h2>
 <p>Do you need to skip only 1 part of the sniff? In PHP_CodeSniffer:</p>
 <pre><code class="language-xml">&lt;rule ref="Generic.Commenting.DocComment.ContentAfterOpen"&gt;
     &lt;severity&gt;0&lt;/severity&gt;
@@ -265,7 +265,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <p>Thus these confusing options are not supported and EasyCodingStandard simplifies that to <strong>errors only</strong>
 CI server either passes or not. <strong>The rule is required and respected or removed. Simple, clear and without any confusion.</strong></p>
 <p>Saying that you don't need to fill values for warning properties.</p>
-<h2 id="7.-from-beautifier-to-<code>-fix</code>-option">7. From Beautifier to <code>--fix</code> option</h2>
+<h2 id="7.-from-beautifier-to-fix-option">7. From Beautifier to <code>--fix</code> option</h2>
 <p>Do you need to fix the code? From 2 commands in PHP_CodeSniffer:</p>
 <pre><code class="language-bash">vendor/bin/phpcs /path/to/project --standard=custom/location.xml
 vendor/bin/phpcbf /path/to/project --standard=custom/location.xml</code></pre>

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1151560551" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1325595277" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="7 News and Changes in Symplify 6" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/06/20/7-news-and-changes-in-symplify-6" />
@@ -135,10 +135,10 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <br>
 <br></p>
 <p>What has <strong>changed</strong>?</p>
-<h3 id="2.-<code>*.yaml</code>-→-<code>*.php</code>">2. <code>*.yaml</code> → <code>*.php</code></h3>
+<h3 id="2.-*.yaml-→-*.php">2. <code>*.yaml</code> → <code>*.php</code></h3>
 <p>As Symfony is <a href="https://github.com/symfony/symfony/issues/37186">moving to *.php</a> configuration, Symplify does too.</p>
 <h2 id="easy-coding-standard">EasyCodingStandard</h2>
-<h3 id="3.-sets-are-now-in-defined-in-<code>set-list</code>-constants">3. Sets are Now In defined in <code>SetList</code> Constants</h3>
+<h3 id="3.-sets-are-now-in-defined-in-set-list-constants">3. Sets are Now In defined in <code>SetList</code> Constants</h3>
 <p>Why? The sets are only string references, so its useless for human to remember them. Why not let IDE help us?</p>
 <pre><code class="language-diff"> &lt;?php
 
@@ -154,7 +154,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 -    $containerConfigurator-&gt;import(__DIR__ . '/vendor/symplify/easy-coding-standard/config/php71.php');
 +    $containerConfigurator-&gt;import(SetList::PHP_71);
  };</code></pre>
-<h3 id="4.-<del>exclude-checkers</del>-→-<code>skip</code>">4. <del>exclude_checkers</del> → <code>skip</code></h3>
+<h3 id="4.-exclude-checkers-→-skip">4. <del>exclude_checkers</del> → <code>skip</code></h3>
 <p>People confused this options and created <em>WTF</em> issues. That's why the <code>exclude_checkers</code> is now merged in <code>skip</code>, so you have less option names to remember:</p>
 <pre><code class="language-diff"> // ecs.php
  use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -169,7 +169,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
      ]);
  };</code></pre>
 <h2 id="package-builder">PackageBuilder</h2>
-<h3 id="5.-introducing-<code>finder-sanitizer</code>">5. Introducing <code>FinderSanitizer</code></h3>
+<h3 id="5.-introducing-finder-sanitizer">5. Introducing <code>FinderSanitizer</code></h3>
 <p>Do you like <code>SplFileInfo</code> that is 100 % sure the file exists? In that case, you use <code>Symplify\PackageBuilder\FileSystem\SmartFileInfo</code> instead of <code>SplFileInfo</code>. The easiest way to use it is via <code>FinderSanitizer</code> that is now available via <code>symplify/package-builder</code> package:</p>
 <pre><code class="language-diff"> &lt;?php
 
@@ -185,7 +185,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 -    $services-&gt;set(Symplify\EasyCodingStandard\Finder\FinderSanitizer);
 +    $services-&gt;set(Symplify\PackageBuilder\FileSystem\FinderSanitizer);
  };</code></pre>
-<h3 id="6.-<del>configurable-collector-compiler-pass</del>-→-<code>autowire-array-parameter-compiler-pass</code>">6. <del>ConfigurableCollectorCompilerPass</del> → <code>AutowireArrayParameterCompilerPass</code></h3>
+<h3 id="6.-configurable-collector-compiler-pass-→-autowire-array-parameter-compiler-pass">6. <del>ConfigurableCollectorCompilerPass</del> → <code>AutowireArrayParameterCompilerPass</code></h3>
 <p>If you know collectors, you're using <code>ConfigurableCollectorCompilerPass</code>. It saves you so much time with configuration. The problem with that compiler pass, you still had to go to config to set it up, for no real advantage. And extra work for <a href="/blog/2019/02/14/why-config-coding-sucks/">no benefit sucks</a>. Also, there is big change someone will <a href="/blog/2018/08/27/why-and-how-to-avoid-the-memory-lock/">forget it</a> and create a bug.</p>
 <p>So instead, <em>Symplify 6</em> adds better system to pass collected services of certain type to single service - <strong><a href="/blog/2018/11/12/will-autowired-arrays-finally-deprecate-tags-in-symfony-and-nette/">autowired arrays</a></strong>:</p>
 <pre><code class="language-diff">&lt;?php declare(strict_types=1);
@@ -204,7 +204,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 }</code></pre>
 <p><a href="/blog/2018/11/12/will-autowired-arrays-finally-deprecate-tags-in-symfony-and-nette/">This post</a> explains how to use it without ever touching config again.</p>
 <h2 id="coding-standard">CodingStandard</h2>
-<h3 id="7.-<del>remove-useless-doc-block-fixer</del>-→-<code>no-superfluous-phpdoc-tags-fixer</code>">7. <del>RemoveUselessDocBlockFixer</del> → <code>NoSuperfluousPhpdocTagsFixer</code></h3>
+<h3 id="7.-remove-useless-doc-block-fixer-→-no-superfluous-phpdoc-tags-fixer">7. <del>RemoveUselessDocBlockFixer</del> → <code>NoSuperfluousPhpdocTagsFixer</code></h3>
 <p><code>RemoveUselessDocBlockFixer</code> was removed, since <a href="https://github.com/FriendsOfPHP/PHP-CS-Fixer">PHP CS Fixer</a> now provides <code>NoSuperfluousPhpdocTagsFixer</code> with similar features:</p>
 <pre><code class="language-diff"> // ecs.php
  use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;

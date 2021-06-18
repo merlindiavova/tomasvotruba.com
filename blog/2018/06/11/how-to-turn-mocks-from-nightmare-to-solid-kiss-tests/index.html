@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?403213657" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?127078282" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Turn Mocks from Nightmare to Solid Kiss Tests" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/06/11/how-to-turn-mocks-from-nightmare-to-solid-kiss-tests" />
@@ -99,7 +99,7 @@ Did you know there is easier and more clear way to do &quot;mocking&quot;?</p>
             <p>At the time being, there is only 1 post about <a href="https://mnapoli.fr/anonymous-classes-in-tests/">anonymous classes in tests</a> (thanks to Matthieu!). Compared to that, there are many PHP tool made just for mocking: Prophecy, Mockery, PHPUnit native mocks, Mockista and so on. If you're a developer who uses one of them, knows that he needs to add proper annotations to make autocomplete work, has the PHPStom plugin that fixes bugs in this autocomplete and it works well for you, just stop reading.</p>
 <p>This post is for developers who struggle with mocking and have a feeling, that they're doing something wrong.</p>
 <p><strong>You're not. It's the mocking part</strong>. Mocks are often the bottleneck of understanding in tests. They're so easy to make, that they can overpopulate your tests... the same way units test can test every getter and setter of all your entities in 20 minutes <em>(hint: not a way to go)</em>.</p>
-<h2 id="was-it-<code>will-return()</code>,-<code>will-return-any()</code>-or-<code>will-return-exact()</code>?">Was it <code>willReturn()</code>, <code>willReturnAny()</code> or <code>willReturnExact()</code>?</h2>
+<h2 id="was-it-will-return(),-will-return-any()-or-will-return-exact()?">Was it <code>willReturn()</code>, <code>willReturnAny()</code> or <code>willReturnExact()</code>?</h2>
 <p>Let's get to code. <a href="https://github.com/shopsys/shopsys/commit/b73fc8da82f7d2679f05c8aedd29f010fd5d0630#diff-f1a8f90cb34e69e324153cce909467a2R92">Real open source code</a> from one of my code-reviews that inspired me to make this post:</p>
 <pre><code class="language-php">namespace PHPUnit\Framework\TestCase;
 

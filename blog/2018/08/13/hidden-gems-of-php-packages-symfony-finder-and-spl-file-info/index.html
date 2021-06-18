@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?455572104" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1795779225" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Hidden Gems of PHP Packages: Symfony\Finder and SplFileInfo" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/08/13/hidden-gems-of-php-packages-symfony-finder-and-spl-file-info" />
@@ -136,8 +136,8 @@ $finder = Finder::create()
 foreach ($finder as $splFileInfo) {
     var_dump($splFileInfo); // instance of "Symfony\Component\Finder\SplFileInfo"
 }</code></pre>
-<h2 id="<code>symfony\component\finder\finder</code>"><code>Symfony\Component\Finder\Finder</code></h2>
-<h3 id="<code>name()</code>"><code>name()</code></h3>
+<h2 id="symfony\component\finder\finder"><code>Symfony\Component\Finder\Finder</code></h2>
+<h3 id="name()"><code>name()</code></h3>
 <p>This method accepts also regular expressions. Do you want to find all YAML files?</p>
 <pre><code class="language-php">&lt;?php declare(strict_types=1);
 
@@ -145,7 +145,7 @@ use Symfony\Component\Finder\Finder;
 
 $finder = Finder::create();
 $finder-&gt;name('#\.(yaml|yml)$#');</code></pre>
-<h3 id="<code>append()</code>"><code>append()</code></h3>
+<h3 id="append()"><code>append()</code></h3>
 <p>Do you want to add just a single file that finder criteria would not find? Normally, you'd have to create <code>SplFileInfo</code> manually, think of relative/absolute paths etc. So much work. Instead, you can just append it and Finder will add it for you.</p>
 <pre><code class="language-php">&lt;?php declare(strict_types=1);
 
@@ -155,7 +155,7 @@ return Finder::create()
     -&gt;name('#\.php$#')
     -&gt;in(__DIR__ . '/Source')
     -&gt;append([__DIR__ . '/Source/SomeClass.twig']);</code></pre>
-<h3 id="<code>not-path()</code>-or-<code>exclude()</code>"><code>notPath()</code> or <code>exclude()</code></h3>
+<h3 id="not-path()-or-exclude()"><code>notPath()</code> or <code>exclude()</code></h3>
 <p>It's common and bad practice to put tests files into <code>/src</code>. It's historical reason mostly, but we still have to deal with that.
 You don't want to work with 3rd party code tests, right?</p>
 <pre><code class="language-php">&lt;?php declare(strict_types=1);
@@ -173,14 +173,14 @@ $finder = Finder::create()
 
 // or match path name
 $finder-&gt;notPath('#tests#');</code></pre>
-<h2 id="<code>symfony\component\finder\spl-file-info</code>"><code>Symfony\Component\Finder\SplFileInfo</code></h2>
-<h3 id="<code>get-relative-path()</code>"><code>getRelativePath()</code></h3>
+<h2 id="symfony\component\finder\spl-file-info"><code>Symfony\Component\Finder\SplFileInfo</code></h2>
+<h3 id="get-relative-path()"><code>getRelativePath()</code></h3>
 <p>Let's get back to the <code>composer.json</code> example above (from in <a href="https://github.com/Symplify/MonorepoBuilder/blob/71d81fe279b43b3353d107560198fd5cf52d487c/src/PackageComposerFinder.php#L23-L38">MonorepoBuilder</a>). This is how we get relative <strong>directory</strong>:</p>
 <pre><code class="language-php">&lt;?php declare(strict_types=1);
 
 /** @var \Symfony\Component\Finder\SplFileInfo $splFileInfo */
 $splFileInfo-&gt;getRelativePath(); // "/"</code></pre>
-<h3 id="<code>get-relative-pathname()</code>"><code>getRelativePathname()</code></h3>
+<h3 id="get-relative-pathname()"><code>getRelativePathname()</code></h3>
 <p>This method is bit different - it returns <strong>relative filename</strong>:</p>
 <pre><code class="language-php">&lt;?php declare(strict_types=1);
 

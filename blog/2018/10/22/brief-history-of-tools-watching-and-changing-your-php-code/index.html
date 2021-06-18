@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?612175358" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?686662976" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Brief History of Tools Watching and Changing Your PHP Code" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/10/22/brief-history-of-tools-watching-and-changing-your-php-code" />
@@ -88,12 +88,12 @@
             </div>
 
             <h2 id="1.-coding-standard-tools">1. Coding Standard Tools</h2>
-<h3 id="<a-href="https://github.com/squizlabs/p-h-p-code-sniffer">p-h-p-code-sniffer</a>-from-australia"><a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP_CodeSniffer</a> from Australia</h3>
+<h3 id="p-h-p-code-sniffer-from-australia"><a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP_CodeSniffer</a> from Australia</h3>
 <p><span class="badge badge-light">Tokens</span>
 <span class="badge badge-success">Modifies Code</span></p>
 <p>The first tool that made it to the mainstream of coding standard tools was created around <strong>2007</strong> by Greg Sherwood from Australia. At least by date <a href="http://gregsherwood.blogspot.com/2006/12/if-not-test-first-then-test-really-soon.html">of the oldest post I could found</a>.</p>
 <p>Greg has been maintaining the repository for last <strong>11 years</strong> (at least). I don't know anyone else who would take care of his project for such a long time without stepping back - <strong>much respect</strong>!</p>
-<h3 id="<a-href="https://github.com/friends-of-p-h-p/p-h-p-c-s-fixer">p-h-p-c-s-fixer</a>-from-symfony"><a href="https://github.com/FriendsOfPHP/PHP-CS-Fixer">PHP CS Fixer</a> from Symfony</h3>
+<h3 id="p-h-p-c-s-fixer-from-symfony"><a href="https://github.com/FriendsOfPHP/PHP-CS-Fixer">PHP CS Fixer</a> from Symfony</h3>
 <p><span class="badge badge-light">Tokens</span>
 <span class="badge badge-success">Modifies Code</span></p>
 <p>Reporting errors are helpful, but fixing them for you is even more helpful. More people got a similar need and around <a href="https://gist.github.com/fabpot/3f25555dce956accd4dd">Symfony 2.0 times and 2011</a> next tools were born - PHP CS Fixer.</p>
@@ -106,12 +106,12 @@ PHP_CodeSniffer 2.8 and 3.0 (depending on <code>3.0-dev</code>), which took 14 u
 <p><strong>So PHP_CodeSniffer now holds <span class="badge badge-success">Modifies Code</span> as well.</strong></p>
 <p><br></p>
 <p>Both use <code>token_get_all()</code> that basically parses code to strings. Do you want to know <a href="/blog/2017/07/31/how-php-coding-standard-tools-actually-work/">how they actually work</a>?</p>
-<h3 id="<a-href="https://github.com/symplify/easy-coding-standard">easy-coding-standard</a>-from-the-czech-republic"><a href="https://github.com/symplify/easy-coding-standard">EasyCodingStandard</a> from the Czech Republic</h3>
+<h3 id="easy-coding-standard-from-the-czech-republic"><a href="https://github.com/symplify/easy-coding-standard">EasyCodingStandard</a> from the Czech Republic</h3>
 <p><span class="badge badge-light">Tokens</span>
 <span class="badge badge-success">Modifies Code</span></p>
 <p>I saw many projects that use both tools, yet very poorly - because split attention divides the focus in the same ratio. The mission of this tool is <strong>to help new generations to adopt coding standard with almost no effort</strong>. So in <strong>2016</strong> the EasyCodingStandard was born.</p>
 <h2 id="2.-static-analysis-tools">2. Static Analysis Tools</h2>
-<h3 id="<a-href="https://github.com/nikic/p-h-p-parser">nikic/php-parser</a>"><a href="https://github.com/nikic/PHP-Parser">nikic/php-parser</a></h3>
+<h3 id="nikic/php-parser"><a href="https://github.com/nikic/PHP-Parser">nikic/php-parser</a></h3>
 <p><span class="badge badge-danger">AST</span></p>
 <p>This package is barely known for code analysis. But it provides the technology that all the other tool builds on - <em>abstract syntax tree</em> (known as <em>AST</em>).</p>
 <p>It all started as a question on <a href="https://stackoverflow.com/questions/5586358/any-decent-php-parser-written-in-php">StackOverflow</a> - <em>Any decent PHP parser written in PHP?</em> nikic answered himself with a <a href="https://github.com/nikic/PHP-Parser"><code>php-parser</code></a> less than a 6 months later.</p>
@@ -129,13 +129,13 @@ class SomeObject
 
 $object = new SomeObject; // AST remembers that "$object" is "SomeObject" type
 $object-&gt;missing(); // here we know that "missing" does not exist in "SomeObject"</code></pre>
-<h3 id="<a-href="https://github.com/phpstan/phpstan">p-h-p-stan</a>-by-ondrej-mirtes"><a href="https://github.com/phpstan/phpstan">PHPStan</a> by Ondrej Mirtes</h3>
+<h3 id="p-h-p-stan-by-ondrej-mirtes"><a href="https://github.com/phpstan/phpstan">PHPStan</a> by Ondrej Mirtes</h3>
 <p><span class="badge badge-danger">AST</span>
 <span class="badge badge-info">
 <a href="https://github.com/phpstan/phpstan/releases/tag/0.1">* 2016</a>
 </span></p>
 <p>If you don't use any static analysis tool, give PHPStan a try. I've made <a href="/blog/2017/01/28/why-I-switched-scrutinizer-for-phpstan-and-you-should-too/">minimalist intro that will help you with first steps </a>. It's worth investing even day or two to set it up because <strong>these tools will join toolkit of everyday use</strong>, like Composer or PHPUnit.</p>
-<h3 id="<a-href="https://github.com/vimeo/psalm">vimeo/psalm</a>-by-matthew-brown"><a href="https://github.com/vimeo/psalm">vimeo/psalm</a> by Matthew Brown</h3>
+<h3 id="vimeo/psalm-by-matthew-brown"><a href="https://github.com/vimeo/psalm">vimeo/psalm</a> by Matthew Brown</h3>
 <p><span class="badge badge-danger">AST</span>
 <span class="badge badge-info">
 <a href="https://github.com/vimeo/psalm/releases/tag/0.1">* 2016</a>
@@ -144,19 +144,19 @@ $object-&gt;missing(); // here we know that "missing" does not exist in "SomeObj
 <p>Psalm is a very interesting tool that was born to fight Vimeo code complexity. It was the first tool from this group of 3, <strong>that started <a href="https://psalm.dev/docs/manipulating_code/fixing/">fixing the code</a></strong>.</p>
 <h2 id="3.-deprecation-detectors">3. Deprecation Detectors</h2>
 <p>This group is widely used in the framework-agnostic PHP community.</p>
-<h3 id="<a-href="https://github.com/p-h-p-compatibility/p-h-p-compatibility">p-h-p-compatibility/p-h-p-compatibility</a>"><a href="https://github.com/PHPCompatibility/PHPCompatibility">PHPCompatibility/PHPCompatibility</a></h3>
+<h3 id="p-h-p-compatibility/p-h-p-compatibility"><a href="https://github.com/PHPCompatibility/PHPCompatibility">PHPCompatibility/PHPCompatibility</a></h3>
 <p><span class="badge badge-light">Tokens</span></p>
 <p>This tool checks for PHP cross-version compatibility. It allows you to analyze your code for compatibility with higher and lower versions of PHP.</p>
 <p><br></p>
 <p>It's useful to know what places are wrong, but you still have to fix them all manually.</p>
 <h2 id="4.-instant-upgrade-tools">4. Instant Upgrade Tools</h2>
-<h3 id="<a-href="https://github.com/umpirsky/symfony-upgrade-fixer">umpirsky/symfony-upgrade-fixer</a>"><a href="https://github.com/umpirsky/Symfony-Upgrade-Fixer">umpirsky/Symfony-Upgrade-Fixer</a></h3>
+<h3 id="umpirsky/symfony-upgrade-fixer"><a href="https://github.com/umpirsky/Symfony-Upgrade-Fixer">umpirsky/Symfony-Upgrade-Fixer</a></h3>
 <p><span class="badge badge-light">Tokens</span>
 <span class="badge badge-success">Modifies Code</span>
 <span class="badge badge-secondary">Deprecated</span></p>
 <p>This tool was created in <strong>2015</strong> and it's revolutionary. Why? It wisely connects the token analysis of PHP CS Fixer with deprecations in Symfony 2 to 3. Imagine it like PHP CS Fixer + <code>sensiolabs-de/deprecation-detector</code> <strong>working for you</strong>.</p>
 <p>Isn't that amazing? <strong>You just sit, run this tool and send invoices. Genius!</strong> The features are limited due to Tokens, but still, I love this.</p>
-<h3 id="<a-href="https://github.com/rectorphp/rector">rector</a>"><a href="https://github.com/rectorphp/rector">Rector</a></h3>
+<h3 id="rector"><a href="https://github.com/rectorphp/rector">Rector</a></h3>
 <p><span class="badge badge-danger">AST</span>
 <span class="badge badge-success">Modifies Code</span></p>
 <p>It's <strong>2017</strong> and Rector still had to wait many months to be born. For what?</p>

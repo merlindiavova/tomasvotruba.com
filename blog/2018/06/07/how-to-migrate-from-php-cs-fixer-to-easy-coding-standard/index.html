@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?487448832" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?298747855" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Migrate From PHP CS Fixer to ECS in 6 Steps" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/06/07/how-to-migrate-from-php-cs-fixer-to-easy-coding-standard" />
@@ -60,7 +60,7 @@ There are **a few simple A → B changes**, but one has to know about them or wi
 </div>
 
         <div class="container-fluid post" id="content">
-            <h1>How to Migrate From PHP CS Fixer to ECS in 6 Steps</h1>
+            <h1>How to Migrate From PHP&nbsp;CS&nbsp;Fixer to ECS&nbsp;in&nbsp;6&nbsp;Steps</h1>
 
             <div class="pull-right">
                 <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2018/2018-06-07-how-to-migrate-from-php-cs-fixer-to-easy-coding-standard.md">Found a typo? Edit me</a>
@@ -131,7 +131,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
     $services-&gt;set(DeclareStrictTypesFixer::class);
 };</code></pre>
 <p>No more typos with <em>strong</em> over <em>string typing</em>.</p>
-<h2 id="2.-from-<code>not-path()</code>-to-<code>skip</code>-parameter">2. From <code>notPath()</code> to <code>skip</code> Parameter</h2>
+<h2 id="2.-from-not-path()-to-skip-parameter">2. From <code>notPath()</code> to <code>skip</code> Parameter</h2>
 <p>If you'd like to skip nasty code from being analyzed, you'd probably use this in PHP CS Fixer.</p>
 <pre><code class="language-php">$finder = PhpCsFixer\Finder::create()
     -&gt;exclude('somedir')
@@ -175,7 +175,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
     ]);
 };</code></pre>
 <p>For all other <code>skip</code> options, <a href="https://github.com/symplify/easy-coding-standard/#ignore-what-you-cant-fix">see README</a>.</p>
-<h2 id="3.-from-<code>.php-cs</code>-to-p-h-p-config">3. From <code>.php_cs</code> to PHP Config</h2>
+<h2 id="3.-from-.php-cs-to-p-h-p-config">3. From <code>.php_cs</code> to PHP Config</h2>
 <p>PHP CS Fixer looks for <code>.php_cs</code> file in the root directory by default.</p>
 <p><strong>And ECS looks for <code>ecs.php</code></strong></p>
 <p>What about non-default locations or names?</p>
@@ -203,14 +203,14 @@ return function (ContainerConfigurator $containerConfigurator): void {
         ]]);
 };</code></pre>
 <p>Nice and clear!</p>
-<h2 id="5.-from-no-<code>-dry-run</code>-to-<code>-fix</code>-option">5. From no <code>--dry-run</code> to <code>--fix</code> option</h2>
+<h2 id="5.-from-no-dry-run-to-fix-option">5. From no <code>--dry-run</code> to <code>--fix</code> option</h2>
 <p>From PHP CS Fixer:</p>
 <pre><code class="language-bash">vendor/bin/php-cs-fixer fix /path/to/project --dry-run
 vendor/bin/php-cs-fixer fix /path/to/project</code></pre>
 <p>to ECS equivalent:</p>
 <pre><code class="language-bash">vendor/bin/ecs check /path/to/project
 vendor/bin/ecs check /path/to/project --fix</code></pre>
-<h2 id="6.-from-<code>@rules</code>-to-<code>imports</code>">6. From <code>@Rules</code> to <code>imports</code></h2>
+<h2 id="6.-from-@rules-to-imports">6. From <code>@Rules</code> to <code>imports</code></h2>
 <p>Do you like to use standards like PSR-2 or even <a href="/blog/2018/04/09/try-psr-12-on-your-code-today/">PSR-12</a>?</p>
 <p>From <code>@strings</code> in PHP CS Fixer:</p>
 <pre><code class="language-php">$config = PhpCsFixer\Config::create()

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?420245791" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1040219577" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Still on PHPUnit 4? Come to PHPUnit 8 Together in a Day" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/11/04/still-on-phpunit-4-come-to-phpunit-8-together-in-a-day" />
@@ -177,7 +177,7 @@ The <a href="https://github.com/sebastianbergmann/phpunit/wiki/Development-and-R
 </ul>
 <p>Unless you're upgrading 10 test files, of course. But in the rest of the case, this approach would save me many failed attempts in the paths. That's why <strong>planning is the most important step of all</strong> for huge upgrade operations.</p>
 <h2 id="3.-p-h-p-unit-4-to-5">3. PHPUnit 4 to 5</h2>
-<h3 id="from-<code>get-mock()</code>-to-<code>get-mock-builder()</code>">From <code>getMock()</code> to <code>getMockBuilder()</code></h3>
+<h3 id="from-get-mock()-to-get-mock-builder()">From <code>getMock()</code> to <code>getMockBuilder()</code></h3>
 <pre><code class="language-diff"> final class MyTest extends PHPUnit_Framework_TestCase
  {
      public function test()
@@ -213,7 +213,7 @@ See 3v4l.org to understand why
 <p><br></p>
 <p>Second, replace the rest of the <code>PHPUnit_*</code> classes with a namespace. Listeners, test suites, exceptions... etc.
 This is hell for us human, luckily easy-pick for Rector.</p>
-<h3 id="add-<code>does-not-perform-assertions</code>-to-test-with-no-assertion">Add <code>doesNotPerformAssertions</code> to test With no Assertion</h3>
+<h3 id="add-does-not-perform-assertions-to-test-with-no-assertion">Add <code>doesNotPerformAssertions</code> to test With no Assertion</h3>
 <pre><code class="language-diff">+    /**
 +     * @doesNotPerformAssertions
 +     */
@@ -221,7 +221,7 @@ This is hell for us human, luckily easy-pick for Rector.</p>
      {
          new SomeObject(25);
      }</code></pre>
-<h3 id="<code>set-expected-exception()</code>-to-<code>expect-exception()</code>"><code>setExpectedException()</code> to <code>expectException()</code></h3>
+<h3 id="set-expected-exception()-to-expect-exception()"><code>setExpectedException()</code> to <code>expectException()</code></h3>
 <p>And not only that! Also, split arguments to own method:</p>
 <pre><code class="language-diff"> &lt;?php
 
@@ -236,7 +236,7 @@ This is hell for us human, luckily easy-pick for Rector.</p>
      }
  }</code></pre>
 <p>Also <code>setExpectedExceptionRegExp()</code> was removed.</p>
-<h3 id="<code>@expected-exception</code>-to-<code>expect-exception()</code>"><code>@expectedException</code> to <code>expectException()</code></h3>
+<h3 id="@expected-exception-to-expect-exception()"><code>@expectedException</code> to <code>expectException()</code></h3>
 <p>These changes are a real challenge for simple human attention:</p>
 <pre><code class="language-diff">-expectedException
 +expectException</code></pre>
@@ -286,7 +286,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
          return ['123'];
      }
  }</code></pre>
-<h3 id="rename-<code>@scenario</code>-annotation-to-<code>@test</code>">Rename <code>@scenario</code> annotation to <code>@test</code></h3>
+<h3 id="rename-@scenario-annotation-to-@test">Rename <code>@scenario</code> annotation to <code>@test</code></h3>
 <pre><code class="language-diff"> class WithTestAnnotation extends \PHPUnit\Framework\TestCase
  {
      /**
@@ -298,7 +298,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
          // ...
      }
  }</code></pre>
-<h3 id="change-<code>with-consecutive()</code>-arguments-to-iterable">Change <code>withConsecutive()</code> Arguments to Iterable</h3>
+<h3 id="change-with-consecutive()-arguments-to-iterable">Change <code>withConsecutive()</code> Arguments to Iterable</h3>
 <p>This rather small change can cause a huge headache. It's <a href="https://github.com/sebastianbergmann/phpunit/commit/72098d80f0cfc06c7e0652d331602685ce5b4b51">a fix of silent false positive</a>.</p>
 <p>How would you fix the following code, if you know that the argument of <code>withConsecutive()</code> must be iterable (array, iterator...)?</p>
 <pre><code class="language-php">class SomeClass
@@ -345,7 +345,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <p>The <a href="https://github.com/sebastianbergmann/phpunit/pull/3147">optional caching of test results</a> added in PHPUnit 7.3 is not enabled by default. We need to add the cache file to <code>.gitignore</code>:</p>
 <pre><code class="language-txt"># .gitignore
 .phpunit.result.cache</code></pre>
-<h3 id="remove-type-<code>$data-name</code>-in-<code>p-h-p-unit\framework\test-case</code>-constructor-override">Remove type <code>$dataName</code> in <code>PHPUnit\Framework\TestCase</code> Constructor Override</h3>
+<h3 id="remove-type-$data-name-in-p-h-p-unit\framework\test-case-constructor-override">Remove type <code>$dataName</code> in <code>PHPUnit\Framework\TestCase</code> Constructor Override</h3>
 <pre><code class="language-diff"> &lt;?php
 
  abstract class MyAbstractTestCase extends \PHPUnit\Framework\TestCase
@@ -355,7 +355,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
      {
      }
  }</code></pre>
-<h3 id="replace-<code>assert-contains()</code>-with-specific-<code>assert-string-contains-string()</code>-method">Replace <code>assertContains()</code> with Specific <code>assertStringContainsString()</code> Method</h3>
+<h3 id="replace-assert-contains()-with-specific-assert-string-contains-string()-method">Replace <code>assertContains()</code> with Specific <code>assertStringContainsString()</code> Method</h3>
 <pre><code class="language-diff"> &lt;?php
 
  final class SomeTest extends \PHPUnit\Framework\TestCase
@@ -369,7 +369,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 +        $this-&gt;assertStringNotContainsString('foo', 'foo bar');
      }
  }</code></pre>
-<h3 id="replace-<code>assert-internal-type()</code>-with-specific-methods">Replace <code>assertInternalType()</code> with Specific Methods</h3>
+<h3 id="replace-assert-internal-type()-with-specific-methods">Replace <code>assertInternalType()</code> with Specific Methods</h3>
 <p>This change <a href="https://github.com/sebastianbergmann/phpunit/commit/a406c85c51edd76ace29119179d8c21f590c939e">is huge</a>.</p>
 <p><strong>2 methods were removed, 22 methods are added.</strong></p>
 <pre><code class="language-diff"> &lt;?php
@@ -382,7 +382,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 +        $this-&gt;assertIsString($value);
      }
  }</code></pre>
-<h3 id="change-<code>assert-equals()</code>-method-parameters-to-new-specific-methods">Change <code>assertEquals()</code> method Parameters to new Specific Methods</h3>
+<h3 id="change-assert-equals()-method-parameters-to-new-specific-methods">Change <code>assertEquals()</code> method Parameters to new Specific Methods</h3>
 <pre><code class="language-diff"> final class SomeTest extends \PHPUnit\Framework\TestCase
  {
      public function test()
@@ -401,11 +401,11 @@ return function (ContainerConfigurator $containerConfigurator): void {
 +        $this-&gt;assertEqualsIgnoringCase('string', $value, 'message');
      }
  }</code></pre>
-<h3 id="last-<code>-</code>-is-now-namespaced">Last <code>_</code> is now Namespaced</h3>
+<h3 id="last-is-now-namespaced">Last <code>_</code> is now Namespaced</h3>
 <p>This removes the last piece of back-compatible underscore class:</p>
 <pre><code class="language-diff">-PHPUnit_Framework_MockObject_MockObject
 +PHPUnit\Framework\MockObject\MockObject</code></pre>
-<h3 id="replace-<code>assert-array-subset()</code>-with">Replace <code>assertArraySubset()</code> with</h3>
+<h3 id="replace-assert-array-subset()-with">Replace <code>assertArraySubset()</code> with</h3>
 <p>This method was removed <a href="https://github.com/sebastianbergmann/phpunit/issues/3494">because of its vague behavior</a>.
 The proposed solution is <a href="https://github.com/rdohms/phpunit-arraysubset-asserts">rdohms/phpunit-arraysubset-asserts</a> polyfill.</p>
 <pre><code class="language-diff"> namespace Acme\Tests;
@@ -432,7 +432,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 };</code></pre>
 <p>Run Rector</p>
 <pre><code class="language-bash">vendor/bin/rector process tests</code></pre>
-<h3 id="add-<code>void</code>-to-<code>p-h-p-unit\framework\test-case</code>-methods">Add <code>void</code> to <code>PHPUnit\Framework\TestCase</code> Methods</h3>
+<h3 id="add-void-to-p-h-p-unit\framework\test-case-methods">Add <code>void</code> to <code>PHPUnit\Framework\TestCase</code> Methods</h3>
 <p>This one hits 2 common methods we often use:</p>
 <pre><code class="language-diff">-setUp()
 +setUp(): void</code></pre>

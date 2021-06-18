@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?2049724198" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?435426784" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="What can You Learn from Menstruation and Symfony Releases" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2017/10/30/what-can-you-learn-from-menstruation-and-symfony-releases" />
@@ -89,7 +89,7 @@ Are you ready?</p>
             </div>
 
             <p><em>Disclaimer: this post has no intention to put menstruation into any bad light. Exactly the opposite - I admire women and love to learn from them.</em></p>
-<h2 id="<del>technical</del>-natural-releases"><del>Technical</del> Natural Releases</h2>
+<h2 id="technical-natural-releases"><del>Technical</del> Natural Releases</h2>
 <p>We will look on release management. Non from traditional technical point of view that is already described in <a href="http://semver.org">semantic versioning</a>, <a href="https://symfony.com/doc/current/contributing/code/bc.html">Symfony BC Promise</a> etc., but rather from view of <em>nature</em>.</p>
 <p><strong>Why?</strong> When I'm stuck with complicated architectural problem and can't figure it out, I take a break and <strong>go for a walk</strong>. <strong>Just observing world around me</strong>, absorbing inspiration without expectations - <em>serendipity</em>.</p>
 <p>To be honest, <strong>many technologies we use originated from the nature</strong>. Processor and hard drives from brain, camera lenses from eyes and design pattern from pattern of nature. What else are falling leaves of tree in autumn? An <strong>event subscriber</strong>.</p>
@@ -180,14 +180,14 @@ Are you ready?</p>
       }
 }</code></pre>
 <p><br></p>
-<h3 id="advantages-of-synced-vendor-project-<em>b</em>">Advantages of Synced Vendor - project <em>B</em></h3>
+<h3 id="advantages-of-synced-vendor-project-b">Advantages of Synced Vendor - project <em>B</em></h3>
 <p>Single version for every <code>symfony/*</code> package gives me so much freedom:</p>
 <ul>
 <li>to update it, I just change 1 version and run <code>composer update</code></li>
 <li>they work the best together - I don't have to check if <code>symfony/console</code> 3.3 is or isn't compatible with <code>event-dispatcher</code> 4.0</li>
 <li>and <strong>I know when</strong> I can upgrade my application - <strong>the first week in december every 2 years</strong></li>
 </ul>
-<h3 id="disadvantage-of-per-package-versioning-project-<em>a</em>">Disadvantage of Per Package Versioning - project <em>A</em></h3>
+<h3 id="disadvantage-of-per-package-versioning-project-a">Disadvantage of Per Package Versioning - project <em>A</em></h3>
 <p>And what if every package has it's own destiny?</p>
 <ul>
 <li><strong>I'm stressed when</strong> any of my 20 <code>symfony/*</code> dependencies changes</li>

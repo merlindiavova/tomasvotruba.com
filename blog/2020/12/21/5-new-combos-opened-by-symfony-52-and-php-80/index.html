@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?811105155" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?561892893" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="5 New Combos opened by Symfony 5.2 and PHP 8.0" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/12/21/5-new-combos-opened-by-symfony-52-and-php-80" />
@@ -101,7 +101,7 @@ I wanted to give them a fresh try, so I've updated <code>composer.json</code> in
 <p><em>Kaizen</em> is a Japanese technique about daily continuous little improvements. Today <strong>we open the door to PHP 8, then another to Symfony 5.2</strong>. Only then can we see what is in the room we've never been to.</p>
 <p><br></p>
 <p>Here is what I saw:</p>
-<h2 id="1.-switch-<code>@route</code>-annotations-to-<code>#[route]</code>-attributes">1. Switch <code>@Route</code> Annotations to <code>#[Route]</code> Attributes</h2>
+<h2 id="1.-switch-@route-annotations-to-#[route]-attributes">1. Switch <code>@Route</code> Annotations to <code>#[Route]</code> Attributes</h2>
 <p>PHP 8 brings attributes and Symfony 5.2 brings <code>#[Route]</code> attribute. Now we can finally get rid of stringy annotations and get robust reliable native PHP attributes code:</p>
 <pre><code class="language-diff">-/**
 - * @Route(path="/archive", name="blog_archive")

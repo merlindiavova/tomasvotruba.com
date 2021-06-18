@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?413911102" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?773261761" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Will Autowired Arrays Finally Deprecate Tags in Symfony and Nette?" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/11/12/will-autowired-arrays-finally-deprecate-tags-in-symfony-and-nette" />
@@ -134,7 +134,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator-&gt;services();
     $services-&gt;set(Moses\ReleaseWorker\CheckBlogHasReleasePostReleaseWorker::class);
 };</code></pre>
-<h2 id="find-all-the-<code>release-worker-interface</code>?">Find all the <code>ReleaseWorkerInterface</code>?</h2>
+<h2 id="find-all-the-release-worker-interface?">Find all the <code>ReleaseWorkerInterface</code>?</h2>
 <p>Note: I'll be mixing Nette | Symfony syntax now, but they're almost identical in DI component, so just imagine it's your favorite framework.</p>
 <p>How can we get all the services that implement <code>ReleaseWorkerInterface</code>?</p>
 <h3 id="1.-tags!">1. Tags!</h3>
@@ -153,7 +153,7 @@ foreach ($containerBuilder-&gt;findByTags('release_worker') as $workerDefinition
 }</code></pre>
 <p>This is what we would do in 2010. <strong>This brings <a href="/blog/2018/08/27/why-and-how-to-avoid-the-memory-lock/">memory-lock</a> on tag name and disables common sense</strong>. And we need common sense to create usable code.</p>
 <p>What's the next option we have?</p>
-<h3 id="2.-<code>by-type()</code>-methods">2. <code>byType()</code> methods</h3>
+<h3 id="2.-by-type()-methods">2. <code>byType()</code> methods</h3>
 <p>In extension/compiler pass:</p>
 <pre><code class="language-php">$mosesDefinition = $containerBuilder-&gt;getDefinition(Moses::class);
 
@@ -221,7 +221,7 @@ final class Moses
 <p>No need for magic. <strong>Just use typehint in annotation</strong>.</p>
 <p><br></p>
 <p>Typehint in the annotation. It's that simple.</p>
-<h2 id="when-can-i-use-that-<my-favorite-framework>?">When Can I use That <my-favorite-framework>?</h2>
+<h2 id="when-can-i-use-that-?">When Can I use That <my-favorite-framework>?</h2>
 <p>I have no idea.</p>
 <p>But you can <strong>install it today</strong>:</p>
 <ul>

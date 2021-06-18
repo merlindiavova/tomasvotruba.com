@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?559840257" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?230281338" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How we Upgraded Pehapkari.cz from Symfony 4 to 5 in 25 days" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/09/09/how-we-upgraded-pehapkari-cz-from-symfony-4-to-5-in-25-days" />
@@ -143,7 +143,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 </ol>
 <pre><code class="language-bash">vendor/bin/rector process app src tests</code></pre>
 <p>Verify, check that CI passes and then continue with next Symfony minor version.</p>
-<h2 id="3.-update-<code>composer.json</code>-before-<code>composer-update</code>">3. Update <code>composer.json</code> before <code>composer update</code></h2>
+<h2 id="3.-update-composer.json-before-composer-update">3. Update <code>composer.json</code> before <code>composer update</code></h2>
 <h3 id="easy-admin-bundle">Easy Admin Bundle</h3>
 <pre><code class="language-diff"> {
      "require": {
@@ -188,7 +188,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <div class="text-center">
     <img src="/assets/images/posts/2019/symfony5_twig_extension_readme.png" class="img-thumbnail">
 </div>
-<h2 id="4.-symfony-packages-in-<code>composer.json</code>">4. Symfony Packages in <code>composer.json</code></h2>
+<h2 id="4.-symfony-packages-in-composer.json">4. Symfony Packages in <code>composer.json</code></h2>
 <p>Do you use Flex and config <code>*</code> version?</p>
 <pre><code class="language-json">{
     "require": {
@@ -310,7 +310,7 @@ git push --tags</code></pre>
 <li>run <code>composer update</code></li>
 </ul>
 <p>It works so well I do it more often than resolving conflicts manually.</p>
-<h2 id="8.-cleanup-<code>bundles.php</code>">8. Cleanup <code>bundles.php</code></h2>
+<h2 id="8.-cleanup-bundles.php">8. Cleanup <code>bundles.php</code></h2>
 <ul>
 <li>Doctrine Cache was only <a href="https://github.com/doctrine/DoctrineCacheBundle/releases/tag/1.4.0">released for Symfony 4.4 and is not supported for any further version</a>.</li>
 </ul>
@@ -326,7 +326,7 @@ git push --tags</code></pre>
 -    Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle::class =&gt; ['all' =&gt; true],
  ]</code></pre>
 <p>The <a href="https://symfony.com/blog/new-in-symfony-4-3-mailer-component">Mailer component</a> will take over Swiftmailer in the future, so this is just a start.</p>
-<h2 id="9.-clear-<code>config/packages</code>">9. Clear <code>config/packages</code></h2>
+<h2 id="9.-clear-config/packages">9. Clear <code>config/packages</code></h2>
 <pre><code class="language-diff"> # config/packages/framework.yaml
  framework:
      ...

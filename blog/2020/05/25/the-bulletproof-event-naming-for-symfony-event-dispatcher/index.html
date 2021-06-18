@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1936179410" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1803266393" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="The Bulletproof Event Naming For Symfony Event Dispatcher" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/05/25/the-bulletproof-event-naming-for-symfony-event-dispatcher" />
@@ -92,7 +92,7 @@ But when it comes to dispatching events, you can choose from 4 different ways. W
                 </div>
             </div>
 
-            <h2 id="1.-start-with-<em>stringly</em>">1. Start with <em>Stringly</em></h2>
+            <h2 id="1.-start-with-stringly">1. Start with <em>Stringly</em></h2>
 <p>You can start with simple <em>string named event</em>:</p>
 <pre><code class="language-php">$postEvent = new PostEvent($post);
 $this-&gt;eventDispatcher-&gt;dispatch('post_added', $postEvent);</code></pre>

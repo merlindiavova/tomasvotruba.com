@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?66173778" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?2094429221" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How I Got into Static Trap and Made Fool of Myself" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/04/26/how-i-got-into-static-trap-and-made-fool-of-myself" />
@@ -229,7 +229,7 @@ Uff, I just get headache by writing this code.</p>
 <p>But why stopping there? Let's add a configuration that will tell the <code>DocBlockFactory</code> if the starting tag should be <code>/*</code> or <code>/**</code>.</p>
 <p>Well, shoot me now!</p>
 <h2 id="how-to-get-from-static-hell?">How to Get From Static Hell?</h2>
-<h3 id="1.-dependency-injection-<del>first</del>-only">1. Dependency Injection <del>First</del> Only</h3>
+<h3 id="1.-dependency-injection-first-only">1. Dependency Injection <del>First</del> Only</h3>
 <p>Dependency injection First. Not first, but <strong>only</strong> dependency injection.</p>
 <p>I told myself - &quot;here the static method makes sense, it's just one little method&quot;. The problem is, that static methods work well only with other static methods. You simply can't inject a service to a class with static methods and use it statically.. well, to be honest, Laravel did it in facades and Reflections, but you should not. Unless you want to use such approach in the whole codebase. That would be the only valid reason to do it so.</p>
 <p><strong>So be consistent in architecture pattern you pick.</strong></p>
@@ -257,7 +257,7 @@ Uff, I just get headache by writing this code.</p>
     }
 }</code></pre>
 <p>I've added this sniff to set before refactoring, scanned the code and <a href="https://github.com/symplify/symplify/pull/722/files#diff-a8b950982764fcffe4b7b3acd261cf91R84">added all found files to ignored</a>. That way I knew what all classes need refactoring.</p>
-<h3 id="4.-remove-<code>static</code>-from-methods-one-step-at-a-time">4. Remove <code>Static</code> from Methods - One Step at a Time</h3>
+<h3 id="4.-remove-static-from-methods-one-step-at-a-time">4. Remove <code>Static</code> from Methods - One Step at a Time</h3>
 <p>I always do this in one single PR, starting with the simplest factory from ignored files above.</p>
 <p>Remove the <code>static</code> in one factory:</p>
 <pre><code class="language-diff"> class UseImportsTransformer

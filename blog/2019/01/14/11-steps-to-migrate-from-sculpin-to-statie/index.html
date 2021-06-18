@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1750402674" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?799752322" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="11 Steps to Migrate From Sculpin to Statie" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/01/14/11-steps-to-migrate-from-sculpin-to-statie" />
@@ -106,7 +106,7 @@ Sculpin is the older brother of Statie but is mostly retired last 3 years. Do yo
 <pre><code class="language-bash">composer require symplify/statie
 vendor/bin/statie init</code></pre>
 <p>Then, clean <code>/source</code> directory from generated files and...</p>
-<h2 id="2.-move-parameters-files-into-<code>statie.yaml</code>">2. Move Parameters Files Into <code>statie.yaml</code></h2>
+<h2 id="2.-move-parameters-files-into-statie.yaml">2. Move Parameters Files Into <code>statie.yaml</code></h2>
 <p>From <code>app/config/sculpin_site.yml</code> to <code>statie.yaml</code>:</p>
 <pre><code class="language-diff">-google_analytics_tracking_id: UA-33922165-1
 +parameters:
@@ -123,7 +123,7 @@ vendor/bin/statie init</code></pre>
         posts:
             route_prefix: blog/ #filename is completed by default</code></pre>
 <p>Look at <a href="https://www.statie.org/docs/generators">generators docs</a> to see other options to configure them.</p>
-<h2 id="4.-make-file-names-explicit-about-<code>*.twig</code>">4. Make File Names Explicit about <code>*.twig</code></h2>
+<h2 id="4.-make-file-names-explicit-about-*.twig">4. Make File Names Explicit about <code>*.twig</code></h2>
 <p>And also move <code>_views</code> to <code>_layouts</code>. That's where Statie looks for global layouts.</p>
 <pre><code class="language-diff">-_views/default.html
 +_layouts/default.twig</code></pre>

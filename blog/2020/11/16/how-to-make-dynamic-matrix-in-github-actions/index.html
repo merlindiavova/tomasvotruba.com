@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?940410699" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1053769484" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to make a Dynamic Matrix in GitHub Actions" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/11/16/how-to-make-dynamic-matrix-in-github-actions" />
@@ -214,7 +214,7 @@ foreach ($matrix['packages'] as $package) {
 <p><br></p>
 <p>Check fully functional <a href="https://github.com/symplify/symplify/blob/master/.github/workflows/split_monorepo.yaml"><code>.github/workflows/split_monorepo.yaml</code></a> in Symplify monorepo for more details.</p>
 <p>Is this something niche? Not really. This week, Kamil <a href="https://github.com/Sylius/Sylius/blob/3464e8d0ae6673d9ee1da3d538a6b399cfcb9852/.github/workflows/packages.yml#L48">has added this approach to Sylius too</a>.</p>
-<h2 id="use-for-<del>monorepo-split</del>-anything-dynamic!">Use for <del>Monorepo Split</del> Anything Dynamic!</h2>
+<h2 id="use-for-monorepo-split-anything-dynamic!">Use for <del>Monorepo Split</del> Anything Dynamic!</h2>
 <p>This <code>fromJson()</code> trick is not something exclusive to monorepo package splitting. It's just one of the possible use cases.</p>
 <p>The primary use case <strong>is already in your mind</strong>.</p>
 <ul>

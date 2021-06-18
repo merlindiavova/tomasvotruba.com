@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?2099491270" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1011374765" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Patch a Package in Vendor, Yet Allow its Updates" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/07/02/how-to-patch-package-in-vendor-yet-allow-its-updates" />
@@ -116,7 +116,7 @@ abstract class AbstactSomePresenter
 <p>We tried to add this feature by replacing native <code>InjectExtension</code> with our own. But native extension <strong>is statically hardcoded</strong>, so there was no way to replace it.</p>
 <p><strong>What else we can do?</strong> We looked at GitHub for a commit that added this feature somewhere between Nette 2.4 and 3.0 (with git blame GitHub feature and look at specific lines).</p>
 <p><strong>We were lucky.</strong> It was <a href="https://github.com/nette/di/commit/24df5e6af0ecf18542dc6e721112598bc648082c#diff-e7f245a9be21411c36d839ed85a17457"><strong>just 2 lines</strong></a> that added this feature!</p>
-<h2 id="how-to-change-2-lines-of-code-in-<code>/vendor</code>?">How to Change 2 Lines of code in <code>/vendor</code>?</h2>
+<h2 id="how-to-change-2-lines-of-code-in-/vendor?">How to Change 2 Lines of code in <code>/vendor</code>?</h2>
 <p>We needed the same commit in our codebase with Nette 2.4.</p>
 <p><strong>How can we do that?</strong></p>
 <ul>
@@ -138,7 +138,7 @@ abstract class AbstactSomePresenter
 <h2 id="4-steps-to-generate-your-first-patch">4 Steps to Generate Your First Patch</h2>
 <h3 id="1.-install-packages">1. Install Packages</h3>
 <pre><code class="language-bash">composer require cweagans/composer-patches symplify/vendor-patches --dev</code></pre>
-<h3 id="2.-create-a-copy-of-<code>/vendor</code>-file-you-want-to-change-with-<code>*.old</code>-suffix">2. Create a Copy of <code>/vendor</code> file you Want To Change with <code>*.old</code> Suffix</h3>
+<h3 id="2.-create-a-copy-of-/vendor-file-you-want-to-change-with-*.old-suffix">2. Create a Copy of <code>/vendor</code> file you Want To Change with <code>*.old</code> Suffix</h3>
 <p>For example, if you edit:</p>
 <pre><code class="language-bash">vendor/nette/di/src/DI/Extensions/InjectExtension.php</code></pre>
 <p>The copied file would be:</p>
@@ -150,7 +150,7 @@ abstract class AbstactSomePresenter
 +           } elseif ($type = DI\Helpers::parseAnnotation($rp, 'var')) {
                $type = Reflection::expandClassName($type, Reflection::getPropertyDeclaringClass($rp));</code></pre>
 <p>Only <code>*.php</code> file is loaded, not the <code>*.php.old</code> one. This way, you can <strong>be sure the new code</strong> is working before you generate patches.</p>
-<h3 id="4.-run-<code>generate</code>-command-to-create-patch-file-and-register-it">4. Run <code>generate</code> command to Create Patch File and Register it</h3>
+<h3 id="4.-run-generate-command-to-create-patch-file-and-register-it">4. Run <code>generate</code> command to Create Patch File and Register it</h3>
 <pre><code class="language-bash">vendor/bin/vendor-patches generate</code></pre>
 <p>The Symplify tool will generate patch files for all files created this way in <code>/patches</code> directory:</p>
 <pre><code class="language-bash">/patches/nette-di-di-extensions-injectextension.php.patch</code></pre>

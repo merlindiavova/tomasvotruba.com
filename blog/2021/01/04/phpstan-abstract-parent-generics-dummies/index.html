@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?176617788" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?429021291" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="PHPStan Abstract Parent Generics for Dummies" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2021/01/04/phpstan-abstract-parent-generics-dummies" />
@@ -131,7 +131,7 @@ So I tried to use <a href="https://phpstan.org/blog/generics-in-php-using-phpdoc
 }</code></pre>
 <p>Pretty straightforward, right?</p>
 <p>Now we'll try to solve the hard question...</p>
-<h2 id="what-type-is-<code>$product</code>?">What Type is <code>$product</code>?</h2>
+<h2 id="what-type-is-$product?">What Type is <code>$product</code>?</h2>
 <pre><code class="language-php">$product = $this-&gt;productRepository-&gt;get($id);</code></pre>
 <p>The class method <code>AbstractRepository-&gt;get()</code> returns and <code>object</code>, so for PHP, PHPStan, Rector and IDE it's an <code>object</code>. Nothing less, nothing more.</p>
 <p>But what <strong>do you see</strong>? You probably assume it's a specific <code>object</code> with a specific type - <code>Product</code>. How can we get this knowledge to the code?</p>
@@ -214,7 +214,7 @@ How can we teach our PHP code this knowledge?</p>
 // "object"</code></pre>
 <p>Damn, what's going on?</p>
 <p>I stuck on this part and could not go on. We defined <code>TEntity</code> in both of our classes. We defined <code>TEntity</code> as <code>Product</code>. What is wrong?</p>
-<h2 id="how-to-promote-the-<code>t-entity</code>-type-to-parent-class?">How to promote the <code>TEntity</code> type to Parent Class?</h2>
+<h2 id="how-to-promote-the-t-entity-type-to-parent-class?">How to promote the <code>TEntity</code> type to Parent Class?</h2>
 <p>The problem is, PHPStan sees <strong>generic types only in the classes they're defined</strong> by default.
 While <code>@return int</code> gets promoted to child methods, <code>@template</code> does not.</p>
 <ul>

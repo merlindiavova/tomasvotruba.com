@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?391692327" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1238998078" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Traverse PHPDoc and Modify It" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/how-to-traverse-phpdoc-and-modify-it" />
@@ -114,7 +114,7 @@ $phpDocNode = $simplePhpDocParser-&gt;parse($values);</code></pre>
             |- type: IdentifierTypeNode
                 |- name: "int"</code></pre>
 <p>This is classic PHP - object in an object in an object...</p>
-<h2 id="how-can-we-replace-<code>int</code>-with-<code>string</code>?">How can we Replace <code>int</code> with <code>string</code>?</h2>
+<h2 id="how-can-we-replace-int-with-string?">How can we Replace <code>int</code> with <code>string</code>?</h2>
 <p>First, we need to get to the <code>IdentifierTypeNode</code>. Then we check its value is <code>"int"</code>. If so, we change it to <code>"string"</code>. Seems pretty straightforward, right?</p>
 <pre><code class="language-php">use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;

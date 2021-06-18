@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?67897791" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?117721701" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to refactor to new Dependency Injection features in Symfony 3.3" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2017/05/07/how-to-refactor-to-new-dependency-injection-features-in-symfony-3-3" />
@@ -131,7 +131,7 @@ services:
         autowire: true
         tags:
             - { name: console.command }</code></pre>
-<h3 id="1.-lets-add-<code>-defaults</code>">1. Let's add <code>_defaults</code></h3>
+<h3 id="1.-lets-add-defaults">1. Let's add <code>_defaults</code></h3>
 <pre><code class="language-yaml"># app/config/services.yml
 services:
     _defaults:
@@ -222,7 +222,7 @@ services:
     App\Repository\SecondRepository:
         calls:
             - ["setEntityManager", ["@entity_manager"]]</code></pre>
-<h3 id="5.-use-<code>-instanceof</code>...">5. Use <code>_instanceof</code>...</h3>
+<h3 id="5.-use-instanceof...">5. Use <code>_instanceof</code>...</h3>
 <pre><code class="language-yaml"># app/config/services.yml
 services:
     _defaults:

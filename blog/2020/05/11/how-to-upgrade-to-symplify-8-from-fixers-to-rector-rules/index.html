@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?245475354" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1912682411" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Upgrade to Symplify 8 - From Fixers to Rector Rules" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/05/11/how-to-upgrade-to-symplify-8-from-fixers-to-rector-rules" />
@@ -296,7 +296,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
     $services-&gt;set(AddFalseDefaultToBoolPropertyRector::class);
     $services-&gt;set(AddArrayDefaultToArrayPropertyRector::class);
 };</code></pre>
-<h2 id="7.-use-<code>::class</code>-over-strings-names">7. Use <code>::class</code> over Strings Names</h2>
+<h2 id="7.-use-::class-over-strings-names">7. Use <code>::class</code> over Strings Names</h2>
 <p>This feature is here since PHP 5.5, and it's a massive help for static analysis and instant migrations.</p>
 <pre><code class="language-diff"> class AnotherClass
  {
@@ -390,7 +390,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
             ]
         ]]);
 };</code></pre>
-<h2 id="10.-make-classes-<code>final</code>,-if-you-can">10. Make Classes <code>final</code>, if You Can</h2>
+<h2 id="10.-make-classes-final,-if-you-can">10. Make Classes <code>final</code>, if You Can</h2>
 <p>This will be the biggest added value, as tokens have no idea if your class is extended by another class.</p>
 <p>Rector knows that, so be ready for more solid code after you run it.</p>
 <p>Instead of <del><code>Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer</code></del> Fixer:</p>

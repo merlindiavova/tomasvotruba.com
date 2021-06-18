@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1178518485" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?2143949548" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="9 Steps to Migrate From Jekyll to Statie" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/01/10/9-steps-to-migrate-from-jekyll-to-statie" />
@@ -88,7 +88,7 @@ I wanted to migrate my static websites from Jekyll to Statie. Can new <code>init
 <pre><code class="language-bash">composer require symplify/statie
 vendor/bin/statie init</code></pre>
 <p>Then, clean <code>/source</code> directory from generated files and...</p>
-<h2 id="2.-move-source-files-to-<code>/source</code>-directory">2. Move Source files to <code>/source</code> Directory</h2>
+<h2 id="2.-move-source-files-to-/source-directory">2. Move Source files to <code>/source</code> Directory</h2>
 <ul>
 <li>Jekyll has all the source code in the root.</li>
 <li>Statie works with <code>/source</code> directory, so the website is separated from PHP code, tests, metafiles.</li>
@@ -99,7 +99,7 @@ vendor/bin/statie init</code></pre>
 +/source/index.html</code></pre>
 <pre><code class="language-diff">-_data/projects.yaml
 +/source/_data/projects.yaml</code></pre>
-<h2 id="3.-move-parameters-files-under-<code>parameters-&gt;-[param-name]</code>-sections">3. Move Parameters Files Under <code>parameters &gt; [param name]</code> Sections</h2>
+<h2 id="3.-move-parameters-files-under-parameters-&gt;-[param-name]-sections">3. Move Parameters Files Under <code>parameters &gt; [param name]</code> Sections</h2>
 <p><strong>Before</strong> - Jekyll</p>
 <pre><code class="language-yaml"># _data/projects.yaml
 -
@@ -115,10 +115,10 @@ parameters:
 <h2 id="4.-upgrade-absolute-links-to-moved-files">4. Upgrade Absolute Links to Moved Files</h2>
 <pre><code class="language-diff">-https://github.com/TomasVotruba/gophp71.org/edit/master/_data/projects.yaml
 +https://github.com/TomasVotruba/gophp71.org/edit/master/source/_data/projects.yaml</code></pre>
-<h2 id="5.-load-moved-y-a-m-l-files-in-<code>statie.yml</code>">5. Load Moved YAML Files in <code>statie.yml</code></h2>
+<h2 id="5.-load-moved-y-a-m-l-files-in-statie.yml">5. Load Moved YAML Files in <code>statie.yml</code></h2>
 <pre><code class="language-diff">+imports:
 +    - { resource: "source/_data/projects.yaml" }</code></pre>
-<h2 id="6.-remove-<code>site.data.</code>-and-use-variables-directly">6. Remove <code>site.data.</code> and use Variables Directly</h2>
+<h2 id="6.-remove-site.data.-and-use-variables-directly">6. Remove <code>site.data.</code> and use Variables Directly</h2>
 <pre><code class="language-diff"> &lt;ul&gt;
 -    {% for project in site.data.projects %}
 +    {% for project in projects %}

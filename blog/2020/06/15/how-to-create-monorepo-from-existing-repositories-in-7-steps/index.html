@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?117133199" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1957617779" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to create a Monorepo from Existing Repositories in 7 Steps" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/06/15/how-to-create-monorepo-from-existing-repositories-in-7-steps" />
@@ -141,7 +141,7 @@ rector.php</code></pre>
 <h2 id="1.-create-a-monorepo-repository">1. Create a Monorepo repository</h2>
 <p>Go to your Gitlab or Github and create a new repository. Name it <code>lazy-company/lazy-company</code> (by convention) or <code>lazy-company/lazy-company-monorepo</code> (in case the previous is taken).</p>
 <p>Clone it locally.</p>
-<h2 id="2.-copy-repositories-to-<code>/packages</code>">2. Copy Repositories to <code>/packages</code></h2>
+<h2 id="2.-copy-repositories-to-/packages">2. Copy Repositories to <code>/packages</code></h2>
 <p>Don't worry, no git harakiri. Just copy paste your other repositories to <code>/packages</code> directory:</p>
 <pre><code class="language-bash">/packages
     /ecoin-payments
@@ -161,7 +161,7 @@ rector.php</code></pre>
         phpunit.xml
         rector.php</code></pre>
 <p>Not bad, right?</p>
-<h2 id="3.-merge-all-<code>composer.json</code>-to-root-one">3. Merge all <code>composer.json</code> to Root One</h2>
+<h2 id="3.-merge-all-composer.json-to-root-one">3. Merge all <code>composer.json</code> to Root One</h2>
 <p>In the root directory, we only have the directory with all packages:</p>
 <pre><code class="language-bash">/packages</code></pre>
 <p>But where is <code>composer.json</code>? We can <del>create it manually</del> use a CLI tool that does it for us - <a href="https://github.com/symplify/monorepo-builder">MonorepoBuilder</a>.</p>
@@ -254,7 +254,7 @@ rector.php</code></pre>
 <p>Do we apply the same approach as in step 4? <strong>No</strong>. Instead of the most accessible common version, we'll go with <strong>the latest version</strong> - <code>^3.0</code>.</p>
 <p>These numbers also tell us what the first monorepo release version will be. It has to be a <a href="https://semver.org">major version</a> because there will be BC breaks: so ^4.0.</p>
 <p><br></p>
-<h3 id="what-about-that-<code>replace?</code>">What about that <code>replace?</code></h3>
+<h3 id="what-about-that-replace?">What about that <code>replace?</code></h3>
 <p>Here we also use the <a href="https://getcomposer.org/doc/04-schema.md#replace"><code>replace</code> composer feature</a>.</p>
 <p>If we run <code>composer install</code> in monorepo, it will install all dependencies of <code>lazy-company/drone-delivery</code>. This package needs <code>lazy-company/ecoin-payments</code> (the other package). Normally, the composer would go to Packagist and download the package to <code>/vendor</code>. But that might end-up in collision:</p>
 <pre><code class="language-bash">/packages/ecoin-payments/src # some code
@@ -298,7 +298,7 @@ rector.php</code></pre>
 <p><br></p>
 <p>Pro-tip: do you want to make sure all versions of all dependencies of all <code>composer.json</code> files have united version?</p>
 <pre><code class="language-bash">vendor/bin/monorepo-builder validate</code></pre>
-<h2 id="7.-merge-tests-to-root-<code>phpunit.xml</code>">7. Merge tests to root <code>phpunit.xml</code></h2>
+<h2 id="7.-merge-tests-to-root-phpunit.xml">7. Merge tests to root <code>phpunit.xml</code></h2>
 <p>Very similar to step 6, just with unit tests.</p>
 <pre><code class="language-diff"> /packages
      /ecoin-payments

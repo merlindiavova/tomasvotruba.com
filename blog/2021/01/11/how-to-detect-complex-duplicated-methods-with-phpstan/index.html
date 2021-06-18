@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1800264064" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?2010497005" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to detect Complex Duplicated Methods With PHPStan" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2021/01/11/how-to-detect-complex-duplicated-methods-with-phpstan" />
@@ -202,9 +202,9 @@ private function unwrapExpression(Node $node): Node
 <p>This rule has been running on our code base and already reported over 50 duplicated methods. It's a bizarre feeling if you see that you put in the effort to write 20 lines long method in 2 different Rector rules. But <strong>the feeling after refactoring to cleaner design is priceless</strong>.</p>
 <h2 id="3-steps-to-get-rid-of-duplications-in-your-code-today">3 Steps to Get rid of Duplications in Your Code Today</h2>
 <p>Do you want to try it out? I must warn you. It will dig out the darkest secrets of your project that you never thought they exist. Be ready for critics. Critics that will help your code to be more fun work with.</p>
-<h3 id="1.-get-<a-href="https://github.com/symplify/phpstan-rules">symplify/phpstan-rules</a>:">1. Get <a href="https://github.com/symplify/phpstan-rules">symplify/phpstan-rules</a>:</h3>
+<h3 id="1.-get-symplify/phpstan-rules:">1. Get <a href="https://github.com/symplify/phpstan-rules">symplify/phpstan-rules</a>:</h3>
 <pre><code class="language-bash">composer require symplify/phpstan-rules --dev</code></pre>
-<h3 id="2.-add-it-to-<code>phpstan.neon</code>">2. Add it to <code>phpstan.neon</code></h3>
+<h3 id="2.-add-it-to-phpstan.neon">2. Add it to <code>phpstan.neon</code></h3>
 <pre><code class="language-yaml">includes:
     # set services that are needed by PHPStan rules
     - vendor/symplify/phpstan-rules/config/services/services.neon

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?662677595" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?365465544" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="4 PHPStan Rules that Bring Order to Nette Injects" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2021/01/25/4-phpstan-rule-that-bring-order-to-nette-injects" />
@@ -104,7 +104,7 @@ If you do, you probably have some internal rules where what and how to use them 
     it's allowed."
 </blockquote>
 <p>Luckily, nowadays, we have a <a href="https://github.com/symplify/phpstan-rules">Symplify PHPStan rules</a> to help us.</p>
-<h2 id="1.-do-not-combine-nette-inject-and-<code>-construct()</code>">1. Do Not Combine Nette Inject and <code>__construct()</code></h2>
+<h2 id="1.-do-not-combine-nette-inject-and-construct()">1. Do Not Combine Nette Inject and <code>__construct()</code></h2>
 <p>If there is a constructor already, there an exact working way to get dependencies:</p>
 <pre><code class="language-php">class SomeClass
 {
@@ -141,7 +141,7 @@ If you do, you probably have some internal rules where what and how to use them 
 <p>✅</p>
 <p>Covered by <code>Symplify\PHPStanRules\Rules\NoNetteInjectAndConstructorRule</code> rule.</p>
 <p><br></p>
-<h2 id="2.-use-single-nette-<code>inject*()</code>-method">2. Use Single Nette <code>inject*()</code> Method</h2>
+<h2 id="2.-use-single-nette-inject*()-method">2. Use Single Nette <code>inject*()</code> Method</h2>
 <p>Using the <code>inject*()</code> method is an equal alternative to <code>@inject</code> property that does not require a property to be public.
 It like an extra <code>__construct()</code> that is caller by the framework to set other dependencies.</p>
 <p>Single <code>__construct()</code> has its meaning. Imagine this use case:</p>
@@ -177,7 +177,7 @@ It like an extra <code>__construct()</code> that is caller by the framework to s
 <p>✅</p>
 <p>Covered by <code>Symplify\PHPStanRules\Rules\SingleNetteInjectMethodRule</code> rule.</p>
 <p><br></p>
-<h2 id="3.-validate-<code>@inject</code>-format">3. Validate <code>@inject</code> Format</h2>
+<h2 id="3.-validate-@inject-format">3. Validate <code>@inject</code> Format</h2>
 <p>I'm proud to admit I made this bug last week. With IDE autocomplete, class annotations, and PHP 8 attributes, I'm removing my skill to type precisely the word:</p>
 <pre><code class="language-php">class SomeClass
 {
@@ -202,7 +202,7 @@ It like an extra <code>__construct()</code> that is caller by the framework to s
 }</code></pre>
 <p>✅</p>
 <p>Covered by <code>Symplify\PHPStanRules\Rules\ValidNetteInjectRule </code> rule.</p>
-<h2 id="4.-no-<code>@inject</code>-on-<code>final</code>-class">4. No <code>@inject</code> on <code>final</code> Class</h2>
+<h2 id="4.-no-@inject-on-final-class">4. No <code>@inject</code> on <code>final</code> Class</h2>
 <p>Last but not least, this rule finally put an order to our codebase.</p>
 <p>A specific need for injects is an abstract class with a couple of children:</p>
 <pre><code class="language-php">abstract class AbstractPresenter

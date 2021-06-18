@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1096197892" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?958884342" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to write open-source in PHP 2: Rise value of your package with help of skeleton" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2016/09/16/how-to-write-open-source-in-php-2-enjoy-skeletons" />
@@ -134,7 +134,7 @@ Just to remind you, the end user is interested in:</p>
 <li>Trust - <strong>Is it trustworthy?</strong></li>
 <li>Maintenance - <strong>How well maintained is it?</strong></li>
 </ol>
-<h3 id="<code>/src</code>-directory"><code>/src</code> directory</h3>
+<h3 id="/src-directory"><code>/src</code> directory</h3>
 <p><em>Meaning</em></p>
 <ul>
 <li>all your PHP source code will go here</li>
@@ -143,7 +143,7 @@ Just to remind you, the end user is interested in:</p>
 <ul>
 <li>musthave :)</li>
 </ul>
-<h3 id="<code>/tests</code>-directory"><code>/tests</code> directory</h3>
+<h3 id="/tests-directory"><code>/tests</code> directory</h3>
 <p><em>Meaning</em></p>
 <ul>
 <li>all tests for your code in <code>/src</code></li>
@@ -158,7 +158,7 @@ Just to remind you, the end user is interested in:</p>
 <li><strong>Quality</strong>: tested code is perceived better quality</li>
 <li><strong>Trust</strong>: I don't have to hope that code works, <strong>I can trust the code</strong></li>
 </ul>
-<h3 id="<code>.gitattributes</code>"><code>.gitattributes</code></h3>
+<h3 id=".gitattributes"><code>.gitattributes</code></h3>
 <p><em>Meaning</em></p>
 <ul>
 <li>here are all files that are ignored by composer (using the <code>export-ignore</code> attribute)</li>
@@ -169,7 +169,7 @@ Just to remind you, the end user is interested in:</p>
 <ul>
 <li><strong>Usability</strong>: Since your package save some internet traffic and space on hard drives, it's a bit more usable.</li>
 </ul>
-<h3 id="<code>.gitignore</code>"><code>.gitignore</code></h3>
+<h3 id=".gitignore"><code>.gitignore</code></h3>
 <p><em>Meaning</em></p>
 <ul>
 <li>here are files, that you will have locally but won't be uploaded to the remote git repository</li>
@@ -180,7 +180,7 @@ Just to remind you, the end user is interested in:</p>
 <ul>
 <li><strong>Trust</strong>: Without this I would not trust you know anything about open-source.</li>
 </ul>
-<h3 id="<code>ecs.php</code>"><code>ecs.php</code></h3>
+<h3 id="ecs.php"><code>ecs.php</code></h3>
 <p><em>Meaning</em></p>
 <ul>
 <li>config for <a href="https://github.com/symplify/easy-coding-standard">Easy Coding Standard</a> - the easiest tool for coding standard</li>
@@ -190,7 +190,7 @@ Just to remind you, the end user is interested in:</p>
 <ul>
 <li><strong>Quality</strong>: coders can contribute in any format their like and the coding standard tool will take care of it for them</li>
 </ul>
-<h3 id="<code>phpstan.neon</code>"><code>phpstan.neon</code></h3>
+<h3 id="phpstan.neon"><code>phpstan.neon</code></h3>
 <p><em>Meaning</em></p>
 <ul>
 <li>configuration for <a href="https://phpstan.org/">PHPStan</a> - <em>the</em> best static analyzer to PHP</li>
@@ -201,7 +201,7 @@ Just to remind you, the end user is interested in:</p>
 <li><strong>Trust</strong>: you and your contributors can stop thinking about detailed code and go a relax - everyone can contribute easily</li>
 <li><strong>Quality</strong>: tested code is perceived better quality</li>
 </ul>
-<h3 id="<code>composer.json</code>"><code>composer.json</code></h3>
+<h3 id="composer.json"><code>composer.json</code></h3>
 <ul>
 <li>list of dependencies</li>
 <li>configuration for <a href="https://packagist.org">Packagist</a>, where you need to add your package, so it can be installed by others</li>
@@ -213,7 +213,7 @@ Just to remind you, the end user is interested in:</p>
 <li>select &quot;Packagist&quot; and add your name and token from your <a href="https://packagist.org/profile">user profile</a></li>
 </ul></li>
 </ul>
-<h3 id="<code>l-i-c-e-n-s-e</code>"><code>LICENSE</code></h3>
+<h3 id="l-i-c-e-n-s-e"><code>LICENSE</code></h3>
 <p><em>Meaning</em></p>
 <ul>
 <li>license goes here</li>
@@ -224,7 +224,7 @@ Just to remind you, the end user is interested in:</p>
 <ul>
 <li><strong>Usability</strong>: With licence, I know what I can do with the code. Usually everything.</li>
 </ul>
-<h3 id="<code>phpunit.xml</code>"><code>phpunit.xml</code></h3>
+<h3 id="phpunit.xml"><code>phpunit.xml</code></h3>
 <p><em>Meaning</em></p>
 <ul>
 <li>configuration for <a href="https://phpunit.de">PHPUnit</a> - testing tool</li>
@@ -234,7 +234,7 @@ Just to remind you, the end user is interested in:</p>
 <ul>
 <li><strong>Usability</strong>: I can run <code>vendor/bin/phpunit</code> with no manual configuration. It makes life easy.</li>
 </ul>
-<h3 id="<code>r-e-a-d-m-e</code>"><code>README</code></h3>
+<h3 id="r-e-a-d-m-e"><code>README</code></h3>
 <p><em>Meaning</em></p>
 <ul>
 <li>last but the most important - your welcome article for user</li>

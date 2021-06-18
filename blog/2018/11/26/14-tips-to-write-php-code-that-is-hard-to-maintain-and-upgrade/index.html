@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1314048483" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1240910619" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="14 Tips to Write PHP Code that is Hard to Maintain and Upgrade" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/11/26/14-tips-to-write-php-code-that-is-hard-to-maintain-and-upgrade" />
@@ -92,7 +92,7 @@ It's like having a baby - <strong>you have to take care of it for the next 18 ye
 <p></a></p>
 <p>But not an obvious way like the right one. The company can't find out! You have to be sneaky as <em>Eliot</em> to <em>E-Corp</em>.</p>
 <p>Here are 15 examples of such <strong>code collected from existing vendor lock-in projects</strong> I reviewed:</p>
-<h2 id="1.-never-use-<code>final</code>">1. Never use <code>final</code></h2>
+<h2 id="1.-never-use-final">1. Never use <code>final</code></h2>
 <p>Programmers want freedom, users desire options. Why setting healthy boundaries, when you can set them free:</p>
 <pre><code class="language-php">&lt;?php declare(strict_types=1);
 
@@ -110,7 +110,7 @@ class BetterPriceCalculator extends PriceCalculator
 
 }</code></pre>
 <p>Also, it's <a href="https://github.com/cpliakas/git-wrapper/issues/159">needed for mocking</a> and there is no <a href="https://github.com/dg/bypass-finals">way around that</a>. There's not even <a href="https://ocramius.github.io/blog/when-to-declare-classes-final">8 reasons</a> to use <code>final</code> anywhere anytime.</p>
-<h2 id="2.-use-<code>protected</code>-instead-of-<code>private</code>">2. Use <code>protected</code> instead of <code>private</code></h2>
+<h2 id="2.-use-protected-instead-of-private">2. Use <code>protected</code> instead of <code>private</code></h2>
 <p>What is opened class good for with <code>private</code> methods? You need to use <code>protected</code> method to be really opened:</p>
 <pre><code class="language-php">&lt;?php declare(strict_types=1);
 
@@ -176,7 +176,7 @@ class Form
 }</code></pre>
 <p>Why is this so well written? Imagine we're looking at the legacy code - huge code base, 100 of places where the method is used at.
 Try to rename <code>processForm</code> to <code>processOrderProduct</code> - AST is not able to detect method name, all it sees is a string. Instant upgrade impossible and you have to do it all manually, good job!</p>
-<h2 id="4.-dont-always-use-<code>p-s-r-4</code>">4. Don't Always use <code>PSR-4</code></h2>
+<h2 id="4.-dont-always-use-p-s-r-4">4. Don't Always use <code>PSR-4</code></h2>
 <p>Classes need to be autoloaded to be parsed to AST. PSR-4 section in <code>composer.json</code> solves this easily:</p>
 <pre><code class="language-json">{
     "autoload": {
@@ -320,7 +320,7 @@ trait GetMethodTrait
 {
 }</code></pre>
 <p>Goodbye automated typehints and static analysis!</p>
-<h2 id="10.-dont-use-a-different-naming-to-separate-<code>interface</code>,-<code>trait</code>-from-<code>class</code>">10. Don't use a Different Naming to separate <code>Interface</code>, <code>Trait</code> from <code>Class</code></h2>
+<h2 id="10.-dont-use-a-different-naming-to-separate-interface,-trait-from-class">10. Don't use a Different Naming to separate <code>Interface</code>, <code>Trait</code> from <code>Class</code></h2>
 <p>Oh, I actually made a mistake. Above I wrote <code>GetMethodTrait</code>, that might actually help the user and tool to guess it's a trait:</p>
 <pre><code class="language-bash">- ProductInterface
 - ProductTrait
@@ -351,7 +351,7 @@ class ProductXmlFeedCrawler
 
 }</code></pre>
 <p>WTF, it's so good!</p>
-<h2 id="12.-dont-use-a-different-naming-to-separate-<code>abstract</code>-classes">12. Don't use a Different Naming to separate <code>Abstract</code> classes</h2>
+<h2 id="12.-dont-use-a-different-naming-to-separate-abstract-classes">12. Don't use a Different Naming to separate <code>Abstract</code> classes</h2>
 <p>Abstract classes are also classes. Why would make that easier for a reader by stating that in a name? Have you ever seen an <code>AbstractInterface</code> or <code>AbstractTrait</code>? I did not.</p>
 <pre><code class="language-diff">-abstract class AbstractXmlCrawler
 +abstract class XmlCrawler</code></pre>

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1230427236" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1512484005" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Develop Multiple Symfony Applications Fast while Keeping the Quality" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/09/06/how-to-develop-multiple-symfony-applications-fast-while-keeping-the-quality" />
@@ -110,7 +110,7 @@ But the PHP, used framework, bundle integration, database type, deploy strategy,
 <p>After a few hours of playing with the code (my favorite game), I started to see light in the darkness.
 I'm right in the very start of using this architecture, so you'll have the knowledge in the rawest form of fresh experience. It's easier to explain and understand, rather than something I do daily for the last 5 years and don't have to think about it.</p>
 <h2 id="4-steps-to-turn-single-repository-project-to-parts-of-monorepo">4 Steps to turn Single-Repository project to Parts of Monorepo</h2>
-<h3 id="1.-<del>app</del>-unique-namespace">1. <del>App</del> Unique Namespace</h3>
+<h3 id="1.-app-unique-namespace">1. <del>App</del> Unique Namespace</h3>
 <p>If there are 2 <code>App\Kernel</code> classes the application would break. Pick a name that is specific for the project - here it's &quot;OpenTraining&quot; - and rename it in <code>namespace App\</code>, <code>namespace App;</code>, <code>use App\</code> in PHP code. Don't forget the <code>composer.json</code> as well.</p>
 <div class="text-center">
     <img src="/assets/images/posts/2018/multi-symfony/replace.png" class="img-thumbnail">
