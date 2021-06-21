@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1882335276" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?69986874" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Doctrine Annotations and Attributes Living Together in Peace" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/doctrine-annotations-and-attributes-living-together-in-peace" />
@@ -91,123 +91,7 @@ We had to <strong>support annotations and attributes at the same time</strong>. 
     Divided we fall"
 </blockquote>
 <h2 id="safety-first">Safety First</h2>
-<p>Before we start, we have to prepare a safe environment. No razors, no matches, and a couple of tests.
-The bridge testing technique is one of the safety nets I use while refactoring to new technology.</p>
-<p>The idea is simple - in total, we should have three tests:</p>
-<ul>
-<li>test for current behavior - compare with exact output</li>
-<li><em>add alternative feature</em></li>
-<li>test new behavior - compare with exact output</li>
-<li>test current and new behavior - compare both results together</li>
-</ul>
-<p>It will be more clear from an example. Let's say we use <code>@AttentionPrice</code> annotation to express the amount of attention we should spend while reading the code:</p>
-<pre><code class="language-php">/**
- * @Annotation()
- */
-class AttentionPrice
-{
-    private int $amount;
-
-    public function __construct(array $values)
-    {
-        $this-&gt;amount = $values['amount'];
-    }
-
-    public function getAmount(): int
-    {
-        return $this-&gt;amount;
-    }
-}</code></pre>
-<p>In our code, we'll use annotation to express required attention for specific elements:</p>
-<pre><code class="language-php">final class DesignPattern
-{
-    /**
-     * @AttentionPrice(1000)
-     */
-    public $publicProperty;
-
-    /**
-     * @AttentionPrice(100)
-     */
-    private $privateProperty;
-}</code></pre>
-<p>Here we can see that public property takes much more attention than private one. Public properties can be used in the class, outside the class, and changed anytime. On the other hand, private property can be used exclusively in this class.</p>
-<h2 id="bridge-test">Bridge Test</h2>
-<p>Let's add a bridge test so we are sure the refactoring works for both annotations and attributes. How would the bridge test look like for public property?</p>
-<pre><code class="language-php">use PHPUnit\Framework\TestCase;
-
-final class BridgeTest extends TestCase
-{
-    private Reader $reader;
-
-    protected function setUp(): void
-    {
-        // create Reader instance or get it from container
-        $this-&gt;reader = // ...;
-    }
-
-    public function testCurrent(): void
-    {
-        $resolvedValue = $this-&gt;reader-&gt;resolveAnnotationValue(
-            'DesignPattern', 'publicProperty'
-        );
-        $this-&gt;assertSame($resolvedValue, 1000);
-    }
-}</code></pre>
-<p>Let's run the test:</p>
-<pre><code class="language-bash">vendor/bin/phpunit tests/BridgeTest.php</code></pre>
-<p>It should pass - it only confirms already existing behavior.</p>
-<p><br></p>
-<p>Let's add a new method, <code>resolveAttributeValue()</code> that will be able to read PHP 8 attribute values too:</p>
-<pre><code class="language-php">    // ...
-
-    public function testNew(): void
-    {
-        $resolvedValue = $this-&gt;reader-&gt;resolveAttributeValue(
-            'DesignPattern', 'publicProperty'
-        );
-        $this-&gt;assertSame($resolvedValue, 1000);
-    }
-
-    // ...</code></pre>
-<p>Now the test should fail because we have yet to implement the <code>resolveAttributeValue()</code> method:</p>
-<pre><code class="language-bash">vendor/bin/phpunit tests/BridgeTest.php</code></pre>
-<p><br></p>
-<p>Last but not least, the bridge test compares the results of both methods:</p>
-<pre><code class="language-php">
-    // ...
-
-    public function testBridge(): void
-    {
-        $resolvedAnnotationValue = $this-&gt;reader-&gt;resolveAnnotationValue(
-            'DesignPattern', 'publicProperty'
-        );
-        $resolvedAttributeValue = $this-&gt;reader-&gt;resolveAttributeValue(
-            'DesignPattern', 'publicProperty'
-        );
-
-        $this-&gt;assertSame($resolvedAnnotationValue, $resolvedAttributeValue);
-    }
-
-    // ...</code></pre>
-<h2 id="why-not-just-the-bridge-test?">Why Not Just The Bridge Test?</h2>
-<p>Looking at the test, it seems the <code>testBridge()</code> already includes the test of their former two methods. Why not delete those two? ...
-Wait, wouldn't that be like cutting our safety ropes?</p>
-<img src="https://images.squarespace-cdn.com/content/v1/5a54afc2e9bfdf89573d7cf7/1551374451263-U7I7L1NLOJY6XWNL028T/ke17ZwdGBToddI8pDm48kJUlZr2Ql5GtSKWrQpjur5t7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z5QPOohDIaIeljMHgDF5CVlOqpeNLcJ80NK65_fV7S1UfNdxJhjhuaNor070w_QAc94zjGLGXCa1tSmDVMXf8RUVhMJRmnnhuU1v2M8fLFyJw/Rope-Bridge-project-Salwa+Resort-Abu+Samra-Qatar-5.jpeg?format=500w" class="img-thumbnail">
-<p><br></p>
-<p>At first, the test passes, and both methods return <code>1000</code> and <code>assertSame()</code> works correctly.</p>
-<pre><code class="language-php">$resolvedAnnotationValue = ...; // 1000
-$resolvedAttributeValue = ...; // 1000
-$this-&gt;assertSame($resolvedAnnotationValue, $resolvedAttributeValue);</code></pre>
-<p><br></p>
-<p>Later that day, we do a bit of refactoring. Let's run tests now:</p>
-<pre><code class="language-bash">vendor/bin/phpunit tests/BridgeTest.php</code></pre>
-<p>It still passes, yay!</p>
-<p><br></p>
-<p>A few weeks later, we find out the production annotations and attributes <strong>were ignored</strong>, your admin was publicly available, and the test passes with these values:</p>
-<pre><code class="language-php">$this-&gt;assertSame(null, null);</code></pre>
-<p>That's why it's essential to have two previous methods and compare exact values.
-Now that we have safety rules defined let's start the dirty work.</p>
+<p>Before we start, we'll make sure we have <a href="/blog/2020/01/13/why-is-first-instant-feedback-crucial-to-developers">instant feedback</a> about code. We'll prepare a special kind of test designed for refactoring, where we need 2 mechanism to work at once - <a href="/blog/how-to-make-upgrade-safe-with-bridge-testing">a bridge testing</a>. In linked post we'll build a test that we use here, so if you're coding with me, be sure to read it first.</p>
 <h2 id="teaching-annotation-attributes">Teaching Annotation Attributes</h2>
 <p>We already know the first steps <a href="/blog/how-to-refactor-custom-doctrine-annotations-to-attributes">from previous post</a> - add <code>#[Attribute]</code>:</p>
 <pre><code class="language-php">/**
