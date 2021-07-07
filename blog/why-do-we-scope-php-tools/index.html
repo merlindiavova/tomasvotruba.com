@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Why do we Scope PHP Tools | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+<meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
+
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?841840826" rel="stylesheet" type="text/css" />
+
+                <meta property="og:title" content="Why do we Scope PHP Tools" />
+        <meta property="og:url" content="https://tomasvotruba.com/blog/why-do-we-scope-php-tools" />
+        <meta name="description" property="og:description" content="Do you know PHPStan, ECS, [Monorepo Builder](https://github.com/symplify/monorepo-builder), PHPUnit, [Config Transformer](https://github.com/symplify/config-transformer) or Rector?
+
+What do they have in common? They&#039;re PHP tools you install with composer and then run in your command line. Hm, what else? **They&#039;re all scoped with help of [php-scoper](https://github.com/humbug/php-scoper).**
+
+Do you want to make your tool resistant to any conflict with any project dependencies? Today I&#039;ll show you how.
+" />
+
+            </head>
+
+    <body>
+                <!-- post_id: 326 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <h1>Why do we Scope PHP Tools</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2021/2021-07-05-why-do-we-scope-php-tools.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2021-07-Mon" class="text-muted">
+                2021-07-05
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>Do you know PHPStan, ECS, <a href="https://github.com/symplify/monorepo-builder">Monorepo Builder</a>, PHPUnit, <a href="https://github.com/symplify/config-transformer">Config Transformer</a> or Rector?
+<br><br>
+What do they have in common? They're PHP tools you install with composer and then run in your command line. Hm, what else? <strong>They're all scoped with help of <a href="https://github.com/humbug/php-scoper">php-scoper</a>.</strong>
+<br><br>
+Do you want to make your tool resistant to any conflict with any project dependencies? Today I'll show you how.</p>
+                </div>
+            </div>
+
+            <p>Let's say you want to install <code>symplify/monorepo-builder</code> to any of your projects with composer:</p>
+<pre><code class="language-bash">composer require symplify/monorepo-builder --dev</code></pre>
+<p>What can happen?</p>
+<ul>
+<li><em>[ERROR] conflicts with your PHP version</em></li>
+<li><em>[ERROR] conflicts with your symfony/console, must be 5.2+, you have 4.4</em></li>
+<li><em>[ERROR] conflicts with your another-dependency, must be X, you have Y</em></li>
+</ul>
+<p>Now you have to go to your <code>composer.json</code>, figure out what conflicts you can solve. You can also try to go to the project repository and ask for lowering the minimal required version of this or that package. This is typical for unscoped packages and natural results for semver strategy of PHP packages ecosystem.</p>
+<p><br></p>
+<p>But do we care about the dependencies of the tool we use? No, our goal is <strong>to run the tool</strong>:</p>
+<pre><code class="language-bash">composer require symplify/monorepo-builder --dev
+vendor/bin/monorepo-builder &lt;command&gt;</code></pre>
+<h2 id="how-can-we-get-rid-of-tools-dependencies?">How Can We Get rid of Tool's Dependencies?</h2>
+<div class="row">
+    <div class="col-12 col-sm-6">
+        <em>Before scoping</em>
+        <img src="https://user-images.githubusercontent.com/924196/124739507-35d18780-df1a-11eb-9ff8-6c91b6159e78.png" class="img-thumbnail mt-3">
+    </div>
+    <div class="col-12 col-sm-6">
+        <em>After scoping</em>
+        <img src="https://user-images.githubusercontent.com/924196/124739467-2eaa7980-df1a-11eb-90ce-e62b76292b95.png" class="img-thumbnail mt-3">
+    </div>
+</div>
+<p><br></p>
+<p>We'll scope the tool! Only then we're conflict-free! Our project can have <code>symfony/console</code> 3.4 or 5.4-dev. Nobody cares because the only requirement is of the tool is the PHP version.</p>
+<h2 id="how-is-that-possible?">How is that possible?</h2>
+<p>Wait, how can we have 2 versions of <code>symfony/console</code>? Let's look at the file structure we'll find in <code>/vendor</code> if we install the following packages together:</p>
+<pre><code class="language-bash">composer require symfony/console:^3.4
+composer require symplify/monorepo-builder # new scoped one</code></pre>
+<h2 id="1.-your-command-class">1. Your <code>Command</code> class</h2>
+<p>These steps will produce 2 different <code>symfony/console</code> directories with 2 different <code>Symfony\Component\Console\Command\Command</code> classes.</p>
+<pre><code class="language-bash">/vendor
+    /symfony
+        /console # version 3.4, autoloaded by your project
+            /Command
+                Command.php</code></pre>
+<p>That contains typical <code>Command</code> class as you know it</p>
+<pre><code class="language-php">namespace Symfony\Component\Console\Command;
+
+class Command
+{
+    // ...
+}</code></pre>
+<p>Pretty standard, right?</p>
+<h2 id="2.-scoped-command-class">2. Scoped <code>Command</code> class</h2>
+<p>Here the scoping magic happens. The <code>symplify/monorepo-builder</code> package it's own Command in it's own scoped <code>/vendor</code>. Like this:</p>
+<pre><code class="language-bash">/vendor
+    /symplify
+        /monorepo-builder
+            /vendor # this vendor is scoped and loaded only by monorepo-builder
+                /symfony
+                    /console
+                        /Command
+                            Command.php</code></pre>
+<p>Now, this <code>Command</code> class is a bit different. It's <em>scoped</em>. What does that mean exactly? It has its unique namespace prefix that makes class name unique to other <code>Command</code>:</p>
+<pre><code class="language-php">namespace Scope1234\Symfony\Component\Console\Command;
+
+class Command
+{
+    // ...
+}</code></pre>
+<p>So now in the whole project we now have 2 <code>Command</code> classes:</p>
+<ul>
+<li><code>Symfony\Component\Console\Command</code>
+<ul>
+<li>loaded by your project autoload</li>
+<li>in a version defined in your projects <code>composer.json</code></li>
+<li>you can use this class in your project, e.g. to create your own commands</li>
+</ul></li>
+</ul>
+<p><br></p>
+<ul>
+<li><code>Scope1234\Symfony\Component\Console\Command</code>
+<ul>
+<li>loaded by monorepo-builder</li>
+<li>in a version required by monorepo-builder</li>
+<li>you will never see this class in your code</li>
+</ul></li>
+</ul>
+<p>The second class was scoped by <code>php-scoper</code>, that makes all classes unique and accessible exclusively in the tool. This process removes dependency from <code>composer.json</code> and thus avoid conflicts on install.</p>
+<h2 id="scope-all-the-things?">Scope All The Things?</h2>
+<p>Now, should we get crazy and scope everything that pops up a conflict on <code>composer require &lt;x&gt;</code>? No. This process is valid only for <strong>PHP tools</strong> in the command line. We should not scope classic dependencies that we use directly in our project, e.g. <code>nette/utils</code>.</p>
+<p><br></p>
+<h2 id="where-is-scoping-useful?">Where is Scoping Useful?</h2>
+<ul>
+<li>if we create an open-source PHP tool for the community</li>
+<li>if our community uses composer</li>
+<li>if we want to ease installation on both super modern and well-grown legacy projects</li>
+</ul>
+<p><br></p>
+<p>Now that we know <em>why</em> and <em>what</em> we scope, we'll look at <a href="/blog/how-to-scope-your-php-tool-in-10-steps"><em>how</em> to do the scoping in the next post</a>.</p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                    
+                                            <a href="/blog/how-to-replace-single-node-with-two-nodes-in-abstract-syntax-tree" class="d-block">
+                            <div>
+                                Read next → <strong>How to Replace Single Node with Two Nodes in Abstract Syntax Tree</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+    </body>
+</html>

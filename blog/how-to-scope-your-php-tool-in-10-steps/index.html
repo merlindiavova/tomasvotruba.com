@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>How to Scope Your PHP Tool in 10 Steps | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+<meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
+
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?2064379071" rel="stylesheet" type="text/css" />
+
+                <meta property="og:title" content="How to Scope Your PHP Tool in 10 Steps" />
+        <meta property="og:url" content="https://tomasvotruba.com/blog/how-to-scope-your-php-tool-in-10-steps" />
+        <meta name="description" property="og:description" content="Do you know PHPStan, ECS, [Monorepo Builder](https://github.com/symplify/monorepo-builder), PHPUnit, [Config Transformer](https://github.com/symplify/config-transformer) or Rector?
+
+In the previous post, we explored [why are these tools scoped](/blog/why-do-we-scope-php-tools), where scoping makes sense and where not so much.
+
+**Do you maintain a PHP tool that runs in the command line**? Today we&#039;ll look at 10 steps on how you can scope it too.
+" />
+
+            </head>
+
+    <body>
+                <!-- post_id: 327 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <h1>How to Scope Your PHP Tool in 10&nbsp;Steps</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2021/2021-07-08-how-to-scope-your-php-tool-in-10-steps.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2021-07-Thu" class="text-muted">
+                2021-07-08
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>Do you know PHPStan, ECS, <a href="https://github.com/symplify/monorepo-builder">Monorepo Builder</a>, PHPUnit, <a href="https://github.com/symplify/config-transformer">Config Transformer</a> or Rector?
+<br><br>
+In the previous post, we explored <a href="/blog/why-do-we-scope-php-tools">why are these tools scoped</a>, where scoping makes sense and where not so much.
+<br><br>
+<strong>Do you maintain a PHP tool that runs in the command line</strong>? Today we'll look at 10 steps on how you can scope it too.</p>
+                </div>
+            </div>
+
+            <h2 id="1.-add-php-scoper">1. Add php-scoper</h2>
+<p><a href="https://github.com/humbug/php-scoper">php-scoper</a> is a tool that scans our project and its <code>/vendor</code>. Then it adds a unique random prefix to every class:</p>
+<pre><code class="language-diff">-namespace Symfony\Component\Console\Command;
++namespace Scoper12345\Symfony\Component\Console\Command;
+
+-use Symfony\Component\Console\Input\InputInterface;
++use Scoper12345\Symfony\Component\Console\Input\InputInterface;
+
+ class Command
+ {
+     protected function execute(InputInterface $inputInterface,  ...)
+     {
+     }
+
+     // ...
+ }</code></pre>
+<p>We can install php-scoper as composer dependency. But soon, we'll get into a situation when php-scoper scopes itself and becomes part of the project. We don't want that.</p>
+<p><br></p>
+<p>It's safer to <strong>get a php-scoper PHAR file</strong>, the similar way we use composer as a PHAR file:</p>
+<pre><code class="language-bash">wget https://github.com/humbug/php-scoper/releases/download/0.14.0/php-scoper.phar -N --no-verbose
+
+# then we have a file ready to run
+php-scoper.phar ...</code></pre>
+<h2 id="2.-configure-php-scoper">2. Configure php-scoper</h2>
+<p>Php-scoper needs a configuration file, by convention, named <code>scoper.php</code>. It's a file that returns an array.</p>
+<ul>
+<li>the keys = configuration names</li>
+<li>the values = settings value</li>
+</ul>
+<p>The simpler this file is the better - e.g. this is how this config look <a href="https://github.com/sebastianbergmann/phpunit/blob/master/build/config/php-scoper.php">like in PHPUnit</a>:</p>
+<pre><code class="language-php"># scoper.php
+return [
+    'whitelist' =&gt; [
+        'PHPUnit\*',
+    ],
+];</code></pre>
+<p><br></p>
+<p>How would such configuration look like for the<code>Symplify\MonorepoBuilder</code> tool? First, we need to <strong>whitelist namespace of our tool</strong>.</p>
+<p>Why? For 2 reasons:</p>
+<ul>
+<li>to allow extension of core files, e.g., every test case extends from <code>PHPUnit\Framework\TestCase</code> and not from  <code>Scoper12HK32J2\PHPUnit\Framework\TestCase</code></li>
+<li>it's safe because people only require our package once</li>
+</ul>
+<pre><code class="language-php"># scoper.php
+return [
+    'whitelist' =&gt; [
+        'Symplify\MonorepoBuilder\*',
+    ],
+    'patchers' =&gt; [
+        // callback to process files after the scoping; we'll use them soon
+    ]
+];</code></pre>
+<h2 id="3.-add-symfony-specials-to-php-scoper-config">3. Add Symfony Specials to php-scoper Config</h2>
+<p>Now, the php-scoper does a lot of work for us. Yet, it does not understand some framework-specific situations. E.g. Symfony autodiscovery in <code>config/config.php</code>:</p>
+<pre><code class="language-php">use Scoper12HK32J2\Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void
+{
+    $services = $containerConfigurator-&gt;services();
+    $services-&gt;load('Scoper12HK32J2\\Symplify\MonorepoBuilder\\', __DIR__ . '/../src');
+};</code></pre>
+<p>What is wrong with this file? In config above, we've excluded <code>Symplify\MonorepoBuilder\</code> namespace from being scoped. Yet, here it is scoped:</p>
+<pre><code class="language-php">$services-&gt;load('Scoper12HK32J2\\Symplify\MonorepoBuilder\\', __DIR__ . '/../src');</code></pre>
+<p><br></p>
+<p>That lead to a bug, when Symfony is loading services that do not exist. We need to fix it:</p>
+<pre><code class="language-diff">-$services-&gt;load('Scoper12HK32J2\\Symplify\MonorepoBuilder\\', __DIR__ . '/../src');
++$services-&gt;load('Symplify\MonorepoBuilder\\', __DIR__ . '/../src');</code></pre>
+<p>We could do it manually on every scoping, or we can teach <code>scoper.php</code> to do it for us via <code>"patchers"</code> configuration.</p>
+<p>Now, this is the hardest part of the php-scoper configuration, so get ready for callables without types:</p>
+<pre><code class="language-php"># scoper.php
+use Nette\Utils\Strings;
+
+return [
+    // scope symfony configs
+    'whitelist' =&gt; [
+        'Symplify\MonorepoBuilder\*',
+    ],
+    'patchers' =&gt; [
+        function (string $filePath, string $prefix, string $content): string {
+            // $filePath is sometimes relative, sometimes absolute
+            // so always compare the file path with file ends or a regex
+            if (! str_ends_with($filePath, 'config/config.php')) {
+                // we only care about config/config.php file here
+                // if it's anything else, just keep the origin $content
+                return $content;
+            }
+
+            // remove the prefix
+            return Strings::replace(
+                $content,
+                '#load\(\'' . $prefix . '\\\\Symplify\\\\MonorepoBuilder#',
+                'load(\'' . 'Symplify\\MonorepoBuilder',
+            );
+        },
+    ]
+];</code></pre>
+<p>Callables in the <code>patchers</code> key have every scoped file on the input. The file is <strong>already scoped</strong> so that we can remove unwanted prefixes.</p>
+<p>Our callable above has one job - it finds <code>config/config.php</code>, then it will remove the prefix on <code>load()</code> method:</p>
+<pre><code class="language-diff">-$services-&gt;load('Scoper12HK32J2\\Symplify\MonorepoBuilder\\', __DIR__ . '/../src');
++$services-&gt;load('Symplify\MonorepoBuilder\\', __DIR__ . '/../src');</code></pre>
+<p>That's it. Now the Symfony autodiscovery works again.</p>
+<h2 id="4.-scope-other-public-a-p-i-of-your-project">4. Scope other Public API of Your Project</h2>
+<p>We've already unscoped the <code>Symplify\MonorepoBuilder\</code> namespace. The Monorepo Builder provides an interface that developers can implements, register in the <code>monorepo-builder.php</code> config, and the tool will collect it. It looks like this:</p>
+<pre><code class="language-php">use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorkerInterface;
+use PharIo\Version\Version;
+
+final class SomeReleaseWorker implements ReleaseWorkerInterface
+{
+    public function work(Version $version)
+    {
+        // ...
+    }
+}</code></pre>
+<p>Can you see the problem?</p>
+<p><br></p>
+<p>The <code>PharIo\Version\Version</code> is scoped to <code>ScoperDF0239\PharIo\Version\Version</code> and does not exist. If we try to implement this interface, we will crash:</p>
+<p><a href="https://github.com/symplify/symplify/issues/3388#issuecomment-875301853"></p>
+<img src="https://user-images.githubusercontent.com/53906348/124706025-eb8adf00-def6-11eb-8f70-e596e759ae3f.png" class="img-thumbnail">
+<p></a></p>
+<p><strong>The <code>PharIo\Version\</code> namespace is part of our public API.</strong> Meaning people can use it because our interface encourages it.</p>
+<p>There are 2 solutions to this problem. The first one is more cleaner, but also more work and BC break:</p>
+<ul>
+<li>wrap <code>PharIo\Version\Version</code> in our custom namespaced object, making it a private API</li>
+</ul>
+<pre><code class="language-diff"> use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorkerInterface;
+-use PharIo\Version\Version;
++use Symplify\MonorepoBuilder\Version\Version;
+
+ final class SomeReleaseWorker implements ReleaseWorkerInterface
+ {
+     public function work(Version $version)
+     {
+         // ...
+     }
+ }</code></pre>
+<ul>
+<li>add <code>PharIo\Version\*</code> to unscoped namespace in <code>scoper.php</code></li>
+</ul>
+<pre><code class="language-diff"> # scoper.php
+
+ return [
+     // scope symfony configs
+     'whitelist' =&gt; [
+         'Symplify\MonorepoBuilder\*',
++        'PharIo\Version\*',
+     ],
+     // ...
+ ];</code></pre>
+<p>This way, the <code>PharIo\Version\*</code> classes will be skipped from scoping.</p>
+<p>I've picked the latter to save trouble for myself and avoid BC break.</p>
+<p><br></p>
+<p>Do you have some public API namespace that developers using your package will try to use? Exclude it in the <code>'whitelist'</code> key. Mind the asterisk in the end <code>\*</code> - it covers all classes in the namespace.</p>
+<h2 id="5.-run-php-scoper">5. Run php-scoper</h2>
+<p>We have the config ready. Now it's time to run the scoper.</p>
+<ul>
+<li>Include directories with PHP code, bin directory, configs, YAML/NEON/XML files, and the <code>/vendor</code> directory.</li>
+<li>Skip the tests and fixtures for tests.</li>
+</ul>
+<pre><code class="language-bash">$RESULT_DIRECTORY=monorepo-builder-scoped
+
+php-scoper.phar add-prefix bin config src vendor composer.json --output-dir "../$RESULT_DIRECTORY" --config scoper.php --force --ansi</code></pre>
+<p>Now we have scoped tool in the <code>monorepo-builder-scoped</code> directory, good job!</p>
+<h2 id="6.-create-release-repository-separated-from-develop-repository">6. Create Release Repository separated from Develop Repository</h2>
+<p>So how do we get the scoped version to our users? We have to set up repository architecture first.</p>
+<p>The <code>symplify/monorepo-builder</code> package is developed in:</p>
+<ul>
+<li><a href="https://github.com/symplify/symplify">https://github.com/symplify/symplify</a></li>
+</ul>
+<p>The scoped version is published in:</p>
+<ul>
+<li><a href="https://github.com/symplify/monorepo-builder">https://github.com/symplify/monorepo-builder</a></li>
+</ul>
+<h2 id="7.-push-scoped-project-to-release-repository">7. Push Scoped Project to Release Repository</h2>
+<p>The same way we push commits to our repository, we will push scoped code to the remote scoped repository:</p>
+<pre><code class="language-bash">cd monorepo-builder-scoper
+
+# add a remote repository
+git init
+git remote add origin git@github.com:symplify/monorepo-builder.git
+
+# add content and push it
+git add .
+git push -f</code></pre>
+<h2 id="8.-include-/vendor-directory">8. Include <code>/vendor</code> Directory</h2>
+<p>The most common mistake I make is missing the <code>/vendor</code> directory. I scope the project, make it run locally. Everything is fine. Then I push the whole project without its vendor, and it breaks. So don't forget to allow pushing the scoped <code>/vendor</code> too:</p>
+<pre><code class="language-diff"># .gitignore
+-/vendor
+ composer.lock</code></pre>
+<h2 id="9.-automate-scoping-within-c-i">9. Automate Scoping Within CI</h2>
+<p>The whole process above is daunting and error-prone. It must be automated and running in CI, so we know the instant any of our commits break it.</p>
+<p>We have it in Symplify GitHub Actions <a href="https://github.com/symplify/symplify/blob/main/.github/workflows/build_monorepo_builder_prefixed.yaml">up and running here</a>. The scoping process <a href="https://github.com/symplify/symplify/blob/9a8daa14615980b8e03c7970aeadf248b31c7c41/.github/workflows/build_monorepo_builder_prefixed.yaml#L60">starts in step 4</a>:</p>
+<h2 id="10.-learn-by-copying-from-existing-projects">10. Learn by Copying from Existing Projects</h2>
+<p>The best way to learn is to copy already working processes. It's essential to have a safety net if you're doing something the first time, just before you have an a-ha moment and everything clicks together.</p>
+<p>That's why you can learn of the full scoping in <code>symplify/monorepo-builder</code> that is spread across 3 files.</p>
+<ul>
+<li><a href="https://github.com/symplify/symplify/blob/main/.github/workflows/build_monorepo_builder_prefixed.yaml">Scoping GitHub Action Workflow</a></li>
+<li><a href="https://github.com/symplify/symplify/blob/main/packages/monorepo-builder/build/build-monorepo-builder-scoped.sh">Bash for Scoping and local testing</a></li>
+<li><a href="https://github.com/symplify/symplify/blob/main/packages/monorepo-builder/scoper.php"><code>scoper.php</code> configuration</a></li>
+</ul>
+<p><br></p>
+<p>Keep it up, and I look forward to your first scopes!</p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                    
+                                            <a href="/blog/why-do-we-scope-php-tools" class="d-block">
+                            <div>
+                                Read next → <strong>Why do we Scope PHP Tools</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+    </body>
+</html>
