@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?24039677" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1653544172" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Switch from YAML/XML Configs to PHP Today with Symplify" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/07/27/how-to-switch-from-yaml-xml-configs-to-php-today-with-migrify" />
@@ -155,18 +155,15 @@ Again, it's valid to handle it manually with search &amp; replace in PHPStorm.</
 <p>But in case your code is not standard and can't be bothered with correct regular expressions, Rector got you covered:</p>
 <pre><code class="language-bash">composer require rector/rector --dev</code></pre>
 <p>Setup <code>rector.php</code>:</p>
-<pre><code class="language-php">&lt;?php
-
-use Symplify\ConfigTransformer\ValueObject\Format;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+<pre><code class="language-php">use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Rector\Symfony\Rector\Class_\ChangeFileLoaderInExtensionAndKernelRector;
 
 return function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator-&gt;services();
     $services-&gt;set(ChangeFileLoaderInExtensionAndKernelRector::class)
         -&gt;call('configure', [[
-            ChangeFileLoaderInExtensionAndKernelRector::FROM =&gt; Format::YAML,
-            ChangeFileLoaderInExtensionAndKernelRector::TO =&gt; Format::PHP,
+            ChangeFileLoaderInExtensionAndKernelRector::FROM =&gt; 'yaml',
+            ChangeFileLoaderInExtensionAndKernelRector::TO =&gt; 'php',
         ]]);
 };</code></pre>
 <p>And let Rector handle the boring work:</p>
