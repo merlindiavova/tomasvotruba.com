@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?2115655433" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?442925010" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How I made Huge Mistake with Interpretation of Laravel Downloads" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/how-i-made-huge-mistake-with-interpretation-of-laravel-downloads" />
@@ -102,7 +102,7 @@ Also, monorepo and split packages downloads lead to a problem when one monorepo 
 <pre><code class="language-bash">composer require illuminate/framework</code></pre>
 <p>The first package has 2.x million downloads, and the second has 24.x million downloads. Yet both will get us <code>illuminate/console</code> content.</p>
 <p><br></p>
-<p>Can you see the problem?</p>
+<h2 id="can-you-see-the-problem?">Can You See the Problem?</h2>
 <ul>
 <li><code>illuminate/framework</code> will give us all Laravel packages but will mark only one download</li>
 <li><code>illuminate/console</code> will give us one Laravel package and will mark only 1 download too</li>

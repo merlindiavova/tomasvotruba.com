@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>How to Easily Protect your Code Base from Commented PHP Code | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+<meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
+
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?1467204781" rel="stylesheet" type="text/css" />
+
+                <meta property="og:title" content="How to Easily Protect your Code Base from Commented PHP Code" />
+        <meta property="og:url" content="https://tomasvotruba.com/blog/how-much-commented-php-code-slipped-to-your-code-base" />
+        <meta name="description" property="og:description" content="When it comes to merging huge pull-request, here and there, a bit of commented code slips to our codebase. Do you trust your reckless developers to check every single line? Are you sure?
+
+We **cherish our developers&#039; attention** so we come with a simple solution that we added to our CI. Now we know for sure. Do you think you have 0 % unwanted commented code? I dare you to have more.
+" />
+
+                    <meta property="og:image" content="https://tomasvotruba.com/assets/images/posts/2021/quick-easy-commented-code-detection.png" />
+            <meta name="twitter:card" content="summary_large_image"/>
+            </head>
+
+    <body>
+                <!-- post_id: 331 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <h1>How to Easily Protect your Code Base from Commented PHP Code</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2021/2021-08-02-how-much-commented-php-code-slipped-to-your-code-base.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2021-08-Mon" class="text-muted">
+                2021-08-02
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>When it comes to merging huge pull-request, here and there, a bit of commented code slips to our codebase. Do you trust your reckless developers to check every single line? Are you sure?
+<br><br>
+We <strong>cherish our developers' attention</strong> so we come with a simple solution that we added to our CI. Now we know for sure. Do you think you have 0 % unwanted commented code? I dare you to have more.</p>
+                </div>
+            </div>
+
+            <p>With following approach, <a href="https://github.com/rectorphp/rector-src/commit/37b06023b666cac8ec2997e8e1605f93c25d3b6f">we've discovered more than 150 commented out PHP lines</a> in Rector code today:</p>
+<img src="/assets/images/posts/2021/quick-easy-commented-code-detection.png" class="img-thumbnail">
+<p><br></p>
+<h2 id="how-we-detect-commented-p-h-p-code-today?">How we Detect Commented PHP Code Today?</h2>
+<p>The &quot;best&quot; way to detect commented code was with a sniff from PHP_CodeSniffer. It parsed every token in a comment and tried to decide if it's a commented PHP code, an example of PHP code, or normal text. It is instead a complex process with lots of false positives.</p>
+<p>Is this PHP code?</p>
+<pre><code class="language-php">// if useful, remove</code></pre>
+<p>Or this one?</p>
+<pre><code class="language-php">// for example
+// $value = 1000;</code></pre>
+<p><br></p>
+<h2 id="re-define-the-&quot;commented-p-h-p-code&quot;">Re-Define the &quot;Commented PHP Code&quot;</h2>
+<p>We had such a sniff, and it was not working correctly. We stopped to think about the problem. How does commented PHP code look like? Let's say we have this code:</p>
+<pre><code class="language-php">private function resolveFromNodeAndType(Node $node, Type $type): ?string
+{
+    $variableName = $this-&gt;resolveBareFromNode($node);
+    if ($variableName === null) {
+        return null;
+    }
+
+    $stringy = new Stringy($variableName);
+    return (string) $stringy-&gt;camelize();
+}</code></pre>
+<p>What happens when you try to comment it out in PHPStorm?</p>
+<pre><code class="language-php">//private function resolveFromNodeAndType(Node $node, Type $type): ?string
+//{
+//    $variableName = $this-&gt;resolveBareFromNode($node);
+//    if ($variableName === null) {
+//        return null;
+//    }
+//
+//    $stringy = new Stringy($variableName);
+//    return (string) $stringy-&gt;camelize();
+//}</code></pre>
+<p>What has changed? Every line starts with <code>//</code>.</p>
+<p><br></p>
+<p>What do we use if we want to comment logic and explain behavior? The doc block:</p>
+<pre><code class="language-php">/**
+ * If used on Monday, produces this code:
+ *    $value = 'Monday is here';
+ *    finally;
+ * The rest of the week is off
+ */</code></pre>
+<p><br></p>
+<p>In the end, all we look for <strong>is a more significant amount of lines starting with <code>//</code></strong>.</p>
+<pre><code class="language-php">// ...
+// ...
+// ...</code></pre>
+<p><br></p>
+<p>After we re-defined the problem to a much simpler one, it was pretty easy to add this command to <a href="https://github.com/symplify/easy-ci">symplify/easy-ci</a> utils package.</p>
+<h2 id="3-steps-to-detect-commented-p-h-p-code-in-your-c-i">3 Steps to Detect Commented PHP Code in Your CI</h2>
+<p><strong>1. Install Easy CI</strong></p>
+<pre><code class="language-bash">composer require symplify/easy-ci --dev</code></pre>
+<p><br></p>
+<p><strong>2. Run it</strong></p>
+<pre><code class="language-bash">vendor/bin/easy-ci check-commented-code &lt;directory|ies&gt;
+vendor/bin/easy-ci check-commented-code src packages</code></pre>
+<p><br></p>
+<p>Is it too strict? Tune line limit to your needs:</p>
+<pre><code class="language-bash">vendor/bin/easy-ci check-commented-code src packages --line-limit 10</code></pre>
+<p><br></p>
+<p><strong>3. Add it to your CI</strong></p>
+<p><br></p>
+<p>That's it!</p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                    
+                                            <a href="/blog/how-i-made-huge-mistake-with-interpretation-of-laravel-downloads" class="d-block">
+                            <div>
+                                Read next → <strong>How I made Huge Mistake with Interpretation of Laravel Downloads</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+    </body>
+</html>
