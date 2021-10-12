@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Introducing up-to 16 Times Faster Easy Coding Standard | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+<meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
+
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?97058751" rel="stylesheet" type="text/css" />
+
+                <meta property="og:title" content="Introducing up-to 16 Times Faster Easy Coding Standard" />
+        <meta property="og:url" content="https://tomasvotruba.com/blog/introducing-up-to-16-times-faster-easy-coding-standard" />
+        <meta name="description" property="og:description" content="Do you use [Easy Coding Standard](https://github.com/symplify/easy-coding-standard)? Do you find **extremely useful and easy to use, but a little slow on a huge code base**?
+
+If you [follow me carefully on Twitter](https://twitter.com/votrubaT), you already know that the ECS got a new parallel run feature. I wanted to test it in a circle of early adopters first, so we make the run as smooth as possible for you.
+
+Today, we&#039;re sharing the ECS Parallel run with the public, so you **can cut down ECS run times from minutes to seconds**.
+" />
+
+                    <meta property="og:image" content="https://tomasvotruba.com/assets/images/posts/2021/ecs_before_now.png" />
+            <meta name="twitter:card" content="summary_large_image"/>
+            </head>
+
+    <body>
+        <!-- post_id: 332 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <h1>Introducing up-to 16&nbsp;Times&nbsp;Faster Easy&nbsp;Coding&nbsp;Standard</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2021/2021-10-11-introducing-up-to-16-times-faster-easy-coding-standard.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2021-10-Mon" class="text-muted">
+                2021-10-11
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>Do you use <a href="https://github.com/symplify/easy-coding-standard">Easy Coding Standard</a>? Do you find <strong>extremely useful and easy to use, but a little slow on a huge code base</strong>?
+<br><br>
+If you <a href="https://twitter.com/votrubaT">follow me carefully on Twitter</a>, you already know that the ECS got a new parallel run feature. I wanted to test it in a circle of early adopters first, so we make the run as smooth as possible for you.
+<br><br>
+Today, we're sharing the ECS Parallel run with the public, so you <strong>can cut down ECS run times from minutes to seconds</strong>.</p>
+                </div>
+            </div>
+
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Have you already updated <a href="https://twitter.com/hashtag/ecs?src=hash&amp;ref_src=twsrc%5Etfw">#ecs</a> to parallel run? ☺️<br><br>This is what you're missing out ↓ <a href="https://t.co/fuBKMpl8ID">pic.twitter.com/fuBKMpl8ID</a></p>— Tomas Votruba (@VotrubaT) <a href="https://twitter.com/VotrubaT/status/1446065404976279558?ref_src=twsrc%5Etfw">October 7, 2021</a></blockquote>
+<hr />
+<h2 id="bottle-neck?">Bottle Neck?</h2>
+<p><a href="/blog/2018/10/22/brief-history-of-tools-watching-and-changing-your-php-code/">Coding Standard tools</a> are <strong>very fast in processing single file</strong>. They parse PHP code to tokens, analyze tokens in a foreach loop, and report found issues. The performance hit is in the number of processed files. If we have 10 files, the 1st file is processed. The 2nd file cannot start until the 1st file is finished.</p>
+<p>Fortunately, this architecture has <strong>huge potential in performance improvement</strong> once we add a parallel run. That's what I've been working for July and August this summer. Huge thanks to Ondrej Mirtes for inspiration in <a href="https://phpstan.org/blog/from-minutes-to-seconds-massive-performance-gains-in-phpstan">PHPStan parallel run</a>.</p>
+<h2 id="e-c-s-is-now-x-times-faster!">ECS is now X-times Faster!</h2>
+<p>...where X = number of your CPU <em>threads</em>. What does it mean?</p>
+<ul>
+<li>
+<p>Let's say your CPU has 4 cores. The ECS was running for 60 seconds on your project. Now it runs <strong>15 seconds</strong>. But there is more.</p>
+</li>
+<li>
+<p>Some CPUs have 4 cores, but 8 <em>threads</em>. That means an improvement to <strong>7,5 seconds</strong>.</p>
+</li>
+</ul>
+<p><br></p>
+<p>You might think: &quot;such CPUs must be expensive and available only for high-end laptops&quot;. You'll be surprised.</p>
+<ul>
+<li>My middle-end laptop uses <a href="https://en.wikipedia.org/wiki/Ryzen#Mobile_3">Ryzen 7 made in 2020</a>. It has 8 cores with 16 threads. Now we have <strong>16-times faster runs</strong>, from 60 seconds to <strong>3,75 seconds</strong>.</li>
+</ul>
+<h2 id="dont-take-my-word-for-it">Don't Take My Word for It</h2>
+<p>We've got few reports from our early adopters. How does ECS handle their projects?</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Thanks, <a href="https://twitter.com/VotrubaT?ref_src=twsrc%5Etfw">@VotrubaT</a> for adding parallel run to ECS 🥰. Running on Shopware 6 needs now 24s instead of 229s. <a href="https://t.co/cuxKy2ubfE">pic.twitter.com/cuxKy2ubfE</a></p>— Shyim (@Shyim97) <a href="https://twitter.com/Shyim97/status/1447588634203508739?ref_src=twsrc%5Etfw">October 11, 2021</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<h2 id="enjoy-parallel-e-c-s-in-your-project-today">Enjoy Parallel ECS in Your Project Today</h2>
+<p>How to add this feature to your project?</p>
+<p>Be sure to use at least ECS 9.4.70:</p>
+<pre><code class="language-bash">composer require symplify/easy-coding-standard:^9.4.70</code></pre>
+<p>And enable a new parameter in your <code>ecs.php</code> config file:</p>
+<pre><code class="language-diff"> use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+ use Symplify\EasyCodingStandard\ValueObject\Option;
+
+ return function (ContainerConfigurator $containerConfigurator): void {
+     $parameters = $containerConfigurator-&gt;parameters();
++    $parameters-&gt;set(Option::PARALLEL, true);
+ };</code></pre>
+<p>That's it!</p>
+<p><br></p>
+<p>The parallel run might become enabled by default in ECS 10. We have enough time to test it on real projects and make it reliable till then. So far, it has been tested on Linux and Windows. If you're lucky enough to find the edge case, <a href="https://github.com/symplify/symplify/issues/new">please let us know in issues</a>, so we can cover it.</p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                            <a href="/blog/how-to-easily-protected-your-code-base-from-commented-php-code" class="d-block">
+                            <div>
+                                Read next → <strong>How to Easily Protect your Code Base from Commented PHP Code</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+    </body>
+</html>
