@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>7 Steps to Start with Parallel Run in PHP CLI App | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+<meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
+
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?291717570" rel="stylesheet" type="text/css" />
+
+                <meta property="og:title" content="7 Steps to Start with Parallel Run in PHP CLI App" />
+        <meta property="og:url" content="https://tomasvotruba.com/blog/7-steps-to-start-with-parallel-run-in-php-cli-app" />
+        <meta name="description" property="og:description" content="To be honest, I have no idea what I&#039;m doing. I&#039;ve read a couple of posts about parallel processes in PHP, but most got me confused even more than before. Too much vague theory links to dozens of open-source packages, 5 alternatives to one operation, and other education faults.
+
+What I missed **was a to-do list for a 6-year old PHP programmer**. Straightforward, with everyday terminology developers, already know.
+
+Do you want to have **a better idea of how to add a parallel run to one of PHP CLI apps**?
+
+This post will get you from 0 to padawan in a couple of minutes.
+" />
+
+                    <meta property="og:image" content="https://tomasvotruba.com/assets/images/posts/2021/parallel_dummy.jpg" />
+            <meta name="twitter:card" content="summary_large_image"/>
+            </head>
+
+    <body>
+        <!-- post_id: 333 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <h1>7 Steps to Start with Parallel&nbsp;Run in PHP&nbsp;CLI&nbsp;App</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2021/2021-10-04-7-steps-to-start-with-parallel-run-in-php-cli-app.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2021-10-Mon" class="text-muted">
+                2021-10-04
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>To be honest, I have no idea what I'm doing. I've read a couple of posts about parallel processes in PHP, but most got me confused even more than before. Too much vague theory links to dozens of open-source packages, 5 alternatives to one operation, and other education faults.
+<br><br>
+What I missed <strong>was a to-do list for a 6-year old PHP programmer</strong>. Straightforward, with everyday terminology developers, already know.
+<br><br>
+Do you want to have <strong>a better idea of how to add a parallel run to one of PHP CLI apps</strong>?<br>
+<br>
+This post will get you from 0 to padawan in a couple of minutes.</p>
+                </div>
+            </div>
+
+            <p><em>Disclaimer: if you do parallel for a couple of years, this post is not for you. This post will only confuse you with incorrect interpretations that you have to correct in tweets and comments. This post is not for experts but for those who want to try it today for the first time.</em></p>
+<blockquote class="blockquote text-center">
+    "If you can't explain it to a 6-year-old,<br>
+    you don't understand it yourself."
+</blockquote>
+<p>Last month I tweeted about <a href="/blog/introducing-up-to-16-times-faster-easy-coding-standard/">16x faster ECS</a>, the most significant performance improvement I've ever seen since upgrade to PHP 7.</p>
+<p><br></p>
+<p>I got one question about the architecture:</p>
+<p><br></p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Blog post coming on how you achieved it? It would be good to have blog post on how to do parallel run efficiently in PHP.</p>— Ishan Vyas (@Ishanvyas22) <a href="https://twitter.com/Ishanvyas22/status/1446085620535758850?ref_src=twsrc%5Etfw">October 7, 2021</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>Today I'll share my limited experience with parallel <strong>CLI PHP Apps</strong>. It's an experience I got by exploring PHPStan code and hundreds of trials and errors. What is CLI PHP App? <strong>A PHP tools that you run in command line</strong> - ECS, php-cs-fixer, PHP_CodeSniffer, PHPStan, Rector, PHPUnit, Composer etc.</p>
+<p>Is all clear? Let's start.</p>
+<p><br></p>
+<img src="/assets/images/posts/2021/parallel_dummy.jpg" class="img-thumbnail">
+<h2 id="1.-its-simpler-then-you-think">1. It's Simpler Then You Think</h2>
+<p>I met with parallel in <a href="https://www.youtube.com/watch?v=ktfyEKUrabw">a live stream 4 years ago</a>. My first problem with a parallel run was that developers who talked about it made the topic sound very complex. I asked one question to understand one concept better, but in the end, I was even more confused than before I asked.</p>
+<p>That made me think:</p>
+<ul>
+<li><em>&quot;parallel run in PHP is something very complicated&quot;</em></li>
+<li><em>&quot;it requires dozens of hours of studying, maybe even studying university courses&quot;</em></li>
+<li><em>&quot;I need a private paid project that needs this feature, so I have a chance to learn it for a couple of months&quot;</em></li>
+</ul>
+<p>I have good news for you - none of it is true. You just have to be lucky to come around <strong>sources that make you feel smarter</strong>.</p>
+<p>The first point is: <strong>it's simpler than you think</strong>.</p>
+<h2 id="2.-main-goal?-faster!">2. Main Goal? Faster!</h2>
+<p>We don't implement it because it's cool, not because PHP allows it or not because it improves our architecture.</p>
+<p><strong>We want to get somewhere significantly faster</strong>. We're talking 10-20x faster.</p>
+<h2 id="3.-its-about-c-p-u-threads">3. It's about CPU Threads</h2>
+<p>Last year, my laptop got a little shower from wild traveling and decided to stop working. Czech law gives the seller a month to process the warranty, so I had to get a replacement for the next month.</p>
+<p>I bought the first Lenovo Thinkpad that looked similar to the one I used, so I don't have to learn a new keyboard for a single month. I got a surprise: <strong>the PHPStan run was cut down to half</strong>.</p>
+<p>Why? The parallel run is as x-faster, where x is a number of CPU threads. It's not about CPU cores, but <strong>about CPU threads</strong>. In my temporary laptop, there was an <a href="https://en.wikipedia.org/wiki/Ryzen">AMD Ryzen</a> CPU that had 8 cores but excellent 16 threads.</p>
+<p>That means every parallel process based on CPU cores is 16x faster.</p>
+<p>Have you waited 2 minutes to finish a command-line process? <strong>Now it's 8 seconds.</strong></p>
+<h2 id="4.-look-for-the-bottle-neck">4. Look for The Bottle Neck</h2>
+<p>Typical ECS command looks like this:</p>
+<pre><code class="language-bash">vendor/bin/ecs check src</code></pre>
+<p>This command finds all PHP files in the <code>/src</code> directory and runs foreach to check for coding standard violations. Roughly like this:</p>
+<pre><code class="language-php">$foundFiles = $this-&gt;findFiles(__DIR__ . '/src');
+
+foreach ($foundFiles as $foundFile) {
+    $this-&gt;codingStandardApplication-&gt;procesFile($foundFile);
+}</code></pre>
+<p>Before the 2nd file can be processed by coding standard, we have to wait for the 1st file to finish.</p>
+<p><strong>This is the bottleneck.</strong></p>
+<p>How to start with parallelization? Look for &quot;the main&quot; <code>foreach (...)</code> in your code.</p>
+<h2 id="5.-processes-are-on-their-own">5. Processes are on Their Own</h2>
+<p>What do you do when you need a repository service in your project? We inject it via the constructor and use it. It has access to a database, where are data all up-to-date, and we can load, edit and delete them. We trust the stability.</p>
+<p>In parallel, this is a bit different. How?</p>
+<p><br></p>
+<p>This point started as a few sentences, but soon grew to its own post with. It's a metaphor that hits the nail on the head.</p>
+<p><strong>Go read <a href="/blog/parallel-in-php-for-dummies-cooking-a-family-dinner">Parallel in PHP for Dummies? Cooking a Family Dinner</a></strong> and then come back for the best experience of this list.</p>
+<h2 id="6.-from-foreach-to-command">6. From Foreach to Command</h2>
+<p>So now we know the processes run separately, each in its paste. But above we still have foreach. How do we run them separately without waiting for each other?</p>
+<p>We refactor services call to another command-line command:</p>
+<pre><code class="language-diff"> foreach ($familyMembers as $key =&gt; $familyMember) {
+     $ingredientsChunk = $ingredientsChunks[$key];
+-    $foundIngredients[] = $familyMember-&gt;findIngredients($ingredientsChunk);
++    $foundIngredients[] = exec(
++        'vendor/bin/find-ingredient --member $familyMember --chunk $ingredientsChunk
++     );
+ }</code></pre>
+<p>This way, we create as many subcommands on the background as many family members we have. Each of them runs separately.</p>
+<p><br></p>
+<p>How does this work in ECS? Before, we had one command to process all the files:</p>
+<pre><code class="language-bash">vendor/bin/ecs check /src</code></pre>
+<p>Now the main command is the same, but it runs itself on the background in multiple threads:</p>
+<pre><code class="language-bash"># this is what we type
+vendor/bin/ecs check /src
+
+# this is what really happens
+→    vendor/bin/ecs check-worker --cpu-thread 1 --files /src/first.php /src/second.php
+→    vendor/bin/ecs check-worker --cpu-thread 2 --files /src/third.php /src/fourth.php</code></pre>
+<p>What is the <code>check-worker</code> command exactly doing? It's the exact copy of the <code>check</code> command.
+The <code>check</code> command used to be <code>foreach (...)</code> caller of service, but now it calls standalone processes.</p>
+<h2 id="7.-its-like-calling-a-rest-a-p-i-route">7. It's like Calling a Rest API Route</h2>
+<p>This step was blowing for me. The typical run of ECS checked files for coding standard violations and printed the errors - all inside on PHP container:</p>
+<pre><code class="language-bash">vendor/bin/ecs check /src
+
+Found 25 errors. Fix them with the "--fix" option.</code></pre>
+<p>But how can we work with nested command calls? We do only have bash there, no PHP, no services, no container. <strong>Like when we call external API:</strong></p>
+<pre><code class="language-bash">curl /app/find-ingredient --member 1 --chunk onion,garlic</code></pre>
+<p>Does this remind you of something? What kind of response do we get when we call an API?</p>
+<pre><code class="language-bash">curl /app/find-ingredient --member 1 --chunk onion,garlic
+{"onion": "found", "garlic": "not_found"}</code></pre>
+<p><strong>A JSON!</strong></p>
+<p><br></p>
+<p>So when we call the ECS worker command, we expect the JSON:</p>
+<pre><code class="language-bash">→    vendor/bin/ecs check-worker --cpu-thread 1 --files /src/first.php /src/second.php
+{"/src/first.php": {"error_count": 0}, "/src/second.php": {"error_count": 3}}</code></pre>
+<p>This step makes sense to the whole previous workflow. It means we only have to return primary data. We cannot return services, value objects or nested arrays, or metadata. <strong>Only return what you need to show the user.</strong></p>
+<p><br></p>
+<p>To give you an idea, in ECS, the result for a single file looks like this:</p>
+<pre><code class="language-json">[
+    {
+        "file_path": "/src/first.php",
+        "error_messages": [
+            "Use spaces over tabs"
+        ],
+        "file_diffs": [
+            "-$value=1;\n;$value = 1;"
+        ]
+    }
+]</code></pre>
+<h2 id="bonus-tip:-strings?-value-objects-to-the-confidence">Bonus Tip: Strings? Value Objects to the Confidence</h2>
+<p>This bonus tip is not limited to parallel, but it's a general lifesaver in an unstable environment.</p>
+<p>Seeing arrays and strings above might give you shivers. How can we work with such unreliable data and pass them around our application? I feel you. When I don't have an object in my hand, I feel like I'm naked.</p>
+<p>Let's put on pants and use value objects the instant we can:</p>
+<pre><code class="language-php">final class FileResult implements JsonSerializable
+{
+    public function __construct(
+        private string $filePath,
+        private array $errorMessages,
+        private array $fileDiffs,
+    ) {
+    }
+
+    // we'll use this method in worker command to send the JSON result
+    public function jsonSerialize(): array
+    {
+        return [
+            'file_path' =&gt; $this-&gt;filePath,
+            'error_messages' =&gt; $this-&gt;errorMessages,
+            'file_diffs' =&gt; $this-&gt;fileDiffs,
+        ];
+    }
+}</code></pre>
+<p>When the worker command returns a string response, we'll turn it into value objects:</p>
+<pre><code class="language-php">// string
+$checkWorkerResult = exec(
+    'vendor/bin/ecs check-worker --cpu-thread 1 --files /src/first.php /src/second.php'
+);
+
+// json
+$checkWorkerJson = Json::decode($checkWorkerResult);
+
+// array of FileResult value objects
+$fileResults = [];
+foreach ($checkWorkerJson as $fileResultJson) {
+    $fileResults[] = new FileResult(
+        $fileResultJson['file_path'],
+        $fileResultJson['error_messages'],
+        $fileResultJson['file_diffs']
+    );
+}</code></pre>
+<p>That's it! Give it time, start slowly and make small pull requests.</p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                            <a href="/blog/introducing-up-to-16-times-faster-easy-coding-standard" class="d-block">
+                            <div>
+                                Read next → <strong>Introducing up-to 16 Times Faster Easy Coding Standard</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+    </body>
+</html>
