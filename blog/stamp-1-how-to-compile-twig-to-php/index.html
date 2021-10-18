@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?357443576" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?838391845" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="STAMP #1: How to Compile Twig to PHP" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/stamp-1-how-to-compile-twig-to-php" />
@@ -86,7 +86,10 @@ The other option is to take it from the other end - convert Twig to PHP.</p>
                 </div>
             </div>
 
-            <h2 id="how-do-we-render-twig-in-our-projects?">How do we Render Twig in our Projects?</h2>
+            <p>In the previous post we worked with <code>templates/meal.twig</code> with single method call:</p>
+<pre><code class="language-twig">{{ meal.title }}</code></pre>
+<p>Today we'll try to turn this single line into PHP syntax.</p>
+<h2 id="how-do-we-render-twig-in-our-projects?">How do we Render Twig in our Projects?</h2>
 <p>The most common use case for rendering templates is in a Symfony controller. We call <code>$this-&gt;render()</code> with a template name as 1st argument:</p>
 <pre><code class="language-php">use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -242,7 +245,7 @@ class __TwigTemplate_8a9d1381e8329967... extends Template
 }</code></pre>
 <h2 id="how-is-this-p-h-p-mess-helpful?">How is this PHP Mess Helpful?</h2>
 <p>Not much, to be honest. Yet.</p>
-<p>We'll give it a look in the next post. Maybe we can come up with something useful.</p>
+<p>We'll give it a look <a href="/blog/stamp-2-how-to-turn-messy-twig-php-to-something-useful">in the next post</a>. Maybe we can come up with something useful.</p>
 <p><br></p>
 <p>Happy coding!</p>
 

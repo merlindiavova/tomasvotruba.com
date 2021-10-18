@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>STAMP #2: How to Turn Messy Twig PHP to Something Useful | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+<meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
+
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?980774677" rel="stylesheet" type="text/css" />
+
+                <meta property="og:title" content="STAMP #2: How to Turn Messy Twig PHP to Something Useful" />
+        <meta property="og:url" content="https://tomasvotruba.com/blog/stamp-2-how-to-turn-messy-twig-php-to-something-useful" />
+        <meta name="description" property="og:description" content="In the previous post, we looked [at *how* to compile TWIG to raw PHP](/blog/stamp-1-how-to-compile-twig-to-php). It&#039;s one step forward, but it&#039;s not enough.
+
+Today we look at *how* we turn **the raw PHP code to the code PHPStan understands**.
+" />
+
+            </head>
+
+    <body>
+        <!-- post_id: 340 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <h1>STAMP #2: How to Turn Messy Twig PHP to Something Useful</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2021/2021-08-27-stamp-2-how-to-turn-messy-twig-php-to-something-useful.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2021-08-Fri" class="text-muted">
+                2021-08-27
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>In the previous post, we looked <a href="/blog/stamp-1-how-to-compile-twig-to-php">at <em>how</em> to compile TWIG to raw PHP</a>. It's one step forward, but it's not enough.
+<br><br>
+Today we look at <em>how</em> we turn <strong>the raw PHP code to the code PHPStan understands</strong>.</p>
+                </div>
+            </div>
+
+            <p>In the previous post, we successfully <del>rendered</del> compiled <code>templates/meal.twig</code> template:</p>
+<pre><code class="language-twig">{{ meal.title }}</code></pre>
+<p><br></p>
+<h2 id="rendered-or-compiled?">Rendered or Compiled?</h2>
+<p>What is the difference between <em>rendered</em> and <em>compiled</em> in our context?</p>
+<ul>
+<li>When we <em>render</em> a TWIG template, the result will be the <strong>final HTML that users see</strong> when they open the website.</li>
+<li>When we <em>compile</em> a TWIG template, we'll get a <strong>PHP code with class</strong>, that TWIG uses for the cache.</li>
+</ul>
+<p><br></p>
+<p>After compilation <code>templates/meal.twig</code> to PHP, we'll get a child of <code>Twig\Template</code> class:</p>
+<pre><code class="language-php">use Twig\Environment;
+use Twig\Source;
+use Twig\Template;
+
+/* templates/meal.twig */
+class __TwigTemplate_8a9d1381e8329967... extends Template
+{
+    private $source;
+    private $macros = [];
+
+    public function __construct(Environment $env)
+    {
+        parent::__construct($env);
+        $this-&gt;source = $this-&gt;getSourceContext();
+        $this-&gt;parent = false;
+        $this-&gt;blocks = [];
+    }
+
+    protected function doDisplay(array $context, array $blocks = [])
+    {
+        $macros = $this-&gt;macros;
+        // line 1
+        echo twig_escape_filter(
+            $this-&gt;env,
+            twig_get_attribute(
+                $this-&gt;env,
+                $this-&gt;source,
+                ($context["meal"] ?? null),
+                "title",
+                "any",
+                 false,
+                 false,
+                 false,
+            1),
+            "html",
+            null,
+            true
+        );
+    }
+
+    public function getTemplateName()
+    {
+        return "templates/meal.twig";
+    }
+
+    public function isTraitable()
+    {
+        return false;
+    }
+
+    public function getDebugInfo()
+    {
+        return array (37 =&gt; 1);
+    }
+
+    public function getSourceContext()
+    {
+        return new Source("", "templates/meal.twig", "");
+    }
+}</code></pre>
+<p><br></p>
+<p>What a mess, right? Don't worry; you don't have to understand a single line of it.</p>
+<p>What is our plan for today? Somehow &quot;transform&quot; this code so <strong>PHPStan can analyze it</strong>.</p>
+<blockquote class="blockquote mt-5 mb-5 text-center">
+    "Perfection is achieved not when there is nothing more to add,<br>
+    but when there is nothing left to take away"
+    <footer class="blockquote-footer">Antoine de Saint-Exupery</footer>
+</blockquote>
+<h2 id="keep-only-the-necessary-code">Keep only the Necessary Code</h2>
+<p>The first step is to <strong>remove the clutter</strong> helpful only for TWIG internals. These methods do not provide any information about the original TWIG code. In other words: remove the PHP content that is always the same, regardless of the TWIG input file we use.</p>
+<p><br></p>
+<h2 id="&quot;why-we-dont-run-p-h-p-stan-on-this-p-h-p-file?&quot;">&quot;Why we don't Run PHPStan on This PHP File?&quot;</h2>
+<p>Great question! What would happen if we did? The PHPStan would analyze the content based on the TWIG template, but it would also <strong> analyze the TWIG generator for template classes</strong>. This way, we would get dozens of always the same errors repeated for every single TWIG file.</p>
+<p>We don't want to run PHPStan on TWIG itself; that's a job for Symfony maintainers. We want to only know about possible bugs coming from our TWIG template code:</p>
+<pre><code class="language-twig">{{ meal.title }}</code></pre>
+<h2 id="which-methods-are-useful?">Which Methods are Useful?</h2>
+<p>How do we define if the class method is proper? Let's use common sense to drop class methods that look like &quot;metadata&quot;. If we drop a method that proves helpful in the future, we'll return it.</p>
+<p>Look for the keywords mentioned in TWIG template: &quot;meal&quot; and &quot;title&quot;. They are mentioned in <code>doDisplay()</code> class method, let's keep that.</p>
+<pre><code class="language-diff"> use Twig\Environment;
+-use Twig\Source;
+ use Twig\Template;
+
+ /* templates/meal.twig */
+ class __TwigTemplate_8a9d1381e8329967... extends Template
+ {
+-    private $source;
+-    private $macros = [];
+-
+-    public function __construct(Environment $env)
+-    {
+-        parent::__construct($env);
+-        $this-&gt;source = $this-&gt;getSourceContext();
+-        $this-&gt;parent = false;
+-        $this-&gt;blocks = [];
+-    }
+-
+    protected function doDisplay(array $context, array $blocks = [])
+    {
+        $macros = $this-&gt;macros;
+        // line 1
+        echo twig_escape_filter(
+            $this-&gt;env,
+            twig_get_attribute(
+                $this-&gt;env,
+                $this-&gt;source,
+                ($context["meal"] ?? null),
+                "title",
+                "any",
+                 false,
+                 false,
+                 false,
+            1),
+            "html",
+            null,
+            true
+        );
+    }
+-
+-    public function getTemplateName()
+-    {
+-        return "templates/meal.twig";
+-    }
+-
+-    public function isTraitable()
+-    {
+-        return false;
+-    }
+-
+-    public function getDebugInfo()
+-    {
+-        return array (37 =&gt; 1);
+-    }
+-
+-    public function getSourceContext()
+-    {
+-        return new Source("", "templates/meal.twig", "");
+-    }
+ }</code></pre>
+<p><br></p>
+<p>In the end we keep only <code>__construct</code> and <code>doDisplay()</code> methods:</p>
+<pre><code class="language-php">use Twig\Environment;
+use Twig\Template;
+
+/* templates/meal.twig */
+class __TwigTemplate_8a9d1381e8329967... extends Template
+{
+    protected function doDisplay(array $context, array $blocks = [])
+    {
+        // line 1
+        echo twig_escape_filter(
+            $this-&gt;env,
+            twig_get_attribute(
+                $this-&gt;env,
+                $this-&gt;source,
+                ($context["meal"] ?? null),
+                "title",
+                "any",
+                 false,
+                 false,
+                 false,
+            1),
+            "html",
+            null,
+            true
+        );
+    }
+}</code></pre>
+<p><br></p>
+<p>That looks better. 75 % less code!</p>
+<p>But wait...</p>
+<h2 id="how-do-we-remove-these-red-lines?">How do we Remove these Red Lines?</h2>
+<p>We're editing a cache PHP code that TWIG compiles. Do we open this file in PHPStorm, edit it, save it and feed it PHPStan?</p>
+<pre><code class="language-bash">vendor/bin/phpstan analyse temp/twig/__TwigTemplate_8a9d1381e8329967...php</code></pre>
+<p>That might give us the PHPStan analysis we aim for, but would you like to edit cache files for every single TWIG file manually? I thought so.</p>
+<p>So how do we automate PHP code modifications based on specific rules? Yes, we could use <a href="http://github.com/rectorphp/rector">Rector</a>, but that's a far too heavy tool to include just for a single PHPStan rule.</p>
+<p>Instead, we use bare <code>nikic/php-parser</code> and custom <code>NodeVisitor</code>. We don't want to focus on AST modifications, but to give you an idea:</p>
+<pre><code class="language-php">use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\NodeVisitorAbstract;
+use PhpParser\NodeTraverser;
+
+final class TwigCleaningNodeVisitor extends NodeVisitorAbstract
+{
+    public function enterNode(Node $node)
+    {
+        // not a class method? skip it
+        if (! $node instanceof ClassMethod) {
+            return null;
+        }
+
+        // is one of these class method names? skip it
+        if ($node-&gt;name-&gt;toString() === 'doDisplay') {
+            return null;
+        }
+
+        // remove the class method
+        return NodeTraverser::REMOVE_NODE;
+    }
+}</code></pre>
+<p>This node visitor will remove all but <code>doDisplay()</code> method.</p>
+<p><em>Would you like to know more about this? Read <a href="https://leanpub.com/rector-the-power-of-automated-refactoring">Programmatically Modifying PHP Code chapter</a> of the Rector book. Matthias describes behavior in nice short examples</em>.</p>
+<p><br></p>
+<p>That's all for today, to keep the reading light. In the next post, we'll try to give <code>doDisplay()</code> a more transparent form.</p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                            <a href="/blog/introducing-up-to-16-times-faster-easy-coding-standard" class="d-block">
+                            <div>
+                                Read next → <strong>Introducing up-to 16 Times Faster Easy Coding Standard</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+    </body>
+</html>
