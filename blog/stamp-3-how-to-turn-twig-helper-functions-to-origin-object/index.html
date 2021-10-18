@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>STAMP #3: How to Turn TWIG Helper Functions to Origin Object | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+<meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
+
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?2070779407" rel="stylesheet" type="text/css" />
+
+                <meta property="og:title" content="STAMP #3: How to Turn TWIG Helper Functions to Origin Object" />
+        <meta property="og:url" content="https://tomasvotruba.com/blog/stamp-3-how-to-turn-twig-helper-functions-to-origin-object" />
+        <meta name="description" property="og:description" content="In the previous post, we looked at [*how* to turn Messy TWIG PHP to something useful](/blog/stamp-2-how-to-turn-messy-twig-php-to-something-useful) in general.
+
+
+Today we&#039;ll look at how to **change TWIG helper functions to their original object form**.
+" />
+
+                    <meta property="og:image" content="https://tomasvotruba.com/assets/images/posts/2021/stamp_3.png" />
+            <meta name="twitter:card" content="summary_large_image"/>
+            </head>
+
+    <body>
+        <!-- post_id: 341 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <h1>STAMP #3: How to Turn TWIG Helper Functions to Origin Object</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2021/2021-08-30-stamp-3-how-to-turn-twig-helper-functions-to-origin-object.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2021-08-Mon" class="text-muted">
+                2021-08-30
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>In the previous post, we looked at <a href="/blog/stamp-2-how-to-turn-messy-twig-php-to-something-useful"><em>how</em> to turn Messy TWIG PHP to something useful</a> in general.
+<br>
+<br>
+Today we'll look at how to <strong>change TWIG helper functions to their original object form</strong>.</p>
+                </div>
+            </div>
+
+            <p>Have you joined our &quot;STAMP&quot; series just in this post? We're trying to convert the TWIG file. In the TWIG template, we use the single variable <code>meal</code>, an <code>App\Meal</code> type object.</p>
+<pre><code class="language-twig">{{ meal.title }}</code></pre>
+<p>What do we want as an output? A PHP code that PHPStan can understand and analyze. All steps must happen automatically, without any manual effort, on a typical PHPStan run:</p>
+<pre><code class="language-bash">vendor/bin/phpstan</code></pre>
+<p>In the previous post, we managed to narrow the TWIG mess to a single proper method, <code>doDisplay()</code>:</p>
+<pre><code class="language-php">use Twig\Template;
+
+/* templates/meal.twig */
+class __TwigTemplate_8a9d1381e8329967... extends Template
+{
+    protected function doDisplay(array $context, array $blocks = [])
+    {
+        // line 1
+        echo twig_escape_filter(
+            $this-&gt;env,
+            twig_get_attribute(
+                $this-&gt;env,
+                ($context["meal"] ?? null),
+                "title",
+                "any",
+                false,
+                false,
+                false,
+                1
+            ),
+            "html",
+            null,
+            true
+        );
+    }
+}</code></pre>
+<p>Would it be enough to run PHPStan on an analyze <code>App\Meal</code> object? There is no single mention about <code>App\Meal</code> type, not even an object - we can see: functions, <code>$this-&gt;env</code> property, and some <code>$context</code> array.</p>
+<h2 id="keep-it-simple">Keep it Simple</h2>
+<p>This looks like a desperate situation in a new job when they tell you, &quot;we have strict clean code standards&quot;.</p>
+<p>Time to quit? Not so fast.</p>
+<p><br></p>
+<p>Let's get back to basics, our TWIG template:</p>
+<pre><code class="language-twig">{{ meal.title }}</code></pre>
+<p>Now forget everything we know about TWIG PHP and complex <code>php-parser</code>.</p>
+<h2 id="back-to-the-facts">Back to the Facts</h2>
+<p>What are the known axioms we can work with?</p>
+<ul>
+<li>the <code>meal</code> is an object of <code>App\Meal</code> type</li>
+<li>the <code>.title</code> is TWIG magic syntax
+<ul>
+<li>for something like <code>getTitle()</code> method call</li>
+<li>or <code>-&gt;title</code> property fetch in case of public property</li>
+</ul></li>
+<li>in <a href="/blog/stamp-static-analysis-of-templates">the first post</a> we mentioned how <code>App\Meal</code> class looks like</li>
+</ul>
+<pre><code class="language-php">namespace App;
+
+final class Meal
+{
+    public function getTitle(): string
+    {
+        return 'Potato Salad and Schnitzel';
+    }
+}</code></pre>
+<p><br></p>
+<p>Knowing only this, how <strong>could we write this code in pure PHP</strong>?</p>
+<pre><code class="language-php">$meal-&gt;title</code></pre>
+<p>Probably not, there is no public property <code>$title</code>, so it would fail on undefined pubic property.</p>
+<p><br></p>
+<pre><code class="language-php">$meal-&gt;getTitle()</code></pre>
+<p>Better, but what does this method do? <code>void</code>. It does not show anything. How can we improve it?</p>
+<p><br></p>
+<pre><code class="language-php">echo $meal-&gt;getTitle()</code></pre>
+<p>Wow, almost like the original!
+But seeing only this line of code, the <code>$meal</code> could be just an empty string for PHPStan. What about that?</p>
+<p><br></p>
+<pre><code class="language-php">/** @var \App\Meal $meal */
+echo $meal-&gt;getTitle()</code></pre>
+<p>Great! It would be better to define the type in parameter type of some function, but we don't see any function there. The important one is that <strong>PHPStan now sees an object of a specific type and method call of a specific name on it</strong>.</p>
+<h2 id="stripping-down-twig-get-attribute()">Stripping down <code>twig_get_attribute()</code></h2>
+<p>It's important to know what one wants. Now we can modify the original <code>echo</code> statement in <code>doDisplay()</code> method. First, we can drop the <code>twig_escape_filter()</code> function call, which is TWIG internal, unrelated to our template code.</p>
+<pre><code class="language-diff">// line 1
+-echo twig_escape_filter(
+-    $this-&gt;env,
+-    twig_get_attribute(
++echo twig_get_attribute(
+         $this-&gt;env,
+         ($context["meal"] ?? null),
+         "title",
+         "any",
+          false,
+          false,
+          false,
+          1
+-    ),
++    );
+-    "html",
+-    null,
+-    true
+-);</code></pre>
+<p><br></p>
+<p>We now have just the <code>twig_get_attribute()</code> function call:</p>
+<pre><code class="language-php">// line 1
+echo twig_get_attribute(
+    $this-&gt;env,
+    ($context["meal"] ?? null),
+    "title",
+    "any",
+    false,
+    false,
+    false,
+    1
+);</code></pre>
+<p><br></p>
+<h2 id="drop-the-boolean-and-repeated-values">Drop the Boolean and Repeated Values</h2>
+<p>Let's take it further. What does <code>twig_get_attribute()</code> probably do?</p>
+<ul>
+<li>It checks if the variable <code>meal</code> is defined.</li>
+<li>Then tries to call <code>getTitle()</code> or fetch <code>title</code> property on it.</li>
+</ul>
+<p>Now, we could drop always-present arguments unrelated to our original TWIG template:</p>
+<pre><code class="language-diff"> // line 1
+ echo twig_get_attribute(
+-    $this-&gt;env,
+     ($context["meal"] ?? null),
+     "title",
+-    "any",
+-    false,
+-    false,
+-    false,
+-    1
+ );</code></pre>
+<h2 id="still,-keep-it-simple">Still, Keep it Simple</h2>
+<p>What do we already know about our new code snippet?</p>
+<pre><code class="language-php">// line 1
+echo twig_get_attribute(
+    ($context["meal"] ?? null),
+    "title",
+);</code></pre>
+<ul>
+<li>the <code>$meal</code> variable always exists</li>
+<li>the <code>$meal</code> is an object of <code>App\Meal</code> type</li>
+<li>the <code>getTitle()</code> is the existing public method</li>
+</ul>
+<p><br></p>
+<p>Let's apply this knowledge:</p>
+<pre><code class="language-diff"> // line 1
+ echo twig_get_attribute(
+-    ($context["meal"] ?? null),
++    /** @var \App\Meal $meal */
++    $meal,
+-    "title",
++    "getTitle",
+ );</code></pre>
+<p><br></p>
+<p>↓</p>
+<p><br></p>
+<p>What do we know about this code snippet?</p>
+<pre><code class="language-php">// line 1
+echo twig_get_attribute(
+    /** @var \App\Meal $meal */
+    $meal,
+    "getTitle",
+);</code></pre>
+<ul>
+<li>the <code>twig_get_attribute</code> is not needed, as its internal TWIG function</li>
+<li>the <code>"getTitle"</code> will be called directly on <code>$meal</code></li>
+</ul>
+<p><br></p>
+<pre><code class="language-diff"> // line 1
+-echo twig_get_attribute(
+-    /** @var \App\Meal $meal */
+-    $meal,
+-    "getTitle",
+- );
++/** @var \App\Meal $meal */
++echo $meal-&gt;getTitle();</code></pre>
+<p><strong>Great! It's a method call we've been waiting for.</strong> Now PHPStan can check the file and tell us if the <code>getTitle</code> method exists on <code>App\Meal</code> or not.</p>
+<p>PHPStan also knows that <code>echo $meal-&gt;getTitle()</code> returns a <code>string</code> type. So it can report type errors like:</p>
+<pre><code class="language-twig">10 * {{ meal.title }}</code></pre>
+<h2 id="p-h-p-line-vs.-t-w-i-g-line?">PHP Line vs. TWIG Line?</h2>
+<p>You've probably noticed we kept <code>// line 1</code> comment in every snippet. That's because <strong>every proper PHPStan error has a message, file, and line</strong>.</p>
+<p>Here we analyze a PHP file that is much bigger than the original TWIG file. Our 1 line in TWIG template was compiled to <strong>~80 lines of PHP.</strong></p>
+<p>So why is the <code>// line 1</code> important? The metadata from the native TWIG compiler tells us that <strong>code under this comment belongs to line <code>X</code> in the TWIG template</strong>.</p>
+<h2 id="smart-p-h-p-→-t-w-i-g-line-mapping">Smart PHP → TWIG Line Mapping</h2>
+<p>How can we use line mapping? Let's say we change the method name in our template:</p>
+<pre><code class="language-diff">-{{ meal.title }}
++{{ meal.name }}</code></pre>
+<p>PHPStan then reports non-existing <code>getName()</code> method error. Without mapping, it would report line that does not even exist:</p>
+<pre><code class="language-bash">Error in /templates/meal.twig file on line 54:</code></pre>
+<p>With mapping, we get <strong>correct TWIG line</strong>:</p>
+<pre><code class="language-bash">Error in /templates/meal.twig file on line 1:</code></pre>
+<p><br></p>
+<p>All right, we have removed clutter from the compiled PHP template file and used <code>NodeVisitor</code> from <code>php-parser</code> to convert magical TWIG functions to explicit PHP code. We're now ready use PHPStan for analysis:</p>
+<pre><code class="language-bash">vendor/bin/phpstan analyze /temp/twig/__TwigTemplate_8a9d1381e8329967...php</code></pre>
+<p>Or is there a better way to run all PHPStan rules on a single file? Let's see in the next post.</p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                            <a href="/blog/introducing-up-to-16-times-faster-easy-coding-standard" class="d-block">
+                            <div>
+                                Read next → <strong>Introducing up-to 16 Times Faster Easy Coding Standard</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+    </body>
+</html>
