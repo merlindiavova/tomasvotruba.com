@@ -22,13 +22,13 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?225464893" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?848618143" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Write Custom Fixer for PHP CS Fixer 2.12" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2017/07/24/how-to-write-custom-fixer-for-php-cs-fixer-24" />
-        <meta name="description" property="og:description" content="You already know how coding standard tools work with tokens and how to write a Sniff.
+        <meta name="description" property="og:description" content="You already know [how coding standard tools work with tokens and how to write a Sniff](/blog/2017/07/17/how-to-write-custom-sniff-for-code-sniffer-3/).
  
- Today we&#039;ll explore a bit younger tool - PHP CS Fixer and we get from only finding the smelly spot to fixing it.
+ Today we&#039;ll explore another tool - [PHP CS Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) and we get **from finding the smelly spot to fixing it**.
 " />
 
                     <meta property="og:image" content="https://tomasvotruba.com/assets/images/posts/2017/php-cs-fixer-intro/php-cs-fixer-require.png" />
@@ -75,14 +75,12 @@
             
                             <div class="card border-success mt-4">
                     <div class="card-header text-white bg-success">
-                        This post was updated at August 2020 with fresh know-how.
+                        This post was updated at October 2021 with fresh know-how.
                         <br>
                         <strong>What is new?</strong>
                     </div>
                                             <div class="card-body pb-2">
-                            <p>Updated with <strong>ECS 5</strong>, Neon to YAML migration and <code>checkers</code> to <code>services</code> migration.
-<br>
-Updated ECS YAML to PHP configuration since <strong>ECS 8</strong>.</p>
+                            <p>Updated ECS PHP configuration since <strong>ECS 8</strong> and PHP CS Fixer 3.</p>
                         </div>
                                     </div>
 
@@ -92,7 +90,7 @@ Updated ECS YAML to PHP configuration since <strong>ECS 8</strong>.</p>
                 <div class="card-body pb-2">
                     <p>You already know <a href="/blog/2017/07/17/how-to-write-custom-sniff-for-code-sniffer-3/">how coding standard tools work with tokens and how to write a Sniff</a>.
 <br><br>
-Today we'll explore a bit younger tool - <a href="https://github.com/FriendsOfPHP/PHP-CS-Fixer">PHP CS Fixer</a> and we get <strong>from only finding the smelly spot to fixing it</strong>.</p>
+Today we'll explore another tool - <a href="https://github.com/FriendsOfPHP/PHP-CS-Fixer">PHP CS Fixer</a> and we get <strong>from finding the smelly spot to fixing it</strong>.</p>
                 </div>
             </div>
 
@@ -136,14 +134,14 @@ and <a href="/blog/2017/07/17/how-to-write-custom-sniff-for-code-sniffer-3/#2-di
 <li><strong>fix the name to end with &quot;Exception&quot;</strong></li>
 </ul>
 <h3 id="1.-implement-an-interface">1. Implement an Interface</h3>
-<p>Create a fixer class and implement a <code>PhpCsFixer\Fixer\DefinedFixerInterface</code> interface.</p>
+<p>Create a fixer class and implement a <code>PhpCsFixer\Fixer\FixerInterface</code> interface.</p>
 <p>It covers 7 required methods, but most of them are easy one-liners:</p>
-<pre><code class="language-php">use PhpCsFixer\Fixer\DefinedFixerInterface;
+<pre><code class="language-php">use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
-final class ExceptionNameFixer implements DefinedFixerInterface
+final class ExceptionNameFixer implements FixerInterface
 {
     # first 5 methods are rutine and descriptive
 
@@ -187,7 +185,7 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
-final class ExceptionNameFixer implements DefinedFixerInterface
+final class ExceptionNameFixer implements FixerInterface
 {
     public function getName(): string
     {
@@ -322,7 +320,7 @@ $tokens[$classNamePosition] = new Token([T_STRING, $classNameToken-&gt;getConten
 
 namespace App\CodingStandard\Fixer;
 
-use PhpCsFixer\Fixer\DefinedFixerInterface;
+use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -330,7 +328,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
-final class ExceptionNameFixer implements DefinedFixerInterface
+final class ExceptionNameFixer extends FixerInterface
 {
     public function getName(): string
     {
@@ -407,34 +405,20 @@ final class ExceptionNameFixer implements DefinedFixerInterface
         return (substr($name, -strlen($needle)) === $needle);
     }
 }</code></pre>
-<h2 id="how-to-run-it?">How to run it?</h2>
-<h3 id="the-p-h-p-c-s-fixer-way">The PHP CS Fixer way</h3>
-<p>Create <code>.php_cs</code> config and register fixer with <code>registerCustomFixers()</code> method, like here in <a href="https://github.com/shopsys/coding-standards/blob/5f7c5e61f3a5ddd279887ac51a2bcb5f6bc81d78/build/phpcs-fixer.php_cs#L54"><code>shopsys/coding-standard</code></a>.</p>
-<pre><code class="language-php">return PhpCsFixer\Config::create()
-    -&gt;registerCustomFixers([
-        new App\CodingStandard\Fixer\ExceptionNameFixer,
-    ]);</code></pre>
-<p>And run:</p>
-<pre><code class="language-bash">vendor/bin/php-cs-fixer fix src --config=.php_cs --dry-run</code></pre>
-<h3 id="the-e-c-s-way">The <a href="https://github.com/symplify/easy-coding-standard">ECS</a> way</h3>
-<p>Put the class to <code>ecs.php</code>:</p>
-<pre><code class="language-php">&lt;?php
-
-declare(strict_types=1);
-
-use App\CodingStandard\Fixer\ExceptionNameFixer;
+<h2 id="how-to-run-fixer-in-e-c-s?">How to Run Fixer in ECS?</h2>
+<p>Register fixer in <code>ecs.php</code>:</p>
+<pre><code class="language-php">use App\CodingStandard\Fixer\ExceptionNameFixer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator-&gt;services();
-
     $services-&gt;set(ExceptionNameFixer::class);
 };</code></pre>
 <p>And run:</p>
 <pre><code class="language-bash">vendor/bin/ecs check src</code></pre>
 <p>That was your first fixer.</p>
 <p>Happy fixing!</p>
-<p>And if you want <strong>more detailed tutorial</strong>, there is one in <a href="https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/master/doc/COOKBOOK-FIXERS.md">official cookbook</a>.</p>
+<p>And if you want <strong>more detailed tutorial</strong>, there is one in <a href="https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/master/doc/cookbook_fixers.rst">official cookbook</a>.</p>
 
             <br>
 
