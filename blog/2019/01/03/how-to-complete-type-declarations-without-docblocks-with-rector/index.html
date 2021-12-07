@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?132117549" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?847841472" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Complete Type Declarations without Docblocks with Rector" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/01/03/how-to-complete-type-declarations-without-docblocks-with-rector" />
@@ -128,7 +128,7 @@ class SomeClass
      }
  }</code></pre>
 <p>Now, I hope you've learned, that <strong>future compatibility is a thing</strong> and you'll write annotations to each property, so they Rector will <a href="/blog/2018/11/15/how-to-get-php-74-typed-properties-to-your-code-in-few-seconds/#visualize-future-compatibility">convert them to type declarations</a> once PHP 7.4 is out.</p>
-<h2 id="&quot;its-not-my-fault&quot;">&quot;It's Not My Fault&quot;</h2>
+<h2 id="and-quot-It-s-Not-My-Fault-and-quot">&quot;It's Not My Fault&quot;</h2>
 <p>Well, but what if you've inherited such legacy code, are you to blame? No, <strong>no-one is to blame even if you wrote the code</strong>. That's how change works. <strong>We feel like we know all today, but in 5 years array-type declarations will be considered code smell</strong> and we keep it only <em>for historical reasons</em>.</p>
 <p>So how can we fight the change together?</p>
 <pre><code class="language-php">&lt;?php
@@ -240,7 +240,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <p>Done!</p>
 <p><br></p>
 <p>Just one more thing...</p>
-<h2 id="properties-without-@var?">Properties Without <code>@var</code>?</h2>
+<h2 id="Properties-Without-at-var">Properties Without <code>@var</code>?</h2>
 <p>There is a big chance that if our code misses <code>@param</code> and <code>@return</code> type declarations, the <code>@var</code> is missing as well. We don't have to go to legacy code to find such code.</p>
 <p>Do you recognize this class?</p>
 <pre><code class="language-php">&lt;?php

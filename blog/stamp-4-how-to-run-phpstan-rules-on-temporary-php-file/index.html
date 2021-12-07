@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?898762811" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?196416261" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="STAMP #4: How to Run PHPStan Rules on Temporary PHP File" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/stamp-4-how-to-run-phpstan-rules-on-temporary-php-file" />
@@ -96,19 +96,19 @@ Today, we'll discover the last missing pieces of the puzzle. How to run PHPStan 
 
             <p>Note: <strong>all credit for technique in this post goes to <a href="https://twitter.com/lulco">Michal Lulco</a></strong>. He's an impressive developer from Slovakia who comes with innovative, simple ideas that work. It's a scarce combination to see in the world, and I'm very grateful for him.</p>
 <p>I'm only putting the idea into words to share. &quot;What trick,&quot; you ask?</p>
-<h2 id="from-t-w-i-g-to-p-h-p">From TWIG to PHP</h2>
+<h2 id="From-TWIG-to-PHP">From TWIG to PHP</h2>
 <p>In previous parts, we've managed to compile TWIG to cached PHP code and then clean this PHP code into readable PHP objective code:</p>
 <pre><code class="language-php">{{ meal.title }}</code></pre>
 <p>↓</p>
 <pre><code class="language-php">echo $meal-&gt;getTitle();</code></pre>
 <p>We have just-in-time input we generated on the fly for PHPStan.</p>
-<h2 id="how-to-run-all-p-h-p-stan-rules-on-temporary-file?">How to run all PHPStan Rules on Temporary File?</h2>
+<h2 id="How-to-run-all-PHPStan-Rules-on-Temporary-File">How to run all PHPStan Rules on Temporary File?</h2>
 <p>The first option is to run the PHPStan manually on the freshly generated PHP file:</p>
 <pre><code class="language-bash">vendor/bin/phpstan analyze /temp/twig/__TwigTemplate_8a9d1381e8329967...php</code></pre>
 <p>But that's adding more work to our simple PHPStan workflow:</p>
 <pre><code class="language-bash">vendor/bin/phpstan</code></pre>
 <p>We're lazy developers, and we don't want to run any command more than once. Also, the CI is lazy and can run just once on the whole codebase.</p>
-<h2 id="meta-rule">Meta-Rule</h2>
+<h2 id="Meta-Rule">Meta-Rule</h2>
 <p>To achieve that, we create a meta-rule. We register this rule in <code>phpstan.neon</code> and run along with other rules:</p>
 <pre><code class="language-php">use PHPStan\Rules\Rule;
 
@@ -136,7 +136,7 @@ $this-&gt;render('templates/some_path.twig', [
     'meal' =&gt; $meal
 ])</code></pre>
 <p>The TWIG templates are converted to temporary PHP content and analyzed... how?</p>
-<h2 id="the-process-node()-method">The <code>processNode()</code> Method</h2>
+<h2 id="The-processNode-Method">The <code>processNode()</code> Method</h2>
 <p>In the meta-rule, we find the TWIG template paths, convert them to a temporary PHP file and feed PHPStan to analyze it.</p>
 <p>Let the code speak for itself:</p>
 <pre><code class="language-php">use PhpParser\Node\Expr\MethodCall;
@@ -173,10 +173,10 @@ final class TwigCompleteCheckRule implements Rule
     }
 }</code></pre>
 <p>Pretty straightforward. All the steps are already working, except number 4.</p>
-<h2 id="how-can-we-feed-p-h-p-stan-the-temporary-file?">How can we Feed PHPStan the Temporary File?</h2>
+<h2 id="How-can-we-Feed-PHPStan-the-Temporary-File">How can we Feed PHPStan the Temporary File?</h2>
 <p>The dependency injection mantra says, &quot;if you want something, ask for it in the constructor&quot;. The PHPStan service that analyzes files is called... <code>PHPStan\Analyser\FileAnalyser</code>.</p>
 <p>The <code>FileAnalyser</code> has single public method <a href="https://github.com/phpstan/phpstan-src/blob/2c1107588603afaa8cd3e97165b7eb1736cb4393/src/Analyser/FileAnalyser.php#L59"><code>analyzeFile()</code></a>, with 4 required parameters.</p>
-<h2 id="ask-for-it-create-new-container-with-fresh-instance!"><del>Ask for It</del> Create New Container With Fresh Instance!</h2>
+<h2 id="Ask-for-It-Create-New-Container-With-Fresh-Instance"><del>Ask for It</del> Create New Container With Fresh Instance!</h2>
 <p>Now, we could ask for <code>PHPStan\Analyser\FileAnalyser</code> in the constructor as any other service. But that will lead to side-effects and bugs. Instead, Ondrej Mirtes advised me to use own instance with help of <code>DerivativeContainerFactory</code>:</p>
 <pre><code class="language-php">use PHPStan\DependencyInjection\DerivativeContainerFactory;
 
@@ -205,7 +205,7 @@ services:
             cachedNodesByStringCountMax: 1024
         autowired: no</code></pre>
 <p>Now we created custom container with fresh <code>PHPStan\Analyser\FileAnalyser</code> that will work exactly for our use case!</p>
-<h2 id="make-use-of-file-analyser">Make use of FileAnalyser</h2>
+<h2 id="Make-use-of-FileAnalyser">Make use of FileAnalyser</h2>
 <p>Let's combine the parts together:</p>
 <pre><code class="language-diff"> use PhpParser\Node\Expr\MethodCall;
 +use PHPStan\DependencyInjection\DerivativeContainerFactory;
@@ -267,7 +267,7 @@ All is looking good. Let's run PHPStan:</p>
 <pre><code class="language-bash">InvalidStateException: Circular reference detected for services: 0282, registry.</code></pre>
 <p><br></p>
 <p>That's a pickle!</p>
-<h2 id="circular-rule-references">Circular Rule References</h2>
+<h2 id="Circular-Rule-References">Circular Rule References</h2>
 <p>The &quot;registry&quot; service is used in some dependency injection that is injected in a circle. We're trying to run <code>TwigCompleteCheckRule</code>, which asks for <code>PHPStan\Rules\Registry</code>. How does the <a href="https://github.com/phpstan/phpstan-src/blob/2c1107588603afaa8cd3e97165b7eb1736cb4393/src/Rules/Registry.php#L17"><code>PHPStan\Rules\Registry</code> constructor</a> look like?</p>
 <pre><code class="language-php">/**
 * @param \PHPStan\Rules\Rule[] $rules
@@ -285,7 +285,7 @@ public function __construct(array $rules)
 <li><code>PHPStan\Rules\Registry</code> asks for all rules in the constructor</li>
 <li>...</li>
 </ul>
-<h2 id="stepping-out-of-the-circle">Stepping out of the Circle</h2>
+<h2 id="Stepping-out-of-the-Circle">Stepping out of the Circle</h2>
 <p>Seeing this, we cannot use <code>PHPStan\Rules\Registry</code> in our <code>TwigCompleteCheckRule</code> rule. What else can we do? We need to get the list of all rules, except this one. <strong>Get ready for the trick!</strong> I tried to get here but failed. I was amazed when I saw how Lulco solved this elegantly.</p>
 <p>In our single rule, we need all the other rules. <code>PHPStan\Rules\Registry</code> is just injected service; it's a wrapper object. We can unwrap this object!</p>
 <pre><code class="language-diff"> use PHPStan\Rules\Registry;
@@ -310,7 +310,7 @@ public function __construct(array $rules)
 <p><br></p>
 <p>That's it? Let's try to run the PHPStan rule and see if it works:</p>
 <img src="/assets/images/posts/2021/twig_final_example.gif" class="img-thumbnail">
-<h2 id="🥳️🥳️🥳️">🥳️🥳️🥳️</h2>
+<h2 id="">🥳️🥳️🥳️</h2>
 <p><br></p>
 <p>Once more time, <a href="https://twitter.com/lulco">huge thanks to Lulco</a>, who made all this possible!<br>
 Also, thank you <a href="https://twitter.com/ondrejmirtes">Ondra Mirtes</a> for PHPStan 1.0 tips with custom <code>PHPStan\Analyser\FileAnalyser</code>.</p>

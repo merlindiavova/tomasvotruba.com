@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?2021784640" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1874351013" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Painful Experience over Solutions: Extend Configuration in Easy Admin Bundle" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/08/20/painful-experience-over-solutions-extend-configuratin-in-easy-admin-bundle-with-collector" />
@@ -91,11 +91,11 @@ Today we try to add own config option to YAML of Easy Admin Bundle (without pull
 </blockquote>
 <p>Instead of writing about solution how to do and how awesome I am to know the solution right from the start of this page, I start right from the beginning, where I know nothing about it just like you.</p>
 <p><br></p>
-<h3 id="the-application">The Application</h3>
+<h3 id="The-Application">The Application</h3>
 <p>I'm coding an open-sourced training platform build Symfony 4.2 and Doctrine 2.7 for <a href="https://github.com/pehapkari">Pehapkari community training</a>. It's fully open-sourced on Github under the typical open-source name - <a href="https://github.com/tomasvotruba/open-training">Open Training</a>.</p>
 <p>Admin is just a CRUD to maintain few entities, so I use <a href="https://github.com/easyCorp/EasyAdminBundle">EasyAdminBundle</a> to handle forms, grids, update, create, delete actions in controllers for me. Huge thanks to <a href="https://github.com/javiereguiluz">Javier Eguiluz</a> for this amazingly simple and powerful idea.</p>
 <img src="https://symfony.com/doc/current/bundles/EasyAdminBundle/_images/easyadmin-default-backend.png">
-<h3 id="the-need">The Need</h3>
+<h3 id="The-Need">The Need</h3>
 <p>There is <code>Training</code> entity with <code>name</code> and relation to <code>TrainingTerm</code> entity:</p>
 <pre><code class="language-php">&lt;?php declare(strict_types=1);
 
@@ -137,7 +137,7 @@ class Training
         Training:
             class: 'App\Entity\Training'</code></pre>
 <p>This creates a grid and form with all the entity properties - <code>name</code> and <code>trainingTerms</code>. So, when I click <em>Add</em> in the admin I can change them both. <strong>But I want to change the <code>name</code> only and handle <code>TrainingTerm</code> entity in a standalone form.</strong></p>
-<h3 id="google-first">Google First</h3>
+<h3 id="Google-First">Google First</h3>
 <p>Now what? I Google <em>easy admin custom field form</em> and after while I find <a href="https://symfony.com/doc/2.x/bundles/EasyAdminBundle/book/edit-new-configuration.html#customize-the-properties-displayed"><em>Customize the Properties Displayed</em></a> tutorial. It looks like exactly what I need.</p>
 <pre><code class="language-diff"> easy_admin:
      entities:
@@ -146,7 +146,7 @@ class Training
 +            fields: ['name']</code></pre>
 <p>It works! The <code>trainingTerms</code> property is hidden in the form.</p>
 <p><br></p>
-<h3 id="but...">But...</h3>
+<h3 id="But">But...</h3>
 <p>After 2 hours I need to add <code>price</code>.</p>
 <pre><code class="language-diff"> &lt;?php declare(strict_types=1);
 
@@ -184,7 +184,7 @@ class Training
 -            fields: ['name', 'price', 'capacity']
 +            fields: ['name', 'price', 'capacity', 'duration']</code></pre>
 <p>So much <em>memory-leaks</em> it hurts my neurons.</p>
-<h3 id="creative-time">Creative Time</h3>
+<h3 id="Creative-Time">Creative Time</h3>
 <p>Life is not perfect and every code is legacy by the time you end the line with <code>;</code>.</p>
 <blockquote class="blockquote text-center">
     There are no solutions. Just trade-offs.
@@ -197,7 +197,7 @@ class Training
              class: 'App\Entity\Training'
 -            fields: ['name', 'price', 'capacity', 'duration', 'perex', 'description', 'place', 'trainer']
 +            exclude_fields: ['trainingTerms']</code></pre>
-<h3 id="make-that-happen-and-face-false-expectations">Make that Happen and Face False Expectations</h3>
+<h3 id="Make-that-Happen-and-Face-False-Expectations">Make that Happen and Face False Expectations</h3>
 <p>But is that <code>exclude_fields</code> or <code>excluded_fields</code> or maybe <code>skip_fields</code>? I want to see the documentation, so I Google <a href="https://www.google.cz/search?q=easy+admin+bundle+exclude+fields&amp;oq=easy+admin+bundle+exclude+fields&amp;aqs=chrome..69i57.4891j0j7&amp;sourceid=chrome&amp;ie=UTF-8"><em>easy admin bundle excludes fields</em></a>. I find <a href="https://github.com/EasyCorp/EasyAdminBundle/issues/589"><em>Exclude fields in list fields</em> issue in EasyAdminBundle</a>. I read it and see the content <strong>is not what I need</strong>. It looks like this option is not supported. I'm sad. What now?</p>
 <p><br></p>
 <p>Open-source packages are closed to extension more than you'd expect. To add one custom feature, you have to basically copy and extend the whole class or use reflection. It's not <strong>because it's difficult to create an extendable code, it's because nobody <em>believes</em> it can be done in a nice way</strong>. It <em>can</em>, just keep reading.</p>
@@ -212,7 +212,7 @@ class Training
 <li>&quot;Send pull-request with this feature to the core code&quot;</li>
 </ul>
 <p>Slightly better, but what if Javier doesn't like it? Or what if he's on holiday for 3 weeks? I know, it's summer and very rare to happen, but I have to finish the app in 2 weeks and I don't want to think about bugs like these in the meantime. The <strong>least I can do is to create <a href="https://github.com/EasyCorp/EasyAdminBundle/issues/2325">an issue</a></strong> with this idea and my reasons for it.</p>
-<h2 id="wander-in-the-code">Wander in the Code</h2>
+<h2 id="Wander-in-the-Code">Wander in the Code</h2>
 <p>I need a solution and I need it today. What can I do? No hacking, no pull-request, just looking for something in files:</p>
 <img src="/assets/images/posts/2018/collector-easy-admin-bundle/random.png" class="img-thumbnail">
 <p>Do you think this is just a random screen-shot not worth your attention?</p>
@@ -243,7 +243,7 @@ class NormalizerConfigPass implements ConfigPassInterface
     // ...
 }</code></pre>
 <p>An interface! That's a good sign.</p>
-<h3 id="keep-wandering">Keep Wandering</h3>
+<h3 id="Keep-Wandering">Keep Wandering</h3>
 <p>So I look for <code>ConfigPassInterface</code> in somewhere else than just <code>implements ConfigPassInterface</code>.</p>
 <p>That doesn't work, so I try to look for <code>ConfigPass</code>.</p>
 <p>That doesn't work, so I try to look for any file, not just <code>*.php</code>. That show as valuable, since services are defined in YAML or XML.</p>
@@ -279,7 +279,7 @@ class NormalizerConfigPass implements ConfigPassInterface
 +            exclude_fields: ['trainingTerms']</code></pre>
 <p>You can see full code of <a href="https://github.com/TomasVotruba/open-training/pull/7/files#diff-318660bf4cd1ad8a5d0e608e94df8fae"><code>ExcludeFieldsConfigPass</code> on Github</a>.</p>
 <p>Very smart move Javier - thank you!</p>
-<h2 id="learn-1-algorithm-instead-of-10-solutions">Learn 1 Algorithm instead of 10 Solutions</h2>
+<h2 id="Learn-1-Algorithm-instead-of-10-Solutions">Learn 1 Algorithm instead of 10 Solutions</h2>
 <p>And that's all folks. I hope I've shown you how to approach problems and how to find a way in situations you're the first time in.
 The same way I don't memorize Wikipedia and just Google it instead, <strong>I don't remember solutions to 100 PHP problems, but have a couple of algorithms to approach problem solving</strong>.</p>
 <ul>

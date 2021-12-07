@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1717782476" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?462178154" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Is Your Code Readable By Humans? Cognitive Complexity Tells You" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/05/21/is-your-code-readable-by-humans-cognitive-complexity-tells-you" />
@@ -98,11 +98,11 @@ Today, we'll see why is the later better and how to check it in your code with a
                 </div>
             </div>
 
-            <h2 id="what-is-cognitive-complexity?">What is Cognitive Complexity?</h2>
+            <h2 id="What-is-Cognitive-Complexity">What is Cognitive Complexity?</h2>
 <p><em>Tomáš Horváth</em> referenced me to <a href="https://blog.sonarsource.com/cognitive-complexity-because-testability-understandability">Cognitive Complexity, Because Testability != Understandability</a> under the <a href="https://pehapkari.cz/blog/2018/04/04/cyklomaticka-komplexita">Cyclomatic Complexity</a> post. Thank you Tomas.</p>
 <p>The most important source about <em>Cognitive Complexity</em> is <a href="https://www.sonarsource.com/docs/CognitiveComplexity.pdf">a 21-page long PDF</a>. Instead of explaining in words (you can read that in the PDF), <strong>here are 2 examples that speak more than a thousand words</strong>:</p>
 <p><br></p>
-<h3 id="example-a">Example A</h3>
+<h3 id="Example-A">Example A</h3>
 <p>Cyclomatic Complexity: 4</p>
 <pre><code class="language-php">function getWords($number) {    // +1
     switch ($number) {
@@ -125,7 +125,7 @@ Today, we'll see why is the later better and how to check it in your code with a
         return "lots";
     }
 }</code></pre>
-<h3 id="example-b">Example B</h3>
+<h3 id="Example-B">Example B</h3>
 <p>Cyclomatic Complexity: 4</p>
 <pre><code class="language-php">function sumOfPrimes($max) {            // +1
     $total = 0;
@@ -166,11 +166,11 @@ a function and all its possible paths</strong>.</p>
 <p>Example B: <strong>there are 3 <code>for</code>s, with nesting and one continue to non-self level</strong>.</p>
 </li>
 </ul>
-<h2 id="automation-over-information">Automation Over Information</h2>
+<h2 id="Automation-Over-Information">Automation Over Information</h2>
 <p>This all is nice to know information. The one that you might find interesting, remember it for few days and then forget it and never meet it again. But I'm too lazy to <em>learn to just forget</em>, so I <em>learn to automate</em>. This is place <a href="/blog/2017/07/17/how-to-write-custom-sniff-for-code-sniffer-3/">to write a Sniff</a>.</p>
 <p>It took me 5 days to understand academic writings in the PDF, to convert Java and Python examples to PHP and reverse-engineer the algorithm to compute cognitive complexity to match results in the PDF. <strong>The most difficult was to change the cyclomatic complexity approach I used for last 4 years to a human one</strong>.</p>
 <p>Today, I'm happy to show you the first version of <code>CognitiveComplexitySniff</code>.</p>
-<h2 id="3-steps-to-check-cognitive-complexity-of-your-code">3 Steps to Check Cognitive Complexity of Your Code</h2>
+<h2 id="3-Steps-to-Check-Cognitive-Complexity-of-Your-Code">3 Steps to Check Cognitive Complexity of Your Code</h2>
 <p><strong>1. Install Symplify\CodingStandard</strong></p>
 <pre><code class="language-bash">composer require symplify/coding-standard symplify/easy-coding-standard --dev</code></pre>
 <p><strong>2. Create <code>phpstan.neon</code></strong></p>
@@ -184,12 +184,12 @@ parameters:
         max_class_cognitive_complexity: 50 # default</code></pre>
 <p><strong>3. Run it</strong></p>
 <pre><code class="language-bash">vendor/bin/phpstan analyse src</code></pre>
-<h2 id="refactor-to-lower-cognitive-complexity-in-examples">Refactor to Lower Cognitive Complexity in Examples</h2>
+<h2 id="Refactor-to-Lower-Cognitive-Complexity-in-Examples">Refactor to Lower Cognitive Complexity in Examples</h2>
 <p><a href="https://github.com/symplify/symplify/pull/823/files" class="btn btn-dark btn-sm">
 See pull-request
 </a></p>
 <p>Saying &quot;refactoring this&quot; is very simple, but actual work and teaching others is a very challenging task. To make this a bit easier for you, I've extracted few refactorings I made in Symplify thanks to this Sniff.</p>
-<h3 id="1.-refactoring-to-shorter-condition">1. Refactoring to Shorter Condition</h3>
+<h3 id="1-Refactoring-to-Shorter-Condition">1. Refactoring to Shorter Condition</h3>
 <pre><code class="language-diff">index 83ca0da5..125f7c7f 100644
 --- a/packages/TokenRunner/src/Wrapper/FixerWrapper/DocBlockWrapper.php
 +++ b/packages/TokenRunner/src/Wrapper/FixerWrapper/DocBlockWrapper.php
@@ -213,7 +213,7 @@ See pull-request
 +        return $typeNode instanceof ArrayTypeNode;
      }
  }</code></pre>
-<h3 id="2.-refactoring-with-method-extraction">2. Refactoring with Method Extraction</h3>
+<h3 id="2-Refactoring-with-Method-Extraction">2. Refactoring with Method Extraction</h3>
 <pre><code class="language-diff">--- a/packages/CodingStandard/src/Fixer/Commenting/RemoveEmptyDocBlockFixer.php
 +++ b/packages/CodingStandard/src/Fixer/Commenting/RemoveEmptyDocBlockFixer.php
 @@ -48,16 +48,7 @@ final class RemoveEmptyDocBlockFixer extends AbstractFixer
@@ -253,7 +253,7 @@ See pull-request
 +        return (bool) ! preg_match('#^/\*\*[\s\*]*\*/$#', $token-&gt;getContent());
 +    }
  }</code></pre>
-<h3 id="3.-refactoring-to-responsible-method">3. Refactoring to Responsible Method</h3>
+<h3 id="3-Refactoring-to-Responsible-Method">3. Refactoring to Responsible Method</h3>
 <pre><code class="language-diff">diff --git a/packages/CodingStandard/src/Fixer/Import/ImportNamespacedNameFixer.php b/packages/CodingStandard/src/Fixer/Import/ImportNamespacedNameFixer.php
 index 1d532ca58..8aa7981cb 100644
 --- a/packages/CodingStandard/src/Fixer/Import/ImportNamespacedNameFixer.php

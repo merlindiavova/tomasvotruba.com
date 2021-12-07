@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?2076714640" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?81006240" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="5 Tips to Effective Work with Github Repository" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/02/25/5-tips-to-effective-work-with-github-repository" />
@@ -82,7 +82,7 @@ Do you know the following tips?</p>
                 </div>
             </div>
 
-            <h2 id="1.-single-char-console-commands-for-your-tired-fingers">1. Single-Char Console Commands for Your Tired Fingers</h2>
+            <h2 id="1-Single-Char-Console-Commands-for-Your-Tired-Fingers">1. Single-Char Console Commands for Your Tired Fingers</h2>
 <p>Which one is correct?</p>
 <pre><code class="language-bash">vendor/bin/rector process
 vendor/bin/rector procces
@@ -96,19 +96,19 @@ vendor/bin/rector proces</code></pre>
 <pre><code class="language-diff">-vendor/bin/ecs check
 +vendor/bin/ecs c</code></pre>
 <p>👍</p>
-<h2 id="2.-be-informed-about-new-packages-with-no-spam!">2. Be informed about New Packages - with no Spam!</h2>
+<h2 id="2-Be-informed-about-New-Packages-with-no-Spam">2. Be informed about New Packages - with no Spam!</h2>
 <p>When you &quot;watch&quot; a Github repository, you'll get a notification about every new release, issue, pull-request, or comments. This makes sense when you maintain a repository, but for most of the people, it's annoying spam.</p>
 <p>GitHub recently introduced a very nice feature. It will add notification <strong>only for releases</strong>:</p>
 <img src="/assets/images/posts/2019/github-tips/github-subscription.png" class="img-thumbnail">
 <p>👍</p>
-<h2 id="3.-fix-typos-with-u-p">3. Fix Typos with UP</h2>
+<h2 id="3-Fix-Typos-with-UP">3. Fix Typos with UP</h2>
 <p>Have you ever sent a comment with a typo? I barely do without, and always notice that after I hit the &quot;send&quot; (or CTRL + Enter).</p>
 <p>Now move your cursor to the 3 dots in the right corner of the comment, click, select <em>Edit</em> and click again.</p>
 <p><strong>No more!</strong></p>
 <img src="/assets/images/posts/2019/github-tips/up.gif" class="img-thumbnail">
 <p>Just <strong>hit ↑</strong> (arrow up), and you're there!</p>
 <p>👍</p>
-<h2 id="4.-refine-your-github">4. Refine your Github</h2>
+<h2 id="4-Refine-your-Github">4. Refine your Github</h2>
 <p><a href="https://github.com/sindresorhus/refined-github">sindresorhus/refined-github</a> is like a smart secretary that gives you tips you ever wanted to know.</p>
 <p><br></p>
 <p>It <strong>narrows 3 click operation to single click</strong> - creating a pull-request from a fresh branch:</p>
@@ -121,7 +121,7 @@ vendor/bin/rector proces</code></pre>
 <img src="/assets/images/posts/2019/github-tips/first-new.png" class="img-thumbnail">
 <p><br></p>
 <p>Check more of them in <a href="https://github.com/sindresorhus/refined-github#highlights">the README</a>.</p>
-<h2 id="5.-extend-composer-scripts-from-c-l-i">5. Extend Composer Scripts from CLI</h2>
+<h2 id="5-Extend-Composer-Scripts-from-CLI">5. Extend Composer Scripts from CLI</h2>
 <p>Have you read the classic post <a href="https://blog.martinhujer.cz/have-you-tried-composer-scripts">Have you tried Composer Scripts? You may not need Phing</a>? I love this approach for simple scripts like coding standard and static analysis:</p>
 <pre><code class="language-json">{
     "scripts": {
@@ -130,7 +130,7 @@ vendor/bin/rector proces</code></pre>
         "phpstan": "vendor/bin/phpstan analyse bin src tests --error-format symplify"
     }
 }</code></pre>
-<h3 id="whats-the-script-name?">What's the Script Name?</h3>
+<h3 id="What-s-the-Script-Name">What's the Script Name?</h3>
 <p>But what if you forget it's &quot;check-cs&quot;? And what if you open a new project - what's the name in there?</p>
 <img src="/assets/images/posts/2019/github-tips/list.gif" class="img-thumbnail">
 <p>👍</p>

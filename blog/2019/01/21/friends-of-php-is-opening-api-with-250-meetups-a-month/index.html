@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1780340243" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?2067591491" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="FriendsofPHP.org is Opening API with 250 Meetups a Month" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/01/21/friends-of-php-is-opening-api-with-250-meetups-a-month" />
@@ -107,7 +107,7 @@ try {
 <p>opentechcalendar.co.uk from UK is much better at this, providing json:</p>
 <pre><code class="language-json">"data":[{"slug":7847,"slugforurl":"7847-machine-learning-adoption-enhancing-and-automating","summary":"Machine Learning Adoption: Enhancing and Automating Decision Making","summaryDisplay":"Machine Learning Adoption: Enhancing and Automating Decision Making","description":"","deleted":false,"cancelled":false,"is_physical":true,"is_virtual":false,"custom_fields":{"code_of_conduct":null},"siteurl":"https:\/\/opentechcalendar.co.uk\/event\/7847-machine-learning-adoption-enhancing-and-automating","url":"https:\/\/www.eventbrite.co.uk\/e\/machine-learning-adoption-enhancing-and-automating-decision-making...</code></pre>
 <p>But, how well can we read that? With a bit of lagging... we can understand it.</p>
-<h2 id="the-simplest-a-p-i-possible">The Simplest API Possible</h2>
+<h2 id="The-Simplest-API-Possible">The Simplest API Possible</h2>
 <p><strong>I'm lazy to read anything I don't need for my work</strong>. I won't look and instantly know the keys I can use. Are there coordinates or do I have to geolocate them from the city?</p>
 <pre><code class="language-json">{
     "meetups": [
@@ -140,13 +140,13 @@ $jsonContent = FileSystem::read('https://friendsofphp.org/api/meetups.json');
 $json = Json::decode($jsonContent, Json::FORCE_ARRAY);
 
 var_dump($json['meetups']); // all meetups on friendsofphp.org</code></pre>
-<h2 id="complains-everywhere...-what-about-me?">Complains Everywhere... What about Me?</h2>
+<h2 id="Complains-Everywhere-What-about-Me">Complains Everywhere... What about Me?</h2>
 <p>All right, all this API is clearly bad and the authors probably never used them themselves. But what about friendsofphp.org API? Is it good?</p>
 <p>Well, there is none. Better bad API than no API → crawling and Xpaths. Better done than perfect. So to make this right...</p>
 <p><strong>...I published all meetups and groups for anyone to use in API</strong>.</p>
 <img src="/assets/images/posts/2019/fop/fop.png" class="img-thumbnail mb-5">
 <p>With API you can list meetups in your country, sort them by a distance from your city, get all groups from your neighbor countries, render a map with Wordpress meetups... or whatever comes to your mind. It's all up to your creativity.</p>
-<h2 id="a-p-i-with-statie?">API with Statie?</h2>
+<h2 id="API-with-Statie">API with Statie?</h2>
 <p>With <em>encoded knowledge</em> approach, you don't have to think about pretty JSON, or studying XML vs JSON format. Just provide data and let program handle it.</p>
 <p>This website runs on <a href="https://www.statie.org">Statie</a> - the most downloaded PHP static website generators supporting Twig and Markdown. Why don't we Statie handle this as well?</p>
 <p>Since Statie 5.4-dev, you can do this:</p>

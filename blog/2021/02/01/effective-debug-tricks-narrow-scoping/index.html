@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?411670893" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1059039021" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Effective Debug Tricks: Narrow Scoping" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2021/02/01/effective-debug-tricks-narrow-scoping" />
@@ -88,14 +88,14 @@ But what about debugging code that someone wrote a year ago?</p>
 
             <p>Effective debugging is not about finding the responsible line, nor about fixing the bug.</p>
 <p>Effective debugging is about <strong>getting to the minimal amount of code that is <em>probably</em> causing the error</strong> with the minimal energy invested.</p>
-<h2 id="why-its-important?">Why it's important?</h2>
+<h2 id="Why-it-s-important">Why it's important?</h2>
 <p>When we report a bug in a project's issue tracker, we're usually interested in its fix. Why would we report if we don't care? <strong>The faster the bug gets fixed, the better for us</strong>, so we can continue with our original coding goal. We need <a href="/blog/2020/01/13/why-is-first-instant-feedback-crucial-to-developers">instant feedback</a> to stay in the flow.</p>
 <p><br></p>
 <p>Today we look at one technique that I use for open-source project reports and for teaching private projects to debug their legacy code with peace.</p>
 <p>We also have it as a standard in Rector and Symplify projects. It saves us many hours wasted on issues tracker comment ping-pong and focuses on the cooperative solution.</p>
 <p>You might notice it's similar to <em> the minimum common denominator</em> process that you probably know from 5th grade—what a powerful concept.</p>
 <p><br></p>
-<h2 id="level-1:-&quot;there-is-a-bug&quot;-report">Level 1: &quot;There is a bug&quot; report</h2>
+<h2 id="Level-1-and-quot-There-is-a-bug-and-quot-report">Level 1: &quot;There is a bug&quot; report</h2>
 <p>What will happen if we provide a report like this?</p>
 <ul>
 <li><em>The printing does not work. It ends with a fatal error.</em></li>
@@ -110,7 +110,7 @@ But what about debugging code that someone wrote a year ago?</p>
 <p>This interaction is a problem already because <strong>you've lost energy that you're willing to invest</strong> to report the bug and the <strong>maintainer lost energy that he/she is willing to put</strong> into narrow the scope of the bug.</p>
 <p>It's like going to a mall, stopping right in front of the first door and shouting &quot;open the door&quot;. It will take a couple of minutes for security to get to you and figure out what you want. Why not just take the handle yourself? Good luck next time you'll report a robbery to them - the will to help will be a bit lowered, if not depleted.</p>
 <hr />
-<h2 id="bugfix-effectiveness">Bugfix Effectiveness</h2>
+<h2 id="Bugfix-Effectiveness">Bugfix Effectiveness</h2>
 <p>Remember, the goal of reporting an issue is to invest as little energy from our side and maintainer's side and get the bug fixed at the same time.</p>
 <p>The bugfix effectiveness formula states:</p>
 <blockquote class="blockquote text-center">
@@ -126,7 +126,7 @@ But what about debugging code that someone wrote a year ago?</p>
 </ul>
 <p><br></p>
 <p>So can we do it better for everyone?</p>
-<h2 id="level-2:-&quot;there-is-a-bug-with-this-full-message&quot;-report">Level 2: &quot;There is a bug with this full message&quot; report</h2>
+<h2 id="Level-2-and-quot-There-is-a-bug-with-this-full-message-and-quot-report">Level 2: &quot;There is a bug with this full message&quot; report</h2>
 <p><em>The printing does not work, it ends with a fatal error.</em></p>
 <p><em>Here is the output I got with <code>--debug</code>/<code>-vvv</code>:</em>
 <em>...</em></p>
@@ -151,7 +151,7 @@ But what about debugging code that someone wrote a year ago?</p>
 </ul>
 <p><br></p>
 <p>How can we do it better?</p>
-<h2 id="level-3:-&quot;i-did-this,-then-this-happened&quot;-report">Level 3: &quot;I did this, then this happened&quot; report</h2>
+<h2 id="Level-3-and-quot-I-did-this-then-this-happened-and-quot-report">Level 3: &quot;I did this, then this happened&quot; report</h2>
 <p><em>I tried to run Rector on my project with this <code>rector.php</code></em></p>
 <p><em>I used <code>vendor/bin/rector process p src</code></em></p>
 <p><em>The printing does not work, it ends with a fatal error.</em>
@@ -185,7 +185,7 @@ But what about debugging code that someone wrote a year ago?</p>
 <p><br></p>
 <p>There is one more step that we found to be the most effective. <strong>It usually requires only one comment from the reporter and one reply from the maintainer</strong>. Well, if you count closing the issue with pull-request as a comment.</p>
 <p>How can we do it better? Don't worry; it's not about learning project test conventions and sending a failing pull-request.</p>
-<h2 id="level-4:-&quot;i-did-exactly-this,-then-this-happened&quot;-report">Level 4: &quot;I did exactly this, then this happened&quot; report</h2>
+<h2 id="Level-4-and-quot-I-did-exactly-this-then-this-happened-and-quot-report">Level 4: &quot;I did exactly this, then this happened&quot; report</h2>
 <p>Let's look at the <strong>narrow scoping</strong>. What can we read from this report?</p>
 <p><em>I tried to run Rector on my project with this <code>rector.php</code></em></p>
 <p><em>I used <code>vendor/bin/rector process p src</code></em></p>
@@ -195,7 +195,7 @@ But what about debugging code that someone wrote a year ago?</p>
 </ul>
 <p>The question is: <strong>what rule and what file is causing this bug?</strong></p>
 <p>We need to narrow the scope of <code>INF * INF</code> to <code>1 * 1</code>. How can we do it?</p>
-<h3 id="half-half-cutting">Half-Half Cutting</h3>
+<h3 id="Half-Half-Cutting">Half-Half Cutting</h3>
 <p>This technique can be applied to services, to PHPStan rules, to Rector rules, to a coding standard, to registered event subscribers... to anything. A similar algorithm is used to sort files in an array.</p>
 <p>The idea is comment out half of the configuration, run the tool and see if the bug still remains:</p>
 <pre><code class="language-diff"> // rector.php

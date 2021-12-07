@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?670588844" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1049813415" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Filters Pattern in Nette Database" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2016/06/17/filters-pattern-in-nette-database" />
@@ -93,7 +93,7 @@ Today I will show you, how to make only single one.</p>
                 </div>
             </div>
 
-            <h2 id="current-way-to-do-this">Current way to do this</h2>
+            <h2 id="Current-way-to-do-this">Current way to do this</h2>
 <p>Let's say we have a <code>CommentRepository</code> class, where we put all methods that work with &quot;comment&quot; table.</p>
 <p>In it, we have 2 methods:</p>
 <ul>
@@ -137,7 +137,7 @@ class CommentRepository
 <p>This approach is bad practise, because it will eventually <strong>make your every repository class double its size</strong>.</p>
 <p>No need for that! This has been already solved somewhere else.</p>
 <p>Do you know Doctrine Filters? No? Go check <a href="/blog/2016/04/30/decouple-your-doctrine-filters/">this short article to get the clue</a>. I'll wait here.</p>
-<h2 id="soft-delete-filter-in-theory">Soft delete filter - in theory</h2>
+<h2 id="Soft-delete-filter-in-theory">Soft delete filter - in theory</h2>
 <p>In short, with filters you can modify any query. In our case:</p>
 <ul>
 <li>detect if the query is for &quot;comment&quot; table</li>
@@ -146,7 +146,7 @@ class CommentRepository
 </ul>
 <p>This will influence <strong>every query for &quot;comment&quot; table</strong>.
 So you can be sure you'll never forget to add the condition.</p>
-<h2 id="show-me-the-code">Show me the code</h2>
+<h2 id="Show-me-the-code">Show me the code</h2>
 <p>There is not much to talk about, because filters are made to be simple. So here is filter:</p>
 <pre><code class="language-php"># app/Database/Filter/SoftDeletableFilter.php
 
@@ -186,16 +186,16 @@ class SoftDeletableFilter implements FilterInterface
 <p>And that's all.</p>
 <p>These filters are possible in Nette\Database only thanks to <a href="https://github.com/Zenify/NetteDatabaseFilters">Zenify/NetteDatabaseFilters</a> package.</p>
 <p>Do you want to try it for yourself? Let's go.</p>
-<h2 id="your-first-filter-in-4-steps">Your First Filter in 4 steps</h2>
-<h3 id="1.-install-package">1. Install package</h3>
+<h2 id="Your-First-Filter-in-4-steps">Your First Filter in 4 steps</h2>
+<h3 id="1-Install-package">1. Install package</h3>
 <pre><code class="language-bash">composer require zenify/nette-database-filters</code></pre>
-<h3 id="2.-register-extension">2. Register Extension</h3>
+<h3 id="2-Register-Extension">2. Register Extension</h3>
 <pre><code class="language-yaml"># app/config/config.neon
 extensions:
     - Zenify\NetteDatabaseFilters\DI\NetteDatabaseFiltersExtension</code></pre>
-<h3 id="3.-create-your-filter">3. Create your filter</h3>
+<h3 id="3-Create-your-filter">3. Create your filter</h3>
 <p>The one above...</p>
-<h3 id="4.-register-it-as-a-service">4. Register it as a service</h3>
+<h3 id="4-Register-it-as-a-service">4. Register it as a service</h3>
 <pre><code class="language-yaml"># app/config/config.neon
 services:
     - App\Database\Filter\SoftDeletableFilter</code></pre>
@@ -228,7 +228,7 @@ class CommentRepository
 
 }</code></pre>
 <p>For further use just <strong>check Readme for <a href="https://github.com/Zenify/NetteDatabaseFilters#nette-database-filters">Zenify/NetteDatabaseFilters</a></strong>.</p>
-<h2 id="protip-for-multiple-tables-with-the-same-column!">Protip for multiple tables with the same column!</h2>
+<h2 id="Protip-for-multiple-tables-with-the-same-column">Protip for multiple tables with the same column!</h2>
 <p>What if you have <strong>multiple tables with &quot;is_deleted&quot; column</strong>? &quot;comment&quot;, &quot;article&quot;, &quot;page&quot; table... maybe &quot;banner&quot;, &quot;user&quot; in the furture.</p>
 <ul>
 <li>
@@ -265,7 +265,7 @@ private function isSoftdelable(Selection $selection)
         -&gt;offsetExists('is_deleted');
 }</code></pre>
 <p>Pretty neat, huh?</p>
-<h2 id="what-have-you-learned-today?">What Have You Learned Today?</h2>
+<h2 id="What-Have-You-Learned-Today">What Have You Learned Today?</h2>
 <ul>
 <li>that Database Filters is a pattern for decorating query of specific table</li>
 <li>that Nette Database can implement this pattern in a form of service</li>

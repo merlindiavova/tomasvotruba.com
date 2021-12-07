@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?813437500" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?712715097" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Migrate From PHP_CodeSniffer to ECS in 7 Steps" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/06/04/how-to-migrate-from-php-code-sniffer-to-easy-coding-standard" />
@@ -111,7 +111,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <p>And runs as CLI command:</p>
 <pre><code class="language-bash">vendor/bin/ecs check src</code></pre>
 <p>But what if you already have PHP_CodeSniffer on your project and want to switch?</p>
-<h2 id="1.-from-string-codes-to-autocompleted-classes">1. From String Codes to Autocompleted Classes</h2>
+<h2 id="1-From-String-Codes-to-Autocompleted-Classes">1. From String Codes to Autocompleted Classes</h2>
 <p>You probably use string references to sniffs in your <code>*.xml</code> configuration for PHP_CodeSniffer. You need to remember them, copy paste them and <strong>copy-paste them right</strong>.</p>
 <pre><code class="language-xml">&lt;!-- phpcs.xml --&gt;
 &lt;rule ref="Generic.Comenting.DocComment"/&gt;</code></pre>
@@ -128,7 +128,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
     $services-&gt;set(DocCommentSniff::class);
 };</code></pre>
 <p>No more typos with strong over string typing.</p>
-<h2 id="2.-from-@coding-standards-ignore-start-to-skip-parameter">2. From <code>@codingStandardsIgnoreStart</code> to <code>skip</code> Parameter</h2>
+<h2 id="2-From-at-codingStandardsIgnoreStart-to-skip-Parameter">2. From <code>@codingStandardsIgnoreStart</code> to <code>skip</code> Parameter</h2>
 <p>If you'd like to skip nasty code from being analyzed, you'd use <code>@codingStandardsIgnoreStart</code> in PHP_CodeSniffer.</p>
 <pre><code class="language-php">#  packages/framework/src/Component/Constraints/EmailValidator.php
 
@@ -159,7 +159,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
         ]
     ]);
 };</code></pre>
-<h2 id="3.-from-&lt;severity&gt;0&lt;/severity&gt;-and-&lt;exclude-name="..."&gt;-to-skip-parameter">3. From <code>&lt;severity&gt;0&lt;/severity&gt;</code> and <code>&lt;exclude name="..."&gt;</code> to <code>skip</code> Parameter</h2>
+<h2 id="3-From-and-lt-severity-and-gt-0-and-lt-severity-and-gt-and-and-lt-exclude-name-and-gt-to-skip-Parameter">3. From <code>&lt;severity&gt;0&lt;/severity&gt;</code> and <code>&lt;exclude name="..."&gt;</code> to <code>skip</code> Parameter</h2>
 <p>Do you need to skip only 1 part of the sniff? In PHP_CodeSniffer:</p>
 <pre><code class="language-xml">&lt;rule ref="Generic.Commenting.DocComment.ContentAfterOpen"&gt;
     &lt;severity&gt;0&lt;/severity&gt;
@@ -207,7 +207,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
         DocCommentSniff::class =&gt; null,
     ]);
 };</code></pre>
-<h2 id="4.-from-x-m-l-to-p-h-p-config-paths">4. From XML to PHP Config Paths</h2>
+<h2 id="4-From-XML-to-PHP-Config-Paths">4. From XML to PHP Config Paths</h2>
 <p>These names are looked for in the root directory by PHP_CodeSniffer:</p>
 <pre><code class="language-bash">- .phpcs.xml
 - phpcs.xml
@@ -219,7 +219,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <pre><code class="language-bash">vendor/bin/phpcs /path/to/project --standard=custom/location.xml</code></pre>
 <p><strong>to:</strong></p>
 <pre><code class="language-bash">vendor/bin/ecs check /path/to/project --config custom/location.php</code></pre>
-<h2 id="5.-configuring-sniff-values">5. Configuring Sniff Values</h2>
+<h2 id="5-Configuring-Sniff-Values">5. Configuring Sniff Values</h2>
 <p>From XML configuration in PHP_CodeSniffer:</p>
 <pre><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;ruleset name="ruleset"&gt;
@@ -247,7 +247,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
         -&gt;property('complexity', 13)
         -&gt;property('absoluteComplexity', 13);
 };</code></pre>
-<h2 id="6.-from-severity-and-warning-to-just-errors">6. From Severity and Warning to Just Errors</h2>
+<h2 id="6-From-Severity-and-Warning-to-Just-Errors">6. From Severity and Warning to Just Errors</h2>
 <p>There are different levels in PHP_CodeSniffer. You can set severity, make sniff report as warning or as an error.</p>
 <pre><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;ruleset name="ruleset"&gt;
@@ -265,7 +265,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <p>Thus these confusing options are not supported and EasyCodingStandard simplifies that to <strong>errors only</strong>
 CI server either passes or not. <strong>The rule is required and respected or removed. Simple, clear and without any confusion.</strong></p>
 <p>Saying that you don't need to fill values for warning properties.</p>
-<h2 id="7.-from-beautifier-to-fix-option">7. From Beautifier to <code>--fix</code> option</h2>
+<h2 id="7-From-Beautifier-to-fix-option">7. From Beautifier to <code>--fix</code> option</h2>
 <p>Do you need to fix the code? From 2 commands in PHP_CodeSniffer:</p>
 <pre><code class="language-bash">vendor/bin/phpcs /path/to/project --standard=custom/location.xml
 vendor/bin/phpcbf /path/to/project --standard=custom/location.xml</code></pre>
@@ -273,7 +273,7 @@ vendor/bin/phpcbf /path/to/project --standard=custom/location.xml</code></pre>
 <pre><code class="language-bash">vendor/bin/ecs check /path/to/project --config custom/location.php
 vendor/bin/ecs check /path/to/project --config custom/location.php --fix</code></pre>
 <p><br></p>
-<h2 id="give-it-a-try...">Give it a Try...</h2>
+<h2 id="Give-it-a-Try">Give it a Try...</h2>
 <p>...and you won't regret it. Sylius, <a href="https://github.com/pestphp/drift">PestPHP</a>, LMC, Shopsys, Nette did and never came back.</p>
 <p><br></p>
 <p>Did I forget a step that you had to fight with? <strong>Please, let me know in the comments or just send PR to this post to add it</strong>, so we help other readers.</p>

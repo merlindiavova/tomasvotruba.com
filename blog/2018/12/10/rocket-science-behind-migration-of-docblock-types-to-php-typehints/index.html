@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1476430244" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1143222488" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="The Rocket Science Behind Migration of Docblock Types to PHP Typehints" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/12/10/rocket-science-behind-migration-of-docblock-types-to-php-typehints" />
@@ -154,7 +154,7 @@ interface Sniff
     you don't understand it well enough.
 </blockquote>
 <p><br></p>
-<h2 id="doc-!=-type">Doc != Type</h2>
+<h2 id="Doc-Type">Doc != Type</h2>
 <p>The problematic itself is not as simple as moving <code>@return int</code> to <code>int</code>.</p>
 <p>If there is <code>@param boolean</code>, can the typehint be<code>boolean</code>?</p>
 <pre><code class="language-diff">/**
@@ -197,7 +197,7 @@ interface Sniff
  }</code></pre>
 <p>Docs are quite easy, just parse few strings and change them to types that PHP accepts. <a href="https://github.com/phpstan/phpdoc-parser">phpdoc-parser</a> by <em>Jan&nbsp;Tvrdík</em> helps it lot, together with <a href="https://github.com/Symplify/BetterPhpDocParser">format-preserving printer</a>.</p>
 <p>Let's get harder...</p>
-<h2 id="interface,-children,-traits-all-together">Interface, Children, Traits all Together</h2>
+<h2 id="Interface-Children-Traits-all-Together">Interface, Children, Traits all Together</h2>
 <p>What happens when your interface is changed?</p>
 <pre><code class="language-diff"> interface WorkerInterface
  {
@@ -255,7 +255,7 @@ interface Sniff
      }
  }</code></pre>
 <p>Trait has no doc block, no interface, no class, no other trait in it. She has no idea she should be updated.</p>
-<h2 id="self-&amp;-parent"><code>self</code> &amp; <code>parent</code></h2>
+<h2 id="self-and-amp-parent"><code>self</code> &amp; <code>parent</code></h2>
 <p><code>self</code> and <code>parent</code> are unique in each classes.</p>
 <pre><code class="language-diff"> &lt;?php
 
@@ -294,7 +294,7 @@ interface Sniff
      {
      }
  }</code></pre>
-<h2 id="respect-the-namespace">Respect The Namespace</h2>
+<h2 id="Respect-The-Namespace">Respect The Namespace</h2>
 <p>Last but not least, different namespaces can cause another error:</p>
 <pre><code class="language-diff"> &lt;?php
 
@@ -324,12 +324,12 @@ interface Sniff
 <p><strong>Do you want more <em>wild code cases</em>?</strong> You'll find the full test battery of <a href="https://github.com/rectorphp/rector/tree/main/packages/Php/tests/Rector/FunctionLike">60 snippets here in Github test</a>.</p>
 <p><br></p>
 <p>This where <a href="/blog/2018/10/25/why-ast-fixes-your-coding-standard-better-than-tokens/">good old AST</a> comes the rescue. It knows all the nodes in your scope = not in <code>/vendor</code>, all children, all their implementations and used traits. It can traverse up and down this tree and see if the typehint would break something.</p>
-<h2 id="give-your-code-a-typehint-facelift">Give Your Code a Typehint Facelift</h2>
+<h2 id="Give-Your-Code-a-Typehint-Facelift">Give Your Code a Typehint Facelift</h2>
 <p><a href="http://php.net/supported-versions.php">PHP 7.3 is out and PHP 7.0</a> is in <span class="text-danger">end of life</span> for 6 days. This is the best time to go PHP 7.1.</p>
-<h3 id="1.-install">1. Install</h3>
+<h3 id="1-Install">1. Install</h3>
 <pre><code class="language-bash">composer require rector/rector --dev</code></pre>
 <p><em>For those of you who have Rector already installed, use at least <code>0.3.24</code> version to get these features.</em></p>
-<h3 id="2.-create-config">2. Create Config</h3>
+<h3 id="2-Create-Config">2. Create Config</h3>
 <pre><code class="language-php">&lt;?php
 
 // rector.php
@@ -345,7 +345,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
     $services-&gt;set(ParamTypeDeclarationRector::class);
     $services-&gt;set(ReturnTypeDeclarationRector::class);
 };</code></pre>
-<h3 id="3.-run">3. Run</h3>
+<h3 id="3-Run">3. Run</h3>
 <pre><code class="language-bash">vendor/bin/rector process src --dry-run
 
 # all good? instantly upgrade your code ↓

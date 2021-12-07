@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1925449837" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1119056203" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Introducing ECS Prefixed and Downgraded to PHP 7.1" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/introducing-ecs-prefixed-and-downgraded-to-php-71" />
@@ -92,7 +92,7 @@ composer require symplify/easy-coding-standard-prefixed --dev</code></pre>
 <p>Imagine you have keys from your car. They work like regular keys most of the week, but on weekends not. Unless, of course, you drop them 2x times before putting the key inside the lock.</p>
 <p>Requiring a suffix to remember is not very intuitive and creates an awful developer experience.
 So how can <strong>we improve this developer experience</strong>?</p>
-<h2 id="prefix-on-release">Prefix on Release</h2>
+<h2 id="Prefix-on-Release">Prefix on Release</h2>
 <p>How would you expect ECS to install?</p>
 <pre><code class="language-bash">composer require symfony/console:2.8
 composer require symplify/easy-coding-standard --dev</code></pre>
@@ -129,7 +129,7 @@ composer require symplify/easy-coding-standard --dev</code></pre>
 </li>
 </ul>
 <p>Now instead of splitting the original code, we split already prefixed code.</p>
-<h2 id="downgraded-by-default">Downgraded by Default</h2>
+<h2 id="Downgraded-by-Default">Downgraded by Default</h2>
 <p>Do you know middlewares? They're like a layer of you lasagne that you can insert anywhere between request and response. Do you need to add an extra security layer? Just add security middleware.</p>
 <p>Layer in CI can be stacked on each other in similar way. If we can handle scoping, why not add downgrading too?</p>
 <ul>
@@ -160,7 +160,7 @@ composer require symplify/easy-coding-standard --dev</code></pre>
 <li><code>symplify/easy-coding-standard</code> on <strong>PHP 7.1 with scoping</strong></li>
 </ul>
 <p>✅</p>
-<h2 id="how-to-upgrade?">How to Upgrade?</h2>
+<h2 id="How-to-Upgrade">How to Upgrade?</h2>
 <p>The ECS with PHP 7.1 and scoped code is available since version 9.3.10. You can run bare <code>composer update</code> or specify the exact version to be sure:</p>
 <pre><code class="language-bash">composer remove squizlabs/php_codesniffer
 composer remove friendsofphp/php-cs-fixer
@@ -170,7 +170,7 @@ composer update symplify/easy-coding-standard:^9.3.10</code></pre>
 composer remove friendsofphp/php-cs-fixer
 composer remove symplify/easy-coding-standard-prefixed
 composer require symplify/easy-coding-standard:^9.3.10 --dev</code></pre>
-<h2 id="what-has-changed?">What has Changed?</h2>
+<h2 id="What-has-Changed">What has Changed?</h2>
 <p>There might be a BC break because we're scoping ECS dependencies from now on. That means php-cs-fixer 3.0+ and PHP_CodeSniffer 3.6+ code is now accessible only for <code>vendor/bin/ecs</code> run.</p>
 <p><strong>Do you write your Fixer or Sniffs?</strong> Add required packages:
 require</p>

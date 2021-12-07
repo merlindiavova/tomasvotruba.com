@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?906978405" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1896103371" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Pattern Refactoring" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/04/15/pattern-refactoring" />
@@ -82,11 +82,11 @@
                 </div>
             </div>
 
-            <h2 id="use-your-personal-preferences">Use Your Personal Preferences</h2>
+            <h2 id="Use-Your-Personal-Preferences">Use Your Personal Preferences</h2>
 <p>For pattern, refactoring is not important what I believe is the best or is considered <em>general best practice</em> (if such weak thing can even exist). I'm kicking myself in the nuts now, but I feel I have to write it.</p>
 <p>No external consultant or blog post can give you a qualified answer on what to do with a code he or she saw for a few days. I mean, they can give you tip and qualified feedback, because they saw dozens of similar code bases, but in the end, it's up to you to do the experiment and verify it on your code base.</p>
 <p>The best thing in the code is decided by the team, that works with the code every day.</p>
-<h2 id="and-for-a-time,-it-was-good">And for a Time, It Was Good</h2>
+<h2 id="And-for-a-Time-It-Was-Good">And for a Time, It Was Good</h2>
 <p>Let's look at our use case inspired by the problems of the people around me. Imagine you have an active record pattern all over your code base. In 1 000 places, so it's easier to work with it:</p>
 <pre><code class="language-php">&lt;?php
 
@@ -95,7 +95,7 @@ $product-&gt;name = 'Train Ticket';
 $product-&gt;save();</code></pre>
 <p>This pattern helped you to grow your minimal viable product, deliver features, enjoy growth and make money. It was very useful to you at a certain time in the past. The same way it was useful to live with parents when we went to school.</p>
 <p>Your company grew every year for last 5 years, with growing code bases and new modules you have more bugs with weak typing and you've <strong>decided to move</strong> to Doctrine and separate Entity and Repository.</p>
-<h2 id="lets-refactor">Let's Refactor</h2>
+<h2 id="Let-s-Refactor">Let's Refactor</h2>
 <p>The <strong>why</strong> is clear and the decision to change the codebase has been made. Now <strong>how</strong> do you refactor your 1000 places that use active record?</p>
 <p>Before answering, keep in mind, that you have to explain these options to your boss (CEO, product owner...) because he or she cares about following in this order:</p>
 <ul>
@@ -104,7 +104,7 @@ $product-&gt;save();</code></pre>
 <li><strong>How big code good quality</strong> it brings? The <em>higher</em> the better</li>
 </ul>
 <p>Well, your boss will probably not ask the last question, but I've added it just for the sake of our programming perception of the relationship of code and business.</p>
-<h3 id="1.-rewrite-=-write-the-same-code-in-clean-way">1. Rewrite = Write the Same Code in Clean Way</h3>
+<h3 id="1-Rewrite-Write-the-Same-Code-in-Clean-Way">1. Rewrite = Write the Same Code in Clean Way</h3>
 <p>How could the pitch for rewrite look like?</p>
 <p>&quot;<em>The active record is coupled with everything, it's in controllers, in commands, and in services. Even if we change it in a single class, it will probably influence most of the rest code. After we rewrite adding features would be much easier, because we would not have to switch between the old and new code base. We know what we want and it would take less time in the end than any other solution.</em>&quot;</p>
 <p>Suddenly, your colleague comes. You don't like him, because he's too &quot;smart&quot;, younger and has less experience than you (he's younger, how can he have more experience, right?) and he starts to argue:</p>
@@ -117,22 +117,22 @@ $product-&gt;save();</code></pre>
 </div>
 <p>Imagine you're the new CEO of your company. Would you go for rewrite after hearing this?</p>
 <p>In my experience, every developer has to fuck-up one project by rewriting from scratch, to obtain this knowledge, so no article can help you if you're not there yet. Still, it's fun to <strong>read about failures of others</strong>.</p>
-<h3 id="2.-gradual-refactoring-=-change-old-code-while-adding-new-features">2. Gradual Refactoring = Change Old Code while Adding new Features</h3>
+<h3 id="2-Gradual-Refactoring-Change-Old-Code-while-Adding-new-Features">2. Gradual Refactoring = Change Old Code while Adding new Features</h3>
 <p>Your ballsy colleague continues his pitch: <em>It's much better to refactor as part of our coding. Only if we need it. If there is a new feature that affects, e.g. product object, we should refactor product to repository and entity. That way we can keep delivering features, we'll always have one code base that works and we don't have to split our attention for a month or potentially years.</em></p>
-<h2 id="which-approach-is-better?">Which Approach is Better?</h2>
+<h2 id="Which-Approach-is-Better">Which Approach is Better?</h2>
 <p>Let's get to the questions that are in the position of CEO. The goal of the CEO is to keep the project running, make it grow in all fronts together. He or she will assess both options:</p>
 <ul>
 <li><strong>How much time</strong> will it take?</li>
 <li><strong>How much money</strong> will it cost?</li>
 <li><strong>How big code good quality</strong> it brings? <em>Pretty good</em></li>
 </ul>
-<h3 id="how-is-rewrite-doing?">How is Rewrite Doing?</h3>
+<h3 id="How-is-Rewrite-Doing">How is Rewrite Doing?</h3>
 <p>The CEO: <em>&quot;So we have to basically pay programmers to create the same set of features as we had before, but it will cost us 2 months of work whole team? And in the end, we'll have exactly the same set of features, but the code will be nicer for you to work with?&quot;</em></p>
-<h3 id="how-is-continuous-refactoring-doing?">How is Continuous Refactoring Doing?</h3>
+<h3 id="How-is-Continuous-Refactoring-Doing">How is Continuous Refactoring Doing?</h3>
 <p>The CEO: <em>&quot;If I understand this correctly, you say that our application will slowly transform into a new one, we can still add features, it will only take slightly longer. In the end, it might take 12-14 months, but we'll get there? And during those 12-14 months, you'll have to work with 2 approaches in the same code-base?&quot;</em></p>
 <p><br></p>
 <p><em>&quot;Well, both solutions are expensive and slow, but I slightly prefer...&quot;</em></p>
-<h2 id="attention-disruption">Attention Disruption</h2>
+<h2 id="Attention-Disruption">Attention Disruption</h2>
 <p>We forgot one big problem that both approaches suffer from.</p>
 <p>The best way to assess code quality is <strong>to let junior to work with it and count WTFs</strong>. The less the better (WTFs, not juniors). Juniors are like kids, honest and creative by nature. They don't know what they shouldn't tell and shouldn't do, so they find solutions much quicker than most of the older people... or people that work with the code base for a very long time and suffer from conformity bias. That's why I enjoy meeting &quot;less skilled&quot; people because I can learn from them much more than from &quot;the experts&quot;.</p>
 <p>If the company growth is the main reason to refactor the code, so must expect to more PHP developers joining the project. Next new programmer coming to this code...</p>
@@ -159,7 +159,7 @@ $this-&gt;productRepository-&gt;save($product);</code></pre>
 </ul>
 <p>And so on.</p>
 <p>All this leads to moving focus from <a href="/blog/2017/09/25/3-non-it-books-that-help-you-to-become-better-programmer/#deep-work-by-cal-newport">deep work</a> and actually creating features to talking about meta-programming. You talk and answer and explain, but nothing in the code changes.</p>
-<h2 id="design-code-for-understanding">Design Code for Understanding</h2>
+<h2 id="Design-Code-for-Understanding">Design Code for Understanding</h2>
 <p>I've started to code new Lekarna.cz in 2015 on Nette from scratch (exactly!). First 5 months I was all alone, then a new programmer joined me. He started to code in the same quality as the previous code, I didn't have to teach him almost anything. I was curious:</p>
 <ul>
 <li>&quot;Where did you learn work so well Doctrine, Nette and using patterns?&quot;</li>
@@ -167,7 +167,7 @@ $this-&gt;productRepository-&gt;save($product);</code></pre>
 </ul>
 <p>I was so happy! Once I can write readable code, second the code doesn't depend on my expertise and I don't have to waste both our times in <em>meta-programming</em> and explaining what code should explain.</p>
 <p>The code can be designed to either confuse people or to lead them. It's a matter of thoughtful decision to make code understandable first, then it's pretty easy.</p>
-<h2 id="pattern-refactoring">Pattern Refactoring</h2>
+<h2 id="Pattern-Refactoring">Pattern Refactoring</h2>
 <p>How can we keep the attention focused, code understandable and also make CEO happy?</p>
 <ul>
 <li><strong>How much time</strong> will it take? 1 month</li>

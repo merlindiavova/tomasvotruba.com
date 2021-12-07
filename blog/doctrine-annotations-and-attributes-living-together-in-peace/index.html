@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?385204849" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1506074535" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Doctrine Annotations and Attributes Living Together in Peace" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/doctrine-annotations-and-attributes-living-together-in-peace" />
@@ -90,9 +90,9 @@ We had to <strong>support annotations and attributes at the same time</strong>. 
     "United we stand,<br>
     Divided we fall"
 </blockquote>
-<h2 id="safety-first">Safety First</h2>
+<h2 id="Safety-First">Safety First</h2>
 <p>Before we start, we'll make sure we have <a href="/blog/2020/01/13/why-is-first-instant-feedback-crucial-to-developers">instant feedback</a> about code. We'll prepare a special kind of test designed for refactoring, where we need 2 mechanism to work at once - <a href="/blog/how-to-make-upgrade-safe-with-bridge-testing">a bridge testing</a>. In linked post we'll build a test that we use here, so if you're coding with me, be sure to read it first.</p>
-<h2 id="teaching-annotation-attributes">Teaching Annotation Attributes</h2>
+<h2 id="Teaching-Annotation-Attributes">Teaching Annotation Attributes</h2>
 <p>We already know the first steps <a href="/blog/how-to-refactor-custom-doctrine-annotations-to-attributes">from previous post</a> - add <code>#[Attribute]</code>:</p>
 <pre><code class="language-php">/**
  * @Annotation()
@@ -118,7 +118,7 @@ But attributes accept specific value:</p>
     public $publicProperty;</code></pre>
 <p><br></p>
 <p>What can we do about different construction needs?</p>
-<h3 id="2-different-classes?">2 Different Classes?</h3>
+<h3 id="2-Different-Classes">2 Different Classes?</h3>
 <p>An annotation class with <code>array</code> contract:</p>
 <pre><code class="language-php">/**
  * @Annotation()
@@ -139,7 +139,7 @@ class AttentionPrice
         // ...
     }
 }</code></pre>
-<h3 id="2-constructors?">2 Constructors?</h3>
+<h3 id="2-Constructors">2 Constructors?</h3>
 <pre><code class="language-php">    public function __construct($values)
     {
         // annotatoin
@@ -160,7 +160,7 @@ class AttentionPrice
 </ul>
 <p>Hmm, what can we do now?</p>
 <p><br></p>
-<h2 id="@named-argument-constructor-to-the-rescue"><code>@NamedArgumentConstructor</code> to the Rescue</h2>
+<h2 id="at-NamedArgumentConstructor-to-the-Rescue"><code>@NamedArgumentConstructor</code> to the Rescue</h2>
 <p>We're lucky, <code>doctrine/annotations</code> got us covered since <code>1.12</code>. I've learned this trick from <a href="https://github.com/koriym/Koriym.Attributes">Koriym</a> - thanks!</p>
 <pre><code class="language-diff">+use Doctrine\Common\Annotations\NamedArgumentConstructor;
 

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?2080322739" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?2074172570" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How Exception to the Convention Does More Harm than Good" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/how-exception-to-the-convention-does-more-harm-than-good" />
@@ -82,7 +82,7 @@ But sometimes, we get to a situation when these standards are stressful. We don'
                 </div>
             </div>
 
-            <h2 id="hit-by-a-car-on-zebra-crossing">Hit by a Car on Zebra Crossing</h2>
+            <h2 id="Hit-by-a-Car-on-Zebra-Crossing">Hit by a Car on Zebra Crossing</h2>
 <p>I will tell you a true story from 6 years ago. We went by a street, it was green light, and we were crossing. She holds my hand firmly. So intensely it hurts. It was an extreme force from a very soft girl who was 2/3 of my weight:</p>
 <ul>
 <li>&quot;Ouch. What's going on?&quot; I asked her.</li>
@@ -92,22 +92,22 @@ But sometimes, we get to a situation when these standards are stressful. We don'
 </ul>
 <p>She had this reaction on every zebra crossing, crossing, or near any moving car for next 6 months.</p>
 <p>That one exception to the rule didn't mean much for the driver. They probably didn't even notice. But it meant a lot for my girlfriend's life. So much, I felt real pain in the bones of my hand many months later after she had this experience.</p>
-<h2 id="zebra-crossing-with-0-people-and-green-light...-safe?">Zebra-Crossing with 0 People and Green Light... Safe?</h2>
+<h2 id="Zebra-Crossing-with-0-People-and-Green-Light-Safe">Zebra-Crossing with 0 People and Green Light... Safe?</h2>
 <p><strong>Fast forward to yesterday</strong>. I'm thinking about this post, what should be the story to bridge the experience of real-life and coding.</p>
 <p>I'm looking at a street with two roads. There is a zebra crossing with a green light on the left side of one road. It's pretty safe, just 4 meters long. Cars have a red light, and they can go only from one direction across this sidewalk. We would hardly look for a safer place to use to cross that street.</p>
 <p>Well, unless we add a just minor exception. There was a car going ~40 km/h from one of the roads on the right side, opposite the direction that cars can go through the sidewalk. Wait for it. The car is turning left and crossing the sidewalk that has a green light on it. Very smoothly, with elegance and 40 km/h.</p>
 <p>Car crossing a zebra crossing that has a green light is not that rare common. No people were crossing it anyway, right? Well, that can be the safe exception, but the car is <strong>going contra the one-direction road</strong>.  In a fraction of a second, the car is going through the zebra-crossing and riding further. There is another car in the one-direction road going against it.</p>
 <p>This story might have some real-life consequences. Fortunately, The car in the right direction is going exceptionally slowly. It has time to slow down and avoid a front-to-front collision at ~60 km/h speed.</p>
 <p>Single one exception.</p>
-<h2 id="exceptions-in-coding">Exceptions in Coding</h2>
+<h2 id="Exceptions-in-Coding">Exceptions in Coding</h2>
 <p>We know people are dying on the streets because of &quot;just-one-time&quot; exceptions. How is that related to our coding?</p>
 <p>In the whole project, we use PHPStan, ECS, and Rector to watch our standards. We have the same standard on <code>/tests</code> directory. We work on a new feature, and it's almost finished. Just PHPStan keeps failing... why? Why should we have standards on tests? It's bothering us for 10 minutes already. The stress level is so high...  how can we solve it? We decide to ignore them.</p>
 <p>We get on a review and get a question about the ignored directory. We convince the reviewer &quot;it's just three files&quot; and &quot;it's not production code anyway&quot;.</p>
-<h2 id="two-makes-a-crowd">Two Makes a Crowd</h2>
+<h2 id="Two-Makes-a-Crowd">Two Makes a Crowd</h2>
 <p>Soon the same colleague who made our code-review is contributing her PR. She comes to a similar situation when five files show some errors she does not understand. Using our trick, she ignores her files from ECS and Rector.</p>
 <p>A few weeks later, this approach is spreading from PR to PR. Now almost half of the tests are excluded from standards, and our CTO looks at the project. He has an idea: &quot;It's a mess; we should standardize this. Why not ignore all the tests?&quot;</p>
 <p>Now, all your tests and test fixtures have no requirements for standards at all. There is no need for autoloading, so we can finally drop the <code>psr-4</code> standard and move to <code>classmap</code> to autoload classes we need. So much freedom feels great. In case you're interested in psychology, this effect is called <a href="https://blog.codinghorror.com/the-broken-window-theory/">broken window theory</a> (written by Stackoverflow co-founder).</p>
-<h2 id="instant-gratification">Instant Gratification</h2>
+<h2 id="Instant-Gratification">Instant Gratification</h2>
 <p>We're happy now. We have a lot of freedom, and we can create code faster without arguing with some CI tools about it. But what about developers who will come to the project when we're long gone?</p>
 <blockquote class="blockquote blockquote-smaller text-center">
 If we make an exception in real life and nothing bad happens,<br>
@@ -117,7 +117,7 @@ life goes on, and nobody notices it.
 If we make an exception in the code and nothing bad happens at the moment,<br>
 it's forever encoded in the code. Lurking.
 </blockquote>
-<h2 id="2-&quot;standard&quot;-options?-200-%-cognitive-load">2 &quot;Standard&quot; Options? 200 % Cognitive Load</h2>
+<h2 id="2-and-quot-Standard-and-quot-Options-200-Cognitive-Load">2 &quot;Standard&quot; Options? 200 % Cognitive Load</h2>
 <p>Every such exception to the standard is a major distraction for the person just learning the project. They don't know that the code their work on is the only exception to a well-designed standard. They see it as two equally strong options:</p>
 <img src="https://user-images.githubusercontent.com/924196/120189092-338f5580-c217-11eb-86f4-2022102c3f7a.jpg" class="img-thumbnail">
 <p>The project we looked at above is not a fiction I made up. It's typical project for <a href="/blog/2019/12/16/8-steps-you-can-make-before-huge-upgrade-to-make-it-faster-cheaper-and-more-stable/">legacy reconstruction</a>. It's not old PHP, not old Symfony, nor missing constructor injection. It's an infinite split of exceptions and edge cases.</p>

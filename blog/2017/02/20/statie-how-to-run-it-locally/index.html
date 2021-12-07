@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?921092340" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?907305691" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Statie - part 1: How to run it Locally" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2017/02/20/statie-how-to-run-it-locally" />
@@ -106,10 +106,10 @@ That was the &quot;pitch&quot;, now I will show you how to use it.</p>
                 </div>
             </div>
 
-            <h3 id="create-empty-project...">Create Empty Project...</h3>
+            <h3 id="Create-Empty-Project">Create Empty Project...</h3>
 <p>...and require <a href="https://github.com/Symplify/Statie">Statie</a> package.</p>
 <pre><code class="language-bash">composer require symplify/statie</code></pre>
-<h3 id="3-steps-life-cycle">3 Steps Life-Cycle</h3>
+<h3 id="3-Steps-Life-Cycle">3 Steps Life-Cycle</h3>
 <p>Statie has very simple life-cycle:</p>
 <ol>
 <li>Create code in <code>/source</code> directory, using HTML, TWIG, Latte and Markdown</li>
@@ -117,13 +117,13 @@ That was the &quot;pitch&quot;, now I will show you how to use it.</p>
 <li>See the generated HTML output code in <code>/output</code> via local PHP server</li>
 </ol>
 <p>Later, you can push output code to Github Pages or your server via FTP or SSH. But let's start with small step.</p>
-<h2 id="1.-create-your-code">1. Create your Code</h2>
+<h2 id="1-Create-your-Code">1. Create your Code</h2>
 <p>Statie supports <strong>HTML</strong>, <strong>TWIG</strong> and <strong>Markdown</strong> (in <code>.md</code> files only). For most of pages, HTML and TWIG/Latte is enough. Markdown is useful for repeated items like posts.</p>
 <p>Let's create our index page.</p>
 <pre><code class="language-html">&lt;!-- source/index.twig --&gt;
 
 Hi!</code></pre>
-<h3 id="setup-layout">Setup Layout</h3>
+<h3 id="Setup-Layout">Setup Layout</h3>
 <pre><code class="language-html">&lt;!-- source/_layouts/default.twig --&gt;
 
 &lt;!DOCTYPE html&gt;
@@ -144,10 +144,10 @@ layout: "layouts/default.twig"
     Hi, my job is to help you grow any direction you choose!
 {% endblock %}</code></pre>
 <p><strong>Section between <code>---</code> is used to configure system or own variables</strong>. I will tell you more about that later.</p>
-<h2 id="2.-generate-final-h-t-m-l-code">2. Generate Final HTML Code</h2>
+<h2 id="2-Generate-Final-HTML-Code">2. Generate Final HTML Code</h2>
 <p>Run in project root in CLI:</p>
 <pre><code class="language-bash">vendor/bin/statie generate source</code></pre>
-<h2 id="3.-see-generate-code">3. See Generate Code</h2>
+<h2 id="3-See-Generate-Code">3. See Generate Code</h2>
 <p>Create PHP local server in CLI:</p>
 <pre><code class="language-bash">php -S localhost:8000 -t output</code></pre>
 <p>and open <a href="https://localhost:8000">localhost:8000</a> in your browser.</p>
@@ -158,7 +158,7 @@ layout: "layouts/default.twig"
     <em>The same demo as above, just with Latte syntax</em>
 </div>
 <p><br></p>
-<h2 id="minitip:-use-gulp-work-for-you">Minitip: Use Gulp Work For You</h2>
+<h2 id="Minitip-Use-Gulp-Work-For-You">Minitip: Use Gulp Work For You</h2>
 <p>It is quite annoying to refresh regenerate content manually every time you change the code.</p>
 <p>Simple Gulp script can regenerate content for use.</p>
 <p>Install <code>gulp</code> and <code>gulp-watch</code>:</p>

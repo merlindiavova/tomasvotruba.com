@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1579451428" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1880099157" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Do you Autowire Services in Symfony? You can Autowire Parameters Too" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/11/05/do-you-autowire-services-in-symfony-you-can-autowire-parameters-too" />
@@ -137,7 +137,7 @@ services:
 <p><br></p>
 <p>Programmers used DI containers, config was getting into the shape of Miss World, autowiring and autodiscovery became status-quo and life was good.</p>
 <p>Suddenly...</p>
-<h2 id="...you-want-to-use-parameters">...You Want to Use Parameters</h2>
+<h2 id="You-Want-to-Use-Parameters">...You Want to Use Parameters</h2>
 <p>No problem! Since you already know <a href="/blog/2018/01/22/how-to-get-parameter-in-symfony-controller-the-clean-way/">the clean-way</a>, you'll use constructor:</p>
 <pre><code class="language-php">&lt;?php
 
@@ -201,7 +201,7 @@ class FirstClass
     </tr>
 </table>
 <p>It's that simple! <em>Just kidding, again.</em></p>
-<h2 id="autowired-parameters-in-symfony">Autowired Parameters in Symfony</h2>
+<h2 id="Autowired-Parameters-in-Symfony">Autowired Parameters in Symfony</h2>
 <blockquote class="blockquote text-center mt-5 mb-5">
     If services are autowired by unique type,<br>
     parameters can be autowired by <strong>unique name</strong>.
@@ -237,7 +237,7 @@ class FirstClass
 }</code></pre>
 <p>That's all folks!</p>
 <p><br></p>
-<h3 id="convention-over-configuration">Convention over Configuration</h3>
+<h3 id="Convention-over-Configuration">Convention over Configuration</h3>
 <p>If you can <a href="https://simple.wikipedia.org/wiki/Occam%27s_razor">shave off 2 almost identical approaches</a> - <em>element autowiring</em> - <strong>to single 1, do it</strong>.</p>
 <p>By respecting the naming <code>%param%</code> = <code>$param</code> your code is consistent with services,<br>
 where <code>Type</code> = <code>$type</code> and clean and easy to read.</p>
@@ -246,7 +246,7 @@ where <code>Type</code> = <code>$type</code> and clean and easy to read.</p>
 <p><strong>In the meantime, <a href="https://github.com/symplify/package-builder#autobind-parameters">register</a> <code>Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutoBindParametersCompilerPass</code>.</strong></p>
 <p>You don't know how? <a href="https://symfony.com/doc/current/service_container/compiler_passes.html">See Symfony docs</a>.</p>
 <p><br></p>
-<h2 id="how-far-can-we-push-autowiring-together?">How Far Can We Push Autowiring Together?</h2>
+<h2 id="How-Far-Can-We-Push-Autowiring-Together">How Far Can We Push Autowiring Together?</h2>
 <p>What about array-typed autowiring?</p>
 <pre><code class="language-php">&lt;?php
 

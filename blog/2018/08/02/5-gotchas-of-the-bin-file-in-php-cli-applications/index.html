@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1526828502" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?642364544" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="5 Gotchas of the Bin File in PHP CLI Applications" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/08/02/5-gotchas-of-the-bin-file-in-php-cli-applications" />
@@ -80,7 +80,7 @@ Yet, there are still a few blind paths you can struggle with. I'll drop a few ex
                 </div>
             </div>
 
-            <h2 id="what-is-the-bin-file?">What is the Bin File?</h2>
+            <h2 id="What-is-the-Bin-File">What is the Bin File?</h2>
 <p>The bin file is not a trash bin. It's a binary file, the entry point to your application the same way <code>www/index.php</code> is. You probably already use them:</p>
 <ul>
 <li><a href="https://github.com/symplify/symplify/blob/master/packages/easy-coding-standard/bin/ecs">vendor/bin/ecs</a></li>
@@ -88,16 +88,16 @@ Yet, there are still a few blind paths you can struggle with. I'll drop a few ex
 <li><a href="https://github.com/squizlabs/PHP_CodeSniffer/blob/master/bin/phpcs">vendor/bin/phpcs</a></li>
 <li><a href="https://github.com/phpstan/phpstan-src/blob/master/bin/phpstan">vendor/bin/phpstan</a></li>
 </ul>
-<h2 id="1.-create-it">1. Create it</h2>
-<h3 id="the-name">The Name</h3>
+<h2 id="1-Create-it">1. Create it</h2>
+<h3 id="The-Name">The Name</h3>
 <p>The bin file should be <strong>named after the application</strong>, <strong>short</strong> and <strong>easy to type</strong>.
 So when I first released EasyCodingStandard, I used <code>easy-coding-standard</code> name. It was easy to remember, but when I had a talk I often miss-typed such a long name. After a while, I moved to <code>ecs</code>.</p>
 <p>It should be also <strong>easy to remember</strong> and <strong>unique</strong>.
 Imagine that <code>php-cs-fixer</code> would be <code>phpcf</code> or <code>phpcf</code>. Since there is already <code>phpcs</code> taken, it might be trouble to remember. I think that's why the name is a little bit longer.</p>
-<h3 id="the-location">The Location</h3>
+<h3 id="The-Location">The Location</h3>
 <p>Where to put the file? Few people in the past put it in the root directory (only <code>php-cs-fixer</code> from 4 projects above have it that way). But <strong>the trend is to use <code>bin</code> directory</strong>. The same way <code>index.php</code> was moved to <code>www/index.php</code> or <code>public/index.php</code>.</p>
 <pre><code class="language-bash">bin/your-bin-file</code></pre>
-<h2 id="2.-composer-autoload">2. Composer Autoload</h2>
+<h2 id="2-Composer-Autoload">2. Composer Autoload</h2>
 <p>With structure like this:</p>
 <pre><code class="language-bash">/bin/your-bind-file
 /src
@@ -145,7 +145,7 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
 +    // monorepo
 +    __DIR__ . '/../../../vendor/autoload.php',
  ];</code></pre>
-<h3 id="exceptionally-well-done">Exceptionally Well Done</h3>
+<h3 id="Exceptionally-Well-Done">Exceptionally Well Done</h3>
 <pre><code class="language-diff"> &lt;?php declare(strict_types=1);
 
  $possibleAutoloadPaths = [
@@ -170,7 +170,7 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
 +        implode('", "', $possibleAutoloadPaths)
 +    ));
 +}</code></pre>
-<h2 id="3.-she-bangs">3. She Bangs</h2>
+<h2 id="3-She-Bangs">3. She Bangs</h2>
 <p>Since the bin file doesn't have a <code>.php</code> suffix by convention a system doesn't know, what language it's in. What happens when we run the bin file?</p>
 <pre><code class="language-bash">bin/your-bin-file</code></pre>
 <p>↓</p>
@@ -188,10 +188,10 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
 <p>It can be translated to:</p>
 <pre><code class="language-bash">/usr/bin/env php bin/your-bin-file</code></pre>
 <p>Try it. Does it work?</p>
-<h2 id="4.-free-access-rights">4. Free Access Rights</h2>
+<h2 id="4-Free-Access-Rights">4. Free Access Rights</h2>
 <p>This allows to run the bin file on other people's computer:</p>
 <pre><code class="language-php">chmod +x bin/your-bin-file</code></pre>
-<h2 id="5.-the-composer-symlink">5. The Composer Symlink</h2>
+<h2 id="5-The-Composer-Symlink">5. The Composer Symlink</h2>
 <p>If we install your package, we'll find the bin file here:</p>
 <pre><code class="language-bash">/vendor/your-vendor/your-package/bin/your-bin-file</code></pre>
 <p>But not in:</p>
@@ -203,7 +203,7 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
 }</code></pre>
 <p>Tada! After we install such a package, we'll find it in the right place.</p>
 <pre><code class="language-bash">/vendor/bin/your-bin-file</code></pre>
-<h2 id="final-version">Final Version</h2>
+<h2 id="Final-Version">Final Version</h2>
 <pre><code class="language-php">#!/usr/bin/env php
 &lt;?php declare(strict_types=1);
 

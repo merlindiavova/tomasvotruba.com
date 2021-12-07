@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1142986318" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?667041313" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="7 New Features in Easy Coding Standard 2.2" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2017/08/07/7-new-features-in-easy-coding-standard-22" />
@@ -93,13 +93,13 @@ Switched from YAML to PHP configs in <strong>Symplify 9.</strong></p>
             </div>
 
             <p>Today we'll look on <strong>new features it uses from ECS</strong>.</p>
-<h2 id="1.-shorter-bin">1. Shorter Bin</h2>
+<h2 id="1-Shorter-Bin">1. Shorter Bin</h2>
 <pre><code class="language-bash"># before
 vendor/bin/easy-coding-standard
 
 # now
 vendor/bin/ecs</code></pre>
-<h2 id="2.-prepared-rule-sets">2. Prepared Rule Sets</h2>
+<h2 id="2-Prepared-Rule-Sets">2. Prepared Rule Sets</h2>
 <p>Before you had to name all the checkers manually in your config. There was no <em>PSR2</em> group nor <em>Symfony</em> like there is in other tools. <strong>Now you can pick from 10 prepared configs</strong>.</p>
 <p><em>PHP_CodeSniffer + PHP CS Fixer</em></p>
 <pre><code class="language-php">use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -113,7 +113,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
     // ...
     // explore the constants on `SetList` class
 };</code></pre>
-<h2 id="3.-use-whole-set-but-1-checker">3. Use Whole Set But 1 Checker</h2>
+<h2 id="3-Use-Whole-Set-But-1-Checker">3. Use Whole Set But 1 Checker</h2>
 <p>Imagine you love the PSR-12 set, <strong>except that 1 checker</strong>. Do you skip the set completely or copy all the rules manually except the one?</p>
 <p>Not anymore!</p>
 <pre><code class="language-php">use PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer;
@@ -131,7 +131,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
     ]);
 };
 </code></pre>
-<h2 id="4.-skip-more-than-1-file-for-specific-checker">4. Skip More Than 1 File For Specific Checker</h2>
+<h2 id="4-Skip-More-Than-1-File-For-Specific-Checker">4. Skip More Than 1 File For Specific Checker</h2>
 <p>Do you need to skip more files for 1 specific checker? <strong>Now you can <a href="https://php.net/manual/en/function.fnmatch.php"><code>fnmatch</code></a> pattern</strong>:</p>
 <pre><code class="language-php">use SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff;
 
@@ -141,21 +141,21 @@ $parameters-&gt;set(Option::SKIP, [
         '*packages/CodingStandard/src/Sniffs/*/*Sniff.php'
     ],
 ]);</code></pre>
-<h2 id="5.-new-command-show-display-used-checkers">5. New Command <code>Show</code> Display Used Checkers</h2>
+<h2 id="5-New-Command-Show-Display-Used-Checkers">5. New Command <code>Show</code> Display Used Checkers</h2>
 <p>Do you know, what checkers do you use?</p>
 <pre><code class="language-bash">vendor/bin/ecs show</code></pre>
 <p>This is rather debug or info tool, but it might come handy.</p>
 <p><strong>You can find <a href="https://github.com/symplify/easy-coding-standard">more options of this command in README</a></strong>.</p>
-<h2 id="6.-scan-*.php-and-*.phpt-files">6. Scan <code>*.php</code> and <code>*.phpt</code> Files</h2>
+<h2 id="6-Scan-php-and-phpt-Files">6. Scan <code>*.php</code> and <code>*.phpt</code> Files</h2>
 <p>EasyCodingStandard checks only <code>*.php</code> files by default. But what if you want to check <code>*.phpt</code> as well as in case of <a href="https://github.com/nette/coding-standard">Nette\CodingStandard</a>?</p>
 <p>Use <code>Option::FILE_EXTENSIONS</code>:</p>
 <pre><code class="language-php">// ...
 $parameters-&gt;set(Option::FILE_EXTENSIONS, ['php', 'phpt']);</code></pre>
-<h2 id="7.-are-you-tabs-person?">7. Are you Tabs Person?</h2>
+<h2 id="7-Are-you-Tabs-Person">7. Are you Tabs Person?</h2>
 <p>There you go:</p>
 <pre><code class="language-php">// ...
 $parameters-&gt;set(Option::INDENTATION, Option::INDENTATION_TAB);</code></pre>
-<h3 id="like-it?-try-it">Like it? Try It</h3>
+<h3 id="Like-it-Try-It">Like it? Try It</h3>
 <p>If you find these 7 news useful, try <a href="https://github.com/symplify/easy-coding-standard">ECS</a> right now.</p>
 <p><br></p>
 <p>Happy coding!</p>

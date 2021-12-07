@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?2106472262" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?197729688" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="New in Easy Coding Standard 4: Clean Symfony Standard with Yaml and Services" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/03/26/new-in-easy-coding-standard-4-clean-symfony-standard-with-yaml-and-services" />
@@ -94,7 +94,7 @@ And what are they? Neon to YAML, semi-static to Services, customizable caching, 
                 </div>
             </div>
 
-            <h2 id="1.-configure-caching-directory">1. Configure Caching Directory</h2>
+            <h2 id="1-Configure-Caching-Directory">1. Configure Caching Directory</h2>
 <p><a href="https://github.com/symplify/symplify/pull/656" class="btn btn-dark btn-sm mt-2 mb-3">
 Check the PR #661
 </a></p>
@@ -107,7 +107,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 };</code></pre>
 <p>Thank you <a href="https://github.com/marmichalski">Marcin Michalski</a> for adding this feature.</p>
 <p><br></p>
-<h2 id="2.-skip-anything,-anywhere">2. Skip Anything, Anywhere</h2>
+<h2 id="2-Skip-Anything-Anywhere">2. Skip Anything, Anywhere</h2>
 <p><a href="https://github.com/symplify/symplify/pull/661" class="btn btn-dark btn-sm mt-2 mb-3">
 Check the PR #661
 </a></p>
@@ -115,7 +115,7 @@ Check the PR #661
 <p>What you really need? Exclude 1 file but only for 1 checker. Or 1 checker for group of files and sometimes only 1 code from sniff on 1 file. That all is possible now.</p>
 <p><strong>Because details matters and it's pointless to think about code or class</strong>, you can now remove <code>skip_codes</code> key from your config and use <code>skip</code> section only.</p>
 <p><br></p>
-<h2 id="3.-short-vendor/bin/ecs-is-the-king">3. Short <code>vendor/bin/ecs</code> is the King</h2>
+<h2 id="3-Short-vendor-bin-ecs-is-the-King">3. Short <code>vendor/bin/ecs</code> is the King</h2>
 <p><a href="https://github.com/symplify/symplify/pull/647" class="btn btn-dark btn-sm mt-2 mb-3">
 Check the PR #647
 </a></p>
@@ -128,7 +128,7 @@ vendor/bin/easy-coding-standard.php</code></pre>
 <pre><code class="language-bash">vendor/bin/ecs</code></pre>
 <p>Typo proof or at least less error prone. Just change it in you <a href="https://blog.martinhujer.cz/have-you-tried-composer-scripts"><code>composer.json</code>'s <code>script</code> section</a> or CI setups and you're ready to go!</p>
 <p><br></p>
-<h2 id="4.-d-i-migration-finished:-from-neon-to-y-a-m-l">4. DI Migration Finished: From Neon to YAML</h2>
+<h2 id="4-DI-Migration-Finished-From-Neon-to-YAML">4. DI Migration Finished: From Neon to YAML</h2>
 <p><a href="https://github.com/symplify/symplify/pull/651" class="btn btn-dark btn-sm mt-2 mb-3">
 Check the PR #651
 </a></p>
@@ -143,11 +143,11 @@ Check the PR #651
     There are no solutions. There are only trade-offs
 </blockquote>
 <p>I hear you community, so lets trade! <strong>From ECS 4, you can use Yaml everywhere with syntax you know, behavior from Symfony ecosystem you know and with no need to learn new standard.</strong></p>
-<h3 id="how-to-migrate?">How to Migrate?</h3>
+<h3 id="How-to-Migrate">How to Migrate?</h3>
 <p>Well just rename <code>easy-coding-standard.neon</code> or <code>ecs.yml</code> and
 then read about it in <a href="/blog/2018/03/12/neon-vs-yaml-and-how-to-migrate-between-them/">Neon vs. Yaml and How to Migrate Between Them</a>.</p>
 <p><br></p>
-<h2 id="5.-from-semi-static-checkers-to-services-as-first-class-citizen">5. From Semi-Static Checkers to Services as First-Class Citizen</h2>
+<h2 id="5-From-Semi-Static-Checkers-to-Services-as-First-Class-Citizen">5. From Semi-Static Checkers to Services as First-Class Citizen</h2>
 <p><strong>Note: Symplify 8 now uses PHP configuration.</strong></p>
 <p><a href="https://github.com/symplify/symplify/pull/660" class="btn btn-dark btn-sm mt-2 mb-3">
 Check the PR #660

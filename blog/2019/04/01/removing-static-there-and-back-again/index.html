@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1051103681" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?888711590" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Removing Static - There and Back Again" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/04/01/removing-static-there-and-back-again" />
@@ -82,7 +82,7 @@ Instead of &quot;refactor all the things&quot; step by step, class by class, I'd
                 </div>
             </div>
 
-            <h2 id="1.-show-code">1. Show Code</h2>
+            <h2 id="1-Show-Code">1. Show Code</h2>
 <p>I usually start with a minimal code snippet possible, that explore the problem. No comments, no types, just the code. This is the real code I'm currently refactoring:</p>
 <pre><code class="language-php">&lt;?php
 
@@ -118,11 +118,11 @@ final class Price
         return $this-&gt;currency-&gt;convertFromCzk($this-&gt;amount);
     }
 }</code></pre>
-<h2 id="2.-describe-the-code">2. Describe the Code</h2>
+<h2 id="2-Describe-the-Code">2. Describe the Code</h2>
 <p>Then I describe the problem with a few words using your common sense. No censorship, just flow of words.</p>
 <p>&quot;There is a <code>Product</code> object... no, an entity since I can have multiple products. It has <em>active record pattern</em> since it creates <code>Price</code> in itself. There is also <em>static service locator</em> <code>CurrencyProvider::get()</code> to get current currency. I have no idea where the currency is set and it can be <em>overridden</em> multiple times during code run.</p>
 <p>The goal of all this is probably to have price <em>always</em> in the same currency. Which is not true, since I can change the currency anytime I want. The price computation is input/output relations - so it should be solved by service, not an entity. I'm confused.&quot;</p>
-<h2 id="3.-break-the-code">3. Break The Code</h2>
+<h2 id="3-Break-The-Code">3. Break The Code</h2>
 <p>My favorite part. How can we break this code?</p>
 <pre><code class="language-php">&lt;?php
 
@@ -162,7 +162,7 @@ foreach ($allCurrencies as $currency) {
 <div class="alert alert-danger mt-3">
    3. How do I show a price for all the currencies we support?
 </div>
-<h2 id="3.-the-ideal-world">3. The Ideal World</h2>
+<h2 id="3-The-Ideal-World">3. The Ideal World</h2>
 <p>Now I imagine how I want this code to be designed in an ideal world, with enough time and skills. My goal is to make code work, while minimal as possible, while readable as quickly as possible. So when I leave the company, the person who reads the code will understand it at the same speed as I did.</p>
 <ol>
 <li>
@@ -175,7 +175,7 @@ foreach ($allCurrencies as $currency) {
 <p>That way it's easy to tests, method parameters are clearly stating dependencies, nothing to surprise.</p>
 </li>
 </ol>
-<h2 id="4.-put-ideal-world-into-code">4. Put Ideal World into Code</h2>
+<h2 id="4-Put-Ideal-World-into-Code">4. Put Ideal World into Code</h2>
 <p>Now put that ideal into PHP code:</p>
 <pre><code class="language-php">&lt;?php
 
@@ -246,9 +246,9 @@ Refactoring is a controlled technique for improving the design of an existing co
 rules in these tools, we'll learn how to build them</strong> to solve your problem.</p>
 <p><br></p>
 <img src="/assets/images/posts/2019/removing-static/there.jpg" class="img-thumbnail">
-<h2 id="5.-extract-the-journey">5. Extract The Journey</h2>
+<h2 id="5-Extract-The-Journey">5. Extract The Journey</h2>
 <p>Back to the thinking process. This last step might seem a bit weird. We already have the clear code up and running and it's ready to ship. Why would we invest more energy into this? If I don't learn from this, I'm sentencing my future self to do it again in the future. It's funny to watch companies how they go for &quot;a business value&quot;, try to delivery features fast, but never pause to realize, that they do mostly repetitive tasks for the same price as the first one. So by this strategy to deliver business value fast, they cut their business value in half.</p>
-<h3 id="think-big-think-absolute"><del>Think Big</del> Think Absolute</h3>
+<h3 id="Think-Big-Think-Absolute"><del>Think Big</del> Think Absolute</h3>
 <p>Instead, I ask myself: &quot;how would I describe the process step by step to a machine, so it could refactor <strong>all PHP code</strong> on Github, Gitlab and the whole world with the same issue to the one in the end?&quot; There could be billions of such cases in the whole-world PHP code base.</p>
 <p>If we're able to describe the process, <strong>we'll turn billions of use cases to 1 pattern transformation</strong>.</p>
 <p>Imagine you try to fix typoes one-by-one manually. Or you could write a function, that fixes 5 most common typos for the user and hooks it on the Internet and SMS network (regardless of security) - to process every electronic message in the world. Just like that, the world became smarter thanks to you single function.</p>

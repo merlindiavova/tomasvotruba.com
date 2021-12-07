@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1767053546" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1418757853" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Monorepo Composer Magic" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/01/31/monorepo-composer-magic" />
@@ -95,7 +95,7 @@ Today, I'd like to share secrets behind <strong>biggest WTF</strong> that monore
 <p>When you install a package, e.g. <code>composer require symplify/easy-coding-standard --dev</code>, you won't download PHPUnit even if that package has it in <code>require-dev</code>.</p>
 <p>&quot;So why is this needed? Do these monorepo packages use unstable versions?&quot;</p>
 <p><strong>Of course not.</strong> When you install any package standalone, you'll get stable dependencies. It's not even possible to install dev dependency without explicitly saying that (e.g. <code>composer require symplify/statie:@dev</code>).</p>
-<h2 id="what-is-branch-alias-for?">What is Branch Alias for?</h2>
+<h2 id="What-is-Branch-Alias-for">What is Branch Alias for?</h2>
 <p>Here comes the magical combo. Each package <code>composer.json</code> also includes:</p>
 <pre><code class="language-json">{
     "extra": {
@@ -116,12 +116,12 @@ E.g. the latest released Symfony version is <code>4.2.x</code>, next one will be
 }</code></pre>
 <p>Is that clear? Good.</p>
 <p>&quot;So what the <code>branch-alias</code> and the <code>minimum-stability</code> have in common?&quot;</p>
-<h2 id="after-split-interdependency">After-Split Interdependency</h2>
+<h2 id="After-Split-Interdependency">After-Split Interdependency</h2>
 <p>The main goal of all this magic is simple. To use <strong>the most recent mutual dependencies</strong>. E.g., I added a new feature in the monorepo that changed the code of <code>symplify/statie</code> and <code>symplify/package-builder</code>.</p>
 <p>When the monorepo is split, the dev <code>symplify/statie</code> uses the dev version of <code>symplify/package-builder</code>.</p>
-<h2 id="monorepo-release-maintenance">Monorepo Release Maintenance</h2>
+<h2 id="Monorepo-Release-Maintenance">Monorepo Release Maintenance</h2>
 <p>Let's say we'll release next Symplify version <code>v5.4.2</code>. What we have to handle before it's tagged and released?</p>
-<h3 id="1.-bump-each-interdependency-to-the-release-version">1. Bump each Interdependency to the Release Version</h3>
+<h3 id="1-Bump-each-Interdependency-to-the-Release-Version">1. Bump each Interdependency to the Release Version</h3>
 <pre><code class="language-diff"> {
      "name": "symplify/statie",
      "require": {
@@ -129,11 +129,11 @@ E.g. the latest released Symfony version is <code>4.2.x</code>, next one will be
 +        "symplify/package-builder": "^5.4.2"
      }
  }</code></pre>
-<h3 id="2.-tag-current-version">2. Tag Current Version</h3>
+<h3 id="2-Tag-Current-Version">2. Tag Current Version</h3>
 <pre><code class="language-bash">git tag v5.4.2</code></pre>
-<h3 id="3.-push-the-tag">3. Push the Tag</h3>
+<h3 id="3-Push-the-Tag">3. Push the Tag</h3>
 <pre><code class="language-bash">git push --tags</code></pre>
-<h3 id="4.-bump-the-branch-alias-if-needed">4. Bump the <code>branch-alias</code> if Needed</h3>
+<h3 id="4-Bump-the-branch-alias-if-Needed">4. Bump the <code>branch-alias</code> if Needed</h3>
 <p><code>5.4.x</code> still uses <code>5.5-dev</code> as the alias, so we don't have to change anything for <code>5.4.2</code> version.</p>
 <p>In case we'll release <code>5.5</code> in the future, it would look like this:</p>
 <pre><code class="language-diff"> {
@@ -146,7 +146,7 @@ E.g. the latest released Symfony version is <code>4.2.x</code>, next one will be
  }</code></pre>
 <p>Now we can continue committing and packages will always use last committed code.</p>
 <p><br></p>
-<h2 id="&quot;monorepo-is-hell-of-work&quot;">&quot;Monorepo is Hell of Work&quot;</h2>
+<h2 id="and-quot-Monorepo-is-Hell-of-Work-and-quot">&quot;Monorepo is Hell of Work&quot;</h2>
 <p>← You must be thinking right now. Well, these steps are basically <em>find and replace</em> - <strong>perfect weak spot to automate</strong>. All these 4 steps  can replace single command from <a href="https://github.com/symplify/monorepobuilder">Symplify/MonorepoBuilder</a>:</p>
 <pre><code class="language-bash">vendor/bin/monorepo-builder release v5.4.2</code></pre>
 <p>The lazy job is done :)</p>

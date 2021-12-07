@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1805483474" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1783992935" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="PHPStan Generics for Dummies - With 2 Parents" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/phpstan-generics-for-dummies-with-two-parents" />
@@ -117,7 +117,7 @@ abstract class AbstractRepository
 $product = $productRepository-&gt;get(1);</code></pre>
 <p>Here we always have a <code>Product</code> type.</p>
 <p><br></p>
-<h2 id="constraints-have-changed">Constraints Have Changed</h2>
+<h2 id="Constraints-Have-Changed">Constraints Have Changed</h2>
 <p>Everything works well, our project grows, and more and more users are visiting our website. Life is good.</p>
 <p>Just the response time is lagging more and more. How could we improve it? One way is to <strong>cache the most visited entities</strong>.</p>
 <p>Alright! We'll add a new repository class with cache:</p>
@@ -154,7 +154,7 @@ final class ProductRepository extends AbstractCachedRepository
  {
  }</code></pre>
 <p>Well done! Now we rerun PHPStan to see the result... and it crashes. <strong>Why?</strong></p>
-<h2 id="2-steps-to-man-in-the-middle-class">2 Steps to Man in the Middle Class</h2>
+<h2 id="2-Steps-to-Man-in-the-Middle-Class">2 Steps to Man in the Middle Class</h2>
 <p><code>AbstractCachedRepository</code> is a middle man. <strong>Its job is to take type from the child class and send it to the parent class.</strong> But it's just a bare class with no annotations.</p>
 <p><br></p>
 <p>It has no idea what to do. We have to tell it to...</p>
@@ -176,7 +176,7 @@ final class ProductRepository extends AbstractCachedRepository
 <p>We run PHPStan, and... it works!</p>
 <p>✅</p>
 <p><br></p>
-<h2 id="let-p-h-p-stan-watch-your-back">Let PHPStan Watch Your Back</h2>
+<h2 id="Let-PHPStan-Watch-Your-Back">Let PHPStan Watch Your Back</h2>
 <p>Is your PHPStan passing <strong>even without generic definition in child class</strong>? You need to enable it first.</p>
 <p>There are 2 ways. One of them is level 6+:</p>
 <pre><code class="language-yaml">parameters:

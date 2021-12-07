@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1052654632" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1179686515" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to refactor to new Dependency Injection features in Symfony 3.3" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2017/05/07/how-to-refactor-to-new-dependency-injection-features-in-symfony-3-3" />
@@ -82,7 +82,7 @@ Today I will show you what code can you drop and how to migrate it.</p>
                 </div>
             </div>
 
-            <h2 id="what-is-new?">What is New?</h2>
+            <h2 id="What-is-New">What is New?</h2>
 <p>Symfony 3.3+ brings new that will completely <strong>change they we register services</strong>:</p>
 <ul>
 <li><a href="https://symfony.com/blog/new-in-symfony-3-3-service-autoconfiguration"><code>autoconfigure</code></a></li>
@@ -97,7 +97,7 @@ Today I will show you what code can you drop and how to migrate it.</p>
     <footer class="blockquote-footer">Stephen P. Thomas</footer>
 </blockquote>
 <p><br></p>
-<h2 id="refactor-service-config-in-5-steps">Refactor Service Config in 5 Steps</h2>
+<h2 id="Refactor-Service-Config-in-5-Steps">Refactor Service Config in 5 Steps</h2>
 <p>This is service config in Application in Symfony 3.2 or lower.</p>
 <p>We apply all features we can and I always add a small <code># comment</code> to the code with explanation.</p>
 <pre><code class="language-yaml"># app/config/services.yml
@@ -131,7 +131,7 @@ services:
         autowire: true
         tags:
             - { name: console.command }</code></pre>
-<h3 id="1.-lets-add-defaults">1. Let's add <code>_defaults</code></h3>
+<h3 id="1-Let-s-add-defaults">1. Let's add <code>_defaults</code></h3>
 <pre><code class="language-yaml"># app/config/services.yml
 services:
     _defaults:
@@ -160,7 +160,7 @@ services:
         class: App\Command\SecondCommand
         tags:
             - { name: console.command }</code></pre>
-<h3 id="2.-use-autoconfigure">2. Use autoconfigure</h3>
+<h3 id="2-Use-autoconfigure">2. Use autoconfigure</h3>
 <pre><code class="language-yaml"># app/config/services.yml
 services:
     _defaults:
@@ -186,7 +186,7 @@ services:
         class: App\Command\FirstCommand
     second_command:
         class: App\Command\SecondCommand</code></pre>
-<h3 id="3.-use-class-named-services">3. Use Class-Named Services</h3>
+<h3 id="3-Use-Class-Named-Services">3. Use Class-Named Services</h3>
 <pre><code class="language-yaml"># app/config/services.yml
 services:
     _defaults:
@@ -206,7 +206,7 @@ services:
 
     App\Command\FirstCommand: ~
     App\Command\SecondCommand: ~</code></pre>
-<h3 id="4.-use-p-s-r-4-based-service-autodiscovery-and-registration">4. Use PSR-4 based service autodiscovery and registration</h3>
+<h3 id="4-Use-PSR-4-based-service-autodiscovery-and-registration">4. Use PSR-4 based service autodiscovery and registration</h3>
 <pre><code class="language-yaml"># app/config/services.yml
 services:
     _defaults:
@@ -222,7 +222,7 @@ services:
     App\Repository\SecondRepository:
         calls:
             - ["setEntityManager", ["@entity_manager"]]</code></pre>
-<h3 id="5.-use-instanceof...">5. Use <code>_instanceof</code>...</h3>
+<h3 id="5-Use-instanceof">5. Use <code>_instanceof</code>...</h3>
 <pre><code class="language-yaml"># app/config/services.yml
 services:
     _defaults:
@@ -236,7 +236,7 @@ services:
         App\Repository\AbstractRepository:
             calls:
                 - ["setEntityManager", ["@entity_manager"]]</code></pre>
-<h3 id="5.-...or-setter-injection">5. ...or Setter Injection</h3>
+<h3 id="5-or-Setter-Injection">5. ...or Setter Injection</h3>
 <p>You can even remove the <code>_instanceof</code> with setter injection. First, modify the abstract repository to add the <code>@required</code> annotation to <code>setEntityManager</code>:</p>
 <pre><code class="language-php">&lt;?php
 

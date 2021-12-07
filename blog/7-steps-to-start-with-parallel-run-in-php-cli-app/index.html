@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1889134821" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1023282762" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="7 Steps to Start with Parallel Run in PHP CLI App" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/7-steps-to-start-with-parallel-run-in-php-cli-app" />
@@ -105,7 +105,7 @@ This post will get you from 0 to padawan in a couple of minutes.</p>
 <p>Is all clear? Let's start.</p>
 <p><br></p>
 <img src="/assets/images/posts/2021/parallel_dummy.jpg" class="img-thumbnail">
-<h2 id="1.-its-simpler-then-you-think">1. It's Simpler Then You Think</h2>
+<h2 id="1-It-s-Simpler-Then-You-Think">1. It's Simpler Then You Think</h2>
 <p>I met with parallel in <a href="https://www.youtube.com/watch?v=ktfyEKUrabw">a live stream 4 years ago</a>. My first problem with a parallel run was that developers who talked about it made the topic sound very complex. I asked one question to understand one concept better, but in the end, I was even more confused than before I asked.</p>
 <p>That made me think:</p>
 <ul>
@@ -115,16 +115,16 @@ This post will get you from 0 to padawan in a couple of minutes.</p>
 </ul>
 <p>I have good news for you - none of it is true. You just have to be lucky to come around <strong>sources that make you feel smarter</strong>.</p>
 <p>The first point is: <strong>it's simpler than you think</strong>.</p>
-<h2 id="2.-main-goal?-faster!">2. Main Goal? Faster!</h2>
+<h2 id="2-Main-Goal-Faster">2. Main Goal? Faster!</h2>
 <p>We don't implement it because it's cool, not because PHP allows it or not because it improves our architecture.</p>
 <p><strong>We want to get somewhere significantly faster</strong>. We're talking 10-20x faster.</p>
-<h2 id="3.-its-about-c-p-u-threads">3. It's about CPU Threads</h2>
+<h2 id="3-It-s-about-CPU-Threads">3. It's about CPU Threads</h2>
 <p>Last year, my laptop got a little shower from wild traveling and decided to stop working. Czech law gives the seller a month to process the warranty, so I had to get a replacement for the next month.</p>
 <p>I bought the first Lenovo Thinkpad that looked similar to the one I used, so I don't have to learn a new keyboard for a single month. I got a surprise: <strong>the PHPStan run was cut down to half</strong>.</p>
 <p>Why? The parallel run is as x-faster, where x is a number of CPU threads. It's not about CPU cores, but <strong>about CPU threads</strong>. In my temporary laptop, there was an <a href="https://en.wikipedia.org/wiki/Ryzen">AMD Ryzen</a> CPU that had 8 cores but excellent 16 threads.</p>
 <p>That means every parallel process based on CPU cores is 16x faster.</p>
 <p>Have you waited 2 minutes to finish a command-line process? <strong>Now it's 8 seconds.</strong></p>
-<h2 id="4.-look-for-the-bottle-neck">4. Look for The Bottle Neck</h2>
+<h2 id="4-Look-for-The-Bottle-Neck">4. Look for The Bottle Neck</h2>
 <p>Typical ECS command looks like this:</p>
 <pre><code class="language-bash">vendor/bin/ecs check src</code></pre>
 <p>This command finds all PHP files in the <code>/src</code> directory and runs foreach to check for coding standard violations. Roughly like this:</p>
@@ -136,13 +136,13 @@ foreach ($foundFiles as $foundFile) {
 <p>Before the 2nd file can be processed by coding standard, we have to wait for the 1st file to finish.</p>
 <p><strong>This is the bottleneck.</strong></p>
 <p>How to start with parallelization? Look for &quot;the main&quot; <code>foreach (...)</code> in your code.</p>
-<h2 id="5.-processes-are-on-their-own">5. Processes are on Their Own</h2>
+<h2 id="5-Processes-are-on-Their-Own">5. Processes are on Their Own</h2>
 <p>What do you do when you need a repository service in your project? We inject it via the constructor and use it. It has access to a database, where are data all up-to-date, and we can load, edit and delete them. We trust the stability.</p>
 <p>In parallel, this is a bit different. How?</p>
 <p><br></p>
 <p>This point started as a few sentences, but soon grew to its own post with. It's a metaphor that hits the nail on the head.</p>
 <p><strong>Go read <a href="/blog/parallel-in-php-for-dummies-cooking-a-family-dinner">Parallel in PHP for Dummies? Cooking a Family Dinner</a></strong> and then come back for the best experience of this list.</p>
-<h2 id="6.-from-foreach-to-command">6. From Foreach to Command</h2>
+<h2 id="6-From-Foreach-to-Command">6. From Foreach to Command</h2>
 <p>So now we know the processes run separately, each in its paste. But above we still have foreach. How do we run them separately without waiting for each other?</p>
 <p>We refactor services call to another command-line command:</p>
 <pre><code class="language-diff"> foreach ($familyMembers as $key =&gt; $familyMember) {
@@ -165,7 +165,7 @@ vendor/bin/ecs check /src
 →    vendor/bin/ecs check-worker --cpu-thread 2 --files /src/third.php /src/fourth.php</code></pre>
 <p>What is the <code>check-worker</code> command exactly doing? It's the exact copy of the <code>check</code> command.
 The <code>check</code> command used to be <code>foreach (...)</code> caller of service, but now it calls standalone processes.</p>
-<h2 id="7.-its-like-calling-a-rest-a-p-i-route">7. It's like Calling a Rest API Route</h2>
+<h2 id="7-It-s-like-Calling-a-Rest-API-Route">7. It's like Calling a Rest API Route</h2>
 <p>This step was blowing for me. The typical run of ECS checked files for coding standard violations and printed the errors - all inside on PHP container:</p>
 <pre><code class="language-bash">vendor/bin/ecs check /src
 
@@ -194,7 +194,7 @@ Found 25 errors. Fix them with the "--fix" option.</code></pre>
         ]
     }
 ]</code></pre>
-<h2 id="bonus-tip:-strings?-value-objects-to-the-confidence">Bonus Tip: Strings? Value Objects to the Confidence</h2>
+<h2 id="Bonus-Tip-Strings-Value-Objects-to-the-Confidence">Bonus Tip: Strings? Value Objects to the Confidence</h2>
 <p>This bonus tip is not limited to parallel, but it's a general lifesaver in an unstable environment.</p>
 <p>Seeing arrays and strings above might give you shivers. How can we work with such unreliable data and pass them around our application? I feel you. When I don't have an object in my hand, I feel like I'm naked.</p>
 <p>Let's put on pants and use value objects the instant we can:</p>

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?172977488" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1208055600" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Delegate Code Reviews to CI" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/11/18/how-to-delegate-code-reviews-to-ci" />
@@ -117,7 +117,7 @@ The Travis was dropped, as it does not support open-source anymore and for priva
     </div>
 </div>
 </p>
-<h2 id="what-do-you-review-in-code?">What do you Review in Code?</h2>
+<h2 id="What-do-you-Review-in-Code">What do you Review in Code?</h2>
 <p>If you do code-review, what do you mostly do?</p>
 <ol>
 <li>
@@ -128,7 +128,7 @@ The Travis was dropped, as it does not support open-source anymore and for priva
 </li>
 </ol>
 <p>Well, the 2nd cannot be automated, unless you're able to put it in clear step-by-step, e.g SOLID laws in procedural code. So you still have to do that, sorry.</p>
-<h2 id="dead-fat-code">Dead Fat Code</h2>
+<h2 id="Dead-Fat-Code">Dead Fat Code</h2>
 <p>But 1st step can be easily automated. How? Well, let's take a dead code for example.
 In the last <a href="/blog/2019/07/29/how-we-completed-thousands-of-missing-var-annotations-in-a-day/">project I've helped to improve with Rector</a>, there were 2 years of dead-code piled up. A dead that you have to:</p>
 <ul>
@@ -138,7 +138,7 @@ In the last <a href="/blog/2019/07/29/how-we-completed-thousands-of-missing-var-
 <li>review if changed anything related to it</li>
 </ul>
 <p><strong>So many human-hours wasted</strong>. In the end, we <strong>removed over 12 % of &quot;dead fat code&quot;</strong>. Wouldn't it be better if that fat would never be got it?</p>
-<h2 id="add-rector-in-c-i-in-3-steps">Add Rector in CI in 3 Steps</h2>
+<h2 id="Add-Rector-in-CI-in-3-Steps">Add Rector in CI in 3 Steps</h2>
 <ol>
 <li>Install Rector</li>
 </ol>
@@ -157,7 +157,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <li>And add to your CI bash</li>
 </ol>
 <pre><code class="language-bash">vendor/bin/rector process src --dry-run</code></pre>
-<h2 id="how-to-add-rector-c-i-to-your-favorite-c-i?">How to add Rector CI to your Favorite CI?</h2>
+<h2 id="How-to-add-Rector-CI-to-your-Favorite-CI">How to add Rector CI to your Favorite CI?</h2>
 <p>I've prepared a demo with PHP code and a testing pipeline for all widely used CI services.</p>
 <ul>
 <li><a href="#1-github-actions">GitHub Actions</a></li>
@@ -165,7 +165,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 </ul>
 <p><br></p>
 <p>There you'll find all the configuration you need to <strong>let your CI do code-reviews</strong>.</p>
-<h3 id="1.-git-hub-actions">1. GitHub Actions</h3>
+<h3 id="1-GitHub-Actions">1. GitHub Actions</h3>
 <p><br></p>
 <p><a href="https://github.com/tomasvotruba/rector-ci-demo" class="btn btn-info">Repository</a></p>
 <pre><code class="language-yaml"># .github/workflows/php.yml
@@ -192,7 +192,7 @@ jobs:
             -
                 name: Code Review
                 run: ./vendor/bin/rector process --dry-run</code></pre>
-<h3 id="2.-gitlab-c-i">2. Gitlab CI</h3>
+<h3 id="2-Gitlab-CI">2. Gitlab CI</h3>
 <pre><code class="language-yaml"># .gitlab-ci.yml
 # inspired from https://docs.gitlab.com/ee/ci/examples/php.html
 
@@ -215,7 +215,7 @@ code-review:
     stage: test
     script:
         - vendor/bin/rector process --dry-run</code></pre>
-<h2 id="what-sets-to-start-with?">What sets to Start With?</h2>
+<h2 id="What-sets-to-Start-With">What sets to Start With?</h2>
 <p>Here are my favorite sets I apply first:</p>
 <pre><code class="language-php">&lt;?php
 

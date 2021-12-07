@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1530651967" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?836719611" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How I Redesigned my Website the Way I Refactor Legacy Projects" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/how-i-redesigned-my-website-the-way-i-refactor-legacy-projects" />
@@ -99,13 +99,13 @@ The first hour I struggled with the redesign approach, I realized I could use th
 <p><br></p>
 <p>What do designer and legacy cleaner have in common? The final product must work, be intuitive and bring value to the user. I realized the old design had many spaces to improve, and a lot of <del>code</del> text and &quot;cool features&quot; should be removed.</p>
 <p>When we <a href="https://getrector.org/for-companies">get a project to refactor</a> in Rector company, the first 1-2 months we don't do any PHP or framework upgrades at all. We focus on preparing the environment, remove everything that is not needed for developers and business to grow. At first, it looks like we come to destroy the project by removing 30 % of it. But in the end, after solid and reliable code remains, we can move unbelievably fast with upgrades and pattern refactoring.</p>
-<h2 id="deprecating-clusters-use-words-people-understand">Deprecating Clusters - Use Words People Understand</h2>
+<h2 id="Deprecating-Clusters-Use-Words-People-Understand">Deprecating Clusters - Use Words People Understand</h2>
 <p>3 years ago I wanted to write a little book about a single topic. I was too scared, so I created a new work instead.
 A word that is not for a book, not for a post. It's a collection of post on single topic - <a href="/blog/2018/07/02/cluster-more-interactive-than-book-deeper-than-post/">clusters</a>. There was a section &quot;Clusters&quot; in the menu for the last 3 years, and it contained eight groups of posts. The initial feedback was confusion. I was confused, too. It was time to <a href="/blog/2020/03/09/art-of-letting-go/">let go</a> old fears and remove this section. <strong>Either write a book or a post.</strong></p>
-<h2 id="occams-razor">Occams' Razor</h2>
+<h2 id="Occams-Razor">Occams' Razor</h2>
 <p>I use this idea or rather technique during refactoring legacy projects a lot. If some external tool handles something better than our custom code, remove the custom code and delegate it to an external tool. We'll save ourselves from testing our code, maintaining it, and teaching it to every new programmer.</p>
 <p>One example from a project I was mentoring just yesterday: a custom autoload that finds all <code>autoload.php</code> files across the root directory and manually includes them. It was around 200 lines of magic (at least at first sight). We remove this part and used composer instead. Now it's 5 lines and code is <a href="/blog/how-exception-to-the-convention-does-more-harm-than-good/">standardized</a>. We will never have to think about autoloading again.</p>
-<h2 id="2600-lines-removed">2600 Lines Removed</h2>
+<h2 id="2600-Lines-Removed">2600 Lines Removed</h2>
 <img src="/assets/images/posts/2021/redesign_simple.png" class="img-thumbnail mb-5">
 <p>How did I apply Occams' razor to redesign my website?</p>
 <ul>
@@ -130,7 +130,7 @@ A word that is not for a book, not for a post. It's a collection of post on sing
 <p><br></p>
 <p>In the end, there are now fewer sections, less nesting, and more focus on content. You can read posts or get training. Simple. What changed in design?</p>
 <p><br></p>
-<h2 id="design-with-focus-on-content">Design With Focus on Content</h2>
+<h2 id="Design-With-Focus-on-Content">Design With Focus on Content</h2>
 <img src="https://user-images.githubusercontent.com/924196/120992700-23c9c100-c783-11eb-8d57-e20f898b21c0.jpg" class="img-thumbnail mt-2 mb-4" style="max-width: 20em">
 <p>What if we apply the refactoring legacy approach to the website design itself?</p>
 <ul>
@@ -153,7 +153,7 @@ A word that is not for a book, not for a post. It's a collection of post on sing
 <br><strong>→Drop it.</strong></li>
 </ul>
 <p><br></p>
-<h2 id="website-is-dead,-long-live-the-website">Website is Dead, Long Live the Website</h2>
+<h2 id="Website-is-Dead-Long-Live-the-Website">Website is Dead, Long Live the Website</h2>
 <p>And the results? Simple, airy, with no clutter and content that is a joy to read on a laptop or in the tram.</p>
 <p><br></p>
 <div class="row text-center">
@@ -167,7 +167,7 @@ A word that is not for a book, not for a post. It's a collection of post on sing
     </div>
 </div>
 <p><br></p>
-<h2 id="show-updated-and-deprecated-posts">Show Updated and Deprecated Posts</h2>
+<h2 id="Show-Updated-and-Deprecated-Posts">Show Updated and Deprecated Posts</h2>
 <p>Did you know some posts get updated? Other posts are no longer valid and are deprecated to avoid spreading lousy practice as a way to go.</p>
 <div class="row text-center">
     <div class="col-12 col-sm-6">
@@ -182,7 +182,7 @@ A word that is not for a book, not for a post. It's a collection of post on sing
 <p><br></p>
 <p>I'll write about reflection on past mistakes in one of my future posts.</p>
 <p><br></p>
-<h2 id="10-months-of-preparation,-2-days-at-coffee-house">10 months of Preparation, 2 Days at Coffee House</h2>
+<h2 id="10-months-of-Preparation-2-Days-at-Coffee-House">10 months of Preparation, 2 Days at Coffee House</h2>
 <p>Do you know the 80/20 rule? 20 % of a project takes 80 % of the time to finish. It's not true.</p>
 <p>I'm not sure if the stars were right, if I accidentally took some deep-focus drugs or if that was the right thing to do. I went to a coffee house in Tenerife at 10 AM. I'm thinking... what should I do today? I worked on a work project refactoring yesterday; Rector is running and released, and I already published a post for the week. Mmm, maybe I'll check what I can do on the website design.</p>
 <p>I turned off my phone, opened my laptop, got a cortado (it's like flat white for Spanish), and started working.</p>

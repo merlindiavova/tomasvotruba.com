@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?510575215" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?111202060" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Drop RobotLoader and let Composer Deal with Autoloading" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/06/08/drop-robot-loader-and-let-composer-deal-with-autoloading" />
@@ -80,13 +80,13 @@ The best way to deal with them is acknowledge their purpose and then, let them g
                 </div>
             </div>
 
-            <h2 id="where-is-robot-loader-useful">Where is RobotLoader Useful</h2>
+            <h2 id="Where-is-RobotLoader-Useful">Where is RobotLoader Useful</h2>
 <p><a href="https://doc.nette.org/en/auto-loading#toc-nette-loaders-robotloader">RobotLoader</a> is a Nette Component that is used to autoload classes. Its killer feature is simple: <strong>in whatever file it is and whatever the class name is, I will load it</strong>. You can have 20 classes in 1 file or classes located in various locations, they won't hide.</p>
-<h2 id="before-composer-appeared,-it-was-the-best">Before Composer appeared, it was The Best</h2>
+<h2 id="Before-Composer-appeared-it-was-The-Best">Before Composer appeared, it was The Best</h2>
 <p>RobotLoader was a very useful tool in times before Composer, because <strong>there were not so many efficient tools for loading classes</strong>.</p>
 <p>Also, when people could not agree upon where to put their classes, how to name them, whether use or don't use namespace and how many classes to put in one file, we can say <strong>this tool saved a lot of argument-hours</strong>.</p>
 <p>After many discussions, followed by the first standard, <a href="http://www.php-fig.org/psr/psr-0">PSR-0</a>, people agreed upon <a href="http://www.php-fig.org/psr/psr-4">PSR-4</a>, a more mature replacement of PSR-0.</p>
-<h2 id="why-its-not-anymore">Why it's not Anymore</h2>
+<h2 id="Why-it-s-not-Anymore">Why it's not Anymore</h2>
 <p>Have your heard about PSR-4? It is a <em>PHP Standard Recommendation</em> about naming and location of the classes. This says you completely nothing, but in the simplest form it means:</p>
 <p><strong>1 class</strong> (or interface/trait) = <strong>1 file</strong></p>
 <p><strong>class name</strong> = <strong>file name</strong>.php</p>
@@ -98,11 +98,11 @@ App\Presenter\MyClass =&gt; App/Presenter/MyClass.php</code></pre>
 <p>I know I can rely on this in 99% of places when <code>composer.json</code> is used.</p>
 <p>When I see <code>App\Presenter\MyClass</code> I  it's located in <code>App/Presenter/MyClass.php</code> file.</p>
 <p>And this is the place where <strong>RobotLoader</strong> (or any custom ultimate loader) <strong>fails</strong>. I came around many applications where classes are located at random. And I had to use my brain to find them. But I don't want to focus my mental activity on thinking about their location, <strong>I want to develop my application</strong>.</p>
-<h2 id="how-to-move-to-composer-in-a-nette-application?">How to move to Composer in a Nette application?</h2>
+<h2 id="How-to-move-to-Composer-in-a-Nette-application">How to move to Composer in a Nette application?</h2>
 <p>There are 2 levels of how to achieve this.</p>
-<h3 id="level-1:-change-your-composer">Level 1: Change your Composer</h3>
+<h3 id="Level-1-Change-your-Composer">Level 1: Change your Composer</h3>
 <p>The first level requires 3 small steps.</p>
-<h4 id="1.-tune-composer.json-autoloading">1. Tune <code>composer.json</code> Autoloading</h4>
+<h4 id="1-Tune-composer-json-Autoloading">1. Tune <code>composer.json</code> Autoloading</h4>
 <pre><code class="language-json">{
     "require": {
         "..."
@@ -122,7 +122,7 @@ App\Presenter\MyClass =&gt; App/Presenter/MyClass.php</code></pre>
 <pre><code class="language-bash">App\Presenters\HomepagePresenter =&gt; app/presenters/HomepagePresenter.php</code></pre>
 <p>But this will not:</p>
 <pre><code class="language-bash">App\Presenters\HomepagePresenter =&gt; app/presenters/homepagePresenter.php</code></pre>
-<h4 id="2.-disable-robot-loader">2. Disable RobotLoader</h4>
+<h4 id="2-Disable-RobotLoader">2. Disable RobotLoader</h4>
 <p>Now you can clean up your <code>app/bootstrap.php</code>:</p>
 <pre><code class="language-php">// $configurator-&gt;createRobotLoader()
 //      -&gt;addDirectory(__DIR__)
@@ -131,13 +131,13 @@ App\Presenter\MyClass =&gt; App/Presenter/MyClass.php</code></pre>
 <pre><code class="language-yaml"># app/config/config.neon
 application:
     scanDirs: false</code></pre>
-<h4 id="3.-refresh-composer-autoloading">3. Refresh Composer Autoloading</h4>
+<h4 id="3-Refresh-Composer-Autoloading">3. Refresh Composer Autoloading</h4>
 <p>And tell Composer, to regenerate its autoloader:</p>
 <pre><code class="language-bash">composer dump-autoload</code></pre>
 <p>Note: This command is run by default after <code>composer update</code>, <code>composer require ...</code> and similar commands. Since we'd manually changed our <code>autoload</code> section, we had to run it manually.</p>
 <p>Now try our application and it should run.</p>
 <p><strong>You are finished and all your classes are loaded by Composer.</strong> Congratulations!</p>
-<h3 id="level-2:-rename-directories-to-capital-case,-to-respect-p-s-r-4">Level 2: Rename Directories to capital case, to Respect PSR-4</h3>
+<h3 id="Level-2-Rename-Directories-to-capital-case-to-Respect-PSR-4">Level 2: Rename Directories to capital case, to Respect PSR-4</h3>
 <p>There is one more level I do with my applications, so my <code>composer.json</code> is nice and clear. But this is optional. Do it only if you'd like to write better code with lower WTF factor!</p>
 <p>Turn this:</p>
 <pre><code class="language-bash">/app

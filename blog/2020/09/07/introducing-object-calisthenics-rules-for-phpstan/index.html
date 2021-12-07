@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?288976701" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?171647499" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Introducing Object Calisthenics Rules for PHPStan" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/09/07/introducing-object-calisthenics-rules-for-phpstan" />
@@ -90,7 +90,7 @@ Today you can!</p>
 
             <p>Object Calisthenics is about SOLID rules and code architecture more than spaces and bracket positions, maybe <a href="/blog/2018/10/25/why-ast-fixes-your-coding-standard-better-than-tokens/">PHPStan and AST</a> are better to handle it?</p>
 <p><br></p>
-<h2 id="what-is-object-calis...?">What is Object Calis...?</h2>
+<h2 id="What-is-Object-Calis">What is Object Calis...?</h2>
 <p>Oh wait, it's the first time you hear <em>Object Calisthenics</em>?</p>
 <img src="/assets/images/posts/object_calisthenics_phpstan.jpg" class="img-thumbnail">
 <p>Don't worry. It's not a physical sport that is required to become a better developer. You read about all 9 rules or listen to 12-min audio in <a href="https://williamdurand.fr/2013/06/03/object-calisthenics">Object Calisthenics</a> post by William Durand or check <a href="https://www.slideshare.net/guilhermeblanco/object-calisthenics-applied-to-php">colorful slides</a> by Guilherme Blanco, the former maintainer PHP_CodeSniffer set package.</p>
@@ -103,7 +103,7 @@ Today you can!</p>
 <li>Rule 7: Keep Your Classes Small</li>
 <li>Rule 9: No Setter Methods</li>
 </ul>
-<h2 id="introducing-p-h-p-stan-rules">Introducing PHPStan Rules</h2>
+<h2 id="Introducing-PHPStan-Rules">Introducing PHPStan Rules</h2>
 <p>You can add all of the rules above as <a href="https://github.com/symplify/phpstan-rules/blob/master/packages/object-calisthenics/config/object-calisthenics-rules.neon">a PHPStan ruleset</a>. I've ported these rules to <code>symplify/coding-standard</code> in the last 2 days.</p>
 <pre><code class="language-bash">composer require symplify/coding-standard --dev</code></pre>
 <p>And update <code>phpstan.neon</code>:</p>
@@ -111,13 +111,13 @@ Today you can!</p>
 includes:
     - vendor/symplify/coding-standard/packages/object-calisthenics/config/object-calisthenics-rules.neon</code></pre>
 <p>As you can see, their rules are pretty strict, and in practice, that might be impossible to put on a real project. It's better to start slowly with low hanging fruit rules. Like these 2:</p>
-<h3 id="rule-5:-no-chain-method-call">Rule 5: No Chain Method Call</h3>
+<h3 id="Rule-5-No-Chain-Method-Call">Rule 5: No Chain Method Call</h3>
 <pre><code class="language-yaml"># phpstan.neon
 services:
     -
         class: Symplify\CodingStandard\ObjectCalisthenics\Rules\NoChainMethodCallRule
         tags: [phpstan.rules.rule]</code></pre>
-<h3 id="rule-6:-no-names-shorter-than-3-chars">Rule 6: No Names Shorter than 3 Chars</h3>
+<h3 id="Rule-6-No-Names-Shorter-than-3-Chars">Rule 6: No Names Shorter than 3 Chars</h3>
 <pre><code class="language-yaml"># phpstan.neon
 services:
     -
@@ -127,7 +127,7 @@ services:
             minNameLength: 3
             allowedShortNames: ['id', 'to', 'up']</code></pre>
 <p>And you're ready to go!</p>
-<h2 id="how-to-switch-from-p-h-p-code-sniffer-to-p-h-p-stan-rules?">How to Switch from PHP_CodeSniffer to PHPStan rules?</h2>
+<h2 id="How-to-Switch-from-PHP-CodeSniffer-to-PHPStan-rules">How to Switch from PHP_CodeSniffer to PHPStan rules?</h2>
 <p>Most likely, you're not using all the rules at once, so we look at migrating particular rules.</p>
 <ul>
 <li>Look at the <a href="https://github.com/symplify/phpstan-rules/blob/master/docs/rules_overview.md">list of PHPStan rules</a></li>

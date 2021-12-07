@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?727255889" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1456253738" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to get more than Request in Controller Action" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2016/09/19/how-to-get-more-than-request-in-controller-action" />
@@ -93,7 +93,7 @@ In _Symfony 3.1_ is new [Action Argument Resolving feature](https://symfony.com/
                 </div>
             </div>
 
-            <h2 id="disclaimer:-what-happened-to-controller-constructor-injection?">Disclaimer: What happened to controller constructor injection?</h2>
+            <h2 id="Disclaimer-What-happened-to-controller-constructor-injection">Disclaimer: What happened to controller constructor injection?</h2>
 <p><strong>I still prefer constructor injection in controllers</strong>. Are you asking why and how to achieve that in Symfony?</p>
 <p>In 3 minutes <a href="/blog/2016/03/10/autowired-controllers-as-services-for-lazy-people/">you will find out in my other article</a>.
 I will wait here...</p>
@@ -101,14 +101,14 @@ I will wait here...</p>
 <br>
 <br></p>
 <p>...ok. Now you are probably in one of these 2 groups:</p>
-<h3 id="1.-you-want-to-use-constructor-injection-in-controllers,-because-you-like-advantages-of-service-design">1. You want to use constructor injection in controllers, because you like advantages of service design</h3>
+<h3 id="1-You-want-to-use-constructor-injection-in-controllers-because-you-like-advantages-of-service-design">1. You want to use constructor injection in controllers, because you like advantages of service design</h3>
 <p>Stop reading, because this article describes only method injection, which is not so clean. It would add unnecessary complexity to your
 already solid system with no added value.
 So go <a href="https://github.com/Symplify/ControllerAutowire">install Symplify/ControllerAutowire bundle</a> and enjoy your day!</p>
-<h3 id="2.-you-consider-constructor-injection-in-controller-too-much-writing-with-not-much-added-value">2. You consider constructor injection in controller too much writing with not much added value</h3>
+<h3 id="2-You-consider-constructor-injection-in-controller-too-much-writing-with-not-much-added-value">2. You consider constructor injection in controller too much writing with not much added value</h3>
 <p><strong>This is article for you. Keep reading!</strong></p>
 <p>To be honest, first I was completely ignoring this second group, but <a href="https://twitter.com/enumag">Jáchym</a> explained me why it's important.</p>
-<h2 id="how-named-services-bring-less-writing">How named services bring less writing</h2>
+<h2 id="How-named-services-bring-less-writing">How named services bring less writing</h2>
 <p>Typical controller in Symfony looks like this:</p>
 <pre><code class="language-php">// src/AppBundle/Controller/MeetupController.php
 namespace AppBundle\Controller;
@@ -129,7 +129,7 @@ class MeetupController extends Controller
 <p>These 2 lines are the most important:</p>
 <pre><code class="language-php">$meetupRepository = $this-&gt;get('meetup_repository');
 ['meetups' =&gt; $meetupRepository-&gt;findAll()]</code></pre>
-<h2 id="hidden-vendor-lock">Hidden vendor lock</h2>
+<h2 id="Hidden-vendor-lock">Hidden vendor lock</h2>
 <p><strong>How do we know, that <code>meetup_repository</code> service has <code>findAll()</code> method?</strong></p>
 <p>You need <strong>3 things</strong> to work at once:</p>
 <ul>
@@ -140,7 +140,7 @@ class MeetupController extends Controller
 <li>Symfony 2 and Symfony 3 have <a href="https://knpuniversity.com/screencast/symfony3-upgrade/new-dir-structure">different directory structure</a>, so plugin has to be setup manually to suit it</li>
 </ul></li>
 </ul>
-<h2 id="is-this-really-necessary?">Is this really necessary?</h2>
+<h2 id="Is-this-really-necessary">Is this really necessary?</h2>
 <p>Nope. <strong>Any IDE can autocomplete on object or interface typehint. And without plugins.</strong></p>
 <p>But how to get that there? We can use constructor injection with typehints, <strong>but it would be too much writing</strong>.</p>
 <p>Compare yourself this:</p>
@@ -166,14 +166,14 @@ public function listAction()
 <p>I've counted that for you:</p>
 <p><strong>It's 11 lines to 1 just to just get a service!</strong></p>
 <p>I must admit, this is killer argument <strong>why not to use constructor injection in controllers</strong>.</p>
-<h3 id="meet-me-half-way?">Meet me half way?</h3>
+<h3 id="Meet-me-half-way">Meet me half way?</h3>
 <p>What if you could inject the service via method?</p>
 <pre><code class="language-php">public function listAction(MeetupRepository $meetupRepository)
 {
     $meetups = $meetupRepository-&gt;findAll();
     // ...
 }</code></pre>
-<h3 id="result?">Result?</h3>
+<h3 id="Result">Result?</h3>
 <ul>
 <li>Now we are down to <strong>0 extra lines</strong> to get a dependency</li>
 <li>We can use <strong>any IDE</strong></li>
@@ -186,10 +186,10 @@ public function listAction()
 <li><strong>More joy</strong> to your daily work.</li>
 </ul>
 <p>To make this happened, I made <a href="https://github.com/Symplify/ActionAutowire">Symplify\ActionAutowire bundle</a>.</p>
-<h2 id="how-to-enable-controllers-action-autowiring-in-3-steps">How to enable controllers action autowiring in 3 steps</h2>
-<h3 id="1.-install-package">1. Install package</h3>
+<h2 id="How-to-enable-controllers-action-autowiring-in-3-steps">How to enable controllers action autowiring in 3 steps</h2>
+<h3 id="1-Install-package">1. Install package</h3>
 <pre><code class="language-yaml">composer require symplify/action-autowire</code></pre>
-<h3 id="2.-register-bundle">2. Register bundle</h3>
+<h3 id="2-Register-bundle">2. Register bundle</h3>
 <pre><code class="language-php">// app/AppKernel.php
 class AppKernel extends Kernel
 {
@@ -201,7 +201,7 @@ class AppKernel extends Kernel
         ];
     }
 }</code></pre>
-<h3 id="3.-add-some-dependency-for-your-controller-via-constructor">3. Add some dependency for your controller via constructor</h3>
+<h3 id="3-Add-some-dependency-for-your-controller-via-constructor">3. Add some dependency for your controller via constructor</h3>
 <pre><code class="language-php">// src/AppBundle/Controller/MeetupController.php
 namespace AppBundle\Controller;
 
@@ -216,7 +216,7 @@ class MeetupController extends Controller
 }</code></pre>
 <p>And that's it!</p>
 <p>For further use, <strong>just check Readme for <a href="https://github.com/Symplify/ActionAutowire">Symplify/ActionAutowire</a>.</strong></p>
-<h2 id="made-for-you">Made for you</h2>
+<h2 id="Made-for-you">Made for you</h2>
 <p>Missing some feature or found a bug? Let me know. I want to make this package suit your needs and work as best as possible.</p>
 
             <br>

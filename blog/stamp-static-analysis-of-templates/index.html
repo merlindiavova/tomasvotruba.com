@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?999748089" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1725831325" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="STAMP #0: Static Analysis of Templates" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/stamp-static-analysis-of-templates" />
@@ -102,7 +102,7 @@ final class Meal
 <p>Then we run our website to show our whole family the meal for tonight:</p>
 <pre><code class="language-html">Potato Salad and Schnitzel</code></pre>
 <p>Pretty clear, right?</p>
-<h2 id="renamed-a-method">Renamed a Method</h2>
+<h2 id="Renamed-a-Method">Renamed a Method</h2>
 <p>When you look at the <code>App\Meal</code> object, what does feel itchy about it? The name of <code>getTitle()</code> method. When we first created this <code>App\Meal</code> class, we probably thought more about <em>post</em> or <em>news</em>. There it makes more sense.</p>
 <p>In this case, maybe the <em>name</em> would be a better choice. Do you agree? Let's rename it.</p>
 <p>We rename it using PHPStorm and &quot;Rename Method&quot; action:</p>
@@ -121,7 +121,7 @@ final class Meal
 <p>Now it feels better to read the code. We'll reload the webpage to show our changes to our family...</p>
 <p><br></p>
 <p>...and it crashes with <em>Error 500</em>.</p>
-<h2 id="we-forgot-something,-what-was-it?...-kevin!">We Forgot Something, What Was it?... Kevin!</h2>
+<h2 id="We-Forgot-Something-What-Was-it-Kevin">We Forgot Something, What Was it?... Kevin!</h2>
 <p>We missed one crucial spot. PHPStorm is an excellent tool to handle PHP code. But it's PHPStorm, not <em>TemplateStorm</em>, so it missed rename in the template:</p>
 <pre><code class="language-html">&lt;!-- TWIG syntax --&gt;
 {{ meal.title }}
@@ -139,7 +139,7 @@ final class Meal
 <p>That's it! We refresh the website, and it works as before:</p>
 <pre><code class="language-html">Potato Salad and Schnitzel</code></pre>
 <p>👍</p>
-<h2 id="manual-fix-does-not-scale">Manual Fix Does not Scale</h2>
+<h2 id="Manual-Fix-Does-not-Scale">Manual Fix Does not Scale</h2>
 <p>The focused and simple use case above might work in a demo article like this one, but in real projects, it's pretty rare to see a template with 1 line of code.</p>
 <p>We do such renames in projects that make money. There might be some tests, but not every single template render path is tested. We can't afford to wait for &quot;user testing&quot; and error 500 in our logs.</p>
 <p>Let's see what would happen in a PHP-only world. We can do method rename either manually, with PHPStorm, or Rector. What happens if we forget a single spot?</p>
@@ -150,7 +150,7 @@ echo $meal-&gt;getTitle();</code></pre>
 <p>Yes, PHPStan protects us. If such a bug got into the code, it would be idiotic.</p>
 <p>Should we treat templates with lower expectations? No!
 <strong>The same rules that apply for our PHP code must apply for templates as well.</strong></p>
-<h2 id="starting-post-series">Starting Post Series</h2>
+<h2 id="Starting-Post-Series">Starting Post Series</h2>
 <p>There are a couple of interesting topics in the area of static analysis in templates.  I consider them highly joyful and worth sharing with you. <strong>It's a brand new topic, so I would like to invite you to shape the future of it</strong>.</p>
 <p>What do you think about it? Let me know in the comments below or on <a href="https://twitter.com/votrubat">Twitter</a>.</p>
 <p><br></p>

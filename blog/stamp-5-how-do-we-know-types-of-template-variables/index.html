@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?944082212" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1066006850" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="STAMP #5: How do we Know Types of Template Variables" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/stamp-5-how-do-we-know-types-of-template-variables" />
@@ -87,7 +87,7 @@ Today we'll answer one of them.</p>
 </div>
 <p>This is a great question! We skipped this piece to complete the TWIG rendering itself first and keep your cognitive load focused. Now we have time and space to bring the answer.</p>
 <hr />
-<h2 id="context-first">Context First</h2>
+<h2 id="Context-First">Context First</h2>
 <p>First, let's define what PHP and TWIG files we work with. We render a template with 1 parameter:</p>
 <pre><code class="language-php">use App\Meal;
 
@@ -102,7 +102,7 @@ return $this-&gt;render('meal.twig', [
 <pre><code class="language-php">echo $meal-&gt;getTitle();</code></pre>
 <p><br></p>
 <p>Is this clear? Now we can level up.</p>
-<h2 id="where-does-the-variable-$meal-come-from?">Where does the Variable <code>$meal</code> come From?</h2>
+<h2 id="Where-does-the-Variable-meal-come-From">Where does the Variable <code>$meal</code> come From?</h2>
 <p>Looking at the code, the <code>$meal</code> looks like coming out of nowhere. Where is it defined? In TWIG, these variables are created from a <code>$context</code> array, passed as a parameter of the main <code>doDisplay()</code> method in the compiled template class.</p>
 <p>This <code>$context</code> is an array made mostly of 2nd argument in <code>$this-&gt;render()</code> method.</p>
 <p><br></p>
@@ -113,7 +113,7 @@ return $this-&gt;render('meal.twig', [
     echo $meal-&gt;getTitle();
 }</code></pre>
 <p>And that's how TWIG variables are born in compiled PHP.</p>
-<h2 id="what-is-the-type-of-$meal-variable?">What is the Type of <code>$meal</code> Variable?</h2>
+<h2 id="What-is-the-Type-of-meal-Variable">What is the Type of <code>$meal</code> Variable?</h2>
 <p>Now PHPStan and we know <strong>the variable <code>$meal</code> exists</strong> and comes from some <code>$context</code> array. But the type is still <code>mixed</code>. How do we know <code>$meal</code> is <code>App\Meal</code>?</p>
 <p><br></p>
 <p>Let's back up a little bit and look into first place the type appeared - in our controller:</p>
@@ -133,7 +133,7 @@ return $this-&gt;render('meal.twig', [
 <p>Here the <code>$meal</code> variable is a type of <code>string</code> and the template <code>{{ meal.title }}</code> will crash.</p>
 <p><br></p>
 <p>So to answer the question - the <strong>type depends on the place it's rendered in PHP</strong>. The same way <a href="https://phpstan.org/blog/how-phpstan-analyses-traits">PHPStan does not analyze traits standalone, but only in the context of specific class</a>.</p>
-<h2 id="template-context-and-variables-types">Template Context and Variables Types</h2>
+<h2 id="Template-Context-and-Variables-Types">Template Context and Variables Types</h2>
 <p>We see that rendering the same template in different places can result in different types. Also, we should not forget, the <strong>PHPStan sees only the final compiled PHP file</strong> - it has no idea about the controller the template is rendered in.</p>
 <p><br></p>
 <p>Now that we know the rules of the game, the plan is pretty straightforward:</p>
@@ -143,7 +143,7 @@ return $this-&gt;render('meal.twig', [
 <li>decorate the compiled PHP with variable types</li>
 </ol>
 <p>Let's take step by step in our practical example.</p>
-<h3 id="1.-collect-variable-types">1. Collect Variable Types</h3>
+<h3 id="1-Collect-Variable-Types">1. Collect Variable Types</h3>
 <p>We collect types at the exact moment we see the <code>$twig-&gt;render()</code> method in PHP code.</p>
 <pre><code class="language-php">use App\Meal;
 
@@ -156,14 +156,14 @@ return $this-&gt;render('meal.twig', [
 <ul>
 <li><code>meal</code> =&gt; <code>PHPStan\Type\ObjectType</code> of <code>App\Meal</code></li>
 </ul>
-<h3 id="2.-compile-the-t-w-i-g-to-p-h-p">2. Compile the TWIG to PHP</h3>
+<h3 id="2-Compile-the-TWIG-to-PHP">2. Compile the TWIG to PHP</h3>
 <p>We've already covered this process in previous parts:</p>
 <ul>
 <li><a href="/blog/stamp-1-how-to-compile-twig-to-php">STAMP #1: How to Compile Twig to PHP</a></li>
 <li><a href="/blog/stamp-2-how-to-turn-messy-twig-php-to-something-useful">STAMP #2: How to Turn Messy TWIG PHP to Something Useful</a></li>
 <li><a href="/blog/stamp-3-how-to-turn-twig-helper-functions-to-origin-object">STAMP #3: How to Turn TWIG Helper Functions to Origin Object</a></li>
 </ul>
-<h3 id="3.-decorate-the-compiled-p-h-p">3. Decorate the Compiled PHP</h3>
+<h3 id="3-Decorate-the-Compiled-PHP">3. Decorate the Compiled PHP</h3>
 <p>The TWIG is now compiled to PHP, and we know the types of variables. But the PHPStan has still no idea about types:</p>
 <pre><code class="language-php">public function doDisplay(array $context)
 {

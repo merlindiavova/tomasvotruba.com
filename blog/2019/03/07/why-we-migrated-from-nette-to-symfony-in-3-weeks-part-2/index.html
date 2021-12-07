@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?265383912" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?347594492" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Why we Migrated from Nette to Symfony in 3 Weeks - Part 2 - Escaping Semantic Hell" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/03/07/why-we-migrated-from-nette-to-symfony-in-3-weeks-part-2" />
@@ -84,7 +84,7 @@ Today we'll look on one of the core reasons for this migration - <strong>escapin
 
             <p><a href="https://semver.org">Semantic versioning</a> aka <em>semver</em> tells you there is a BC break between <code>nette/di</code> in version 2.5 and 3.0. That's all you need to know as a web developer.</p>
 <p>If you're an open-source developer, you'll probably learn more about semver. If you do it right, your user will be happy and never have to learn anything more 2.5 and 3.0.</p>
-<h2 id="from-nette...">From Nette...</h2>
+<h2 id="From-Nette">From Nette...</h2>
 <p>When you run <code>composer update</code> Nette project, you'll find this normal:</p>
 <img src="/assets/images/posts/2019/nette-to-symfony2/version-hell.png" style="max-width:30em">
 <p>You can see there 3 variants:</p>
@@ -112,7 +112,7 @@ Today we'll look on one of the core reasons for this migration - <strong>escapin
 }</code></pre>
 <p>And that's a huge overhead with Nette versioning. Each package requires different versions, even v2, and 3 at the same time. If you upgrade to the newer version, the last thing you want to solve is conflicts in a package that are not yours:</p>
 <img src="/assets/images/posts/2019/nette-to-symfony2/install-fail.png">
-<h2 id="whats-different-in-symfony?">What's different in Symfony?</h2>
+<h2 id="What-s-different-in-Symfony">What's different in Symfony?</h2>
 <p>When you install Symfony 4.0, you know that:</p>
 <ul>
 <li><strong>all your packages</strong> are using Symfony 4.0</li>
@@ -122,7 +122,7 @@ Today we'll look on one of the core reasons for this migration - <strong>escapin
 </ul>
 <p>This approach is super stable since Symfony 3.4 and 2017. You can really on <a href="https://symfony.com/doc/current/contributing/code/bc.html">Symfony promise</a> it more than of stability airplanes (I'm writing this post on one, I hope this statement is true :D).</p>
 <p>Imagine you're looking for a bug across <code>symfony/console</code> 3.4, <code>symfony/dependency-injection</code> 4.1 and <code>symfony/finder</code> 4.2. Or just read the Symfony documentation in 3 different versions.</p>
-<h2 id="dont-bother-the-user-with-bad-package-design">Don't Bother the User with Bad Package Design</h2>
+<h2 id="Don-t-Bother-the-User-with-Bad-Package-Design">Don't Bother the User with Bad Package Design</h2>
 <p>Since I was raised in Nette, I used <strong>per-package tagging</strong> in my open-source projects (<em>Zenify</em>, <em>Symnedi</em> and now <em>Symplify</em>). It allowed me to release new versions when the package needed it.</p>
 <ul>
 <li>Does<code>zenify/doctrine-filters</code> has a BC break? Let's release 3.</li>
@@ -134,7 +134,7 @@ Today we'll look on one of the core reasons for this migration - <strong>escapin
     <br>and more <strong>pragmatic common sense</strong>. We were born with it.
 </blockquote>
 <p>Maintainers should read books like <a href="https://www.amazon.com/Design-Everyday-Things-Revised-Expanded-ebook/dp/B06XCCZJ4L">The Design of Everyday Things</a>, <a href="https://www.amazon.com/Dont-Make-Think-Revisited-Usability-ebook-dp-B00HJUBRPG/dp/B00HJUBRPG">Don't Make me Think</a> and <a href="https://www.amazon.com/Pragmatic-Programmer-Journeyman-Master-ebook-dp-B003GCTQAE/dp/B003GCTQAE">The Pragmatic Programmer</a> to understand how others see our code.</p>
-<h2 id="symfony-k-i-s-s-=-per-vendor-tagging">Symfony KISS = Per-Vendor Tagging</h2>
+<h2 id="Symfony-KISS-Per-Vendor-Tagging">Symfony KISS = Per-Vendor Tagging</h2>
 <p>So I decided <strong>to try <a href="/blog/2017/10/30/what-can-you-learn-from-menstruation-and-symfony-releases/">per-vendor tagging</a></strong> over per-package tagging. Now I have to answer questions like &quot;Why did you release a new version of your package, but no change between version 3.2.0 and 3.3.0?&quot; But I know <strong>bothering developers with semver-hell</strong> is not a better choice, so I answer patiently (with a link to this post :)).</p>
 <p>After all:</p>
 <blockquote class="blockquote text-center">

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1745082030" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?2119565018" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Replace Single Node with Two Nodes in Abstract Syntax Tree" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/how-to-replace-single-node-with-two-nodes-in-abstract-syntax-tree" />
@@ -84,7 +84,7 @@ It leads to more developers <strong>who can write their own custom Rector rules 
 
             <p>Standard rules usually replace one node with another, or change it. There are three operations you can make. Let's take them one by one, starting from the simplest.</p>
 <p><br></p>
-<h2 id="1.-change-one-node">1. Change one Node</h2>
+<h2 id="1-Change-one-Node">1. Change one Node</h2>
 <p>E.g. when here it renames one class in a constructor to another:</p>
 <pre><code class="language-diff"> public function __construct(
 -    EntityManager $entityManager
@@ -113,7 +113,7 @@ final class RenameEntityManagerRector extends AbstractRector
     // ...
 }</code></pre>
 <p>We change a node and return the changed node. Let's move to level 2.</p>
-<h2 id="2.-replacing-one-node-by-another">2. Replacing One Node by Another</h2>
+<h2 id="2-Replacing-One-Node-by-Another">2. Replacing One Node by Another</h2>
 <p>Let's say we want to upgrade to PHP 8 and use new <code>str_contains()</code> function:</p>
 <pre><code class="language-diff">-Nette\Utils\Strings::contains($content, 'letter');
 +str_contains($content, 'letter');</code></pre>
@@ -142,7 +142,7 @@ final class ReplaceStrContainsRector extends AbstractRector
 }</code></pre>
 <p>Are you still with me? Let's get to the most complex one.</p>
 <p><br></p>
-<h2 id="3.-replacing-single-node-by-two-nodes">3. Replacing Single Node by Two Nodes</h2>
+<h2 id="3-Replacing-Single-Node-by-Two-Nodes">3. Replacing Single Node by Two Nodes</h2>
 <p>Let's say we have an extremely complex line where a lot of operations happens at once:</p>
 <pre><code class="language-php">$result = 5 + 10;</code></pre>
 <p>I'm a bit exaggerating here, but I believe <strong>any code should be easily readable</strong> even after 3 glasses of wine. How can we improve the code, so we understand the code even late in the night?</p>
@@ -206,7 +206,7 @@ public function refactor(Node $node)
 <p>Just instead of a single node, it's 2 nodes. How easy is that?</p>
 <p>But in practice, this rule would not work. We need to respect the abstract syntax tree node traverser architecture of php-parser.
 Don't worry. We're 2 steps away from success. But first, you need to understand one big difference...</p>
-<h2 id="statements-vs.-expressions">Statements vs. Expressions</h2>
+<h2 id="Statements-vs-Expressions">Statements vs. Expressions</h2>
 <p>In php-parser, there are 2 kinds of nodes:</p>
 <p><br></p>
 <div class="row">
@@ -230,13 +230,13 @@ What is it?</p>
 {
 }</code></pre>
 <p><br></p>
-<h3 id="expr"><strong><code>Expr</code></strong></h3>
+<h3 id="Expr"><strong><code>Expr</code></strong></h3>
 <ul>
 <li>holds a value</li>
 <li>can be used as part of operation (<code>__DIR__ . '/Fixture'</code>)</li>
 <li>can be nested in other expressions (<code>strlen(__DIR__ . '/Fixture') &gt; 10</code>)</li>
 </ul>
-<h3 id="stmt"><strong><code>Stmt</code></strong></h3>
+<h3 id="Stmt"><strong><code>Stmt</code></strong></h3>
 <ul>
 <li>is part of code</li>
 <li>it <em>just exists</em></li>
@@ -244,7 +244,7 @@ What is it?</p>
 </ul>
 <p>If you're still missing the difference, check other classes that implement <code>Expr</code> or <code>Stmt</code>. It will give you a better idea.</p>
 <p><br></p>
-<h2 id="the-golden-rule-of-replacing-nodes">The Golden Rule of Replacing Nodes</h2>
+<h2 id="The-Golden-Rule-of-Replacing-Nodes">The Golden Rule of Replacing Nodes</h2>
 <p>Why do we even talk about this?
 <strong>Because we can only replace one <code>Stmt</code> by multiple <code>Stmt</code></strong>.</p>
 <p>Let's get back to our example:</p>

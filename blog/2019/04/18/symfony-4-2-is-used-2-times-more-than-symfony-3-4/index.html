@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?56956629" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1972013784" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Symfony 4.2 is used Twice More than Symfony 3.4" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/04/18/symfony-4-2-is-used-2-times-more-than-symfony-3-4" />
@@ -86,7 +86,7 @@ This post was inspired by very active reactions to <a href="/blog/2019/04/11/tre
 <p>If you look at the <a href="https://phpfwtrends.org/">PHP Framework Trends table</a> and see Symfony with 595 mils. downloads last year, what will it tell us? What if 90 % of that is just legacy Symfony 2.8?</p>
 <p>When I talked with my friends Marek and Honza about PHP downloads trends last week, they came with an idea that stats should include <strong>downloads numbers for each version</strong> and <strong>the release date</strong> of that version. That would help us separate long-tail dinosaurs from actively adopted packages.</p>
 <p>So I closed myself in a closet for 3 days and put together framework downloads grouped by version (<a href="https://github.com/TomasVotruba/tomasvotruba.com/pull/738/files">see PR</a>). I won't lie, few numbers really surprised me.</p>
-<h2 id="symfony-on-bleeding-edge">Symfony on Bleeding Edge</h2>
+<h2 id="Symfony-on-Bleeding-Edge">Symfony on Bleeding Edge</h2>
 <p>They say it's best practice to use LTS version - now Symfony 3.4. I personally prefer living on the edge with the 4.x version, but after feedback from the community, I lowered requirements to Symfony 3.4 as well.</p>
 <p>Let's look at a base stone for Symfony applications - <a href="https://phpfwtrends.org/framework/symfony/">symfony/http-kernel</a>.</p>
 <ul>
@@ -96,7 +96,7 @@ This post was inspired by very active reactions to <a href="/blog/2019/04/11/tre
 <li>v3.4 - <strong>891 778</strong></li>
 </ul>
 <p>It's that Symfony community doesn't wait on another LTS. It grabs the new features as soon as they're out. Amazing job!</p>
-<h2 id="laravel-wide-spread-and-stable">Laravel wide Spread and Stable</h2>
+<h2 id="Laravel-wide-Spread-and-Stable">Laravel wide Spread and Stable</h2>
 <p>I don't follow Laravel releases much. There is no clear release plan like PHP or Symfony has and they seemed somewhat random to me.
 So when I looked at stats of <a href="https://phpfwtrends.org/framework/illuminate">laravel/framework</a>, I was surprised there are <strong>basically 2 release/year every ~6 months</strong>.</p>
 <p>It's also interesting, that people stick with various versions:</p>
@@ -109,7 +109,7 @@ So when I looked at stats of <a href="https://phpfwtrends.org/framework/illumina
 </ul>
 <p>Other versions have less than 70 k downloads.</p>
 <p>It's also notable that <strong>89,5 %</strong> downloads are for Laravel 5.x.</p>
-<h2 id="zend-injection-along-with-adoption">Zend Injection along with Adoption</h2>
+<h2 id="Zend-Injection-along-with-Adoption">Zend Injection along with Adoption</h2>
 <p>This week was <a href="https://mwop.net/blog/2019-04-17-from-zend-to-laminas.html">Matthew announced moving Zend to Laminas project</a>. For users, it technically means just change of <code>Zend</code> namespace to <code>Laminas</code>, but potentially growth of Zend features thanks Linux Foundation funding. Great news!</p>
 <p>How is the <a href="https://phpfwtrends.org/framework/laminas/">Zend adoption doing now</a>?</p>
 <ul>
@@ -117,11 +117,11 @@ So when I looked at stats of <a href="https://phpfwtrends.org/framework/illumina
 <li>51 of 91 packages has an adoption rate of 60 %+</li>
 </ul>
 <p>The Zend community is clearly interested in new features, far from &quot;Zend is Dead&quot;.</p>
-<h2 id="cake-p-h-p-with-peak">CakePHP with Peak</h2>
+<h2 id="CakePHP-with-Peak">CakePHP with Peak</h2>
 <ul>
 <li>The most <strong>downloaded package is <code>cakephp/chronos</code></strong> - with 290 045 downloads/month. Next packages have only 60-70 000 downloads.</li>
 </ul>
-<h2 id="nette-slowly-adopting">Nette slowly Adopting</h2>
+<h2 id="Nette-slowly-Adopting">Nette slowly Adopting</h2>
 <ul>
 <li>The backbone for applications - <a href="https://phpfwtrends.org/framework/nette/"><code>nette/application</code></a> - <strong>has only 4 % adoption</strong>. No surprise there, since Nette 3.0 was released only on April 2nd, 2019. Keep updating!</li>
 </ul>

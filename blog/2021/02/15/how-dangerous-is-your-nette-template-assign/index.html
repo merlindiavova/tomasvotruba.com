@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1651378376" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1434271507" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How Dangerous is Your Nette Template Assign" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2021/02/15/how-dangerous-is-your-nette-template-assign" />
@@ -82,7 +82,7 @@ Nette documentation is no different. <strong>Today, we'll look at configuring te
                 </div>
             </div>
 
-            <h2 id="what-is-the-main-purpose-of-template?">What is the Main Purpose of Template?</h2>
+            <h2 id="What-is-the-Main-Purpose-of-Template">What is the Main Purpose of Template?</h2>
 <p>What should a template engine do? Render some content to an end-user. Sometimes, it can be a static page; sometimes, there can be parameters. But fundamentally, that's it. Anything else is just fancy syntax sugar.</p>
 <p>Let's look at a simple template example:</p>
 <pre><code class="language-html">I'll give 10 Bitcoins to people in need</code></pre>
@@ -143,7 +143,7 @@ I'll give {$bitcoinCount} Bitcoins to people in need</code></pre>
 <li>parameters are passed <strong>exactly once</strong> into the &quot;render&quot; method</li>
 </ul>
 <p>The 2nd approach is far better than 1st one. Could you guess <strong>9 reasons why</strong>?</p>
-<h2 id="1.-variable-override-bug">1. Variable Override Bug</h2>
+<h2 id="1-Variable-Override-Bug">1. Variable Override Bug</h2>
 <p>Why don't we use public properties? Because they can be overridden anywhere without us knowing:</p>
 <pre><code class="language-php">final class Product
 {
@@ -206,7 +206,7 @@ private function sendNotification(): void
 }</code></pre>
 <p>What is the <code>$bitcoinCount</code>? <code>10</code> or <code>100</code>? It depends on the <code>$this-&gt;template</code> override mechanism, I guess.</p>
 <p>❌</p>
-<h2 id="2.-call-me...-maybe">2. Call Me... Maybe</h2>
+<h2 id="2-Call-Me-Maybe">2. Call Me... Maybe</h2>
 <p>With property access like this, we can define parameters... just sometimes:</p>
 <pre><code class="language-php">public function render(): void
 {
@@ -224,7 +224,7 @@ private function sendNotification(): void
 <li>nothing, use <code>empty()</code> to check if exists</li>
 </ul>
 <p>❌</p>
-<h2 id="3.-unset-or-nullable-variable?">3. Unset or Nullable Variable?</h2>
+<h2 id="3-Unset-or-Nullable-Variable">3. Unset or Nullable Variable?</h2>
 <p>This bug build on previous weakness. Let's say we have a <a href="https://afilina.com/null-hell">null-hell</a> nullable return:</p>
 <pre><code class="language-php">private function getBitcoinCount(): ?int
 {
@@ -237,13 +237,13 @@ private function sendNotification(): void
     $this-&gt;template-&gt;bitcoinCount = $this-&gt;getBitcoinCount();
 }</code></pre>
 <p>❌</p>
-<h2 id="4.-forgotten-require-variable">4. Forgotten Require Variable</h2>
+<h2 id="4-Forgotten-Require-Variable">4. Forgotten Require Variable</h2>
 <p>The example above would also fail, because the <code>{$bitcoinCount}</code> is required in template:</p>
 <pre><code class="language-html">&lt;!-- templates/giveaway.latte --&gt;
 I'll give {$bitcoinCount} Bitcoins to people in need</code></pre>
 <p>How can you <strong>define what is required variable</strong>? In objects and services, we have <code>__construct()</code> for that, but here?</p>
 <p>❌</p>
-<h2 id="5.-two-ways-to-do-one-thing">5. Two Ways to do One Thing</h2>
+<h2 id="5-Two-Ways-to-do-One-Thing">5. Two Ways to do One Thing</h2>
 <img src="/assets/images/posts/2021/two_thing_one.jpg" class="img-thumbnail mt-4 mb-2">
 <p>Let's say we manage to set variable once in the template. Many months later, a new developer learns about 2nd <code>render()</code> parameters and uses them:</p>
 <pre><code class="language-diff"> public function render(): void
@@ -261,7 +261,7 @@ I'll give {$bitcoinCount} Bitcoins to people in need</code></pre>
 <li>B. <code>I'll give 10 Bitcoins to people in need</code></li>
 </ul>
 <p>❌</p>
-<h2 id="6.-read-it!">6. Read It!</h2>
+<h2 id="6-Read-It">6. Read It!</h2>
 <p>As with any other public property, we can read it and modify it:</p>
 <pre><code class="language-php">public function render(): void
 {
@@ -273,7 +273,7 @@ I'll give {$bitcoinCount} Bitcoins to people in need</code></pre>
 }</code></pre>
 <p>Soon we're using <code>$this-&gt;template</code> for any variable operation.</p>
 <p>❌</p>
-<h2 id="7.-killing-known-types">7. Killing Known Types</h2>
+<h2 id="7-Killing-Known-Types">7. Killing Known Types</h2>
 <p>We know that type of <code>100</code> is <code>int</code>, so do PHPStan, PHPStorm, and Rector. But once we set it to magical <code>$this-&gt;template</code>, everybody becomes blind:</p>
 <pre><code class="language-php">public function render(): void
 {
@@ -285,12 +285,12 @@ I'll give {$bitcoinCount} Bitcoins to people in need</code></pre>
     }
 }</code></pre>
 <p>❌</p>
-<h2 id="8.-making-magic-more-magical">8. Making Magic more Magical</h2>
+<h2 id="8-Making-Magic-more-Magical">8. Making Magic more Magical</h2>
 <p>With Nette 3.0, there has been an attempt to fix the magic with <a href="https://blog.nette.org/en/latte-how-to-use-type-system">typed template objects</a>. The intention to have a typed template is good, but it adds more magic to rendering.</p>
 <p>The <code>$this-&gt;template</code> is not a service anymore, but a value object. That can hold parameters. And also render itself somehow. That's typical example of <strong><a href="https://en.wikipedia.org/wiki/Active_record_pattern">active record anti-pattern</a></strong>. Are you able to give birth yourself? <strong>Not a way to go.</strong></p>
 <p>❌</p>
 <p>There is a better way to have both <strong>typed template</strong> and <strong>pass parameters just once</strong>. I'll write about it soon - stay tuned.</p>
-<h2 id="9.-typos-everywhere">9. Typos Everywhere</h2>
+<h2 id="9-Typos-Everywhere">9. Typos Everywhere</h2>
 <p>Could you guess, what will happen here?</p>
 <pre><code class="language-php">public function render(): void
 {
@@ -305,7 +305,7 @@ I'll give {$bitcoinCount} Bitcoins to people in need</code></pre>
 <p>The condition is obviously a <code>true</code>, right?</p>
 <p>Well, the second variable <em>bitcoin<strong>t</strong>Count</em> does not exists, so we're now <code>-10</code> bitcoints.</p>
 <p>❌</p>
-<h2 id="back-to-basics">Back to Basics</h2>
+<h2 id="Back-to-Basics">Back to Basics</h2>
 <p>There is one more surprise. How does <a href="https://latte.nette.org/en/guide#toc-installation-and-usage">Latte documentation</a> look like? <strong>It promotes the clear approach!</strong></p>
 <pre><code class="language-php">$latte = new Latte\Engine;
 
@@ -313,7 +313,7 @@ $latte-&gt;render('template.latte', [
     'items' =&gt; ['one', 'two', 'three']
 ]);</code></pre>
 <p>So why is every presenter and component using it wrong? Because Occam's razor - people <strong>tend to pick the first solution they see and use it everywhere</strong>.</p>
-<h2 id="the-correct-way-to-render-templates-with-parameters">The Correct Way to Render Templates With Parameters</h2>
+<h2 id="The-Correct-Way-to-Render-Templates-With-Parameters">The Correct Way to Render Templates With Parameters</h2>
 <p>What if there is a way to avoid all 7 possible bugs above? Like we don't have enough bug potential in our code-bases.</p>
 <p>I know you've already guessed it, but just to Google can find it too. The correct way to render parameters is to <strong>pass them exactly once</strong> as 2nd parameter of <code>render()</code> method:</p>
 <pre><code class="language-php">public function render(): void

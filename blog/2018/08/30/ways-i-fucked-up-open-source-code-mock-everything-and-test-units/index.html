@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1353332357" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?764705122" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Ways I Fucked Up Open Source Code: Mock Everything and Test Units" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/08/30/ways-i-fucked-up-open-source-code-mock-everything-and-test-units" />
@@ -84,11 +84,11 @@ Today I'll show you one of my many fuckups - let's mock units!</p>
 
             <p>I was using <a href="https://github.com/apigen/apigen">ApiGen</a> back in 2014. I had no commit for past 2 years so no surprise it didn't work for PHP 5.5+. I was young inexperienced... <em>a complainer</em> in that time, so I created issues and I blamed every contributor for creating such a bad project.</p>
 <p>At the same time, I had a baby on the way and I didn't want to teach him to complain. <em>Change it or let it go</em> - that's what I wanted to teach him, so I wrote an email to Jarda, joined the project, <strong>started making the code better and failing at it</strong>.</p>
-<h2 id="mock-(almost)-everything">Mock (Almost) Everything</h2>
+<h2 id="Mock-Almost-Everything">Mock (Almost) Everything</h2>
 <p>The project had 0 % coverage, so every line I changed raised my heart-beat and blood pressure to enormous levels. I broke completely unrelated code (= regression bug) many times making the project even more bugged than it was before I came.</p>
 <p>&quot;Let's increase the coverage to 90 %&quot;, I thought. I read this number on the Internet, so it had to be true. In that time I was pretty new to unit testing and mocking was on the hype. I didn't know that <em>hype</em> is <em>fake success</em> and that everything popular needs to be tested first instead of blindly integrated.</p>
 <p>I took mocking, aimed for a high coverage and make unit tests strictly unit. Each class had standalone. After all, that will make the project, successful and easy to maintain. That what I thought at least. I managed to go to 84 % of coverage and burn out in the process. But it was &quot;clean&quot; and I thought the open-source is hard to make, so it <em>felt</em> right.</p>
-<h2 id="how-i-found-out-i-failed?">How I Found Out I Failed?</h2>
+<h2 id="How-I-Found-Out-I-Failed">How I Found Out I Failed?</h2>
 <p>The story could end here with success final note. I turned 0  % coverage to 84 % on a project I never coded before. I used mocks and unit test - that's cool and great, right? It wasn't until 2 years later I worked on the code again to experience the real &quot;added&quot; value. Without exposing to feedback there is no place to improve.</p>
 <img src="/assets/images/posts/2018/fuckups/before-after.png" class="img-thumbnail">
 <p>ApiGen used 3rd party reflection package that was not developed for 4 years in that time. The only reasonable way to add PHP 5.5+ and features was to use BetterReflection. I won't go in much details here, but you can <a href="/blog/2017/09/04/how-apigen-survived-its-own-death/">read the whole story of migration here</a>.</p>
@@ -129,20 +129,20 @@ final class ApiGenTest extends TestCase
 <p>Instead of mocking, <strong>I started to use <a href="/blog/2018/06/11/how-to-turn-mocks-from-nightmare-to-solid-kiss-tests/">anonymous classes</a></strong>. They've proven to be readable, programmers understand them (it's PHP code, you know) and there are no strings or plugins attached.</p>
 </li>
 </ul>
-<h2 id="what-i-learned-from-this-fail?">What I Learned From this Fail?</h2>
+<h2 id="What-I-Learned-From-this-Fail">What I Learned From this Fail?</h2>
 <p><strong>I ask more</strong> and go for experience and small experiments.</p>
-<h3 id="1.-is-it-hype-or-is-it-quality?">1. Is it Hype or is it Quality?</h3>
+<h3 id="1-Is-it-Hype-or-is-it-Quality">1. Is it Hype or is it Quality?</h3>
 <p>Why do I think it's a good solution? Is it based on opinions or experience? If the first one, I make a little experiment to know and prevent huge consequences. I also found out that famous people are taken seriously... or rather miss taken seriously. Without knowing their experience and whys, people take blindly their statements. Take me as an example - I went for strict unit testing and 90 % coverage without really knowing why.</p>
 <p>These statements are usually out of context and <strong>based on their specific experience</strong>. I might be working with 10-years-old PHP project where there is no space (budget) for automated refactorings or code-self-improvement, so I go for unit tests of everything I can. But <strong>does it make sense in your context</strong> where your leader is more educated and focuses on the effectivity in the long-run over today?</p>
 <p>Advice have meaning in their context, <strong>you have to create your own</strong>. The same applies to my me. I share my own views, that is based on my own experience. It might work for you, but it doesn't mean it's right for everybody. Even if I don't write explicitly in every post my whole history, try to think about the background I'm from, what projects I work on and how that relates to you.</p>
 <p>This <em>false positive</em> is called <a href="https://www.google.cz/search?q=anecdotal+evidence+example">anecdotal evidence</a> in psychology research.</p>
 <img src="https://pixfeeds.com/images/32/608973/1200-608973-7125124.jpg" class="img-thumbnail">
 <p><em>Fail fast and fail safe.</em> Try 2 frameworks to understand the first one, try <a href="/blog/2017/10/02/easy-coding-standard-and-phpstan-meet-3-symfony-ecommerce-projects/">3 e-commerce projects to make yours better</a>, try 10-20 projects to understand yours.</p>
-<h3 id="2.-what-maintenance-cost-it-brings?">2. What Maintenance Cost it Brings?</h3>
+<h3 id="2-What-Maintenance-Cost-it-Brings">2. What Maintenance Cost it Brings?</h3>
 <p>If I'd work in the agency that takes every year new project, I would not mind. I would create code that somebody else would have to rewrite in 5 years and got paid for it. But <strong>I prefer long-term projects and the challenge of keeping them fit and slim even after many years of development</strong>.</p>
 <p>Every feature will make something better, so it doesn't make sense to ask if the project will be better with it. Even the school system gives you something. That's not the point. Instead for every new code feature, I ask - <strong>is added value bigger than an increase in maintenance cost it adds to our daily routine</strong>? I mean it's great to have online support form in javascript, but if it takes 1 hour daily due to bugs of the unstable package... - again, there is space for an experiment.</p>
 <p><br></p>
-<h2 id="out-of-context-takeaways">Out of Context Takeaways</h2>
+<h2 id="Out-of-Context-Takeaways">Out of Context Takeaways</h2>
 <p>So that's my fuckup story based on repeated in headlines and one-line advice I've heard.</p>
 <p>What should you take as one-line takeaways?</p>
 <ul>

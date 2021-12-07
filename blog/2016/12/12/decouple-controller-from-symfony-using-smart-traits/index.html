@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?474017163" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1684578289" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Decouple Controller from Symfony using Traits" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2016/12/12/decouple-controller-from-symfony-using-smart-traits" />
@@ -88,7 +88,7 @@
                 </div>
             </div>
 
-            <h2 id="typical-use-case-of-mixing-principles">Typical use case of Mixing Principles</h2>
+            <h2 id="Typical-use-case-of-Mixing-Principles">Typical use case of Mixing Principles</h2>
 <ol>
 <li>Constructor Injection</li>
 <li>Service locator (container) from parent Controller class</li>
@@ -127,7 +127,7 @@ final class ProductController extends Controller
          'title' =&gt; $this-&gt;get('title_manager')-&gt;fetchForProducts()
     ]);
 }</code></pre>
-<h2 id="real-issue?-see-3-p-rs-to-symfony-core">Real Issue? See 3 PRs to Symfony Core</h2>
+<h2 id="Real-Issue-See-3-PRs-to-Symfony-Core">Real Issue? See 3 PRs to Symfony Core</h2>
 <p>There are some trials to make this bit more decoupled:</p>
 <ul>
 <li><a href="https://github.com/symfony/symfony/pull/17608">[DependencyInjection] Autowiring: add setter injection support</a>, but is was <a href="https://github.com/symfony/symfony/pull/20384">reverted</a></li>
@@ -135,15 +135,15 @@ final class ProductController extends Controller
 <li><a href="https://github.com/symfony/symfony/pull/18193">[FrameworkBundle] Introduce autowirable ControllerTrait</a> - similar to previous one, but depending on reverted setter injection</li>
 </ul>
 <p>There are some trials, but I guess <strong>this feature is not coming anytime soon</strong>.</p>
-<h3 id="how-to-make-a-change">How to make a Change</h3>
+<h3 id="How-to-make-a-Change">How to make a Change</h3>
 <p>When it's <strong>difficult to estimate if this would be useful feature to merge</strong>, somebody creates a bundle and test it in practise.</p>
 <p>Similar thing happened for <a href="https://github.com/knpuniversity/KnpUGuardBundle">knpuniversity/KnpUGuardBundle</a> that later became core part of Symfony.</p>
 <p>So...</p>
-<h3 id="is-there-a-bundle-for-this?">Is There a Bundle for This?</h3>
+<h3 id="Is-There-a-Bundle-for-This">Is There a Bundle for This?</h3>
 <p>Few months ago <a href="https://twitter.com/PetrOlisar">Petr Olišar</a> reported <a href="https://github.com/symplify/symplify/issues/14">similar issue</a> to <a href="https://github.com/Symplify/ControllerAutowire">ControllerAutowire</a> package.</p>
 <p>I realized it perfectly fits there and <strong>I added it</strong>.</p>
 <p>Thank you Petr!</p>
-<h2 id="how-does-it-work?">How Does it Work?</h2>
+<h2 id="How-Does-it-Work">How Does it Work?</h2>
 <p>Now you can do use bare Controller with only what you need:</p>
 <pre><code class="language-php">use Symplify\ControllerAutowire\Controller\Templating\ControllerRenderTrait;
 
@@ -170,7 +170,7 @@ final class ProductController
 }</code></pre>
 <p><strong>You can use few small traits</strong> or <strong>just 1</strong> - <code>ControllerTrait</code>. Pick what fits your needs the best.</p>
 <p>You will <a href="https://github.com/Symplify/ControllerAutowire/tree/master/src/Controller">find them in repository</a> or just type <code>ControllerTrait</code> in your IDE:</p>
-<h2 id="try-this-out-and-let-us-know">Try This Out and Let Us Know</h2>
+<h2 id="Try-This-Out-and-Let-Us-Know">Try This Out and Let Us Know</h2>
 <p>There were many suggestions around those PR, but no package to really try it out in  practice.</p>
 <p>So feel free to install this package and try this out. Feedback is much appreciated.</p>
 <p><strong>It will be helpful in PRs to Symfony core and helps to make conscious decision about this topic</strong>.</p>

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1897317495" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1601523834" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="STAMP #1: How to Compile Twig to PHP" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/stamp-1-how-to-compile-twig-to-php" />
@@ -89,7 +89,7 @@ The other option is to take it from the other end - convert Twig to PHP.</p>
             <p>In the previous post we worked with <code>templates/meal.twig</code> with single method call:</p>
 <pre><code class="language-twig">{{ meal.title }}</code></pre>
 <p>Today we'll try to turn this single line into PHP syntax.</p>
-<h2 id="how-do-we-render-twig-in-our-projects?">How do we Render Twig in our Projects?</h2>
+<h2 id="How-do-we-Render-Twig-in-our-Projects">How do we Render Twig in our Projects?</h2>
 <p>The most common use case for rendering templates is in a Symfony controller. We call <code>$this-&gt;render()</code> with a template name as 1st argument:</p>
 <pre><code class="language-php">use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -102,7 +102,7 @@ final class DinnerController extends AbstractController
     }
 }</code></pre>
 <p>This creates rendered HTML. But we don't have a tool called &quot;HTMLStan&quot;, but PHPStan. How do we get a PHP syntax of the <code>templates/meal.twig</code> template?</p>
-<h2 id="from-controller-to-twig-environment">From Controller to Twig Environment</h2>
+<h2 id="From-Controller-to-Twig-Environment">From Controller to Twig Environment</h2>
 <p>Let's take it to step by step. We don't need the whole <code>symfony/framework-bundle</code> to render Twig. What does the <code>render()</code> method of <code>AbstractController</code> do? It can be decomposed into these calls:</p>
 <pre><code class="language-php">use Symfony\Component\HttpFoundation\Response;
 
@@ -122,7 +122,7 @@ abstract class AbstractController
 }</code></pre>
 <p>As you've expected, it is a simple request and response with some <code>string</code>. The <code>$content</code> string is what we're interested in.</p>
 <p>But <strong>what is this &quot;environment&quot; we're calling?</strong> First association to &quot;environment&quot; might be &quot;env&quot; or development, production, and tests. But such a name suggests a value object or a variable, not a service. I will save you from confusion - it's a Twig renderer service. A name like &quot;TwigRenderer&quot; or &quot;TwigApplication&quot; would save us this paragraph, but sometimes legacy is what we have to work with.</p>
-<h2 id="from-response-to-twig-render">From Response to Twig Render</h2>
+<h2 id="From-Response-to-Twig-Render">From Response to Twig Render</h2>
 <p>Let's strip of clutter from <code>render()</code> and keep only the relevant lines:</p>
 <pre><code class="language-php">use Twig\Environment;
 
@@ -131,11 +131,11 @@ $environment = new Environment();
 /** @var string $content */
 $content = $environment-&gt;render('templates/meal.twig');</code></pre>
 <p>We pass a TWIG <code>'templates/meal.twig'</code> and get rendered HTML <code>$content</code>. How can we use this as food for PHPStan?</p>
-<h2 id="t-w-i-g-→-?-→-h-t-m-l">TWIG → ? → HTML</h2>
+<h2 id="TWIG-HTML">TWIG → ? → HTML</h2>
 <p>We're getting closer. Now we know how to render TWIG file path to HTML content with couple of PHP lines and the <code>twig/twig</code> package. That's great! But <strong>how is that useful for static analysis in PHP</strong>?</p>
 <p>First, we need to understand TWIG rendering lifecycle. It would be costly to convert every TWIG template to PHP, then complete variables and <code>echo</code> it to HTML string.</p>
 <p>How does TWIG make sure it's fast?</p>
-<h2 id="3-step-t-w-i-g-lifecycle">3-Step TWIG Lifecycle</h2>
+<h2 id="3-Step-TWIG-Lifecycle">3-Step TWIG Lifecycle</h2>
 <ol>
 <li>find <code>templates/meal.twig</code> absolute path and load its contents</li>
 <li><strong>check if this template was already parsed to PHP</strong>
@@ -146,7 +146,7 @@ $content = $environment-&gt;render('templates/meal.twig');</code></pre>
 <li>complete dynamic parameters to PHP template and echo it</li>
 </ol>
 <p>Now it's clear what we need to do. We have to do step 1., then step 2. parse TWIG to PHP and save the file to filesystem. PHPStan can analyze files in the filesystem, so we have a clear goal!</p>
-<h2 id="stop-rendering-t-w-i-g-at-p-h-p-step?">Stop Rendering TWIG at PHP Step?</h2>
+<h2 id="Stop-Rendering-TWIG-at-PHP-Step">Stop Rendering TWIG at PHP Step?</h2>
 <p>In the last snippet, we can see only the <code>render()</code> method that outputs HTML string:</p>
 <pre><code class="language-php">use Twig\Environment;
 
@@ -160,7 +160,7 @@ $content = $environment-&gt;render('templates/meal.twig');</code></pre>
 <li><code>parse()</code> → <strong><code>compile()</code></strong> <del>→ <code>render()</code></del></li>
 <li>TWIG → PHP <del>→ HTML</del></li>
 </ul>
-<h2 id="finally:-compile-t-w-i-g-to-p-h-p">Finally: Compile TWIG to PHP</h2>
+<h2 id="Finally-Compile-TWIG-to-PHP">Finally: Compile TWIG to PHP</h2>
 <p>If we extract this <code>compile()</code> method and remove clutter code, we'll get to 3 lines that do the job:</p>
 <pre><code class="language-php">use Twig\Environment;
 
@@ -173,8 +173,8 @@ $source = $environment-&gt;getLoader()-&gt;getSourceContext('templates/meal.twig
 $phpContent = $environment-&gt;compileSource($source);</code></pre>
 <p><br></p>
 <p><strong>In <code>$phpContent</code> now we have PHP string that PHPStan can analyze, yay!</strong></p>
-<h1 id="🎉">🎉</h1>
-<h2 id="what-is-in-$php-content?">What is in <code>$phpContent</code>?</h2>
+<h1 id="">🎉</h1>
+<h2 id="What-is-in-phpContent">What is in <code>$phpContent</code>?</h2>
 <p>Are you curious, how does the final compiled PHP code look like?</p>
 <p>I will not lie to you. It's not nice. It's even worse. It's not readable. That's probably because in 2009 when the TWIG was released, nobody thought of creating beautiful cached PHP code for PHPStan.</p>
 <p><br></p>
@@ -244,7 +244,7 @@ class __TwigTemplate_8a9d1381e8329967... extends Template
         return new Source("", "templates/meal.twig", "");
     }
 }</code></pre>
-<h2 id="how-is-this-p-h-p-mess-helpful?">How is this PHP Mess Helpful?</h2>
+<h2 id="How-is-this-PHP-Mess-Helpful">How is this PHP Mess Helpful?</h2>
 <p>Not much, to be honest. Yet.</p>
 <p>We'll give it a look <a href="/blog/stamp-2-how-to-turn-messy-twig-php-to-something-useful">in the next post</a>. Maybe we can come up with something useful.</p>
 <p><br></p>

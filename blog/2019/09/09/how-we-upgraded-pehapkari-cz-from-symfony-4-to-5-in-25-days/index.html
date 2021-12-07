@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?2046829120" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1643391152" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How we Upgraded Pehapkari.cz from Symfony 4 to 5 in 25 days" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/09/09/how-we-upgraded-pehapkari-cz-from-symfony-4-to-5-in-25-days" />
@@ -100,8 +100,8 @@ Well, that's what we thought. <strong>Were we right or wrong?</strong></p>
 <p><br></p>
 <p>Are you ready? Let's dive in ↓</p>
 <p><br></p>
-<h2 id="1.-easy-picks">1. Easy picks</h2>
-<h3 id="twig-2-→-3">Twig 2 → 3</h3>
+<h2 id="1-Easy-picks">1. Easy picks</h2>
+<h3 id="Twig-2-3">Twig 2 → 3</h3>
 <p>Before, you could connect <code>for</code> with <code>if</code> like this:</p>
 <pre><code class="language-twig">{% for post in posts if post.isPublic() %}
     {{ post.title }}
@@ -111,7 +111,7 @@ Well, that's what we thought. <strong>Were we right or wrong?</strong></p>
     {{ post.title }}
 {% endfor %}</code></pre>
 <p><em>Thanks <a href="https://www.reddit.com/r/PHP/comments/ef2nit/how_we_upgraded_pehapkaricz_from_symfony_4_to_5/fbzyhsl">Patrik for the tip</a></em></p>
-<h2 id="2.-rector-helps-you-with-p-h-p">2. Rector Helps You with PHP</h2>
+<h2 id="2-Rector-Helps-You-with-PHP">2. Rector Helps You with PHP</h2>
 <p>Do you want to know, what is needed for the upgrade to Symfony 5? <a href="https://github.com/symfony/symfony/blob/5.0/UPGRADE-5.0.md">Just read upgrade notes</a> in Symfony repository.</p>
 <ol>
 <li>For PHP stuff, use <a href="https://github.com/rectorphp/rector">Rector</a>:</li>
@@ -143,15 +143,15 @@ return function (ContainerConfigurator $containerConfigurator): void {
 </ol>
 <pre><code class="language-bash">vendor/bin/rector process app src tests</code></pre>
 <p>Verify, check that CI passes and then continue with next Symfony minor version.</p>
-<h2 id="3.-update-composer.json-before-composer-update">3. Update <code>composer.json</code> before <code>composer update</code></h2>
-<h3 id="easy-admin-bundle">Easy Admin Bundle</h3>
+<h2 id="3-Update-composer-json-before-composer-update">3. Update <code>composer.json</code> before <code>composer update</code></h2>
+<h3 id="Easy-Admin-Bundle">Easy Admin Bundle</h3>
 <pre><code class="language-diff"> {
      "require": {
 -        "alterphp/easyadmin-extension-bundle": "^2.1",
 +        "alterphp/easyadmin-extension-bundle": "^3.0",
     }
 }</code></pre>
-<h3 id="doctrine">Doctrine</h3>
+<h3 id="Doctrine">Doctrine</h3>
 <pre><code class="language-diff"> {
      "require": {
 -        "doctrine/cache": "^1.8",
@@ -162,7 +162,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 +        "doctrine/orm": "^2.7",
      }
  }</code></pre>
-<h3 id="doctrine-behaviors">Doctrine Behaviors</h3>
+<h3 id="Doctrine-Behaviors">Doctrine Behaviors</h3>
 <pre><code class="language-diff"> {
      "require": {
 -        "stof/doctrine-extensions-bundle": "^1.3",
@@ -170,14 +170,14 @@ return function (ContainerConfigurator $containerConfigurator): void {
 +        "knplabs/doctrine-behaviors": "^2.0"
      }
  }</code></pre>
-<h3 id="sentry">Sentry</h3>
+<h3 id="Sentry">Sentry</h3>
 <pre><code class="language-diff"> {
      "require": {
 -        "sentry/sentry-symfony": "^3.2",
 +        "sentry/sentry-symfony": "^3.4",
      }
  }</code></pre>
-<h3 id="twig-extensions-were-removed">Twig Extensions were Removed</h3>
+<h3 id="Twig-Extensions-were-Removed">Twig Extensions were Removed</h3>
 <pre><code class="language-diff"> {
      "require": {
 -        "twig/extensions": "^1.5"
@@ -188,7 +188,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <div class="text-center">
     <img src="/assets/images/posts/2019/symfony5_twig_extension_readme.png" class="img-thumbnail">
 </div>
-<h2 id="4.-symfony-packages-in-composer.json">4. Symfony Packages in <code>composer.json</code></h2>
+<h2 id="4-Symfony-Packages-in-composer-json">4. Symfony Packages in <code>composer.json</code></h2>
 <p>Do you use Flex and config <code>*</code> version?</p>
 <pre><code class="language-json">{
     "require": {
@@ -229,7 +229,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <p>All right, now you run...</p>
 <pre><code class="language-bash">composer update</code></pre>
 <p>...and get new packages with Symfony 5... or probably a lot of composer version conflicts.</p>
-<h3 id="symfony-packages-w-t-fs-in">Symfony Packages WTFs in</h3>
+<h3 id="Symfony-Packages-WTFs-in">Symfony Packages WTFs in</h3>
 <p>In Symfony 5, some packages were <strong>removed</strong>:</p>
 <pre><code class="language-diff">-"symfony/error-renderer": "^4.4",</code></pre>
 <pre><code class="language-diff">-"symfony/web-server-bundle": "^4.4",</code></pre>
@@ -244,7 +244,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 +"symfony/security-http": "^5.0",
 +"symfony/security-csrf": "^5.0",
 +"symfony/security-guard": "^5.0",</code></pre>
-<h2 id="5.-rector,-e-c-s,-and-p-h-p-stan">5. Rector, ECS, and PHPStan</h2>
+<h2 id="5-Rector-ECS-and-PHPStan">5. Rector, ECS, and PHPStan</h2>
 <p>These were production dependencies, but what about dev ones?
 Both have the same rules - they need to allow Symfony 5 installation.</p>
 <p>The safest way is to use <a href="https://github.com/rectorphp/rector/issues/177">prefixed versions</a>, which don't care about a Symfony version:</p>
@@ -260,9 +260,9 @@ Both have the same rules - they need to allow Symfony 5 installation.</p>
 <p>Then run:</p>
 <pre><code class="language-bash">composer update</code></pre>
 <p>Still conflicts?</p>
-<h2 id="6.-and-the-biggest-symfony-upgrade-blocker-is...">6. And The Biggest Symfony Upgrade Blocker is...</h2>
+<h2 id="6-And-The-Biggest-Symfony-Upgrade-Blocker-is">6. And The Biggest Symfony Upgrade Blocker is...</h2>
 <p>If you don't do open-source, you probably don't use the <code>git tag</code> feature. It seems that the tagging of a package is a very difficult process. Even packages with million downloads/month had the latest 15 months ago.</p>
-<h3 id="what-are-tags-for?">What are Tags For?</h3>
+<h3 id="What-are-Tags-For">What are Tags For?</h3>
 <p>Let's say you want to use <code>symplify/easy-coding-standard</code> that supports Symfony 5. Here is the deal:</p>
 <ul>
 <li>the latest <code>symplify/easy-coding-standard</code> version 6 doesn't support it</li>
@@ -285,7 +285,7 @@ Both have the same rules - they need to allow Symfony 5 installation.</p>
 <pre><code class="language-bash">git tag v2.0.0
 git push --tags</code></pre>
 <p>That's all! Still, many packages support Symfony 5 in the master but are not tagged yet... to be true, not once for the last 2 years. Why? <strong>The human factor</strong>, maintainers are afraid of negative feedback, of back-compatibility breaks, lack of test coverage takes their confidence, etc.</p>
-<h2 id="tagging-cancer-of-p-h-p-ecosystem">Tagging Cancer of PHP Ecosystem</h2>
+<h2 id="Tagging-Cancer-of-PHP-Ecosystem">Tagging Cancer of PHP Ecosystem</h2>
 <p>These packages block Symfony 5 upgrade for months:</p>
 <ul>
 <li><a href="https://github.com/stof/StofDoctrineExtensionsBundle/releases">stof/gedmo extension</a> (last release in 2017)</li>
@@ -295,12 +295,12 @@ git push --tags</code></pre>
 <div class="text-center">
     <img src="/assets/images/posts/2019/symfony5_nice_comment.png">
 </div>
-<h3 id="united-we-stand">United We Stand</h3>
+<h3 id="United-We-Stand">United We Stand</h3>
 <p>This will be resolved in the future by an open-source monorepo approach, but we're not there yet.</p>
 <p>In the meantime, please <strong>complain at issues</strong>, ask for help and <strong>offer to become maintainer</strong> until it changes (or until somebody forks it and tags the fork).</p>
 <p>One good example for all - I complained and offered help at <code>knplabs/doctrine-behaviors</code>, got maintainer rights in 3 hours and <a href="https://github.com/KnpLabs/DoctrineBehaviors/pulse/monthly">made + merged 30 pull-request in the last month</a>.</p>
 <p>You see, it works :)</p>
-<h2 id="7.-still-conflicts?">7. Still Conflicts?</h2>
+<h2 id="7-Still-Conflicts">7. Still Conflicts?</h2>
 <p>Ok, so you have the right version of packages, everything is stable and allows Symfony 5. Yet still, the composer says &quot;conflicts, cannot install x/y&quot;.</p>
 <p>To my surprise, the composer is very bad at solving complex conflicts. Composer <strong>reports false positive and blocks your install</strong>, because of installing packages in <code>/vendor</code> or overly strict <code>composer.lock</code>. I spent 30-60 minutes trying to figure out what the heck is conflicting on every Symfony training I had in the last 2 months. Now I'm able to do it in 3 minutes.</p>
 <p><strong>How?</strong></p>
@@ -310,7 +310,7 @@ git push --tags</code></pre>
 <li>run <code>composer update</code></li>
 </ul>
 <p>It works so well I do it more often than resolving conflicts manually.</p>
-<h2 id="8.-cleanup-bundles.php">8. Cleanup <code>bundles.php</code></h2>
+<h2 id="8-Cleanup-bundles-php">8. Cleanup <code>bundles.php</code></h2>
 <ul>
 <li>Doctrine Cache was only <a href="https://github.com/doctrine/DoctrineCacheBundle/releases/tag/1.4.0">released for Symfony 4.4 and is not supported for any further version</a>.</li>
 </ul>
@@ -326,7 +326,7 @@ git push --tags</code></pre>
 -    Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle::class =&gt; ['all' =&gt; true],
  ]</code></pre>
 <p>The <a href="https://symfony.com/blog/new-in-symfony-4-3-mailer-component">Mailer component</a> will take over Swiftmailer in the future, so this is just a start.</p>
-<h2 id="9.-clear-config/packages">9. Clear <code>config/packages</code></h2>
+<h2 id="9-Clear-config-packages">9. Clear <code>config/packages</code></h2>
 <pre><code class="language-diff"> # config/packages/framework.yaml
  framework:
      ...
@@ -363,7 +363,7 @@ git push --tags</code></pre>
     </a>
 </div>
 <p><br></p>
-<h2 id="have-we-missed-something?">Have we Missed Something?</h2>
+<h2 id="Have-we-Missed-Something">Have we Missed Something?</h2>
 <p>Of course, we did! Every application has a different set of <em>blocking</em> dependencies and different sets of used Symfony features that might have changed.</p>
 <p>Share your issues in comments or edit this post on Github to make list complete!</p>
 <p><br></p>

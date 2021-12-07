@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?362000890" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?2003361159" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="New in Symplify 9: Monorepo Split with GitHub Action" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/11/09/new-in-symplify-9-monorepo-split-with-github-action" />
@@ -90,14 +90,14 @@
     <br>
     <em>42 packages split under <strong>3,5 minutes</strong></em>
 </div>
-<h2 id="battle-tested">Battle Tested</h2>
+<h2 id="Battle-Tested">Battle Tested</h2>
 <p>We've been testing it last 3 weeks on 3 different monorepos. Nathan, good friend of mine, was eager to test them too on <a href="https://github.com/eonx-com/easy-monorepo/blob/master/.github/workflows/split_packages.yml">eonx-com monorepo</a>.</p>
 <p>This week, also <a href="https://github.com/ruudk">Ruud Kamphuis</a> <a href="https://github.com/symplify/github-actions/commits?author=ruudk">pushed</a> the package even further - thank you Ruud.</p>
 <p>After dozens of successful GitHub Actions runs we're ready to go public - <strong>to you</strong>!</p>
-<h2 id="git-hub-actions-composer-for-your-c-i">GitHub Actions - Composer for your CI</h2>
+<h2 id="GitHub-Actions-Composer-for-your-CI">GitHub Actions - Composer for your CI</h2>
 <p>The idea of GitHub Actions is as simple as Composer or Dependency Injection: <strong>Do you need something? Ask for it.</strong></p>
 <p>If you're not yet familiar with GitHub Actions, give them a try. <a href="/blog/2020/01/27/switch-travis-to-github-actions-to-reduce-stress/">I first tried them almost a year ago</a>, and every month I found something new to fell in love with.</p>
-<h2 id="the-simplest-git-hub-action-for-1-package-split">The Simplest GitHub Action for 1 Package Split</h2>
+<h2 id="The-Simplest-GitHub-Action-for-1-Package-Split">The Simplest GitHub Action for 1 Package Split</h2>
 <p>Do you need a monorepo split? Ask for it:</p>
 <pre><code class="language-yaml"># .github/workflows_monorepo_split.yaml
 name: 'Monorepo Split'
@@ -138,7 +138,7 @@ jobs:
 <p><code>split-repository-organization</code> and <code>split-repository-name</code> is name of repository on GitHub - basically <code>symplify/easy-coding-standard</code></p>
 </li>
 </ul>
-<h2 id="how-to-split-with-tags?">How to Split with Tags?</h2>
+<h2 id="How-to-Split-with-Tags">How to Split with Tags?</h2>
 <p>What is splitting good for without tags, right?</p>
 <p>We need a tag, so we ask for it <a href="https://github.com/WyriHaximus/github-action-get-previous-tag">WyriHaximus/github-action-get-previous-tag</a>:</p>
 <pre><code class="language-diff"> # .github/workflows_monorepo_split.yaml
@@ -180,7 +180,7 @@ jobs:
                     # ↓ the user signed under the split commit
                     user-name: "kaizen-ci"
                     user-email: "info@kaizen-ci.org"</code></pre>
-<h2 id="how-to-split-multiple-packages?">How to Split Multiple Packages?</h2>
+<h2 id="How-to-Split-Multiple-Packages">How to Split Multiple Packages?</h2>
 <p>But wait, that's just one package. How can we do it for all 15 of them? Do we need 15 workflows files like this?</p>
 <p>No, GitHub Actions are ready for this - add <code>strategy</code> section:</p>
 <pre><code class="language-diff"> ...
@@ -206,7 +206,7 @@ jobs:
 <p>Now GitHub Actions will run a standalone build for each package provided.</p>
 <p>That's it!</p>
 <p><br></p>
-<h2 id="how-to-migrate-symplify-8-to-symplify-9?">How to migrate Symplify 8 to Symplify 9?</h2>
+<h2 id="How-to-migrate-Symplify-8-to-Symplify-9">How to migrate Symplify 8 to Symplify 9?</h2>
 <p>The <code>split</code> command <a href="https://github.com/symplify/symplify/pull/2490/files#diff-f4265307118be2f5d2389968d183656ebf8a0e8a7e711ed42101bd1bb179034f">was dropped in Symplify 9</a>. Do you use it?</p>
 <p><br></p>
 <p>We've prepared a 3 step switch for you:</p>

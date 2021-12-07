@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?803585104" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?609690307" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Collector Pattern for Dummies" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/06/14/collector-pattern-for-dummies" />
@@ -145,7 +145,7 @@ That's why we look on collector pattern in minimalistic plain PHP way today.</p>
      }
  }</code></pre>
 <p>That's an easy solution for the end-user. But it also means zero reusable code that leads to duplicated work. Imagine there will be 20 websites in the UK and <strong>each of them will have their own code to calculate price with VAT</strong>. 100 % similar code (if written correctly), because it applies to the whole country.</p>
-<h2 id="sharing-is-caring">Sharing is Caring</h2>
+<h2 id="Sharing-is-Caring">Sharing is Caring</h2>
 <p>Instead, such UK solution can be one of many, that is openly shared.</p>
 <ul>
 <li>Do you need a UK price calculator? Plug it in.</li>
@@ -153,8 +153,8 @@ That's why we look on collector pattern in minimalistic plain PHP way today.</p>
 <li>Do you need to decrease all price by 100 € if possible? Plug it in.</li>
 </ul>
 <p>No need to write it more than once for all of the e-commerce sites.</p>
-<h2 id="how-does-that-look-in-the-code?">How Does That Look in the Code?</h2>
-<h3 id="1.-turn-your-main-class-to-a-collector">1. Turn Your Main Class to A Collector</h3>
+<h2 id="How-Does-That-Look-in-the-Code">How Does That Look in the Code?</h2>
+<h3 id="1-Turn-Your-Main-Class-to-A-Collector">1. Turn Your Main Class to A Collector</h3>
 <pre><code class="language-php">class PriceCalculatorCollector
 {
     /**
@@ -186,7 +186,7 @@ That's why we look on collector pattern in minimalistic plain PHP way today.</p>
 {
     public function calculate(float $price): float;
 }</code></pre>
-<h3 id="2.-converts-each-case-to-collected">2. Converts Each Case to Collected</h3>
+<h3 id="2-Converts-Each-Case-to-Collected">2. Converts Each Case to Collected</h3>
 <pre><code class="language-php">final class CzechVatPriceCalculator implements PriceCalculatorInterface
 {
     public function calculate(float $price): float
@@ -212,7 +212,7 @@ That's why we look on collector pattern in minimalistic plain PHP way today.</p>
        return $price * 1.15;
    }
 }</code></pre>
-<h3 id="3.-let-collector-collect-what-you-need">3. Let Collector Collect What You Need</h3>
+<h3 id="3-Let-Collector-Collect-What-You-Need">3. Let Collector Collect What You Need</h3>
 <p>Based on your needs, collect this or that service.</p>
 <pre><code class="language-php">$priceCalculatorCollector = new PriceCalculatorCollector([
     new AdminDiscountPriceCalculator(),

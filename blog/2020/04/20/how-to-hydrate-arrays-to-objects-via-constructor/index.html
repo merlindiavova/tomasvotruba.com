@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1824328748" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1451151974" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Hydrate Arrays to Objects via Constructor" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/04/20/how-to-hydrate-arrays-to-objects-via-constructor" />
@@ -132,16 +132,16 @@ final class PostRepository
 }</code></pre>
 <p>And we also have <strong>autocomplete in TWIG templates</strong> (thanks to <a href="/blog/2018/08/23/9-features-of-symfony-plugin-you-should-not-miss-in-gifs/">amazing</a> <a href="/blog/2019/01/28/2-files-that-your-symfony-application-misses">Symfony plugin</a>/):</p>
 <img src="/assets/images/posts/2020/easy_hydrator_twig.png" class="img-thumbnail">
-<h2 id="what-now-with-all-the-arrays?">What now with all the Arrays?</h2>
+<h2 id="What-now-with-all-the-Arrays">What now with all the Arrays?</h2>
 <p>Each local PHP community produces videos, livestreams, or talk recordings. We make such videos too, and we store them in YAML format. How can we get objects from that?</p>
 <p>Let's use the most straightforward example possible.</p>
-<h3 id="1.-the-data">1. The Data</h3>
+<h3 id="1-The-Data">1. The Data</h3>
 <pre><code class="language-yaml">parameters:
     videos:
         -
             title: 'How to Hydrate objects to Arrays'
             created_at: '2020-04-20'</code></pre>
-<h3 id="2.-the-value-object">2. The Value Object</h3>
+<h3 id="2-The-Value-Object">2. The Value Object</h3>
 <p>In the application, we want to use an object:</p>
 <ul>
 <li>with strict and reliable types,</li>
@@ -178,7 +178,7 @@ final class Video
         return $this-&gt;createdAt;
     }
 }</code></pre>
-<h3 id="3.-the-goal">3. The Goal</h3>
+<h3 id="3-The-Goal">3. The Goal</h3>
 <p>We want our application to be:</p>
 <ul>
 <li>open <strong>to future database switch</strong></li>
@@ -196,7 +196,7 @@ final class Video
         ]);
     }
 }</code></pre>
-<h2 id="y-a-m-l,-j-s-o-n...-an-array?">YAML, JSON... an array?</h2>
+<h2 id="YAML-JSON-an-array">YAML, JSON... an array?</h2>
 <p>You can hydrate input of guzzle, arrays from YAML <em>database</em>, or just local data in your PHP code.</p>
 <p>This is how we solved our use case:</p>
 <pre><code class="language-php">&lt;?php
@@ -233,12 +233,12 @@ final class VideoRepository
 }</code></pre>
 <p>What is <code>Symplify\EasyHydrator\ArrayToValueObjectHydrator</code>? Its from new package <a href="https://github.com/symplify/easy-hydrator">symplify/easy-hydrator</a> that hydrates arrays to object. Easy.</p>
 <p><br></p>
-<h2 id="1-step-to-use-easy-hydrator">1 Step to Use Easy Hydrator</h2>
+<h2 id="1-Step-to-Use-Easy-Hydrator">1 Step to Use Easy Hydrator</h2>
 <pre><code class="language-bash">composer require symplify/easy-hydrator</code></pre>
 <p>With Symfony Flex and <a href="https://github.com/symplify/symplify/blob/b41034f21c52105d9bb27160fdc189eaac140b98/packages/easy-hydrator/composer.json#L5">type in <code>composer.json</code></a>, this section became boring.</p>
 <p>Then require <code>Symplify\EasyHydrator\ArrayToValueObjectHydrator</code> in the constructor and use it anywhere.</p>
-<h2 id="4-features-of-easy-hydrator">4 Features of Easy Hydrator</h2>
-<h3 id="1.-handles-date-time-and-int-retypes">1. Handles <code>DateTime</code> and <code>int</code> retypes</h3>
+<h2 id="4-Features-of-Easy-Hydrator">4 Features of Easy Hydrator</h2>
+<h3 id="1-Handles-DateTime-and-int-retypes">1. Handles <code>DateTime</code> and <code>int</code> retypes</h3>
 <pre><code class="language-php">&lt;?php
 
 declare(strict_types=1);
@@ -259,12 +259,12 @@ $person = $this-&gt;arrayToValueObjectHydrator-&gt;hydrateArray([
     // will be retyped to DateTimeInterface
     'metAt' =&gt; '2020-02-02',
 ], Person::class);</code></pre>
-<h3 id="2.-p-h-p-7.4-support">2. PHP 7.4 support</h3>
+<h3 id="2-PHP-7-4-support">2. PHP 7.4 support</h3>
 <p>Typed properties + initialized are must-have. PHP 7.4 is around for ~6 months now, and people use this feature.</p>
 <p>I also looked at <a href="https://github.com/Ocramius/GeneratedHydrator">Ocramius/GeneratedHydrator</a> and tried to use it, but it doesn't work with PHP 7.4 objects correctly.</p>
-<h3 id="3.-constructor-injection-only">3. Constructor Injection Only</h3>
+<h3 id="3-Constructor-Injection-Only">3. Constructor Injection Only</h3>
 <p>This package tries to be 1:1 with the rest of the clean code, so <strong>hydrated object must use constructor injection</strong>. Private property reflection magic won't work here.</p>
-<h3 id="4.-easy">4. Easy</h3>
+<h3 id="4-Easy">4. Easy</h3>
 <p>This package hydrates arrays to object via constructor. Nothing more, nothing less.
 It's for easy and clear use.</p>
 <p>I use it in 3 PHP projects now and works great. Also we could get rid of <em>fake object</em> that only autocomplete twig and stopped relying on <code>$video['title']</code> or <code>$video['name']</code> guessing all over the code. Win win :)</p>

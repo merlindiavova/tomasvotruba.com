@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1011223386" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1620313569" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Test Monorepo After Split Before Actual Split" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/02/10/how-to-test-monorepo-after-split-before-actual-split" />
@@ -94,12 +94,12 @@
 
             <p>Do you use Github Actions on your Github projects? Well, if you do, <strong><a href="/blog/2020/01/27/switch-travis-to-github-actions-to-reduce-stress/">it might cut your commit feedback loop</a> from 17 minutes to just 3</strong> and make you super productive by accident.</p>
 <p>We now use Github Actions on Symplify and Rector for over a month, and in January 2020, it helped us <a href="https://twitter.com/VotrubaT/status/1220126675436032005">to merge amazing 177 pull-requests</a>.</p>
-<h2 id="warning:-cleaning-up-might-cause-you-to-spot-more-bottle-necks">Warning: Cleaning Up Might Cause you to Spot more Bottle Necks</h2>
+<h2 id="Warning-Cleaning-Up-Might-Cause-you-to-Spot-more-Bottle-Necks">Warning: Cleaning Up Might Cause you to Spot more Bottle Necks</h2>
 <p>That's why so few developers like to tidy up. It usually only shows worse and worse mess in the code.</p>
 <p>The worse mess in our code was the 3rd layer of monorepo testing - <strong>after split tests</strong>.</p>
 <p>We had to wait till the full monorepo is split (+ 5 minutes), and CI runs on each split package (+ 2 minutes). So instead of 3 minutes, we're now back on 10 minutes. Also, the split testing can <strong>only happen after the PR is merged into the <code>master</code> branch</strong>.</p>
 <p>Do your 1st and 2nd layer pass? All good? <strong>You have to wait till the split to find out it's not all good</strong>. Doh.</p>
-<h2 id="short-reminder:-what-is-the-3rd-layer-of-monorepo-testing?">Short Reminder: What is the 3rd layer of Monorepo Testing?</h2>
+<h2 id="Short-Reminder-What-is-the-3rd-layer-of-Monorepo-Testing">Short Reminder: What is the 3rd layer of Monorepo Testing?</h2>
 <p>Let's say you run:</p>
 <pre><code class="language-bash">git clone git@github.com:symfony/console.git
 
@@ -126,7 +126,7 @@ composer install
 vendor/bin/phpunit</code></pre>
 <p>You can read more about it <a href="/blog/2020/02/10/how-to-test-monorepo-after-split-before-actual-split/">in original post</a>.</p>
 <p><br></p>
-<h2 id="status-quo:-it-sucks,-but-its-the-best-testing">Status Quo: It Sucks, but it's the Best Testing</h2>
+<h2 id="Status-Quo-It-Sucks-but-it-s-the-Best-Testing">Status Quo: It Sucks, but it's the Best Testing</h2>
 <p>3rd layer of monorepo testing sucks</p>
 <ul>
 <li>it takes + 10 minutes</li>
@@ -135,7 +135,7 @@ vendor/bin/phpunit</code></pre>
 </ul>
 <p>It's so bad that <strong>the most monorepo projects don't have this 3rd layer</strong> - Symfony nor Laravel. And I don't blame them. I was about to drop it too because having feedback about one line of code from 2 sides with entirely different settings hurts my brain.</p>
 <p>The problem is, <strong>this 3rd layer testing is the closest to the reality of how these packages are used</strong>. So missing it will cause you headaches with bugs, so simple to find by users of your packages that you won't believe them.</p>
-<h2 id="could-it-be-possible-with-git-hub-actions?">Could it be possible with GitHub Actions?</h2>
+<h2 id="Could-it-be-possible-with-GitHub-Actions">Could it be possible with GitHub Actions?</h2>
 <p>This bottleneck got me thinking... what do we need to simulate?</p>
 <pre><code class="language-bash">git clone git@github.com:symfony/console.git
 
@@ -159,7 +159,7 @@ vendor/bin/phpunit</code></pre>
 <li><strong>All packages can't run in one workflow</strong>, because it's super slow</li>
 <li><strong>We cannot use shared vendor</strong>, the dependencies are conflicting</li>
 </ul>
-<h3 id="so-what-worked?">So What Worked?</h3>
+<h3 id="So-What-Worked">So What Worked?</h3>
 <ul>
 <li>Every package <code>composer.json</code> had to require mutually dependencies (e.g <code>symplify/easy-coding-standard</code> requires <code>symplify/package-builder</code>) with <code>*</code></li>
 <li>Every other package had to require other packages via <a href="https://getcomposer.org/doc/05-repositories.md#path">composer <em>path</em> repository</a>:</li>
@@ -189,7 +189,7 @@ vendor/bin/phpunit</code></pre>
 <li><code>symplify/autowire-array-parameter</code> - from packagist before split !== different code that we use ❌</li>
 </ul>
 <p>We have to <strong>add all the possible local repositories</strong>, so the package always has the local version of the code.</p>
-<h2 id="showcase:-symplify-workflow">Showcase: Symplify Workflow</h2>
+<h2 id="Showcase-Symplify-Workflow">Showcase: Symplify Workflow</h2>
 <p>It makes sense, but it sounds like a lot of manual work, right? Not for long!</p>
 <p><br></p>
 <p>You know me too well, me and <em>manual work</em> don't get on very well with each other.</p>

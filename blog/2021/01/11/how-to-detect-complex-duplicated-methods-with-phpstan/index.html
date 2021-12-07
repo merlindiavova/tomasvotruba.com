@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?482076352" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1727140923" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to detect Complex Duplicated Methods With PHPStan" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2021/01/11/how-to-detect-complex-duplicated-methods-with-phpstan" />
@@ -86,7 +86,7 @@ Today we look at PHPStan and how to use it to find duplicated class methods.</p>
                 </div>
             </div>
 
-            <h2 id="why-even-care-about-duplicated-code?">Why even Care about Duplicated Code?</h2>
+            <h2 id="Why-even-Care-about-Duplicated-Code">Why even Care about Duplicated Code?</h2>
 <p>What is the practical approach to finding a duplicated code? You probably know about <a href="https://github.com/sebastianbergmann/phpcpd">phpcpd</a> tool. It goes through your code and dumps a list of duplicated lines:</p>
 <pre><code class="language-bash">- .../sodium_compat/src/Core32/Curve25519.php:879-889 (10 lines)
   .../sodium_compat/src/Core32/Curve25519.php:1072-1082
@@ -94,7 +94,7 @@ Today we look at PHPStan and how to use it to find duplicated class methods.</p>
 1.82% duplicated lines out of 446676 total lines of code</code></pre>
 <p>Is this number high? Is it low? How low should it be? The output is so generic. There is no clear answer to what to do with it. That's because <a href="/blog/2018/10/22/brief-history-of-tools-watching-and-changing-your-php-code/">phpcpd is using tokens</a>.</p>
 <p>PHPStan changes an approach to duplicated code. It runs on php-parser and uses an abstract syntax tree. So why should we care?</p>
-<h3 id="p-h-p-stan-gives-human-output,-so-we-know-what-to-do">PHPStan gives Human Output, so we Know What to Do</h3>
+<h3 id="PHPStan-gives-Human-Output-so-we-Know-What-to-Do">PHPStan gives Human Output, so we Know What to Do</h3>
 <p>Compare reports of 2 tools:</p>
 <ul>
 <li>phpcpd: &quot;10 lines of here and 10 lines of here are identical&quot;</li>
@@ -102,7 +102,7 @@ Today we look at PHPStan and how to use it to find duplicated class methods.</p>
 </ul>
 <p>In the first case, we'd have to look into the files, check if it's part of the method or couple of properties, how to extract it from both, and combine it in a class or method?</p>
 <p>With PHPStan, we know it's class methods, so we can only <strong>extract them to external service</strong>.</p>
-<h3 id="improve-architecture-flaws-without-effort">Improve Architecture Flaws without Effort</h3>
+<h3 id="Improve-Architecture-Flaws-without-Effort">Improve Architecture Flaws without Effort</h3>
 <p>Where in your code is duplicated code? We don't know. It's a tough question for the human to spot.</p>
 <p>Do you look for all possible duplication during each code review? I don't think so. We go through added/modified code, and that's it.</p>
 <p>PHPStan <strong>does this hard work on each commit</strong> and tells us precisely the duplicated code. 0 effort.</p>
@@ -142,7 +142,7 @@ private function unwrapExpression(Node $node): Node
 <li>The service is doing exactly 1 thing ✅</li>
 <li>Other services are not cluttered with &quot;util code&quot; ✅</li>
 </ul>
-<h2 id="what-is-not-duplicated-method?">What is Not Duplicated Method?</h2>
+<h2 id="What-is-Not-Duplicated-Method">What is Not Duplicated Method?</h2>
 <p>These 2 methods are 100 % identical, including spaces. Would you consider them duplicated?</p>
 <pre><code class="language-php">public function getName(): string
 {
@@ -159,7 +159,7 @@ private function unwrapExpression(Node $node): Node
 <li>entities</li>
 <li>and methods with only 1 line of code.</li>
 </ul>
-<h2 id="how-can-we-spot-the-duplicated-method-with-x-rays?">How can we spot the Duplicated Method with X-Rays?</h2>
+<h2 id="How-can-we-spot-the-Duplicated-Method-with-X-Rays">How can we spot the Duplicated Method with X-Rays?</h2>
 <p>Let's get back to our example above. What if we use different variables names, method names, and omit return type?</p>
 <pre><code class="language-php">public function unwrapExpression(Node $node)
 {
@@ -187,7 +187,7 @@ private function unwrapExpression(Node $node): Node
     return $bar;
 }</code></pre>
 <p>When we look at both methods with this approach, we see the logic is identical → let's extract it.</p>
-<h2 id="how-to-teach-it-p-h-p-stan?">How to Teach it PHPStan?</h2>
+<h2 id="How-to-Teach-it-PHPStan">How to Teach it PHPStan?</h2>
 <p>Samsonasik contributed this <a href="https://github.com/symplify/symplify/pull/2666">rule to Symplify</a> about a month ago. We took a month to try it out, fixed repeated methods from trait, and class using it.</p>
 <p>We tried various angles that we tested on 4 different projects.</p>
 <p>In the end, the final rule works like this:</p>
@@ -200,11 +200,11 @@ private function unwrapExpression(Node $node): Node
 </ul>
 <p>You can see <a href="https://github.com/symplify/symplify/blob/master/packages/phpstan-rules/src/Rules/PreventDuplicateClassMethodRule.php">final rule here</a>.</p>
 <p>This rule has been running on our code base and already reported over 50 duplicated methods. It's a bizarre feeling if you see that you put in the effort to write 20 lines long method in 2 different Rector rules. But <strong>the feeling after refactoring to cleaner design is priceless</strong>.</p>
-<h2 id="3-steps-to-get-rid-of-duplications-in-your-code-today">3 Steps to Get rid of Duplications in Your Code Today</h2>
+<h2 id="3-Steps-to-Get-rid-of-Duplications-in-Your-Code-Today">3 Steps to Get rid of Duplications in Your Code Today</h2>
 <p>Do you want to try it out? I must warn you. It will dig out the darkest secrets of your project that you never thought they exist. Be ready for critics. Critics that will help your code to be more fun work with.</p>
-<h3 id="1.-get-symplify/phpstan-rules:">1. Get <a href="https://github.com/symplify/phpstan-rules">symplify/phpstan-rules</a>:</h3>
+<h3 id="1-Get-symplify-phpstan-rules">1. Get <a href="https://github.com/symplify/phpstan-rules">symplify/phpstan-rules</a>:</h3>
 <pre><code class="language-bash">composer require symplify/phpstan-rules --dev</code></pre>
-<h3 id="2.-add-it-to-phpstan.neon">2. Add it to <code>phpstan.neon</code></h3>
+<h3 id="2-Add-it-to-phpstan-neon">2. Add it to <code>phpstan.neon</code></h3>
 <pre><code class="language-yaml">includes:
     # set services that are needed by PHPStan rules
     - vendor/symplify/phpstan-rules/config/services/services.neon
@@ -213,7 +213,7 @@ services:
     -
         class: Symplify\PHPStanRules\Rules\PreventDuplicateClassMethodRule
         tags: [phpstan.rules.rule]</code></pre>
-<h3 id="3.-run-p-h-p-stan">3. Run PHPStan</h3>
+<h3 id="3-Run-PHPStan">3. Run PHPStan</h3>
 <pre><code class="language-bash">vendor/bin/phpstan analyse</code></pre>
 <p>Now you won't miss any single duplicated method in your code.</p>
 <p><br>

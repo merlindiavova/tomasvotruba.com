@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1093935575" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1644937151" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Switch from YAML/XML Configs to PHP Today with Symplify" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/07/27/how-to-switch-from-yaml-xml-configs-to-php-today-with-migrify" />
@@ -104,7 +104,7 @@ Or maybe... <strong>5 minute job</strong>?</p>
                 </div>
             </div>
 
-            <h2 id="break-even-automation">Break-Even Automation</h2>
+            <h2 id="Break-Even-Automation">Break-Even Automation</h2>
 <p>With legacy migrations, we have to handle a lot of processes that are automated. If you work on 1 project for many years, it's a matter of habit to handle it manually. But <strong>handling 3 projects a month makes you think, how to automated any repeated work</strong>. It's cheaper, faster, and more reliable. The same way the writing tests are.</p>
 <p><br></p>
 <p>We made <a href="https://github.com/symplify/config-transformer">symplify/config-transformer</a> to handle this work for us.</p>
@@ -112,9 +112,9 @@ Or maybe... <strong>5 minute job</strong>?</p>
 <p><br></p>
 <p><strong>Credit</strong> for inspiration first reported bugs, feature feedback, and exceptional test cases <strong>goes to <em>archeoprog</em> and <a href="https://github.com/weaverryan">Ryan Weaver</a></strong>. Their input helped get the Symplify package to high quality and covered Symfony features I didn't even know. Thank you, guys!</p>
 <p><br></p>
-<h2 id="1.-install-symplify/config-transformer">1. Install symplify/config-transformer</h2>
+<h2 id="1-Install-symplify-config-transformer">1. Install symplify/config-transformer</h2>
 <pre><code class="language-bash">composer require symplify/config-transformer --dev</code></pre>
-<h2 id="2.-run-switch-format-command">2. Run <code>switch-format</code> Command</h2>
+<h2 id="2-Run-switch-format-Command">2. Run <code>switch-format</code> Command</h2>
 <p>This command takes 1 argument - paths to files or directories to convert:</p>
 <pre><code class="language-bash">vendor/bin/config-transformer switch-format app/config</code></pre>
 <p><br></p>
@@ -131,7 +131,7 @@ vendor/bin/config-transformer switch-format app/packages
 
 vendor/bin/config-transformer switch-format app/config/config.yaml
 # commit</code></pre>
-<h2 id="3.-upgrade-paths-to-p-h-p-in-extensions-and-kernel">3. Upgrade paths to PHP in Extensions and Kernel</h2>
+<h2 id="3-Upgrade-paths-to-PHP-in-Extensions-and-Kernel">3. Upgrade paths to PHP in Extensions and Kernel</h2>
 <p>The config format switch is one part; the next is to update loaders in PHP code.
 Again, it's valid to handle it manually with search &amp; replace in PHPStorm.</p>
 <pre><code class="language-diff"> use Symfony\Component\Config\FileLocator;
@@ -170,7 +170,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <pre><code class="language-bash">vendor/bin/rector process app src</code></pre>
 <p><br></p>
 <p>That's it! One little tool for you, one big leap for a PHP programmer-kind.</p>
-<h2 id="supported-features">Supported Features</h2>
+<h2 id="Supported-Features">Supported Features</h2>
 <ul>
 <li>imports</li>
 <li>services</li>
@@ -180,7 +180,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <li>extensions, e.g. <code>framework</code>, <code>doctrine</code> or <code>twig</code></li>
 <li>routing</li>
 </ul>
-<h2 id="let-us-know,-help-you-grow">Let Us Know, Help You Grow</h2>
+<h2 id="Let-Us-Know-Help-You-Grow">Let Us Know, Help You Grow</h2>
 <p><strong>Is something broken? Have you found a space for improvement?</strong></p>
 <p>Create <a href="https://github.com/symplify/symplify/issues/new">an issue</a> and let us know. We'd love to hear it.</p>
 <p><br></p>

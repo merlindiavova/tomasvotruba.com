@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?81965569" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1321567606" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Dependency Juggling Code Smell" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/dependency-juggling-code-smell" />
@@ -108,7 +108,7 @@ Why is it a code smell, and how can we avoid it?</p>
 <p><br></p>
 <p>How many of them the <strong>class directly uses</strong>? Just the <code>StringTypeResolver</code> one.</p>
 <p>The other one <code>ConstantStringTypeResolver</code> is juggled to <code>StringTypeResolver</code> as side dependency.</p>
-<h2 id="2-pair-of-keys">2 Pair of Keys</h2>
+<h2 id="2-Pair-of-Keys">2 Pair of Keys</h2>
 <img src="https://user-images.githubusercontent.com/924196/116310231-03810c80-a7aa-11eb-8053-508de8ba8149.jpg" class="img-thumbnail">
 <p>It's like your own keys from your home with one extra pair. You take them both with you everywhere. You use the first pair to unlock doors from your home. The extra pair you use exclusively when you open your door for your wife.</p>
 <p>Why would you have these extra keys for your own? Instead, <strong>give them to your wife and let her handle it</strong>.</p>
@@ -153,7 +153,7 @@ not take responsibility for others.
  }</code></pre>
 <p>👍</p>
 <p><br></p>
-<h2 id="p-h-p-stan-got-your-back">PHPStan Got Your Back</h2>
+<h2 id="PHPStan-Got-Your-Back">PHPStan Got Your Back</h2>
 <p>The tricky part is to watch for these cases not to get into your code. It's easy to take 2 key sets instead of 1 when you're in a rush to catch a tram or taxi.</p>
 <p><a href="https://github.com/symplify/phpstan-rules">Symplify PHPStan Rules</a> got you covered. Just install it:</p>
 <pre><code class="language-bash">composer require symplify/phpstan-rules --dev</code></pre>

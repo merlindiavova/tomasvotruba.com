@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?174065624" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1860628666" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to write Open-Source in PHP 3: Deprecating Code" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2017/09/11/how-to-write-open-source-in-php-3-deprecating-code" />
@@ -87,14 +87,14 @@ In this post I will show you <strong>how to work with deprecation messages</stro
             </div>
 
             <p>This technique is quite rare to see (apart PHP frameworks). It's very simple to add to your open-source code workflow though - let me convince you.</p>
-<h2 id="why-write-deprecation-messages?">Why Write Deprecation Messages?</h2>
-<h3 id="if-you-d-o-nt">If you DON'T</h3>
+<h2 id="Why-Write-Deprecation-Messages">Why Write Deprecation Messages?</h2>
+<h3 id="If-you-DON-T">If you DON'T</h3>
 <ul>
 <li>people will have to find deprecations themselves in the commits - <strong>from programmer to detective</strong></li>
 <li>you'll <strong>find issues</strong> like &quot;autowire() method missing - what should I do?&quot; at your package on Github</li>
 <li>you'll have to remember, when you upgrade some project using your package few months later</li>
 </ul>
-<h3 id="if-you-d-o">If you DO</h3>
+<h3 id="If-you-DO">If you DO</h3>
 <ul>
 <li>people will like you</li>
 <li>you'll be able to do more BC breaks in your code, because people will know they're taken care off</li>
@@ -116,7 +116,7 @@ In this post I will show you <strong>how to work with deprecation messages</stro
 </li>
 </ol>
 <p>That was <a href="https://github.com/tomasvotruba/Rector">the future</a>, now back to the present.</p>
-<h2 id="todays-topic:-changed-method-name">Today's topic: Changed Method Name</h2>
+<h2 id="Today-s-topic-Changed-Method-Name">Today's topic: Changed Method Name</h2>
 <p>Let's take real example from real code - a class from <a href="https://doc.nette.org/en/2.4/html-elements#toc-elements-content"><code>Nette\Utils</code> 2.4</a>.</p>
 <p>What we need to know?</p>
 <ul>
@@ -142,7 +142,7 @@ class Html
 }</code></pre>
 <p>So how to inform all ends users about this?</p>
 <p>You can choose from <strong>2 ways to write deprecations messages</strong>, based on your preference.</p>
-<h3 id="1.-a-@deprecate-annotation">1. A <code>@deprecate</code> annotation</h3>
+<h3 id="1-A-at-deprecate-annotation">1. A <code>@deprecate</code> annotation</h3>
 <pre><code class="language-php">namespace Nette\Utils;
 
 class Html
@@ -177,7 +177,7 @@ public function add(...)</code></pre>
 <p>Well, exactly... <strong>nothing</strong>. <strong>Annotations have no influence on code run</strong>, so it will work and programmer won't notice anything.</p>
 <p><br></p>
 <p>Luckily, there is option that <strong>will actually inform about the deprecation</strong>.</p>
-<h3 id="2.-a-trigger-error()">2. A <code>trigger_error()</code></h3>
+<h3 id="2-A-trigger-error">2. A <code>trigger_error()</code></h3>
 <p>A <a href="https://php.net/manual/en/function.trigger-error.php"><code>trigger_error()</code></a> is native PHP function, that can inform user about changes in the code.</p>
 <p>With the 2nd argument is level of these messages - there is special constant <code>E_USER_DEPRECATED</code> destined for this case.</p>
 <pre><code class="language-php">namespace Nette\Utils;

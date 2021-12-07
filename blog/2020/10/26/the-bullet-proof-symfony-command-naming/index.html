@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?275568296" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1855406820" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="The Bullet Proof Symfony Command Naming" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/10/26/the-bullet-proof-symfony-command-naming" />
@@ -102,7 +102,7 @@ bin/console generate
 bin/console generate-workflow
 bin/console gen-wof
 ...</code></pre>
-<h2 id="principle-of-the-least-surprise">Principle of the Least Surprise</h2>
+<h2 id="Principle-of-the-Least-Surprise">Principle of the Least Surprise</h2>
 <p>Do you prefer to code with many rules and various principles across the whole codebase or with one clear way to do things? Let's look at existing principles in the Symfony ecosystem that prefer the latter:</p>
 <p><br></p>
 <p>How do you name action in <strong>Single Action Controller</strong>?</p>
@@ -125,7 +125,7 @@ $this-&gt;eventDispatcher-&gt;dispatch($postAddedEvent);</code></pre>
 <p><em>&quot;Wait, what?&quot;</em></p>
 <p><br></p>
 <p>For ages, the name is information <a href="/blog/2018/08/27/why-and-how-to-avoid-the-memory-lock">coupled to a command class</a>. Imagine that's not the best practice. It's just a practice of habit. What other options we have?</p>
-<h2 id="where-do-we-name-a-command?"><em>Where</em> do we Name a Command?</h2>
+<h2 id="Where-do-we-Name-a-Command"><em>Where</em> do we Name a Command?</h2>
 <pre><code class="language-php">use Symfony\Component\Console\Command;
 
 final class GenerateWorkflowCommand extends Command
@@ -145,7 +145,7 @@ final class GenerateWorkflowCommand extends Command
 <p><br></p>
 <p>All of these options have one problem in common. <strong>When</strong> we create command → we <strong>have to</strong> think of its name. <strong>If this, then that</strong> (imagine startup for this, right?). Also, we have to add it in the right place - which of those three would you pick? We don't care. We don't want to think about that.</p>
 <p>Why? <strong>Because we want to think about the contents of the <code>execute()</code> method.</strong> That's the fun part.</p>
-<h2 id="what-about-class-based-naming?">What about Class-based Naming?</h2>
+<h2 id="What-about-Class-based-Naming">What about Class-based Naming?</h2>
 <pre><code class="language-php">final class GenerateWorkflowCommand extends Command { ... }</code></pre>
 <p>↓</p>
 <pre><code class="language-bash">bin/console generate-workflow</code></pre>
@@ -180,7 +180,7 @@ final class GenerateWorkflowCommand extends Command
 $this-&gt;setName(CommandNaming::classToName(GenerateWorkflowCommand::class));</code></pre>
 <p>That's better!</p>
 <p><em>&quot;Well, now we don't have to think about the name. But it's much more new code we have to use. Also, you said <a href="/blog/2020/08/31/how-static-methods-kills-you-like-corona">static will slowly kill  you</a>, right?&quot;</em></p>
-<h2 id="handle-command-naming-in-1-place">Handle Command Naming in 1 Place</h2>
+<h2 id="Handle-Command-Naming-in-1-Place">Handle Command Naming in 1 Place</h2>
 <p>I don't like it either. It's just another variation of crap code. What about handling the command names in 1 place only? Would that do?</p>
 <p><em>&quot;Uhm, maybe... what do you mean?&quot;</em></p>
 <pre><code class="language-php">use Symfony\Component\Console\Application;

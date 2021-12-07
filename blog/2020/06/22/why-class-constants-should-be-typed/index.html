@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?339118016" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1623845667" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Why Class Constants Should be Typed" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/06/22/why-class-constants-should-be-typed" />
@@ -109,7 +109,7 @@ final class Person
 <pre><code class="language-php">$name = new Person(20_20);</code></pre>
 <p>You would not use the <code>Name</code> object like this, right?</p>
 <p><br></p>
-<h2 id="what-about-constants?">What About Constants?</h2>
+<h2 id="What-About-Constants">What About Constants?</h2>
 <p><strong>What</strong> are constants? They hold value, like properties, but <strong>the value doesn't change</strong>. We can change the value in the code, but not during runtime.</p>
 <p><em>Pro-tip: Do you think all your properties have values that can change? <a href="https://github.com/rectorphp/rector/blob/master/docs/rector_rules_overview.md#changereadonlypropertywithdefaultvaluetoconstantrector">Dare Rector to find them</a>.</em></p>
 <p>How do you define a class constant?</p>
@@ -130,7 +130,7 @@ final class SomeClass
 }</code></pre>
 <p>Because if you're first, you're 1, right? I had the pleasure to debug such cases only to figure out the constant type was changed. Why? Because it could.</p>
 <p><strong>Constants value can be changed manually - so their type.</strong> It's rarely desired behavior, moreover, when using these constants in 3rd party code or from one.</p>
-<h2 id="how-can-we-prevent-constant-re-type?">How Can We Prevent Constant Re-type?</h2>
+<h2 id="How-Can-We-Prevent-Constant-Re-type">How Can We Prevent Constant Re-type?</h2>
 <pre><code class="language-php">&lt;?php
 
 final class SomeClass
@@ -158,7 +158,7 @@ final class SomeClass
     private string const ORDER = 'first';
 }</code></pre>
 <p>Great! But maybe in 2025?</p>
-<h2 id="future-scoping">Future Scoping</h2>
+<h2 id="Future-Scoping">Future Scoping</h2>
 <p>The <a href="https://stitcher.io/blog/new-in-php-8">PHP 8.0 release will be a blast</a>. It's already ~30 merged features, and feature freeze is still <a href="https://thephp.website/en/issue/php8-release-schedule">23 days ahead of us</a>.</p>
 <p>If we look at selected features in PHP 8:</p>
 <ul>
@@ -177,7 +177,7 @@ Check trends to predict code syntax,<br>
 and write future compatible code your children will thank you for.
 </blockquote>
 <p><br></p>
-<h2 id="let-computer-work-for-you">Let Computer work For You</h2>
+<h2 id="Let-Computer-work-For-You">Let Computer work For You</h2>
 <p><a href="/blog/2020/01/13/why-is-first-instant-feedback-crucial-to-developers/">The sooner you discover the error</a>, the better.</p>
 <p>Do you use continuous integration (Github Actions, Gitlab CI, Travis CI...) and PHPStan? Add <a href="https://github.com/symplify/coding-standard#constant-type-must-match-its-value">PHPStan rule that checks <code>@var</code> definition vs the real value</a>.</p>
 <pre><code class="language-diff"> &lt;?php

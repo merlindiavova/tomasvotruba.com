@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?510929774" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?930061642" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How Static Methods Kill You Like Corona" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/08/31/how-static-methods-kills-you-like-corona" />
@@ -82,16 +82,16 @@ If you combine this theory and Static Methods in Your code, you'll get Corona. A
                 </div>
             </div>
 
-            <h2 id="single-child-in-classroom-problem">Single Child in Classroom Problem</h2>
+            <h2 id="Single-Child-in-Classroom-Problem">Single Child in Classroom Problem</h2>
 <p>It's September here, and many of friends walked their children to the school. Some for the first time in their life. Everyone is very cautious because it takes precisely <strong>1 corona-infected</strong> child, parent, or teacher to spread to another person very effectively.</p>
 <img src="/assets/images/posts/static_corona_child.jpg" class="img-thumbnail">
 <p>Some of my friends are teachers, and their prognosis is that most schools get closed down till the end of September. Why? Because if you have 1 infected child in a classroom of 30 children, all their teachers and schoolmates can be infected too. The problem is, tests take too long. <strong>It's not instant feedback</strong>. So we have to wait, hope, make up rationalizations in the meantime.</p>
 <p>Playing statistics with fear now, but I think you've already got used to it from the news for the last 9 months.</p>
-<h2 id="elderly-and-weak-people-are-the-corona-goal">Elderly and Weak People are the Corona Goal</h2>
+<h2 id="Elderly-and-Weak-People-are-the-Corona-Goal">Elderly and Weak People are the Corona Goal</h2>
 <p>&quot;Ok, so few schools get closed down, what's a big of a deal?&quot; you might think. And you might be right. There is not much health risk in not going to a place. Have you heard of a person that died from not going to the cinema?</p>
 <p>The problem is when the corona spreads to fragile people - the elderly and those with other illnesses. What happens when a lot of young and strong people get infected? Let's say they have a temperature, but no-one dies. As everything is connected in today's world, this <strong>speeds up corona spread</strong> between <em>strong population</em> and <em>weak population</em> and puts enormous danger on the latter.</p>
 <p>So much for corona.</p>
-<h2 id="corona-infected-child-in-a-classroom-is-like-a-static-method">Corona Infected Child in a Classroom is like a Static Method</h2>
+<h2 id="Corona-Infected-Child-in-a-Classroom-is-like-a-Static-Method">Corona Infected Child in a Classroom is like a Static Method</h2>
 <p>If we only were as conscious and reacted fast with static methods as we react with a single corona infected person. <strong>But don't care, because it's <a href="/blog/2020/01/13/why-is-first-instant-feedback-crucial-to-developers/">not instant feedback</a></strong>.</p>
 <ul>
 <li>
@@ -101,9 +101,9 @@ If you combine this theory and Static Methods in Your code, you'll get Corona. A
 <p>Imagine <em>service methods</em> (non-static) are like a weak population; they were not infected yet. They're ok, for now.</p>
 </li>
 </ul>
-<h2 id="&quot;show-me-some-code!&quot;">&quot;Show me Some Code!&quot;</h2>
+<h2 id="and-quot-Show-me-Some-Code-and-quot">&quot;Show me Some Code!&quot;</h2>
 <p>Do you want real meat? Let's look at code that can put down the company for many months:</p>
-<h3 id="strong-population">Strong Population</h3>
+<h3 id="Strong-Population">Strong Population</h3>
 <pre><code class="language-php">final class InfectedYoungChild
 {
     public static function spreadInfection()
@@ -130,7 +130,7 @@ If you combine this theory and Static Methods in Your code, you'll get Corona. A
 }</code></pre>
 <p>Imagine 100 more static methods in your code, so we save some paper.
 To give your real-life example, one of the projects we migrate now has over 350 static methods in 110 000 lines of code.</p>
-<h3 id="weak-population">Weak Population</h3>
+<h3 id="Weak-Population">Weak Population</h3>
 <p>Let's say grandma feels lonely and <strong>wants to see their grandchildren</strong>, that gives her joy and purpose to live.</p>
 <img src="/assets/images/posts/static_corona_grand_parents.jpg" class="img-thumbnail">
 <p>At least once in a <em>while</em> (pun intended!):</p>
@@ -164,7 +164,7 @@ To give your real-life example, one of the projects we migrate now has over 350 
         }
     }
 }</code></pre>
-<h2 id="the-italy-mayhem-problem">The Italy Mayhem Problem</h2>
+<h2 id="The-Italy-Mayhem-Problem">The Italy Mayhem Problem</h2>
 <p>How can we detect <code>InfectableInterface</code> in a static class? How can we collect data about infections in static classes?</p>
 <p>We can't. And that's what happened in Italy this spring. Little control over the strong and weak part of your code population.</p>
 <p>What can we do about it? I know you won't like it, <a href="/blog/2019/04/01/removing-static-there-and-back-again/">it's a lot of work</a> that has no impact right now - refactor static to non-static:</p>
@@ -226,7 +226,7 @@ To give your real-life example, one of the projects we migrate now has over 350 
 they live for <a href="/blog/2018/04/30/programming-climbing-a-huge-mountain/">the top of the mountain</a> in years of work.</p>
 </blockquote>
 <p><br></p>
-<h2 id="what-if-we-find-the-corona-cure?">What if We Find the Corona Cure?</h2>
+<h2 id="What-if-We-Find-the-Corona-Cure">What if We Find the Corona Cure?</h2>
 <pre><code class="language-php">$coronaCure = new CoronaCure();
 
 $infectables = $container-&gt;getByType(InfectableInteface::class);

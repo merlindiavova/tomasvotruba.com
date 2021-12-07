@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1125646025" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?441845832" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="A Week in a Life of Employed Open&amp;#8209;Source Developer" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/a-week-in-a-life-of-employed-open-source-developer" />
@@ -93,7 +93,7 @@ I want to share my point of view on prisoners' dilemma, which you maybe know fro
     "Upgrading your code is a piece of cake,<br>
     the Devil is in the vendor."
 </blockquote>
-<h2 id="the-devil-of-upgrade">The Devil of Upgrade</h2>
+<h2 id="The-Devil-of-Upgrade">The Devil of Upgrade</h2>
 <p>I think you knew this from your project. You've added a feature or changed behavior. Everything works. Just this tiny file has one bug that you need to solve. Too bad it has <code>/vendor</code> in its absolute path.</p>
 <p>Our code now looks like this:</p>
 <pre><code class="language-php">final class SomeController
@@ -135,7 +135,7 @@ I want to share my point of view on prisoners' dilemma, which you maybe know fro
 <li>What happens when we want to get just one item of <code>OurAttribute</code>?</li>
 <li>...</li>
 </ul>
-<h2 id="2-ways-to-do-1-thing?">2 Ways to Do 1 Thing?</h2>
+<h2 id="2-Ways-to-Do-1-Thing">2 Ways to Do 1 Thing?</h2>
 <p>These questions seem like a decent topic to think about in the evening over a glass of smoked whiskey... But <strong>they're rather a sign of design smell in our architecture</strong>. There should exactly one way to add metadata above methods, <a href="/blog/how-exception-to-the-convention-does-more-harm-than-good">no exception</a> allowed.</p>
 <p>What happens if there is an exception and we have at least two ways to add metadata? Cognitive dissonance kicks in, and we can use whatever we want anywhere we want:</p>
 <pre><code class="language-php">/**
@@ -148,7 +148,7 @@ public function __invoke()
 #[OurAttribute]
 public function __invoke()</code></pre>
 <p>Too bad our project only supports attributes now, and <code>@OurAttribute</code> is silently ignored. It will cause the server down on Saturday morning and make a couple of families very happy about having their developer half work a whole weekend to figure this out.</p>
-<h2 id="back-to-vendor">Back to Vendor</h2>
+<h2 id="Back-to-Vendor">Back to Vendor</h2>
 <p>Now that we've made clear attributes are the only way to go:</p>
 <pre><code class="language-php">#[ExternalAnnotation]
 #[OurAttribute]
@@ -159,7 +159,7 @@ I expect that the whole open-source world<br>
 is here for me only to solve my personal problems.
 </blockquote>
 <p>I've checked the <a href="https://github.com/apitte/core/">apitte/core</a> package we used for annotations and found out. It does not support attributes. Hm, what now? There <a href="https://github.com/apitte/core/issues/151">is an issue</a> from January 2021, but that's it. I've decided to contribute back to the package developers and maintainers... and clicked on the 👍 button under the issue.</p>
-<h2 id="its-never-so-easy">It's <del>Never</del> so Easy</h2>
+<h2 id="It-s-Never-so-Easy">It's <del>Never</del> so Easy</h2>
 <p>Oh no, life is not aligned with my wishful thinking again. What now? Maybe it's time to give up and teach my teammates a new exception they <a href="/blog/2018/08/27/why-and-how-to-avoid-the-memory-lock/">only have to remember</a>: &quot;The A, B, and C are always attributes and D, E, and F are always annotations.&quot;</p>
 <p>I liked this option initially, but then thought of <strong>being paid for adding my coworkers more meta-work</strong>, making them logarithmically more expensive, which seemed a bit embarrassing for me.</p>
 <p>What other options do I have?</p>
@@ -175,7 +175,7 @@ is here for me only to solve my personal problems.
 <p>I'm daydreaming about the fame and glory I will receive from the PHP community just for the 10&nbsp;minutes of my work. Let's do this!</p>
 <p>I fork the package, create a pull request, learn how to run the <code>make X</code> command, and send the pull request. I'm thinking, hm, maybe I should <strong>add a test</strong> to guarantee my contribution works and make the maintainer more open to merge it. I don't want to bother them twice just to ask me for a test.</p>
 <p>My plan is simple: copy-paste existing test, duplicate controller fixture class, replace annotations with attributes, and expected the same result as annotations have. That sounds simple enough, right?</p>
-<h2 id="can-doctrine-annotations-reader-handle-attributes?">Can Doctrine Annotations Reader handle Attributes?</h2>
+<h2 id="Can-Doctrine-Annotations-Reader-handle-Attributes">Can Doctrine Annotations Reader handle Attributes?</h2>
 <p>I made this plan happen and run the test. Nothing. It seems no attribute classes were found. What is wrong? Everything is 1:1. Just instead of <code>@SomeClass</code>, there is <code>#[SomeClass]</code> - this must work! I run just a single test for a single attribute, only to confirm the previously failed result.</p>
 <p>I do a bit of reflecting on a toilet and have an epiphany - there is another vendor package that handles metadata reading.  The <code>Doctrine\Common\Annotations\AnnotationReader</code> service!</p>
 <p>I'm thinking... the Doctrine annotations are dualistic - there is one class for <code>Entity</code>, you don't have to change anything:</p>
@@ -193,7 +193,7 @@ class Post
 +Doctrine\Common\Annotations\AnnotationAndAttributeReader</code></pre>
 <p>Well, unless it isn't. After a few minutes of testing, I accepted that the AnnotationReader only reads annotations, not attributes. The <code>doctrine/annotations</code> packages do not support any custom reader for attributes. Why does <code>doctrine/orm</code> supports dualistic annotations in a single class and <code>doctrine/annotations</code> does not? Probably a result of missing Doctrine vendor monorepo.</p>
 <p>This <a href="/blog/how-exception-to-the-convention-does-more-harm-than-good">logical exception caused me</a> <strong>lose my sanity</strong>. Almost, but instead, I've decided to look for some reader package that would understand both annotations. There is some advanced reader in <code>doctrine/orm</code>, but we don't use Doctrine and Symfony, so pulling so many new packages just to read simple attributes was not an option.</p>
-<h2 id="a-package-that-reads-both-annotations-and-attributes">A Package that Reads both Annotations and Attributes</h2>
+<h2 id="A-Package-that-Reads-both-Annotations-and-Attributes">A Package that Reads both Annotations and Attributes</h2>
 <p>After a bit of googling on packagist, I've found <a href="/blog/doctrine-annotations-and-attributes-living-together-in-peace">Koriym.Attributes</a> package. I hope the name is not as precise as `doctrine/annotations' This package can read annotations.</p>
 <p><strong>My expectations are</strong> that I install this package to <code>apitte/core</code>, replace the reader with this one; it will work for both annotations and attributes. I love the naivety of my younger self, but we still got some time to get there.</p>
 <p>I've replaced the package and run the tests. Nothing. What is going on? Is the <code>koriym/Koriym.Attributes</code> package broken? I check the tests of the package, and it looks fine. This use case should work. There is one more surprise lurking...</p>
@@ -238,7 +238,7 @@ class Route
     }
 }</code></pre>
 <p>Do you know, there are <strong>3 ways to create an annotation class</strong>. But only one of them is compatible with attributes and only supported since the <code>doctrine/annotations</code> version was released this summer. Which one is it, and how to make it happen? You can find out in <a href="/blog/doctrine-annotations-and-attributes-living-together-in-peace">Doctrine Annotations and Attributes Living Together in Peace</a>.</p>
-<h2 id="refactor-everything">Refactor Everything</h2>
+<h2 id="Refactor-Everything">Refactor Everything</h2>
 <p>I realize how this used to be so simple in my head before I knew anything about this topic... I guess that's what stupidity is.</p>
 <p>I have to refactor every single annotation class. Not just their constructor, but also the logic they use inside. We have 2 pull requests to <code>apitte/core</code> now:</p>
 <ul>
@@ -246,7 +246,7 @@ class Route
 <li>one that makes annotation compatible with attributes - no new feature, but the extension of possible future use - <a href="https://github.com/apitte/core/pull/162">https://github.com/apitte/core/pull/162</a></li>
 </ul>
 <p><strong>The latter PR is pre-step</strong>, so using low-hanging fruit of least surprise, I've pushed it to be merged first. If you can, always use these pre-step PRs to make the feature PR much smaller and easier to review.</p>
-<h2 id="how-to-test-pull-request-before-merge?">How to Test Pull-Request Before Merge?</h2>
+<h2 id="How-to-Test-Pull-Request-Before-Merge">How to Test Pull-Request Before Merge?</h2>
 <p>Now we have two pull-request with code changes. Tests are passing, PHPStan is passing, coding standards are passing... that should be enough, right? There is one more important test - in our actual project.</p>
 <p>Usually, we have to wait for the feature to be merged and tagged before using it.</p>
 <p>Are you highly impatient like me? Then you can require a merged dev version:</p>
@@ -264,7 +264,7 @@ class Route
     }
 }</code></pre>
 <p><strong>This versioning is much-preferred</strong> to dynamic <code>dev-master, that always take the latest version. The latest version can change in time, but the hash</code>dev-master#d38ga8gb` version always points to the exact commit. It's like a tag for poor people.</p>
-<h2 id="composer-easter-egg">Composer Easter Egg</h2>
+<h2 id="Composer-Easter-Egg">Composer Easter Egg</h2>
 <p>So how is using <code>dev-master</code> in specific hash useful? Now we'll find the easter egg:</p>
 <img src="https://user-images.githubusercontent.com/924196/125828932-0792189c-3082-4b94-9568-a92e1eeff936.png" class="img-thumbnail mb-5 mt-5">
 <p><strong>We can use hash in pull-request the same way with `dev-master</strong>:</p>
@@ -276,7 +276,7 @@ class Route
 <p>The composer will install the exact commit from the pull request!</p>
 <p><br></p>
 <p>This testing found at least five bugs that we would discover only after merging the pull request!</p>
-<h2 id="one-week-later">One Week Later</h2>
+<h2 id="One-Week-Later">One Week Later</h2>
 <p>The <code>appetite/core</code> annotations and attributes now work in the <code>dev-master</code>. I hope Milan will tag the next version soon to remove <code>dev-main</code> from our composer.</p>
 <p>Good, now we have the tools ready, <code>apitte/core</code> is up to date and ready. I can finally start the refactoring that seemed &quot;so easy&quot; a few days before. The <strong>safest refactoring is one class at a time</strong>, try it, test it and then merge it. If everything works, we can refactor 2 more classes and so on.</p>
 <p>This way, the first pull request had a bunch of annotations and attributes above the same method:</p>
@@ -288,7 +288,7 @@ public function __invoke()
 {
 }</code></pre>
 <p>Technically this should work, at least by <strong>my expectations</strong>. Too bad the CI disagreed with me.</p>
-<h2 id="1-package-=-1-responsibility">1 Package = 1 Responsibility</h2>
+<h2 id="1-Package-1-Responsibility">1 Package = 1 Responsibility</h2>
 <p>I debug the <code>apitte/core</code> and then <code>koriym/Koriym.Attributes</code> reader a bit. It seems the reader only returns attributes, no annotations. I assumed that it reads both annotations and attributes <strong>at the same time</strong> together. But the tool is a bit different.</p>
 <ul>
 <li>It read the attributes first - if found, it returned them.</li>
@@ -299,13 +299,13 @@ public function __invoke()
 <p>So I proposed a <a href="https://github.com/koriym/Koriym.Attributes/pull/11">pull-request there</a>. After 3 days of very active feedback from Koriym, the pull request was ready. <strong>Thank you, Koriym, for the attention and time you gave me.</strong></p>
 <p>One risk of contributing to an open-source project is frustrating response times for both parties.</p>
 <p>Usually, there is no timetable for getting a response from the maintainer. You don't know if they respond in 10 minutes, today, or in 2 weeks. Sometimes maintainer can respond in a matter of an hour, just to point out the CI is failing. You fix it, push it a matter of 10 minutes. But then you wait 5 more days for another reply. But that's part of the deal, and when it works out, <strong>it's a great unique feeling of compassion across time zones</strong>.</p>
-<h2 id="meeting-my-expectations">Meeting My Expectations</h2>
+<h2 id="Meeting-My-Expectations">Meeting My Expectations</h2>
 <p>We're heading to the end. With two open-source packages, 5 pull-request later, my expectations are met. I'm happy. If I came to this problem today, I would only use the packages without any surprises. I hope this team effort will make this experience smooth for everyone else in the same situation. Thank you, Milan and Koriym, for your teamwork with a narrow focus on what is essential for the package's sake.</p>
 <blockquote class="blockquote text-center">
 "Contribute the changes to open-source<br>
 you want to see in the world."
 </blockquote>
-<h2 id="meet-new-friends">Meet New Friends</h2>
+<h2 id="Meet-New-Friends">Meet New Friends</h2>
 <p>Apart from the new features in the 2 packages and our private project, I feel like I had a great time with 2 friends. We were talking about code, but also coding techniques and one's approach to life.</p>
 <p>In a code, you can often see more than meets the eye. We can see if the package has clear naming, neat and easy-to-understand README, or a simple design. It's the door to the writer's mind.</p>
 <p>So what is the conclusion for today? <strong>If you feel something or someone has failed you, you can always do something about it</strong>. Maybe you improve your life, and maybe you improve the world a little bit too.</p>

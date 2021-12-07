@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?533442413" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?2017063085" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="14 Tips to Write PHP Code that is Hard to Maintain and Upgrade" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/11/26/14-tips-to-write-php-code-that-is-hard-to-maintain-and-upgrade" />
@@ -82,7 +82,7 @@ If you keep a low profile of very smart architect and do it right, you'll be the
                 </div>
             </div>
 
-            <h3 id="3-signs-of-living-vendor-lock-in">3 Signs of Living Vendor Lock-In</h3>
+            <h3 id="3-Signs-of-Living-Vendor-Lock-In">3 Signs of Living Vendor Lock-In</h3>
 <p><code>/vendor</code> is a directory in your project with all the packages dependencies. <a href="https://en.wikipedia.org/wiki/Vendor_lock-in">Vendor lock-in</a> is life-death dependency company on you.
 It's like having a baby - <strong>you have to take care of it for the next 18 years</strong> (at least):</p>
 <img src="/assets/images/posts/2018/vendor/free-hug.jpg" class="img-thumbnail">
@@ -92,7 +92,7 @@ It's like having a baby - <strong>you have to take care of it for the next 18 ye
 <p></a></p>
 <p>But not an obvious way like the right one. The company can't find out! You have to be sneaky as <em>Eliot</em> to <em>E-Corp</em>.</p>
 <p>Here are 15 examples of such <strong>code collected from existing vendor lock-in projects</strong> I reviewed:</p>
-<h2 id="1.-never-use-final">1. Never use <code>final</code></h2>
+<h2 id="1-Never-use-final">1. Never use <code>final</code></h2>
 <p>Programmers want freedom, users desire options. Why setting healthy boundaries, when you can set them free:</p>
 <pre><code class="language-php">&lt;?php declare(strict_types=1);
 
@@ -110,7 +110,7 @@ class BetterPriceCalculator extends PriceCalculator
 
 }</code></pre>
 <p>Also, it's <a href="https://github.com/cpliakas/git-wrapper/issues/159">needed for mocking</a> and there is no <a href="https://github.com/dg/bypass-finals">way around that</a>. There's not even <a href="https://ocramius.github.io/blog/when-to-declare-classes-final">8 reasons</a> to use <code>final</code> anywhere anytime.</p>
-<h2 id="2.-use-protected-instead-of-private">2. Use <code>protected</code> instead of <code>private</code></h2>
+<h2 id="2-Use-protected-instead-of-private">2. Use <code>protected</code> instead of <code>private</code></h2>
 <p>What is opened class good for with <code>private</code> methods? You need to use <code>protected</code> method to be really opened:</p>
 <pre><code class="language-php">&lt;?php declare(strict_types=1);
 
@@ -131,7 +131,7 @@ class BetterPriceCalculator extends PriceCalculator
         return 1000;
     }
 }</code></pre>
-<h2 id="3.-use-non-string-method-names">3. Use Non-String Method Names</h2>
+<h2 id="3-Use-Non-String-Method-Names">3. Use Non-String Method Names</h2>
 <p>This is tricky for real professionals - I hope you're to look smart in front of your team! If there is a way</p>
 <pre><code class="language-php">&lt;?php declare(strict_types=1);
 
@@ -176,7 +176,7 @@ class Form
 }</code></pre>
 <p>Why is this so well written? Imagine we're looking at the legacy code - huge code base, 100 of places where the method is used at.
 Try to rename <code>processForm</code> to <code>processOrderProduct</code> - AST is not able to detect method name, all it sees is a string. Instant upgrade impossible and you have to do it all manually, good job!</p>
-<h2 id="4.-dont-always-use-p-s-r-4">4. Don't Always use <code>PSR-4</code></h2>
+<h2 id="4-Don-t-Always-use-PSR-4">4. Don't Always use <code>PSR-4</code></h2>
 <p>Classes need to be autoloaded to be parsed to AST. PSR-4 section in <code>composer.json</code> solves this easily:</p>
 <pre><code class="language-json">{
     "autoload": {
@@ -186,7 +186,7 @@ Try to rename <code>processForm</code> to <code>processOrderProduct</code> - AST
     }
 }</code></pre>
 <p>Damn, now every class is easy to find and respects <code>file.php</code> → <code>Class</code> naming. <strong>How could you complicate this?</strong></p>
-<h3 id="put-more-classes-into-1-file">Put more Classes into 1 file</h3>
+<h3 id="Put-more-Classes-into-1-file">Put more Classes into 1 file</h3>
 <pre><code class="language-php">&lt;?php declare(strict_types=1);
 
 class FatalException extends Exception
@@ -204,7 +204,7 @@ class RequestException extends Exception
 
 }</code></pre>
 <p>You have 1 file instead of 3 - you saved so much disk space!</p>
-<h3 id="use-small-case-naming">Use Small Case Naming</h3>
+<h3 id="Use-Small-Case-Naming">Use Small Case Naming</h3>
 <pre><code class="language-bash">/app
    /Controller
        ProductController.php</code></pre>
@@ -213,7 +213,7 @@ class RequestException extends Exception
    /controller
        ProductController.php</code></pre>
 <p>PSR-4 is unable to find this file, great job!</p>
-<h3 id="dont-load-tests">Don't Load Tests</h3>
+<h3 id="Don-t-Load-Tests">Don't Load Tests</h3>
 <p>Let's say your <code>/app</code> code is loaded by PSR-4. You also have covered it with tests. If you run instant upgrades, it should actually upgrade tests too. Damn.</p>
 <p>If you have this section, drop it:</p>
 <pre><code class="language-diff">-{
@@ -224,10 +224,10 @@ class RequestException extends Exception
 -    }
 -}</code></pre>
 <p>PHPUnit uses its own autoload anyway.</p>
-<h2 id="5.-use-your-own-autoloader">5. Use Your Own Autoloader</h2>
+<h2 id="5-Use-Your-Own-Autoloader">5. Use Your Own Autoloader</h2>
 <p>While you're at it, follow PHPUnit example. And not only PHPUnit. Have you ever wondered why there is missing <a href="https://github.com/squizlabs/PHP_CodeSniffer/blob/b53f64e10e41aa754ffa7c11999af1881e6c1780/composer.json"><code>"autoload"</code> section PHP_CodeSniffer <code>composer.json</code></a>
 Make your own autoloader - using <code>spl_autoload_register</code> or <a href="https://github.com/nette/robot-loader">nette/robot-loader</a>. That way instant upgrade tools get confused and probably won't work. Good job!</p>
-<h2 id="6.-hide-your-dependencies-in-constructor">6. Hide Your Dependencies in Constructor</h2>
+<h2 id="6-Hide-Your-Dependencies-in-Constructor">6. Hide Your Dependencies in Constructor</h2>
 <pre><code class="language-php">&lt;?php declare(strict_types=1);
 
 class PackagistApi
@@ -270,7 +270,7 @@ class PackagistApi
         return $packages;
     }
 }</code></pre>
-<h2 id="7.-put-different-kinds-of-objects-to-one-directory">7. Put Different Kinds of Objects to One Directory</h2>
+<h2 id="7-Put-Different-Kinds-of-Objects-to-One-Directory">7. Put Different Kinds of Objects to One Directory</h2>
 <p>Do you love DDD? Everyone loves it! Thanks to DDD you have socially accepted reason to use directory names based on categories:</p>
 <pre><code class="language-bash">/app
     /Controller
@@ -292,7 +292,7 @@ class PackagistApi
         resource: '../app'
         exclude: '../app/{Entity}'</code></pre>
 <p>Great job!</p>
-<h2 id="8.-use-annotations-to-define-magic-methods">8. Use Annotations to Define Magic Methods</h2>
+<h2 id="8-Use-Annotations-to-Define-Magic-Methods">8. Use Annotations to Define Magic Methods</h2>
 <p>Now you know how to use strings in method names from tip #3. Let's get this to the next level. I've already used this tip above:</p>
 <pre><code class="language-php">&lt;?php declare(strict_types=1);
 
@@ -303,7 +303,7 @@ $guzzle-&gt;get('...');</code></pre>
 <p>It's only <a href="https://github.com/guzzle/guzzle/blob/8db1967d92f55de1b94b175478ed16a7dfc53a90/src/Client.php#L11-L24">an annotation</a>:</p>
 <img src="/assets/images/posts/2018/vendor/magic-annotation.png" class="img-thumbnail">
 <p>You now have a reason to add <code>__call</code> integration and combine method names with many more strings. Great job!</p>
-<h2 id="9.-use-traits-with-annotations-to-define-magic-methods">9. Use Traits with Annotations to Define Magic Methods</h2>
+<h2 id="9-Use-Traits-with-Annotations-to-Define-Magic-Methods">9. Use Traits with Annotations to Define Magic Methods</h2>
 <p>You can take this to one more level!</p>
 <pre><code class="language-php">&lt;?php declare(strict_types=1);
 
@@ -320,7 +320,7 @@ trait GetMethodTrait
 {
 }</code></pre>
 <p>Goodbye automated typehints and static analysis!</p>
-<h2 id="10.-dont-use-a-different-naming-to-separate-interface,-trait-from-class">10. Don't use a Different Naming to separate <code>Interface</code>, <code>Trait</code> from <code>Class</code></h2>
+<h2 id="10-Don-t-use-a-Different-Naming-to-separate-Interface-Trait-from-Class">10. Don't use a Different Naming to separate <code>Interface</code>, <code>Trait</code> from <code>Class</code></h2>
 <p>Oh, I actually made a mistake. Above I wrote <code>GetMethodTrait</code>, that might actually help the user and tool to guess it's a trait:</p>
 <pre><code class="language-bash">- ProductInterface
 - ProductTrait
@@ -330,7 +330,7 @@ trait GetMethodTrait
 - Product
 - Product</code></pre>
 <p>Now no-one can use Finder to find all traits or interface. Each file has to be parsed now and that's super slow. Good job!</p>
-<h2 id="11.-use-as-short-naming-as-possible">11. Use as Short Naming as Possible</h2>
+<h2 id="11-Use-as-Short-Naming-as-Possible">11. Use as Short Naming as Possible</h2>
 <p>Long class names are annoying to read. Just compare yourself:</p>
 <pre><code class="language-/ash">- YamlParser
 - YamlFileParser
@@ -351,12 +351,12 @@ class ProductXmlFeedCrawler
 
 }</code></pre>
 <p>WTF, it's so good!</p>
-<h2 id="12.-dont-use-a-different-naming-to-separate-abstract-classes">12. Don't use a Different Naming to separate <code>Abstract</code> classes</h2>
+<h2 id="12-Don-t-use-a-Different-Naming-to-separate-Abstract-classes">12. Don't use a Different Naming to separate <code>Abstract</code> classes</h2>
 <p>Abstract classes are also classes. Why would make that easier for a reader by stating that in a name? Have you ever seen an <code>AbstractInterface</code> or <code>AbstractTrait</code>? I did not.</p>
 <pre><code class="language-diff">-abstract class AbstractXmlCrawler
 +abstract class XmlCrawler</code></pre>
 <p>Let them look into to class manually. Time well spent!</p>
-<h2 id="13.-use-fluent-a-p-i-with-different-return-values">13. Use Fluent API with Different Return Values</h2>
+<h2 id="13-Use-Fluent-API-with-Different-Return-Values">13. Use Fluent API with Different Return Values</h2>
 <p><a href="https://ocramius.github.io/blog/fluent-interfaces-are-evil">Fluent interfaces are great</a>, they save you typing the variable name all over again:</p>
 <pre><code class="language-php">&lt;?php declare(strict_types=1);
 
@@ -390,7 +390,7 @@ $definition = new Definition;
 $definition-&gt;setClass('ProductController');
 $definition-&gt;setArguments(['@Request']);</code></pre>
 <p>How can anyone use that incorrectly now?</p>
-<h2 id="14.-use-fluent-a-p-i-with-different-return-values">14. Use Fluent API with Different Return Values</h2>
+<h2 id="14-Use-Fluent-API-with-Different-Return-Values">14. Use Fluent API with Different Return Values</h2>
 <p>Let's take fluent to the next level - make every method return different object:</p>
 <pre><code class="language-php">&lt;?php
 

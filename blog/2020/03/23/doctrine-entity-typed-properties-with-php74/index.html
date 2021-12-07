@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1389228888" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?556135660" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Doctrine Entity Typed Properties With PHP 7.4" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/03/23/doctrine-entity-typed-properties-with-php74" />
@@ -99,7 +99,7 @@ Today we'll look at <strong>the impact of typed properties on weak points of Doc
                 </div>
             </div>
 
-            <h2 id="the-collections">The Collections</h2>
+            <h2 id="The-Collections">The Collections</h2>
 <p>In the Czech PHP community, we have skilled trainers that share their knowledge with others on training. We help them to share the knowledge by handling the tedious organization processes for them and let them enjoy the training day itself.</p>
 <p>Each trainer has many trainings, so the <code>Trainer</code> entity looks like this in PHP 7.3-:</p>
 <pre><code class="language-php">&lt;?php
@@ -146,7 +146,7 @@ class Trainer
 <li>...broke with PHP 7.4 typed properties :)</li>
 </ul>
 <p>How do we <strong>add property types without breaking everything</strong>?</p>
-<h2 id="1.-the-property">1. The Property</h2>
+<h2 id="1-The-Property">1. The Property</h2>
 <p>In PHP 7.4, <strong>the property is the king</strong> - the rest of the code has to respect the type, and it's the default value. Let's start with that.</p>
 <pre><code class="language-diff"> /**
   * @ORM\OneToMany(targetEntity=Training::class, mappedBy="trainer")
@@ -215,7 +215,7 @@ Now we <strong>have to use it</strong> to make our code work:</p>
 <p>All right, we have the correct type, it's initialized in the constructor.</p>
 <p>Our property is ready!</p>
 <p><br></p>
-<h2 id="2.-getter-method?">2. Getter Method?</h2>
+<h2 id="2-Getter-Method">2. Getter Method?</h2>
 <pre><code class="language-php">&lt;?php
 
 // ...
@@ -239,7 +239,7 @@ public function getTrainings(): iterable
      return $this-&gt;trainings;
  }</code></pre>
 <p>And we're ready to go!</p>
-<h2 id="3.-setter-method?">3. Setter Method?</h2>
+<h2 id="3-Setter-Method">3. Setter Method?</h2>
 <p>I bet you handled this already from the top of your head, so let's compare:</p>
 <pre><code class="language-diff"> &lt;?php
 
@@ -256,7 +256,7 @@ public function getTrainings(): iterable
 <p><a href="https://github.com/pehapkari/pehapkari.cz/pull/297/files"></p>
 <img src="/assets/images/posts/2020/typed_doctrine_properties_collection.png" class="img-thumbnail">
 <p></a></p>
-<h2 id="easy-admin-bundle?">EasyAdminBundle?</h2>
+<h2 id="EasyAdminBundle">EasyAdminBundle?</h2>
 <p>Have you tried <a href="https://github.com/EasyCorp/EasyAdminBundle">EasyAdminBundle</a> to delegate your full administration? If not, give it go.</p>
 <p><strong>It creates data grids, forms, edit/update/add/delete controllers. All this with simple and beautiful UX. All you need to do is define your entities and register them in YAML config.</strong> I love it!</p>
 <p><br></p>
@@ -292,7 +292,7 @@ class Training
     // ...
 }</code></pre>
 <p>Do you prefer code over text? <a href="https://github.com/pehapkari/pehapkari.cz/pull/297/files">Here is the PHP 7.4 upgrade pull-request</a>.</p>
-<h2 id="upgrade-instantly-with-rector">Upgrade Instantly with Rector</h2>
+<h2 id="Upgrade-Instantly-with-Rector">Upgrade Instantly with Rector</h2>
 <p>I did not do the upgrade pull-request myself (I'm way too lazy for that), <a href="https://getrector.org">Rector</a> did. Thanks to testing out Rector on Doctrine entities, its PHP 7.4 set got much more precise.</p>
 <p><strong>Do you want to see how Rector can upgrade your code?</strong></p>
 <ol>

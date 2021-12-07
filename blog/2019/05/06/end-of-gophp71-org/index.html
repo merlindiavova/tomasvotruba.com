@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?691793993" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?902752368" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="End of goPhp71.org" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/05/06/end-of-gophp71-org" />
@@ -90,13 +90,13 @@ Future is now. There is no need for the initiative now and it's time to <a href=
 
             <p>When I bought the <code>gophp71.org</code> domain, I had no idea what it will become. You know, try to tell the whole PHP open-source community what min version should they use in <code>composer.json</code>, right? Explain why it's a good idea to work as a community to people you've never met. <strong>But when I saw <a href="https://www.garfieldtech.com/blog/go-php-5-go">Go PHP 5</a> I felt it's my duty to give back to PHP community and help with PHP 7.1.</strong></p>
 <p>Today it's gonna about numbers, how well PHP community works together and few of mine fuck-ups :)</p>
-<h2 id="how-much-did-it-cost?">How Much Did it Cost?</h2>
+<h2 id="How-Much-Did-it-Cost">How Much Did it Cost?</h2>
 <ul>
 <li>Domain <code>gophp71.org</code>? - 15 $ per year, 2 years = <strong>30 $</strong> in total</li>
 <li>Hosting? <strong>0 $</strong> Thanks to <a href="https://github.com/tomasVotruba/gophp71.org">Github Pages hosting</a> and <a href="https://www.statie.org">static site generator Statie</a></li>
 <li>And the work? I didn't Toggle it, but with all the design iterations, posts and commenting all over the internet <strong>I'd say ~25-30 hours</strong>. As you can guess, I'm very bad at tuning CSS for mobiles. Use your own hourly rate to have the idea in $.</li>
 </ul>
-<h2 id="what-was-the-impact?">What was The Impact?</h2>
+<h2 id="What-was-The-Impact">What was The Impact?</h2>
 <p>I took a while. Thanks to Jordi (thank you!), we have numbers on min. required PHP version on Packagist:</p>
 <ul>
 <li><a href="https://seld.be/notes/php-versions-stats-2017-1-edition">May 2017</a> - 1,7 %</li>
@@ -108,7 +108,7 @@ Future is now. There is no need for the initiative now and it's time to <a href=
 <p><strong>What about 38 528?</strong> That's the absolute number of packages that required PHP 7.1 in <a href="https://packagist.org/statistics">November 2018</a>.</p>
 <p><br></p>
 <p>I look forward to May 2019 stats update coming anytime soon.</p>
-<h2 id="correlation-!==-causality">Correlation !== Causality</h2>
+<h2 id="Correlation-Causality">Correlation !== Causality</h2>
 <p>I don't think one website changed the PHP world. We made it together as one community. I tried to convince <em>David</em> from PHP 7.0 to PHP 7.1 over lunch. I thought I lost him not having enough arguments and <em>Nette</em> will go with PHP 7.0. <strong>Later that month Nette went 7.1</strong> as one of the first PHP frameworks - it was not stable, but still had a big effect on Czech open-source maintainers 👍</p>
 <p>There was a sparkle of hope this might work.</p>
 <p><br></p>
@@ -129,8 +129,8 @@ Future is now. There is no need for the initiative now and it's time to <a href=
 <p><br></p>
 <p>&quot;Sure Tom, good job... you're the best, but we're really reading just for your fuck-ups.&quot;</p>
 <p>All right...</p>
-<h2 id="what-i-fucked-up?">What I Fucked Up?</h2>
-<h3 id="too-complicated-wording">Too Complicated Wording</h3>
+<h2 id="What-I-Fucked-Up">What I Fucked Up?</h2>
+<h3 id="Too-Complicated-Wording">Too Complicated Wording</h3>
 <p>I wrote &quot;add your project too&quot; instructions on the website, so all projects could join. <strong>I learned that people don't understand my complicated thoughts</strong>.</p>
 <p>Instead of keeping it as simple as:</p>
 <ul>
@@ -141,14 +141,14 @@ Future is now. There is no need for the initiative now and it's time to <a href=
 <li>&quot;Add your project if you have PHP 7.1 in the <code>composer.json</code> file. It doesn't matter it's not stable yet. If it's not stable yet, add <em>released: no</em> to the configuration file. But remember to update this website, when you finally decide to use a stable tag. Also, add some link to the statement, so we can read about it a bit more. I hope it's not too much to ask you to follow these very few simple steps. I really tried to make them very easy, as you can see. Thank you&quot;</li>
 </ul>
 <p>That led to hanged PRs, manual <em>yes/no</em> corrections that didn't have much-added value and confused comments from contributors (I'm sorry about that).</p>
-<h3 id="too-late">Too Late</h3>
+<h3 id="Too-Late">Too Late</h3>
 <p><strong>I fucked up timing.</strong> PHP 7.1 was released in December 2016, yet <code>gophp71.org</code> was not launched until 7 months later.
 I had the idea before, but <strong>I was afraid how will you react</strong>. I had thoughts like &quot;Who the hell is this Votruba and why does he think he is that he tells us what PHP version should we use?&quot; or &quot;Do you want us to go PHP 7.1? Well, we'll go PHP 7.0 on one project and PHP 7.2 on the other, a-ha!&quot; or &quot;What is he selling us? That's some version conspiracy!&quot;</p>
 <p>Now I see that was stupid. I should start earlier, try it, give a go and adapt upon the feedback.</p>
 <p><br></p>
 <p>That's all folks, hope you enjoyed it! I sure did start almost 24 months ago with just this:</p>
 <img src="/assets/images/posts/2017/go-php-71/first-version.png">
-<h2 id="whats-going-to-be-next?">What's Going to be Next?</h2>
+<h2 id="What-s-Going-to-be-Next">What's Going to be Next?</h2>
 <p>Will we &quot;Go PHP 8&quot;? Someone from Arizona, US <a href="https://gophp8.org">already bought the <code>gophp8.org</code> domain</a>.
 Or 8.1, when 8 becomes more mature?</p>
 <p>Who knows. All I know <strong>I'm very happy to be part of our PHP <del>community</del> family ❤️️, where we support each other despite our differences and work together when we need to</strong>.</p>

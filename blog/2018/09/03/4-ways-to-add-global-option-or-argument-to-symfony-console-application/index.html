@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?16513453" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1526215136" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="4 Ways to Add Global Option or Argument to Symfony Console Application" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/09/03/4-ways-to-add-global-option-or-argument-to-symfony-console-application" />
@@ -87,7 +87,7 @@ vendor/bin/changelog cleanup</code></pre>
 vendor/bin/changelog link CHANGELOG-2.md
 vendor/bin/changelog cleanup CHANGELOG-3.md</code></pre>
 <p>We need to add global file argument. So, what option do we have?</p>
-<h2 id="1.-add-argument-to-each-command">1. Add Argument to Each Command</h2>
+<h2 id="1-Add-Argument-to-Each-Command">1. Add Argument to Each Command</h2>
 <pre><code class="language-diff"> use Symfony\Component\Console\Command\Command;
  use Symfony\Component\Console\Input\InputArgument;
 
@@ -117,19 +117,19 @@ vendor/bin/changelog cleanup CHANGELOG-3.md</code></pre>
 +        $this-&gt;addArgument('file', InputArgument::OPTIONAL, 'Path to changelog file to work wiht');
      }
  }</code></pre>
-<h3 id="✅-advantages">✅ Advantages</h3>
+<h3 id="Advantages">✅ Advantages</h3>
 <ul>
 <li>It's the fastest way - under 2 minutes including reading this post.</li>
 <li>It's the most common way to add argument and options to Commands - most people would understand it.</li>
 </ul>
-<h3 id="❌-disadvantages">❌ Disadvantages</h3>
+<h3 id="Disadvantages">❌ Disadvantages</h3>
 <ul>
 <li>Well, have you noticed the &quot;wiht&quot; typo? Now I have to <strong>fix it in every single class</strong>.</li>
 <li>For every change, we have to find and modify every single place this <strong>duplicated code</strong> is in.</li>
 <li>When a new command is added, you have to remember to <strong>add exactly this line there</strong> - you already know <a href="/blog/2018/08/27/why-and-how-to-avoid-the-memory-lock/">how memory-locks backfire</a>, right?</li>
 </ul>
 <p>Good for creating &amp; sell applications, bad for projects you want to work on for a couple of years.</p>
-<h2 id="2.-modify-application-definition">2. Modify Application Definition</h2>
+<h2 id="2-Modify-Application-Definition">2. Modify Application Definition</h2>
 <p>I'll tell you a secret. There is one place you can <strong>modify definition not just for active command, but for the whole application</strong> - it's Application Definition!</p>
 <p>The first simple &amp; short solution you'd <a href="https://gist.github.com/dhrrgn/8847309">Googled up</a> is to modify it in bin file:</p>
 <pre><code class="language-diff"> &lt;?php
@@ -143,11 +143,11 @@ vendor/bin/changelog cleanup CHANGELOG-3.md</code></pre>
 +    new InputArgument('file', InputArgument::OPTIONAL, 'Path to changelog file to work wiht');
 +]);
  $application-&gt;run();</code></pre>
-<h3 id="✅-advantages">✅ Advantages</h3>
+<h3 id="Advantages">✅ Advantages</h3>
 <ul>
 <li>1 place to maintain the code</li>
 </ul>
-<h3 id="❌-disadvantages">❌ Disadvantages</h3>
+<h3 id="Disadvantages">❌ Disadvantages</h3>
 <ul>
 <li>
 <p>we program outside the Application - when we get the application somewhere else (e.g. tests), it might break</p>
@@ -159,7 +159,7 @@ $application-&gt;run();
 <p>that's why the should be encapsulated - always prefer tree dependencies over these circle ones</p>
 </li>
 </ul>
-<h2 id="3.-the-symfony-event-subscriber-way">3. The <del>Symfony</del> Event Subscriber Way</h2>
+<h2 id="3-The-Symfony-Event-Subscriber-Way">3. The <del>Symfony</del> Event Subscriber Way</h2>
 <p>I found this approach on <a href="https://matthiasnoback.nl/2013/11/symfony2-add-a-global-option-to-console-commands-and-generate-pid-file">Matthias Noback's blog</a>. The process is similar to above, just wrapped in event subscriber that hooks into the Console Application cycle:</p>
 <pre><code class="language-php">&lt;?php
 
@@ -186,12 +186,12 @@ final class FileArgumentEventSubscriber implements EventSubscriberInterface
         ]);
     }
 }</code></pre>
-<h3 id="✅-advantages">✅ Advantages</h3>
+<h3 id="Advantages">✅ Advantages</h3>
 <ul>
 <li>there is 1 place to maintain the code</li>
 <li>our application is consistent everywhere</li>
 </ul>
-<h3 id="❌-disadvantages">❌ Disadvantages</h3>
+<h3 id="Disadvantages">❌ Disadvantages</h3>
 <p>There are now new memory-locks, that not really needed:</p>
 <ul>
 <li>we have to have/add event dispatcher - <code>composer require symfony/event-dispatcher</code></li>
@@ -213,7 +213,7 @@ final class FileArgumentEventSubscriber implements EventSubscriberInterface
 <p>The post is 5 years old and I don't think Matthias still sees this as the best way to go, yet Google shows it in top 5 results. Matthias has a popular and valuable blog (I learned a lot myself back in my early years in Symfony) and some people might think this is the best practice. To add more salt to the wound, this answer also <a href="https://stackoverflow.com/questions/40674814/how-to-add-a-new-command-line-option-to-symfony-console">spread to StackOverflow</a> without concurrency.</p>
 <p><br></p>
 <p>What is really important? <strong>The definition of application</strong>, nothing more.</p>
-<h2 id="4.-extend-the-application">4. Extend the Application</h2>
+<h2 id="4-Extend-the-Application">4. Extend the Application</h2>
 <p>I'm very happy to see that <a href="https://github.com/composer/composer/pull/1110/files">composer code has this right</a>. There is global option <code>--working-dir</code>, that allows you simply run composer in another directory:</p>
 <pre><code class="language-bash">composer update --working-dir projects/open-training
 
@@ -240,7 +240,7 @@ cd ../..</code></pre>
 +    }
  }</code></pre>
 <p><code>Symfony\Component\Console\Application</code> is <strong>one of very few classes I'd allow to <a href="https://ocramius.github.io/blog/when-to-declare-classes-final">extend</a></strong>. It's just 1:1 = easy to maintain and change. Not like entity repository, that can have dozens of children.</p>
-<h3 id="❌-disadvantages">❌ Disadvantages</h3>
+<h3 id="Disadvantages">❌ Disadvantages</h3>
 <ul>
 <li>
 <p>very little known → very hard to discover and debug - we should add a note about this to <code>config.yml</code></p>
@@ -249,7 +249,7 @@ cd ../..</code></pre>
     SomePackage\Console\SomeApplication: ~</code></pre>
 </li>
 </ul>
-<h3 id="✅-advantages">✅ Advantages</h3>
+<h3 id="Advantages">✅ Advantages</h3>
 <ul>
 <li><strong>one place</strong>, that creates a consistent code</li>
 <li><strong>we use API that is designed for these changes</strong></li>
@@ -260,7 +260,7 @@ cd ../..</code></pre>
 <p><br></p>
 <p>For all these reasons, this is the one I prefer. Do you want to see it in the real world? Here <a href="https://github.com/symplify/symplify/pull/1047/commits/c07c49ae4eff067db7cfe5e5ed1b283ae37c8c29#diff-3b69acbe6b33a88158b373e6e96de097">is a commit</a> from Monorepo Builder for our <code>file</code> argument.</p>
 <p><br></p>
-<h2 id="think-in-(anti)-patterns">Think in (Anti) Patterns</h2>
+<h2 id="Think-in-Anti-Patterns">Think in (Anti) Patterns</h2>
 <p>This post is not just about adding an option/argument to console. It's about applying the best choice in every feature you add. <strong>And if you don't know, look for it</strong>. Don't just blindly take the first result provided Google. It might be popular, widespread, but that doesn't mean it's high quality and valid solution.</p>
 <p>Do you see similar anti-patterns as 1, 2 or 3 in your code you're now happy with? How could you make it better?</p>
 <p><br></p>

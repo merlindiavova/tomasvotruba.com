@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?448466908" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?964689182" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Prepare your Neon Configs for PHP 8 and Make them More Readable" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2021/02/08/how-to-prepare-your-neon-config-for-php-8-and-make-them-more-readable" />
@@ -88,7 +88,7 @@ Do you use magic syntax sugar cream? Today we'll look at how to make it right.</
 <p>What is explicit text? A text that does not require Googling acronyms to understand it.</p>
 <p><br></p>
 <p>What is <strong>explicit code</strong>? A code that does not require documentation to understand.</p>
-<h2 id="have-you-met...-magic?">Have you Met... Magic?</h2>
+<h2 id="Have-you-Met-Magic">Have you Met... Magic?</h2>
 <img src="https://imgs.xkcd.com/comics/tar.png" class="mt-4 mb-5">
 <p>Could you guess what this line is? No Googling allowed! :)</p>
 <pre><code class="language-yaml">services:
@@ -111,7 +111,7 @@ Do you use magic syntax sugar cream? Today we'll look at how to make it right.</
 </ul>
 <p><br></p>
 <p>Apart WTF readability and principle of highest surprise, there is a new problem since PHP 8.</p>
-<h2 id="p-h-p-8-named-arguments-and-optional-parameter-last">PHP 8 - Named Arguments and Optional Parameter Last</h2>
+<h2 id="PHP-8-Named-Arguments-and-Optional-Parameter-Last">PHP 8 - Named Arguments and Optional Parameter Last</h2>
 <p>This code used to be valid in PHP 7.4:</p>
 <pre><code class="language-php">function foo($optional = null, $require)
 {
@@ -124,7 +124,7 @@ Do you use magic syntax sugar cream? Today we'll look at how to make it right.</
  }</code></pre>
 <p>Don't worry about PHP code, Rector got <a href="https://github.com/rectorphp/rector/blob/master/docs/rector_rules_overview.md#optionalparametersafterrequiredrector">this case covered</a>. But what about all the NEON configs? If we <strong>change PHP code, the configs will break</strong> because they depend on the parameter order.</p>
 <p>What about these &quot;named arguments&quot;? That might save us, but first, we have to untie this NEON spaghetti knot.</p>
-<h2 id="1.-unwrap-inlined-services">1. Unwrap Inlined Services</h2>
+<h2 id="1-Unwrap-Inlined-Services">1. Unwrap Inlined Services</h2>
 <p>First, we need to untie these class + array single lines:</p>
 <pre><code class="language-diff"> services:
 -    - Aws\Client(['region'='western'])
@@ -132,7 +132,7 @@ Do you use magic syntax sugar cream? Today we'll look at how to make it right.</
 +        class: Aws\Client
 +        arguments:
 +           - ['region'='western']</code></pre>
-<h2 id="2.-use-named-arguments">2. Use Named Arguments</h2>
+<h2 id="2-Use-Named-Arguments">2. Use Named Arguments</h2>
 <p>Sometimes we have to look at the class constructor to be able to transform NEON correctly:</p>
 <pre><code class="language-php">namespace Aws;
 
@@ -164,7 +164,7 @@ final class Client
      }
  }</code></pre>
 <p>The code will still work thanks to named arguments ✅</p>
-<h2 id="3.-unwrap-inlined-arrays">3. Unwrap Inlined Arrays</h2>
+<h2 id="3-Unwrap-Inlined-Arrays">3. Unwrap Inlined Arrays</h2>
 <p>Inlined arrays are confusing the same way the inlined services are. Let's get rid of them too while we're at it:</p>
 <pre><code class="language-diff"> services:
      -
@@ -183,7 +183,7 @@ final class Client
 +                facebook: no
 +                google: yes
 +                twitter: no</code></pre>
-<h2 id="4.-remove-implicit-arguments">4. Remove Implicit Arguments</h2>
+<h2 id="4-Remove-Implicit-Arguments">4. Remove Implicit Arguments</h2>
 <p>Do you use a <code>...</code> syntax? That is a placeholder for &quot;complete autowired service here&quot;:</p>
 <pre><code class="language-yaml">services:
     -

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?260904207" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1827674428" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="New in Coding Standard 4: Long Line Breaks Automated and 3 Legacy Prevention Fixers" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/03/29/new-in-coding-standard-4-long-line-breaks-automated-and-3-legacy-prevention-fixers" />
@@ -96,7 +96,7 @@ Are you curious what work will now these 4 news fixers handle for you? Look insi
                 </div>
             </div>
 
-            <h2 id="1.-let-coding-standard-handle-line-length-for-you">1. Let Coding Standard handle Line Length for You</h2>
+            <h2 id="1-Let-Coding-Standard-handle-Line-Length-for-You">1. Let Coding Standard handle Line Length for You</h2>
 <p><a href="https://github.com/symplify/symplify/pull/749" class="btn btn-dark btn-sm mt-2 mb-3">
 Check the PR #749
 </a></p>
@@ -154,7 +154,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 +];</code></pre>
 <p>What if I told you that you'll have to never deal with this manually. Ever!</p>
 <p>Welcome <code>LineLengthFixer</code>.</p>
-<h3 id="how-to-register-it?">How to Register It?</h3>
+<h3 id="How-to-Register-It">How to Register It?</h3>
 <pre><code class="language-php">use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 
@@ -164,7 +164,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 };</code></pre>
 <p>As you guessed, this fixer works with 120 chars as maximum line-size... by default ↓</p>
 <p><br></p>
-<h2 id="2.-choose-line-length-to-match-your-display">2. Choose Line Length to Match Your Display</h2>
+<h2 id="2-Choose-Line-Length-to-Match-Your-Display">2. Choose Line Length to Match Your Display</h2>
 <p><a href="https://github.com/symplify/symplify/pull/747" class="btn btn-dark btn-sm mt-2 mb-3">
 Check the PR #751
 </a></p>
@@ -186,16 +186,16 @@ return function (ContainerConfigurator $containerConfigurator): void {
         ]]);
 };</code></pre>
 <p><br></p>
-<h2 id="3.-make-your-static-classes-visible">3. Make your Static Classes visible</h2>
+<h2 id="3-Make-your-Static-Classes-visible">3. Make your Static Classes visible</h2>
 <p>It started as one simple static method. A helper method. They say: it's ok to use static methods, when you know when to use them. And that's <strong>how cancer started to spread slowly and lethally through Symplify code</strong>.</p>
 <p>One day you wake up and from 1 static method is 60 static factories all over your code - Dependency Injection for very poor. And that not the worst. When all code works and is easy to maintain, 1 static method can't hurt it, right?</p>
 <p><strong>Well until you need to replace one of nested dependencies that requires few more classes. And then you realized your work is to basically manually maintain dump of dependency injection container</strong> and that you're not coding anymore.</p>
 <p>It took weeks to get from this position back to clear dependency injection and I don't want to do it ever again. That's why this PHPStan rule was born.</p>
-<h3 id="how-to-register-it?">How to Register It?</h3>
+<h3 id="How-to-Register-It">How to Register It?</h3>
 <pre><code class="language-yaml">rules:
     - Symplify\CodingStandard\Rules\NoClassWithStaticMethodWithoutStaticNameRule</code></pre>
 <p><br></p>
-<h2 id="4.-prevent-&amp;-references-with-forbidden-static-function-sniff">4. Prevent &amp; references with <code>ForbiddenStaticFunctionSniff</code></h2>
+<h2 id="4-Prevent-and-amp-references-with-ForbiddenStaticFunctionSniff">4. Prevent &amp; references with <code>ForbiddenStaticFunctionSniff</code></h2>
 <p><a href="https://github.com/symplify/symplify/pull/692" class="btn btn-dark btn-sm mt-2 mb-3">
 Check the PR #692
 </a></p>
@@ -210,12 +210,12 @@ Check the PR #692
     return $var + 1;
 }</code></pre>
 <p>I though I would never meet them again, but they somehow pop-up in PRs. So we made a PHPStan rule for it:</p>
-<h3 id="how-to-register-it?">How to Register It?</h3>
+<h3 id="How-to-Register-It">How to Register It?</h3>
 <pre><code class="language-yaml"># phpstan.neon
 rules:
     - Symplify\CodingStandard\Rules\NoReferenceRule</code></pre>
 <p><br></p>
-<h2 id="5.-clear-child-class-naming-once-and-for-all-with-class-name-suffix-by-parent-fixer">5. Clear Child Class Naming Once and For All with <code>ClassNameSuffixByParentFixer</code></h2>
+<h2 id="5-Clear-Child-Class-Naming-Once-and-For-All-with-ClassNameSuffixByParentFixer">5. Clear Child Class Naming Once and For All with <code>ClassNameSuffixByParentFixer</code></h2>
 <p><a href="https://github.com/symplify/symplify/pull/633" class="btn btn-dark btn-sm mt-2 mb-3">
 Check the PR #633
 </a></p>
@@ -231,7 +231,7 @@ Check the PR #633
 {
     // ...
 }</code></pre>
-<h3 id="which-one-do-you-open?">Which one do you open?</h3>
+<h3 id="Which-one-do-you-open">Which one do you open?</h3>
 <p>I could also ask, which one is the interface and which is its implementation, but <a href="https://github.com/symplify/coding-standard#class-should-have-suffix-by-parent-classinterface">there is already checker for that</a>.</p>
 <p>Probably each of them manually until you find the right one, which really sucks. That why not only methods names, <strong>but also class names should be as descriptive and as deterministic as possible</strong>. Like this:</p>
 <pre><code class="language-diff">-final class ProductSorter extends Command
@@ -246,7 +246,7 @@ Check the PR #633
 <li><code>ProductSorterController</code></li>
 </ul>
 <p>And that's exactly what <code>ClassNameRespectsParentSuffixRule</code> helps you to do.</p>
-<h3 id="how-to-register-it?">How to Register It?</h3>
+<h3 id="How-to-Register-It">How to Register It?</h3>
 <pre><code class="language-yaml"># phpstan.neon
 rules:
     - Symplify\CodingStandard\Rules\ClassNameRespectsParentSuffixRule

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1367156434" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1685721103" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Why do we Scope PHP Tools" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/why-do-we-scope-php-tools" />
@@ -97,7 +97,7 @@ Do you want to make your tool resistant to any conflict with any project depende
 <p>But do we care about the dependencies of the tool we use? No, our goal is <strong>to run the tool</strong>:</p>
 <pre><code class="language-bash">composer require symplify/monorepo-builder --dev
 vendor/bin/monorepo-builder &lt;command&gt;</code></pre>
-<h2 id="how-can-we-get-rid-of-tools-dependencies?">How Can We Get rid of Tool's Dependencies?</h2>
+<h2 id="How-Can-We-Get-rid-of-Tool-s-Dependencies">How Can We Get rid of Tool's Dependencies?</h2>
 <div class="row">
     <div class="col-12 col-sm-6">
         <em>Before scoping</em>
@@ -110,11 +110,11 @@ vendor/bin/monorepo-builder &lt;command&gt;</code></pre>
 </div>
 <p><br></p>
 <p>We'll scope the tool! Only then we're conflict-free! Our project can have <code>symfony/console</code> 3.4 or 5.4-dev. Nobody cares because the only requirement is of the tool is the PHP version.</p>
-<h2 id="how-is-that-possible?">How is that possible?</h2>
+<h2 id="How-is-that-possible">How is that possible?</h2>
 <p>Wait, how can we have 2 versions of <code>symfony/console</code>? Let's look at the file structure we'll find in <code>/vendor</code> if we install the following packages together:</p>
 <pre><code class="language-bash">composer require symfony/console:^3.4
 composer require symplify/monorepo-builder # new scoped one</code></pre>
-<h2 id="1.-your-command-class">1. Your <code>Command</code> class</h2>
+<h2 id="1-Your-Command-class">1. Your <code>Command</code> class</h2>
 <p>These steps will produce 2 different <code>symfony/console</code> directories with 2 different <code>Symfony\Component\Console\Command\Command</code> classes.</p>
 <pre><code class="language-bash">/vendor
     /symfony
@@ -129,7 +129,7 @@ class Command
     // ...
 }</code></pre>
 <p>Pretty standard, right?</p>
-<h2 id="2.-scoped-command-class">2. Scoped <code>Command</code> class</h2>
+<h2 id="2-Scoped-Command-class">2. Scoped <code>Command</code> class</h2>
 <p>Here the scoping magic happens. The <code>symplify/monorepo-builder</code> package it's own Command in it's own scoped <code>/vendor</code>. Like this:</p>
 <pre><code class="language-bash">/vendor
     /symplify
@@ -165,10 +165,10 @@ class Command
 </ul></li>
 </ul>
 <p>The second class was scoped by <code>php-scoper</code>, that makes all classes unique and accessible exclusively in the tool. This process removes dependency from <code>composer.json</code> and thus avoid conflicts on install.</p>
-<h2 id="scope-all-the-things?">Scope All The Things?</h2>
+<h2 id="Scope-All-The-Things">Scope All The Things?</h2>
 <p>Now, should we get crazy and scope everything that pops up a conflict on <code>composer require &lt;x&gt;</code>? No. This process is valid only for <strong>PHP tools</strong> in the command line. We should not scope classic dependencies that we use directly in our project, e.g. <code>nette/utils</code>.</p>
 <p><br></p>
-<h2 id="where-is-scoping-useful?">Where is Scoping Useful?</h2>
+<h2 id="Where-is-Scoping-Useful">Where is Scoping Useful?</h2>
 <ul>
 <li>if we create an open-source PHP tool for the community</li>
 <li>if our community uses composer</li>

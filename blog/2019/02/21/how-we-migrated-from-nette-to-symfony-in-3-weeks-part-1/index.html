@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?300215999" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?133381570" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How we Migrated from Nette to Symfony in 3 Weeks - Part 1" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/02/21/how-we-migrated-from-nette-to-symfony-in-3-weeks-part-1" />
@@ -98,14 +98,14 @@ Yet, you'd laugh if you knew what took us the most time.</p>
 "I'm pretty sure it's easier than you think. Let's give it 1 week and you'll see."
 </blockquote>
 <p>And that's how it started. In this short series, we'll share our short story about nights without sleep, PHP code and Neon parsing and short-term pain of having no clue what that code does. Maybe even... happy ending?</p>
-<h2 id="1.-getting-ready-🤔">1. Getting Ready 🤔</h2>
+<h2 id="1-Getting-Ready">1. Getting Ready 🤔</h2>
 <p>A year ago we tried to migrate from unmaintained Kdyby and Zenify packages to Contributte and other implementations. And we ended licking our burns.</p>
 <p>That's why planning the migration is much more important than the migration itself. You have to talk about resources - <strong>how much energy and time are we both willing to invest</strong>. The problem with migration (or coding in general) is that there is a chance that 80 % will be done in 2 days, but then there is this 1 bug that makes most of the database tests fail. You try and try and fail and fail... and after a week you have depression and after 2 weeks you give up and never go back.</p>
-<h2 id="2.-making-a-commitment-💍">2. Making a Commitment 💍</h2>
+<h2 id="2-Making-a-Commitment">2. Making a Commitment 💍</h2>
 <p>Also, we had to <strong>decide to give this a priority</strong>. I was planning to put up new Pehapkari.cz website with training admin and new design and Honza had to deliver the feature. We had a time span of 3 weeks, month top, to do this. Everything else is secondary.</p>
 <p>When one sleeps, the other codes. We called each other at 3 AM in the morning to talk about frustration, we shared the joy when one solved the issue. Sometimes we slept for 2 hours, then coded some more because we felt we are very close and this must be the day we finish it. In 20 cases it wasn't, <strong>but we persisted</strong>. We persisted because we decided to.</p>
 <p>If one would decide in the middle of a migration to work for a week on another project, the mutual motivation could go to garbage very quickly. No way!</p>
-<h2 id="3.-automated-migration-&gt;-manual-changes-🤖">3. Automated Migration &gt; Manual Changes 🤖</h2>
+<h2 id="3-Automated-Migration-and-gt-Manual-Changes">3. Automated Migration &gt; Manual Changes 🤖</h2>
 <p>The basic idea was to do automated instant migration. Anything manually changes on more than 1 place is a potential future black hole.</p>
 <p>We quickly discovered, it's better to use <a href="/blog/2019/02/14/why-config-coding-sucks/">PHP factories over config coding</a> and <a href="/blog/2019/01/24/how-to-kill-parents/">kill all parents we could</a> (except our own ones of course).</p>
 <p><div class="card ml-4 mt-4 border-warning float-right post-snippet" style="width: 14em">
@@ -122,7 +122,7 @@ Yet, you'd laugh if you knew what took us the most time.</p>
     </div>
 </div>
 </p>
-<h3 id="use-rector-for-p-h-p-changes">Use Rector for PHP Changes</h3>
+<h3 id="Use-Rector-for-PHP-Changes">Use Rector for PHP Changes</h3>
 <p>In the start, we run <strong>Rector with generic rules with brute-force way</strong>. Don't think, just try it. That gave us more idea about the code - we started to spot places we can write in Rector rule.</p>
 <p>In the end, <a href="https://getrector.org">Rector</a> helped us with many following changes:</p>
 <ul>
@@ -148,7 +148,7 @@ Yet, you'd laugh if you knew what took us the most time.</p>
 </li>
 </ul>
 <p>Rector can automate them when some project will need them. Maybe your project :)</p>
-<h3 id="non-p-h-p-migrations">Non-PHP Migrations</h3>
+<h3 id="Non-PHP-Migrations">Non-PHP Migrations</h3>
 <ul>
 <li>
 <p><a href="/blog/2019/02/11/introducing-neon-to-yaml-converter/">Neon to YAML</a> ✅ - this package was created for needs of Entrydo</p>
@@ -157,10 +157,10 @@ Yet, you'd laugh if you knew what took us the most time.</p>
 <p><a href="/blog/2018/07/05/how-to-convert-latte-templates-to-twig-in-27-regular-expressions/">Latte to TWIG</a> ✅</p>
 </li>
 </ul>
-<h3 id="coding-standards">Coding Standards</h3>
+<h3 id="Coding-Standards">Coding Standards</h3>
 <p>After many many changes in the code, we didn't care about spaces, tabs or where the <code>{</code> is. That's the job of <a href="https://github.com/symplify/easy-coding-standard">EasyCodingStandard</a>. <strong>We had to focus full attention on code structure</strong>, not to play with style.</p>
 <p>Actually, Nette uses tabs and Symfony spaces, so ECS actually helped with migration a lot too.</p>
-<h2 id="4.-w-t-fs-everywhere!-🤦">4. WTFs Everywhere! 🤦</h2>
+<h2 id="4-WTFs-Everywhere">4. WTFs Everywhere! 🤦</h2>
 <p>This code worked in Nette:</p>
 <pre><code class="language-php">&lt;?php
 
@@ -182,7 +182,7 @@ $this-&gt;translation-&gt;translate('Hi, my name is %name%', [
 <p><strong>Problem solved</strong> in 20 minutes, doh! Now it's part of Rector set, so you can actually forget this paragraph. But be ready for such issues. <strong>The hardest problems are usually behind simple differences</strong> - like extra <code>%</code>.</p>
 <p><br></p>
 <p>Luckily, Honza is xdebug expert, so he deep dives into the code to find the spots where code failed. It took him some time, but in the end, he <strong>disclosed magic and fixed all the issues we had</strong>. You can read more about that, Doctrine events and HttpRequest as a services migration in the next post.</p>
-<h2 id="there-are-no-happy-endings...">There are no Happy Endings...</h2>
+<h2 id="There-are-no-Happy-Endings">There are no Happy Endings...</h2>
 <p>...or are they?</p>
 <ul>
 <li>Do you wonder how the project ended-up?</li>

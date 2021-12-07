@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1043427558" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1071842299" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="STAMP #2: How to Turn Messy TWIG PHP to Something Useful" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/stamp-2-how-to-turn-messy-twig-php-to-something-useful" />
@@ -83,7 +83,7 @@ Today we look at <em>how</em> we turn <strong>the raw PHP code to the code PHPSt
             <p>In the previous post, we successfully <del>rendered</del> compiled <code>templates/meal.twig</code> template:</p>
 <pre><code class="language-twig">{{ meal.title }}</code></pre>
 <p><br></p>
-<h2 id="rendered-or-compiled?">Rendered or Compiled?</h2>
+<h2 id="Rendered-or-Compiled">Rendered or Compiled?</h2>
 <p>What is the difference between <em>rendered</em> and <em>compiled</em> in our context?</p>
 <ul>
 <li>When we <em>render</em> a TWIG template, the result will be the <strong>final HTML that users see</strong> when they open the website.</li>
@@ -160,14 +160,14 @@ class __TwigTemplate_8a9d1381e8329967... extends Template
     but when there is nothing left to take away"
     <footer class="blockquote-footer">Antoine de Saint-Exupery</footer>
 </blockquote>
-<h2 id="keep-only-the-necessary-code">Keep only the Necessary Code</h2>
+<h2 id="Keep-only-the-Necessary-Code">Keep only the Necessary Code</h2>
 <p>The first step is to <strong>remove the clutter</strong> helpful only for TWIG internals. These methods do not provide any information about the original TWIG code. In other words: remove the PHP content that is always the same, regardless of the TWIG input file we use.</p>
 <p><br></p>
-<h2 id="&quot;why-we-dont-run-p-h-p-stan-on-this-p-h-p-file?&quot;">&quot;Why we don't Run PHPStan on This PHP File?&quot;</h2>
+<h2 id="and-quot-Why-we-don-t-Run-PHPStan-on-This-PHP-File-and-quot">&quot;Why we don't Run PHPStan on This PHP File?&quot;</h2>
 <p>Great question! What would happen if we did? The PHPStan would analyze the content based on the TWIG template, but it would also <strong> analyze the TWIG generator for template classes</strong>. This way, we would get dozens of always the same errors repeated for every single TWIG file.</p>
 <p>We don't want to run PHPStan on TWIG itself; that's a job for Symfony maintainers. We want to only know about possible bugs coming from our TWIG template code:</p>
 <pre><code class="language-twig">{{ meal.title }}</code></pre>
-<h2 id="which-methods-are-useful?">Which Methods are Useful?</h2>
+<h2 id="Which-Methods-are-Useful">Which Methods are Useful?</h2>
 <p>How do we define if the class method is proper? Let's use common sense to drop class methods that look like &quot;metadata&quot;. If we drop a method that proves helpful in the future, we'll return it.</p>
 <p>Look for the keywords mentioned in TWIG template: &quot;meal&quot; and &quot;title&quot;. They are mentioned in <code>doDisplay()</code> class method, let's keep that.</p>
 <pre><code class="language-diff">-use Twig\Environment;
@@ -262,7 +262,7 @@ class __TwigTemplate_8a9d1381e8329967... extends Template
 <p><br></p>
 <p>That looks better. 75 % less code!</p>
 <p>But wait...</p>
-<h2 id="how-do-we-remove-these-red-lines?">How do we Remove these Red Lines?</h2>
+<h2 id="How-do-we-Remove-these-Red-Lines">How do we Remove these Red Lines?</h2>
 <p>We're editing a cache PHP code that TWIG compiles. Do we open this file in PHPStorm, edit it, save it and feed it PHPStan?</p>
 <pre><code class="language-bash">vendor/bin/phpstan analyse temp/twig/__TwigTemplate_8a9d1381e8329967...php</code></pre>
 <p>That might give us the PHPStan analysis we aim for, but would you like to edit cache files for every single TWIG file manually? I thought so.</p>

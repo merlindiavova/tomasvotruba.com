@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1561700940" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?933475028" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Fatal error: Uncaught Error: [] operator not supported for strings in" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/11/08/fatal-error-uncaught-error-operator-not-supported-for-strings-in" />
@@ -119,7 +119,7 @@ list($a[], $a[]) = [1, 2];
 list($a[], $a[]) = array_reverse([1, 2])</code></pre>
 <p>True story - see <a href="https://3v4l.org/H1hfA">3v4l.org</a>. The nice silent error just for you!</p>
 <img src="/assets/images/posts/2018/upgrade-php/swap.png" class="img-thumbnail">
-<h2 id="&quot;i-got-this&quot;">&quot;I Got This&quot;</h2>
+<h2 id="and-quot-I-Got-This-and-quot">&quot;I Got This&quot;</h2>
 <p>But let's say you know that &quot;Deprecated: The each() function is deprecated. This message will be suppressed on further calls in&quot; means <strong>refactor <em>each</em> <code>each()</code> usage to <code>foreach()</code>.</strong></p>
 <p>(Often it's more complicated, but keep this simple for now.)</p>
 <p>Some cases are easy, if your <strong>variables are well-named</strong>:</p>
@@ -149,7 +149,7 @@ See pull-request #661
 <p><strong>Honestly, I'm not sure either.</strong> But I took time to test all possible <code>each()</code> combinations with <code>list()</code>, <code>while()</code> and <code>do/while</code>, put them into awesome <a href="https://3v4l.org">3v4l.org</a>, wrote a bunch of tests and wrote tested rules for Rector.</p>
 <p><br></p>
 <pre><code class="language-bash">"Fatal error: Uncaught Error: Call to undefined function ereg() in"</code></pre>
-<h2 id="how-rector-got-into-pure-p-h-p-upgrades">How Rector got into pure PHP Upgrades</h2>
+<h2 id="How-Rector-got-into-pure-PHP-Upgrades">How Rector got into pure PHP Upgrades</h2>
 <p>At the <a href="/blog/2018/10/18/how-i-almost-missed-my-talk-in-php-asia-conference/">PHP Asia Conference</a> Rasmus Lerdorf spoke about <strong>upgrading PHP as a big problem</strong>. Much bigger than upgrading particular frameworks. Many WTF namings in PHP are just for BC sake. I struck me, that there is much more legacy PHP code in every company than there is framework-bound code.</p>
 <p>I instantly created an issue at Rector, that deals with <a href="https://github.com/rectorphp/rector/issues/638">PHP 5.3 to 7.4 upgrades</a>.
 I went full-time on writing PHP upgrade rules - in the train, in the buss, in the plane (the best place to code actually, wonder why).</p>
@@ -173,7 +173,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 };</code></pre>
 <p><br></p>
 <p>I finally looked over my small framework bubble and <strong>learned a lot about problems of the <a href="https://friendsofphp.org">world PHP community</a></strong>.</p>
-<h3 id="how-to-ereg-correctly?">How to <em>ereg</em> Correctly?</h3>
+<h3 id="How-to-ereg-Correctly">How to <em>ereg</em> Correctly?</h3>
 <p>One example for all:</p>
 <p><a href="https://github.com/rectorphp/rector/pull/661/" class="btn btn-dark btn-sm">
 See pull-request #661
@@ -186,7 +186,7 @@ See pull-request #661
 <pre><code class="language-php">ereg('[]-z]', $string);
 ereg('^[a-z]+[.,][a-z]{3,}$', $string);</code></pre>
 <p>Don't reinvent the wheel! Did you know that 8 years ago some guy <a href="https://gist.github.com/lifthrasiir/704754/7e486f43e62fd1c9d3669330c251f8ca4a59a3f8">wrote ereg → preg patterns converter</a>? That <em>some guy</em> is Kang Seonghoon and helped hundreds if not thousands of people <em>to not to give a fuck</em>. Including me. <strong>Amazing work</strong> and I learned about it just by accidental googling. I wonder how many hidden gems are out there.</p>
-<h2 id="harder,-better,-faster,-stronger...-p-h-p-community">Harder, Better, Faster, Stronger... PHP Community</h2>
+<h2 id="Harder-Better-Faster-Stronger-PHP-Community">Harder, Better, Faster, Stronger... PHP Community</h2>
 <p>Take the Rector out, run it on your code, let it fix what it can and <strong>report the rest you had to do manually in the issues</strong>. Maybe it can be automated.
 You'll be helping each other developer, who upgrades the same PHP version you did. Imagine PHP version 5.3 would be shipped with set like this, covering 100 % of all changes. It's up to us to make a brighter future now.</p>
 <p><br></p>

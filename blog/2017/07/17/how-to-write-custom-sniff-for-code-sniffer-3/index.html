@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?186479994" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?2044495702" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Write Custom Sniff for Code Sniffer 3.3" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2017/07/17/how-to-write-custom-sniff-for-code-sniffer-3" />
@@ -104,10 +104,10 @@ Let's look what will show all you need (and nothing more) to <strong>know to wri
 <p>Today we'll pick an example a from my friend <a href="https://www.martinhujer.cz">Martin Hujer</a>. Once told me about sniff that checks <strong>that all exception classes have &quot;Exception&quot; suffix</strong>.</p>
 <p>I said: How is it useful in practise? We all know that is common knowledge to write them this way. He replied: Well, we found some even in our code base.</p>
 <p>The point is not in the count of fixed cases, but in <em>CI based responsibility</em>. From now on, <strong>people'll NEVER have to think about it</strong> and they can <strong>focus on more valuable processes</strong> that CI cannot do, like writing AliPay integration.</p>
-<h2 id="6-steps-to-exception-name-sniff">6 Steps To <code>ExceptionNameSniff</code></h2>
-<h3 id="1.-start-with-sentence-that-declares-what-sniff-does">1. Start With Sentence That Declares What Sniff Does</h3>
+<h2 id="6-Steps-To-ExceptionNameSniff">6 Steps To <code>ExceptionNameSniff</code></h2>
+<h3 id="1-Start-With-Sentence-That-Declares-What-Sniff-Does">1. Start With Sentence That Declares What Sniff Does</h3>
 <p>&quot;An exception class should have &quot;Exception&quot; suffix.&quot;</p>
-<h3 id="2.-create-a-sniff-class-and-implement-a-p-h-p-code-sniffer\sniffs\sniff-interface">2. Create a Sniff Class and Implement a <code>PHP_CodeSniffer\Sniffs\Sniff</code> interface</h3>
+<h3 id="2-Create-a-Sniff-Class-and-Implement-a-PHP-CodeSniffer-Sniffs-Sniff-interface">2. Create a Sniff Class and Implement a <code>PHP_CodeSniffer\Sniffs\Sniff</code> interface</h3>
 <p>It covers 2 required methods:</p>
 <pre><code class="language-php">use PHP_CodeSniffer\Sniffs\Sniff;
 
@@ -143,7 +143,7 @@ final class ExceptionNameSniff implements Sniff
 {
     return [T_EXTENDS];
 }</code></pre>
-<h3 id="3.-create-process()-method">3. Create <code>process()</code> Method</h3>
+<h3 id="3-Create-process-Method">3. Create <code>process()</code> Method</h3>
 <p>This method has 2 arguments.</p>
 <pre><code class="language-php">public function process(File $file, $position)
 {
@@ -166,7 +166,7 @@ final class ExceptionNameSniff implements Sniff
 <li>Then we need to check if it meets our rules and add error if not.</li>
 </ul>
 <p>Let's take it one a by one:</p>
-<h3 id="4.-detect-the-exception-class">4. Detect the Exception Class</h3>
+<h3 id="4-Detect-the-Exception-Class">4. Detect the Exception Class</h3>
 <p><em>A class that extends another class that has suffix &quot;Exception&quot;.</em></p>
 <p>A <code>File</code> has useful <code>findNext()</code> method:</p>
 <pre><code class="language-php">$file-&gt;findNext(array ['tokens to find'], int 'where to start looking');</code></pre>
@@ -182,7 +182,7 @@ if (substr($parentClassNameToken['content'], -strlen('Exception')) !== 'Exceptio
     return;
 }</code></pre>
 <p>When the code gets pass this check, we know we have exception there.</p>
-<h3 id="5.-make-sure-it-ends-with-&quot;exception&quot;">5. Make Sure it Ends with &quot;Exception&quot;</h3>
+<h3 id="5-Make-Sure-it-Ends-with-and-quot-Exception-and-quot">5. Make Sure it Ends with &quot;Exception&quot;</h3>
 <p>Would you what to do know? The process will be the same - to check if class name ends with &quot;Exception&quot; -, but instead of <code>findNext()</code> method we'll use <code>findPrevious()</code>:</p>
 <pre><code class="language-php">// Get position of nearest previous string token
 $classNamePosition = $file-&gt;findPrevious([T_STRING], $position);
@@ -209,7 +209,7 @@ if (substr($classNamePosition['content'], -strlen('Exception')) === 'Exception')
     self::class
 );</code></pre>
 <p>Tada!</p>
-<h3 id="6.-put-together-the-final-sniff">6. Put Together The Final Sniff</h3>
+<h3 id="6-Put-Together-The-Final-Sniff">6. Put Together The Final Sniff</h3>
 <p>And extract <code>stringEndsWith()</code> method to make code more readable.</p>
 <pre><code class="language-php">use PHP_CodeSniffer\Sniffs\Sniff;
 
@@ -250,7 +250,7 @@ final class ExceptionNameSniff implements Sniff
     }
 }</code></pre>
 <p>You can find <a href="https://github.com/symplify/symplify/blob/eeeaab688f6b349e55ab0b3179749dc9e5e49035/packages/CodingStandard/src/Sniffs/Naming/ExceptionNameSniff.php">final Sniff on Github</a> and use it right away of course.</p>
-<h2 id="how-to-run-it?">How to run it?</h2>
+<h2 id="How-to-run-it">How to run it?</h2>
 <p>With <a href="https://github.com/symplify/easy-coding-standard">ECS</a> put the class to <code>ecs.php</code>:</p>
 <pre><code class="language-php">use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Sniffs\Naming\ExceptionNameSniff;

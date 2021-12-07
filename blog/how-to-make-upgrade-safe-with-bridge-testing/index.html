@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1240404512" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1884459533" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to make Upgrade Safe with Bridge Testing" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/how-to-make-upgrade-safe-with-bridge-testing" />
@@ -128,7 +128,7 @@ class AttentionPrice
     private $privateProperty;
 }</code></pre>
 <p>Here we can see that public property takes much more attention than private one. Public properties can be used in the class, outside the class, and changed anytime. On the other hand, private property can be used exclusively in this class.</p>
-<h2 id="bridge-test">Bridge Test</h2>
+<h2 id="Bridge-Test">Bridge Test</h2>
 <p>Let's add a bridge test so we are sure the refactoring works for both annotations and attributes. How would the bridge test look like for public property?</p>
 <pre><code class="language-php">use PHPUnit\Framework\TestCase;
 
@@ -186,7 +186,7 @@ final class BridgeTest extends TestCase
     }
 
     // ...</code></pre>
-<h2 id="why-not-just-the-bridge-test?">Why Not Just The Bridge Test?</h2>
+<h2 id="Why-Not-Just-The-Bridge-Test">Why Not Just The Bridge Test?</h2>
 <p>Looking at the test, it seems the <code>testBridge()</code> already includes the test of their former two methods. Why not delete those two? ...
 Wait, wouldn't that be like cutting our safety ropes?</p>
 <img src="https://images.squarespace-cdn.com/content/v1/5a54afc2e9bfdf89573d7cf7/1551374451263-U7I7L1NLOJY6XWNL028T/ke17ZwdGBToddI8pDm48kJUlZr2Ql5GtSKWrQpjur5t7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z5QPOohDIaIeljMHgDF5CVlOqpeNLcJ80NK65_fV7S1UfNdxJhjhuaNor070w_QAc94zjGLGXCa1tSmDVMXf8RUVhMJRmnnhuU1v2M8fLFyJw/Rope-Bridge-project-Salwa+Resort-Abu+Samra-Qatar-5.jpeg?format=500w" class="img-thumbnail">

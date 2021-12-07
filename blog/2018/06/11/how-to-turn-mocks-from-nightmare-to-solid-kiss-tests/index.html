@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?316873183" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1740169464" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Turn Mocks from Nightmare to Solid Kiss Tests" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/06/11/how-to-turn-mocks-from-nightmare-to-solid-kiss-tests" />
@@ -99,7 +99,7 @@ Did you know there is easier and more clear way to do &quot;mocking&quot;?</p>
             <p>At the time being, there is only 1 post about <a href="https://mnapoli.fr/anonymous-classes-in-tests/">anonymous classes in tests</a> (thanks to Matthieu!). Compared to that, there are many PHP tool made just for mocking: Prophecy, Mockery, PHPUnit native mocks, Mockista and so on. If you're a developer who uses one of them, knows that he needs to add proper annotations to make autocomplete work, has the PHPStom plugin that fixes bugs in this autocomplete and it works well for you, just stop reading.</p>
 <p>This post is for developers who struggle with mocking and have a feeling, that they're doing something wrong.</p>
 <p><strong>You're not. It's the mocking part</strong>. Mocks are often the bottleneck of understanding in tests. They're so easy to make, that they can overpopulate your tests... the same way units test can test every getter and setter of all your entities in 20 minutes <em>(hint: not a way to go)</em>.</p>
-<h2 id="was-it-will-return(),-will-return-any()-or-will-return-exact()?">Was it <code>willReturn()</code>, <code>willReturnAny()</code> or <code>willReturnExact()</code>?</h2>
+<h2 id="Was-it-willReturn-willReturnAny-or-willReturnExact">Was it <code>willReturn()</code>, <code>willReturnAny()</code> or <code>willReturnExact()</code>?</h2>
 <p>Let's get to code. <a href="https://github.com/shopsys/shopsys/commit/b73fc8da82f7d2679f05c8aedd29f010fd5d0630#diff-f1a8f90cb34e69e324153cce909467a2R92">Real open source code</a> from one of my code-reviews that inspired me to make this post:</p>
 <pre><code class="language-php">namespace PHPUnit\Framework\TestCase;
 
@@ -141,10 +141,10 @@ final class SomeTest extends TestCase
 <li>How would you extends it to work with number 7?</li>
 </ul>
 <p>Now try to implement your idea. If you made it under another 60 seconds and your tests pass, you master mocking well and there is nothing for you to learn from this post.</p>
-<h3 id="documentation,-google-and-stackoverflow-juggling">Documentation, Google and Stackoverflow Juggling</h3>
+<h3 id="Documentation-Google-and-Stackoverflow-Juggling">Documentation, Google and Stackoverflow Juggling</h3>
 <p>What happened to use in reality? <strong>We got stuck for at least 30 minutes on modification of methods like that</strong>. Studying PHPUnit manual and looking to StackOverflow with my favorite <a href="https://stackoverflow.com/questions/5988616/phpunit-mock-method-multiple-calls-with-different-arguments">PHPUnit mock method multiple calls with different arguments</a>.</p>
 <p>That's not what tool should do for you. <strong>Tools should work for you, not you for them.</strong></p>
-<h2 id="pure-p-h-p-code">Pure PHP Code</h2>
+<h2 id="Pure-PHP-Code">Pure PHP Code</h2>
 <p>Let me show an alternative approach that has the same result.</p>
 <p>~ 95 % developers can read this code, even if they see PHPUnit for the first time:</p>
 <pre><code class="language-php">namespace PHPUnit\Framework\TestCase;
@@ -204,7 +204,7 @@ final class SomeTest extends TestCase
          };
      }
  }</code></pre>
-<h2 id="your-code-guides-you,-just-be-open-to-listening">Your Code Guides You, Just Be Open to Listening</h2>
+<h2 id="Your-Code-Guides-You-Just-Be-Open-to-Listening">Your Code Guides You, Just Be Open to Listening</h2>
 <p>The code already tells us what to do next.</p>
 <p>Some people mock because they follow good practice and <strong><a href="https://ocramius.github.io/blog/when-to-declare-classes-final">make every class abstract or final</a></strong>. They don't want to deal with constructors, that would often lead to more mocking. It's great practice and super easy to put make classes final with Rector CI:</p>
 <pre><code class="language-bash">composer require rector/rector --dev</code></pre>
@@ -222,7 +222,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
     $services-&gt;set(FinalizeClassesWithoutChildrenRector::class);
 };</code></pre>
 <p>Yes, it's that simple, you just saved your project from most of its legacy code. But <code>final</code> classes should <strong>not be the reason to choose to mocks</strong>. Well, you can also <a href="https://phpfashion.com/how-to-mock-final-classes">hack the <code>final</code> and use mocking right away</a>, or you can go with the code flow. Dance with it!</p>
-<h2 id="s-o-l-i-d-code-as-a-side-effect">SOLID Code as a Side Effect</h2>
+<h2 id="SOLID-Code-as-a-Side-Effect">SOLID Code as a Side Effect</h2>
 <p>You don't need to go on a mocking spree. The <em>constructor issue</em> naturally lead us to <strong>abstract an interface</strong> refactoring.</p>
 <p>We create a new interface:</p>
 <pre><code class="language-php">interface CategoryFacadeInterface
@@ -248,7 +248,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <li>and replaceable (<em>D</em>ependency inversion principle).</li>
 </ul>
 <p>Also, your application can now use abstraction (= interface) instead of specific implementation (= class). That leads to autowiring benefits, decoupling from monolith and better service replace-ability.</p>
-<h2 id="1000x-code">1000x Code</h2>
+<h2 id="1000x-Code">1000x Code</h2>
 <p>They say <strong>your code is 10x more read than written</strong> on average. I believe it's at least 1000x in open-source. Knowing that we want our code, not to be just clear and readable, but to be</p>
 <ul>
 <li>super-readable,</li>

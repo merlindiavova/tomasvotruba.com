@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?507875013" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1469822426" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Convert Latte Templates to Twig in 27 Regular Expressions" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/07/05/how-to-convert-latte-templates-to-twig-in-27-regular-expressions" />
@@ -112,7 +112,7 @@ Well, <strong>it was</strong>. Statie now supports <a href="https://github.com/s
     <footer class="blockquote-footer">Tim Ferriss</footer>
 </blockquote>
 <p>And what excites me? <strong>Investing 5 hours to automate 30-minutes manual work under 10 seconds, so no-one else will have to do that ever again.</strong></p>
-<h2 id="brother-from-another-mother">Brother from Another Mother</h2>
+<h2 id="Brother-from-Another-Mother">Brother from Another Mother</h2>
 <p>The biggest difference between Latte, Twig, Smarty, Blade and all other templating engines is rather in the way they're written inside than in the syntax itself.</p>
 <p>See Latte code:</p>
 <pre><code class="language-html">{foreach $values as $key =&gt; $value}
@@ -138,7 +138,7 @@ Well, <strong>it was</strong>. Statie now supports <a href="https://github.com/s
 <p><br></p>
 <p>I'm not using <code>preg_replace</code>, but rather util method <a href="https://github.com/nette/utils/blob/8eda0c33f798f7ce491715e9dae8797f191e9b00/src/Utils/Strings.php#L475"><code>Nette\Utils\String::replace()</code></a> that handles compile-time errors, run-time errors and few more tricks in a fancy way. Do you want to use it too? Just run <code>composer update nette/utils</code>.</p>
 <p><strong>Do you want to skip details and use it?</strong> Jump to <em><a href="#install-and-use-it">Install and Use It</a></em> section.</p>
-<h3 id="1.-block,-define,-include">1. Block, Define, Include</h3>
+<h3 id="1-Block-Define-Include">1. Block, Define, Include</h3>
 <ul>
 <li><a href="https://latte.nette.org/en/macros#toc-blocks">in Latte</a></li>
 <li><a href="https://twig.symfony.com/doc/2.x/tags/block.html">in Twig</a></li>
@@ -165,7 +165,7 @@ $content = Strings::replace($content, '#{% include \'?(\w+)\'? %}#', '{{ block(\
 <p>The most useful expression here is <code>(.*?)</code>. <strong>It will capture everything until the next pattern</strong>. In this case it keeps everything between 2 tags.</p>
 <p>Also, <strong>mind the <code>#s</code> modifier</strong>. <code>(.*?)</code> matches newlines as well thanks to that. You can read more about modifiers in <a href="http://php.net/manual/en/reference.pcre.pattern.modifiers.php">PHP Documentation</a></p>
 <p>The last notable tip I learned is <code>\w</code>, that matches <code>[a-zA-Z0-9_]</code> characters - usually all you need for variable names.</p>
-<h3 id="2.-capture,-set">2. Capture, Set</h3>
+<h3 id="2-Capture-Set">2. Capture, Set</h3>
 <ul>
 <li><a href="https://latte.nette.org/en/macros#toc-variable-declaration">in</a> <a href="https://latte.nette.org/en/macros#toc-capturing-to-variables">Latte</a></li>
 <li><a href="https://twig.symfony.com/doc/2.x/tags/set.html">in Twig</a></li>
@@ -185,7 +185,7 @@ $content = Strings::replace($content, '#{capture \$(\w+)}(.*?){\/capture}#s', '{
 <p>That's what this expression does:</p>
 <pre><code class="language-bash">\$?(.*?)</code></pre>
 <p>It will capture anything, but if there is <code>$</code>, it will remove it.</p>
-<h3 id="3.-comments">3. Comments</h3>
+<h3 id="3-Comments">3. Comments</h3>
 <ul>
 <li><a href="https://latte.nette.org/en/macros">in Latte</a></li>
 <li><a href="https://twig.symfony.com/doc/2.x/templates.html#comments">in Twig</a></li>
@@ -195,7 +195,7 @@ $content = Strings::replace($content, '#{capture \$(\w+)}(.*?){\/capture}#s', '{
 // ...
 
 $content = Strings::replace($content, '#{\*(.*?)\*}#s', '{#$1#}');</code></pre>
-<h3 id="4.-conditions,-if,-ifset">4. Conditions, If, Ifset</h3>
+<h3 id="4-Conditions-If-Ifset">4. Conditions, If, Ifset</h3>
 <ul>
 <li><a href="https://latte.nette.org/en/macros#toc-conditions">in Latte</a></li>
 <li><a href="https://twig.symfony.com/doc/2.x/tags/if.html">in Twig</a></li>
@@ -231,7 +231,7 @@ $content = Strings::replace($content, '#{else}#', '{% else %}');
 
 $content = Strings::replace($content, '#{elseif (.*?)}#', '{% elseif $1 %}');</code></pre>
 <p>Nothing fancy here, just another great use case for <code>(.*?)</code> group.</p>
-<h3 id="5.-filters">5. Filters</h3>
+<h3 id="5-Filters">5. Filters</h3>
 <ul>
 <li><a href="https://latte.nette.org/en/filters">in Latte</a></li>
 <li><a href="https://twig.symfony.com/doc/2.x/filters/index.html">in Twig</a></li>
@@ -252,7 +252,7 @@ $content = Strings::replace($content, '#\|(\s+)?noescape#', '|$1raw');
 // {% if $var|length) %}
 $content = Strings::replace($content, '#{% (.*?) count\(\$?(\w+)\)#', '{% $1 $2|length');</code></pre>
 <p>No surprises here.</p>
-<h3 id="6.-loops,-while,-for,-foreach">6. Loops, While, For, Foreach</h3>
+<h3 id="6-Loops-While-For-Foreach">6. Loops, While, For, Foreach</h3>
 <ul>
 <li><a href="https://latte.nette.org/en/macros#toc-loops">in Latte</a></li>
 <li><a href="https://twig.symfony.com/doc/2.x/tags/for.html">in Twig</a></li>
@@ -276,7 +276,7 @@ $content = Strings::replace($content, '#{/foreach}#', '{% endfor %}');
 
 // {sep}, {/sep} =&gt; {% if loop.last == false %}, {% endif %}
 $content = Strings::replace($content, '#{sep}([^{]+){\/sep}#', '{% if loop.last == false %}$1{% endif %}');</code></pre>
-<h3 id="7.-variables">7. Variables</h3>
+<h3 id="7-Variables">7. Variables</h3>
 <ul>
 <li><a href="https://latte.nette.org/en/macros#toc-variable-printing">in Latte</a></li>
 <li><a href="https://twig.symfony.com/doc/2.x/templates.html#variables">in Twig</a></li>
@@ -303,7 +303,7 @@ $content = Strings::replace($content, '#{\$([A-Za-z_-]+)\[\'([A-Za-z_-]+)\'\]}#'
 // {% if post.rectify_post_id is defined %}
 $content = Strings::replace($content, '#({% \w+) \$(\w+)\[\'(\w+)\'\]#', '$1 $2.$3');</code></pre>
 <p>This was the simplest set so far. Always start with the easiest first.</p>
-<h3 id="8.-suffix">8. Suffix</h3>
+<h3 id="8-Suffix">8. Suffix</h3>
 <pre><code class="language-php">use Nette\Utils\Strings;
 
 // ...
@@ -311,7 +311,7 @@ $content = Strings::replace($content, '#({% \w+) \$(\w+)\[\'(\w+)\'\]#', '$1 $2.
 // "_snippets/menu.latte" =&gt;
 // "_snippets/menu.twig"
 $content = Strings::replace($content, '#([A-Za-z_/"]+).latte#', '$1.twig');</code></pre>
-<h3 id="9.-include-with-vars">9. Include With Vars</h3>
+<h3 id="9-Include-With-Vars">9. Include With Vars</h3>
 <p>This is the most complex solution in the set. What it does?</p>
 <pre><code class="language-diff">-{% include "_snippets/menu.latte", "data" =&gt; $data %}
 +{% include "_snippets/menu.twig" with { "data": data } %}</code></pre>
@@ -349,18 +349,18 @@ $content = Strings::replace($content, '#({% include [^,]+,)([^}^:]+)(\s+%})#', f
 $content = Strings::replace($content, '#({% include [^,{]+)(,)#', '$1 with');</code></pre>
 <p>What is here to take away? The <code>[^,{]+</code> set. It tells <em>find everything until the first <code>,</code> or <code>{</code> character</em>.
 That way we catch everything we don't really work with.</p>
-<h2 id="install-and-use-it">Install and Use It</h2>
+<h2 id="Install-and-Use-It">Install and Use It</h2>
 <pre><code class="language-bash">composer require symplify/latte-to-twig-converter:@dev --dev
 vendor/bin/latte-to-twig-converter convert app/templates</code></pre>
 <p>It will find all the <code>*.twig</code> files, look for Latte code in it and if that matches, it will convert it to Twig. That way your <code>*.latte</code> files will keep Latte as long as you don't rename them.</p>
 <p>I'd link you to <a href="https://github.com/symplify/lattetotwigconverter">README</a> now for more, but actually, there is no more, this is all the usage.</p>
 <p><br></p>
-<h3 id="how-does-this-set-work-in-real-project?">How Does This Set Work in Real Project?</h3>
+<h3 id="How-Does-This-Set-Work-in-Real-Project">How Does This Set Work in Real Project?</h3>
 <p>Just see <a href="https://github.com/TomasVotruba/tomasvotruba.com/pull/380">the PR on this website</a>
 or <a href="https://github.com/pehapkari/pehapkari.cz/pull/486">the PR to Pehapkari.cz website</a>.</p>
 <img src="/assets/images/posts/2018/latte-twig/diff.png" class="img-thumbnail">
 <p><br></p>
-<h2 id="go-out-and-play">Go Out and Play</h2>
+<h2 id="Go-Out-and-Play">Go Out and Play</h2>
 <p>In the end, I'd like to encourage you to do more of such experiments. I meet many programmers on meetups all across the Europe and they often don't have space - either the time in work or they won't allow themselves - to <strong>do such experiments</strong>.</p>
 <p>In my open-source experience, these experiments give you the most knowledge. Instead of choosing the first solution because <em>I don't have time and I have to deliver the value</em>, I tried 3-4, tested them and then picked the one that worked the best. It was not the first one of course, and even if it was, I'd be much more convinced the solution is right instead of just blindly believing it.</p>
 <p>I learned a lot about regular expressions, about delimiters and universal capturing groups (easter egg: seek &quot;http&quot; in the source code and you'll find all the tips I found and found useful) thanks to StackOverflow and <a href="https://regex101.com">regex101.com</a>. I also must thank Jáchym Toušek and Ondra Mirtes with PHPStan who got me more engaged in regular expressions in a useful and not-so-frustrating way.</p>

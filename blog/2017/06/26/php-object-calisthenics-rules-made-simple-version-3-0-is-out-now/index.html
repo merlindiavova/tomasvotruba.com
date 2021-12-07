@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?742940360" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?993035681" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="PHP Object Calisthenics Made Simple - Version 3.0 is Out Now" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2017/06/26/php-object-calisthenics-rules-made-simple-version-3-0-is-out-now" />
@@ -109,7 +109,7 @@ They help you to get rid of &quot;else&quot; statements, method chaining, long c
             </div>
 
             <p>If you are a coding standard nerd like me, you'll probably have more than just PSR-2 standard in your ruleset. But even if you don't, <a href="https://github.com/object-calisthenics/phpcs-calisthenics-rules">Object Calisthenics</a> is a developer-friendly game changer for your code.</p>
-<h2 id="much-simpler-than-2.0">Much Simpler than 2.0</h2>
+<h2 id="Much-Simpler-than-2-0">Much Simpler than 2.0</h2>
 <p><strong>1. You don't have to know a single thing about coding standards to start</strong></p>
 <p><strong>2. Simple to install</strong></p>
 <pre><code class="language-bash">composer require object-calisthenics/phpcs-calisthenics-rules</code></pre>
@@ -121,7 +121,7 @@ They help you to get rid of &quot;else&quot; statements, method chaining, long c
 <p>For a quick check, just run the full config:</p>
 <pre><code class="language-bash">vendor/bin/ecs check src --config vendor/object-calisthenics/phpcs-calisthenics-rules/config/object-calisthenics.yml</code></pre>
 <p>You can run this locally or put to your CI and you are ready to go.</p>
-<h2 id="fancy-readme-with-examples">Fancy Readme With Examples</h2>
+<h2 id="Fancy-Readme-With-Examples">Fancy Readme With Examples</h2>
 <p>We put lots of work to README for the new release. It isn't a long text describing what exactly the rule does and how it originated - there is already <a href="http://williamdurand.fr/2013/06/03/object-calisthenics">a blog post for that</a>.</p>
 <p>Instead, README goes right to the point:</p>
 <ul>
@@ -130,7 +130,7 @@ They help you to get rid of &quot;else&quot; statements, method chaining, long c
 <li>and <strong>how to configure them</strong> - link to particular config lines</li>
 </ul>
 <img src="/assets/images/posts/2017/object-calisthenics/rule6.png" class="img-thumbnail">
-<h3 id="configure-what-you-need">Configure What You Need</h3>
+<h3 id="Configure-What-You-Need">Configure What You Need</h3>
 <p>As you can see in the bottom part of screenshot, most of rules are configurable. It allows you <strong>to adapt their strictness to your specific needs and needs of your project</strong>.</p>
 <p><em>Do you prefer to require min 4 chars?</em></p>
 <pre><code class="language-php">use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -152,14 +152,14 @@ return function (ContainerConfigurator $containerConfigurator): void {
         // default: ["i", "id", "to", "up"]
         -&gt;property('allowedShortNames', ['y', 'i', 'id', 'to', 'up']);
 };</code></pre>
-<h3 id="minitip:-what-can-you-configure-in-particular-sniff?">Minitip: What Can You Configure in Particular Sniff?</h3>
+<h3 id="Minitip-What-Can-You-Configure-in-Particular-Sniff">Minitip: What Can You Configure in Particular Sniff?</h3>
 <ul>
 <li>Open <code>ElementNameMinimalLengthSniff</code> class in your IDE.</li>
 <li><strong>Look for public properties</strong>. CodeSniffer uses them to set any configuration.</li>
 </ul>
 <p>That was Rule 6.</p>
-<h2 id="5-more-rules">5 more Rules</h2>
-<h3 id="1.-only-x-level-of-indentation-per-method">1. Only X Level of Indentation per Method</h3>
+<h2 id="5-more-Rules">5 more Rules</h2>
+<h3 id="1-Only-X-Level-of-Indentation-per-Method">1. Only X Level of Indentation per Method</h3>
 <p>❌</p>
 <pre><code class="language-php">foreach ($sniffGroups as $sniffGroup) {
     foreach ($sniffGroup as $sniffKey =&gt; $sniffClass) {
@@ -178,7 +178,7 @@ private function ensureIsAllInstanceOf(array $objects, string $type)
 {
     // ...
 }</code></pre>
-<h3 id="2.-do-not-use-&quot;else&quot;-keyword">2. Do Not Use &quot;else&quot; Keyword</h3>
+<h3 id="2-Do-Not-Use-and-quot-else-and-quot-Keyword">2. Do Not Use &quot;else&quot; Keyword</h3>
 <p>❌</p>
 <pre><code class="language-php">if ($status === self::DONE) {
     $this-&gt;finish();
@@ -192,13 +192,13 @@ private function ensureIsAllInstanceOf(array $objects, string $type)
 }
 
 $this-&gt;advance();</code></pre>
-<h3 id="5.-use-only-one-object-operator-(-&gt;)-per-line">5. Use Only One Object Operator (<code>-&gt;</code>) per Line</h3>
+<h3 id="5-Use-Only-One-Object-Operator-and-gt-per-Line">5. Use Only One Object Operator (<code>-&gt;</code>) per Line</h3>
 <p>❌</p>
 <pre><code class="language-php">$this-&gt;container-&gt;getBuilder()-&gt;addDefinition(SniffRunner::class);</code></pre>
 <p>✅</p>
 <pre><code class="language-php">$containerBuilder = $this-&gt;getContainerBuilder();
 $containerBuilder-&gt;addDefinition(SniffRunner::class);</code></pre>
-<h3 id="7.-keep-your-classes-small">7. Keep Your Classes Small</h3>
+<h3 id="7-Keep-Your-Classes-Small">7. Keep Your Classes Small</h3>
 <p>❌</p>
 <pre><code class="language-php">class SimpleStartupController
 {
@@ -245,7 +245,7 @@ $containerBuilder-&gt;addDefinition(SniffRunner::class);</code></pre>
 {
     // 5 methods
 }</code></pre>
-<h3 id="9.-do-not-use-getters-and-setters">9. Do not Use Getters and Setters</h3>
+<h3 id="9-Do-not-Use-Getters-and-Setters">9. Do not Use Getters and Setters</h3>
 <p>Classes should not contain public properties.</p>
 <p>❌</p>
 <pre><code class="language-php">class ImmutableBankAccount
@@ -273,7 +273,7 @@ $containerBuilder-&gt;addDefinition(SniffRunner::class);</code></pre>
     }
 }</code></pre>
 <p>Check <a href="https://github.com/object-calisthenics/phpcs-calisthenics-rules#implemented-rule-sniffs">the README</a> to see how to use them and configure them.</p>
-<h2 id="9-&ndash;-6-=-3...-where-is-the-rest-of-rules?">9 &ndash; 6 = 3... Where is the Rest of Rules?</h2>
+<h2 id="9-and-ndash-6-3-Where-is-the-Rest-of-Rules">9 &ndash; 6 = 3... Where is the Rest of Rules?</h2>
 <p>There are 3 more rules to complete the list from <a href="https://www.amazon.com/ThoughtWorks-Anthology-Technology-Innovation-Programmers/dp/193435614X">the original manifesto</a>:</p>
 <ol start="3">
 <li>Wrap Primitive Types and Strings</li>
@@ -281,7 +281,7 @@ $containerBuilder-&gt;addDefinition(SniffRunner::class);</code></pre>
 <li>Do Not Use Classes With More Than Two Instance Variables</li>
 </ol>
 <p>They are mostly related to DDD (<a href="https://github.com/dddinphp">Domain Driven Design</a>), <a href="https://github.com/object-calisthenics/phpcs-calisthenics-rules#not-implemented-rules---too-strict-vague-or-annoying">too strict to use in practise or too vague to cover them with semantic rule</a>.</p>
-<h2 id="thanks-to-all-contributors">Thanks to all Contributors</h2>
+<h2 id="Thanks-to-all-Contributors">Thanks to all Contributors</h2>
 <p>Last but not least, I'd like to personally thank contributors who helped to make this version happen as it is:</p>
 <ul>
 <li><a href="https://github.com/frenck">@frenck</a></li>
@@ -291,7 +291,7 @@ $containerBuilder-&gt;addDefinition(SniffRunner::class);</code></pre>
 </ul>
 <p>Without your help, this would not have been possible.
 Thank you guys.</p>
-<h2 id="to-sum-up-object-calisthenics-3.0">To Sum up Object Calisthenics 3.0</h2>
+<h2 id="To-Sum-up-Object-Calisthenics-3-0">To Sum up Object Calisthenics 3.0</h2>
 <ul>
 <li><strong>Simple setup over boring academic explanations</strong>.</li>
 <li>Rules are <em>explained in examples</em>.</li>

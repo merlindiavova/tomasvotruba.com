@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?402215537" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?914972038" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Monorepo on the Rise in PHP" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/03/15/monorepo-on-the-rise-in-php" />
@@ -78,16 +78,16 @@
                 </div>
             </div>
 
-            <h2 id="javascript,-java,-c++,-android,-i-o-s,-facebook,-google?-monorepo-is-standard">Javascript, Java, C++, Android, iOS, Facebook, Google? Monorepo is Standard</h2>
+            <h2 id="Javascript-Java-C-Android-iOS-Facebook-Google-Monorepo-is-Standard">Javascript, Java, C++, Android, iOS, Facebook, Google? Monorepo is Standard</h2>
 <p>When you pop out of PHP bubble, you can see in <a href="https://github.com/korfuri/awesome-monorepo">awesome-monorepo</a> a collection of monorepo tools, that are used out in a wild by another languages. Google has <a href="https://bazel.build">Bazel</a>, Facebook has <a href="https://buckbuild.com">Buck</a>, Twitter and Foursqaure have <a href="https://www.pantsbuild.org">Pants</a>.</p>
 <p><strong>Still a PHP-related tool is missing</strong>. Why? It might be the case, that no global company that goes open-source uses PHP as their main language.</p>
-<h2 id="symfony-monorepo-spreads-the-word">Symfony Monorepo Spreads the Word</h2>
+<h2 id="Symfony-Monorepo-Spreads-the-Word">Symfony Monorepo Spreads the Word</h2>
 <p>PHP is aware of monorepo term mainly thanks to <a href="https://github.com/symfony/symfony">Symfony</a>, that uses it to maintain <strong>all its components, that are split to standalone</strong> read-only repositories, e.g. <a href="https://github.com/symfony/console">Symfony\Console</a>, <a href="https://github.com/symfony/event-dispatcher">Symfony\EventDispatcher</a>.</p>
-<h3 id="tool-to-split-with">Tool to Split With</h3>
+<h3 id="Tool-to-Split-With">Tool to Split With</h3>
 <p>Since Symfony needed a fast tool to split over 30 repositories across 3 and more branches, Fabien Potencier came with <a href="https://twitter.com/fabpot/status/739860138564149248?lang=en">splits</a> tool.</p>
 <p>He also had a <a href="https://www.youtube.com/watch?v=4w3-f6Xhvu8">very interesting talk about it</a> (<a href="https://speakerdeck.com/fabpot/a-monorepo-vs-manyrepos">slides</a>), where he explains in details, how Symfony monorepo works, what is splitting and what are the needs for a build tool managing monorepo.</p>
 <p><strong>But it's still to complex to start with and it doesn't cover the most common case - building monorepo from already existing repositories</strong>.</p>
-<h2 id="shopsys-monorepo-to-spread-a-bit-more-word">Shopsys Monorepo to Spread a bit more Word</h2>
+<h2 id="Shopsys-Monorepo-to-Spread-a-bit-more-Word">Shopsys Monorepo to Spread a bit more Word</h2>
 <p>I work on <a href="https://www.shopsys.com">Shopsys Framework</a>, an open-source e-commerce platform on Symfony and the monorepo topic finally came to the sprint to be realized. If you've read until now, <strong>you know there is not much shared know-how or support for new-commers to adopt a monorepo pattern in PHP</strong>.</p>
 <p>That's how <a href="https://github.com/shopsys/monorepo-tools"><code>shopsys/monorepo-tools</code></a>, that covers both build and split was given birth by <a href="https://github.com/PetrHeinz">Petr Heinz</a>.</p>
 <p>It's slowly getting better with monorepo in PHP. But still many people don't know what is difference between <em>a monorepo</em> and <em>a monolith</em>.</p>

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1929719773" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?423165422" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Doctrine Behaviors 2.0 - Reloaded" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/12/30/doctrine-behaviors-2-0-reloaded" />
@@ -86,7 +86,7 @@ How does it look 3 weeks later?</p>
                 </div>
             </div>
 
-            <h2 id="from-first-excitement-rush-to-heavy-burden-of-responsibility">From First Excitement Rush to Heavy Burden of Responsibility</h2>
+            <h2 id="From-First-Excitement-Rush-to-Heavy-Burden-of-Responsibility">From First Excitement Rush to Heavy Burden of Responsibility</h2>
 <p><a href="https://github.com/KnpLabs/DoctrineBehaviors">KnpLabs/DoctrineBehaviors</a> development was stuck since 2015. There were 10+ opened PRs to use interfaces over traits (to give classes clear contract), bug-fix PRs, and design improvements.</p>
 <p>When I got a message from KnpLabs with an offer to maintain, I was super happy to say <a href="https://sivers.org/hellyeah">&quot;hell, yeah&quot;</a>. An excitement rush went through my veins. I could saw all the huge refactoring for better and how it helps the whole PHP community to move another step forward.</p>
 <p>A moment later, when I realized what happened and how quickly, I started to be scared. The repository looked like a massive chunk of code that will need many design changes,  back compatibility breaks, etc. <strong>All the responsibility started to fall on my shoulders, and it was heavy</strong>.</p>
@@ -95,7 +95,7 @@ How does it look 3 weeks later?</p>
     There were only 2 options:<br>finished tagged version 2 or burn-out in the process.
 </blockquote>
 <p>I took the risk.</p>
-<h2 id="what-can-we-do-in-3-weeks?">What Can We Do in 3 Weeks?</h2>
+<h2 id="What-Can-We-Do-in-3-Weeks">What Can We Do in 3 Weeks?</h2>
 <ul>
 <li><strong>39 merged pull-requests</strong></li>
 <li><strong>93 closed issues</strong></li>
@@ -107,10 +107,10 @@ How does it look 3 weeks later?</p>
 <p><br></p>
 <p><strong>Added/removed lines per week:</strong></p>
 <img src="/assets/images/posts/doc_beha_stats.png" class="img-thumbnail">
-<h2 id="what-is-new-in-doctrine-behaviors-2.0?">What is new in Doctrine Behaviors 2.0?</h2>
+<h2 id="What-is-new-in-Doctrine-Behaviors-2-0">What is new in Doctrine Behaviors 2.0?</h2>
 <p>All right, you get it. There were lots changes, but what exactly?</p>
 <p>Let's start with the <em>sad part</em>.</p>
-<h3 id="3-removed-behaviors">3 Removed Behaviors</h3>
+<h3 id="3-Removed-Behaviors">3 Removed Behaviors</h3>
 <p>Tests did not cover some behaviors, nor described in README. When you look at them closely and write a test for them, you'll see <strong>they never worked</strong> or worked accidentally. I've cross-references these features with <a href="https://packagist.org/packages/gedmo/doctrine-extensions">gedmo/doctrine-extensions</a> and saw DoctrineBehaviors is the only package that has them, resp. pretend to have them.</p>
 <p><br></p>
 <p><strong>Saying that these 3 behaviors were dropped:</strong></p>
@@ -132,7 +132,7 @@ How does it look 3 weeks later?</p>
 <p><strong>It is recommended to implement them yourself that suite your specific needs</strong>.</p>
 <p><br></p>
 <p>Now that the sad part is behind us let's look at new features.</p>
-<h3 id="from-trait-to-interface">From Trait to Interface</h3>
+<h3 id="From-Trait-to-Interface">From Trait to Interface</h3>
 <p>This work was initiated <strong>by <a href="https://github.com/bocharsky-bw">bocharsky-bw</a> and <a href="https://github.com/lemoinem">@lemoinem</a></strong> back in 2016. Thank you both for clear PRs, it was quite easy for me to see changes and apply them to new and drastically different code <a href="https://github.com/KnpLabs/DoctrineBehaviors/pull/442">in this single PR</a>.</p>
 <p><strong>The idea is simple</strong>: instead of traits that are problematic to detect by <code>instanceof</code> or <code>is_a()</code>, use interface for method and class contract.</p>
 <p><br></p>
@@ -204,7 +204,7 @@ $isTimestampableEntity = $entity instanceof TimestampableInterface;
 
 // string class name
 $isTimestampableEntity = is_a($entityClass, TimestampableInterface::class, true);</code></pre>
-<h3 id="translation-now-needs-id">Translation now needs Id</h3>
+<h3 id="Translation-now-needs-Id">Translation now needs Id</h3>
 <p>All the behaviors didn't add any id properties. Except for translation, where the id was added with this ugly magic method (mind the <code>@deprecated</code> note):</p>
 <img src="/assets/images/posts/doc_beha_id_magic.png" class="img-thumbnail">
 <p>The <a href="https://github.com/KnpLabs/DoctrineBehaviors/issues/154">inconsistency</a> <a href="https://github.com/KnpLabs/DoctrineBehaviors/issues/415">was</a> <a href="https://github.com/KnpLabs/DoctrineBehaviors/pull/158">problematic</a>. In short: it was buggy and hard to use your id property because DoctrineBehaviors tried to <em>guess</em> what id you probably want.</p>
@@ -231,7 +231,7 @@ $isTimestampableEntity = is_a($entityClass, TimestampableInterface::class, true)
 +     * @var int
 +     */
 +    private $id;</code></pre>
-<h3 id="scalar-types">Scalar Types</h3>
+<h3 id="Scalar-Types">Scalar Types</h3>
 <p>Scalar types make bugs more comfortable to discover, e.g., when a subscriber is broken, and it does not add value, return null will result in a fatal error.</p>
 <p>That's why all the traits have scalar param and return types:</p>
 <pre><code class="language-diff"> trait TimestampableMethodsTrait
@@ -246,7 +246,7 @@ $isTimestampableEntity = is_a($entityClass, TimestampableInterface::class, true)
      }
  }</code></pre>
 <p>Migration path for these types will be provided based on feedback, so <strong>in case you override these methods manually, you won't have to complete the types</strong>.</p>
-<h3 id="code-quality-changes">Code Quality Changes</h3>
+<h3 id="Code-Quality-Changes">Code Quality Changes</h3>
 <p>Feature improvements are essential. But to make them fast and stable, the <a href="/blog/2019/12/23/5-things-i-improve-when-i-get-to-new-repository/"><strong>code quality has the same importance</strong></a>.</p>
 <blockquote class="blockquote text-center">
     Energy saved on manual maintenance<br>
@@ -260,11 +260,11 @@ $isTimestampableEntity = is_a($entityClass, TimestampableInterface::class, true)
 <li><a href="https://github.com/KnpLabs/DoctrineBehaviors/pull/445">Rector CI now checks dead code, code quality and Nette\Utils</a></li>
 <li><a href="https://github.com/KnpLabs/DoctrineBehaviors/pull/436">PHPStan now checks the static analysis</a></li>
 </ul>
-<h2 id="community-driven">Community Driven</h2>
+<h2 id="Community-Driven">Community Driven</h2>
 <p>Without the PHP community, packages are just chunks of code. Community around the package, city, or a meetup group is what makes it specials, gives it power and motivation to grow.</p>
 <p><strong>I'd love to thank <a href="https://github.com/laurentHCM">@laurentHCM</a> and <a href="https://github.com/nicolashachet">@nicolashachet</a></strong> for the testing process of version 2 and instant migration with Rector. For their patience to report issues, test new Rector rules, and trying to solve all the packages conflicts desperately.</p>
 <p>You gave me <strong>the motivation</strong> that helped me to overcome difficult moments when I got lost in the code.</p>
-<h2 id="how-to-migrate-from-version-1-to-2?">How to Migrate From version 1 to 2?</h2>
+<h2 id="How-to-Migrate-From-version-1-to-2">How to Migrate From version 1 to 2?</h2>
 <p>What is the biggest problem of any significant refactoring? The backward compatibility (<em>BC</em>) breaks:</p>
 <ul>
 <li>Class rename?</li>
@@ -287,10 +287,10 @@ $isTimestampableEntity = is_a($entityClass, TimestampableInterface::class, true)
 <pre><code class="language-yaml">composer require rector/rector --dev
 vendor/bin/rector process src --config vendor/rector/rector/config/set/doctrine-behaviors-20.php</code></pre>
 <p>Single command turns to upgrade from 1 to 2 from days to few dozens of minutes.</p>
-<h2 id="how-does-it-compare-to-gedmo/stof?">How does it Compare to Gedmo/Stof?</h2>
+<h2 id="How-does-it-Compare-to-Gedmo-Stof">How does it Compare to Gedmo/Stof?</h2>
 <p>Are you a stof/gedmo user? Then you're familiar <a href="https://github.com/stof/StofDoctrineExtensionsBundle/issues">with Symfony 5 issues</a> around it. Don't worry. The KnpLabs\DoctrineBehaviors 2 was developed bearing you in mind.</p>
 <p>KnpLabs\DoctrineBehaviors don't support softdeletable and non-materialized tree path <em>yet</em>, but the rest of the features are covered.</p>
-<h3 id="how-do-you-migrate-from-gedmo/stof-to-knp-labs\doctrine-behaviors?">How do you Migrate from Gedmo/Stof to KnpLabs\DoctrineBehaviors?</h3>
+<h3 id="How-do-you-Migrate-from-Gedmo-Stof-to-KnpLabs-DoctrineBehaviors">How do you Migrate from Gedmo/Stof to KnpLabs\DoctrineBehaviors?</h3>
 <p>Read <a href="/blog/2020/01/06/migrate-gedmo-to-knplabs/">Migrate Gedmo to KnpLabs</a> post to find the answer.</p>
 <p><br></p>
 <p>That's all for me. Use it, bend it, break it, and report issues or pull-request so that we can make migration path together even smoother.</p>

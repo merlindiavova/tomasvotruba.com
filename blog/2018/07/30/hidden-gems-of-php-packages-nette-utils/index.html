@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?2101788269" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?656458553" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Hidden Gems of PHP Packages: Nette\Utils" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/07/30/hidden-gems-of-php-packages-nette-utils" />
@@ -82,7 +82,7 @@ Today we start with <a href="https://github.com/nette/utils">Nette\Utils</a> pac
                 </div>
             </div>
 
-            <h2 id="why-i-use-it">Why I Use it</h2>
+            <h2 id="Why-I-Use-it">Why I Use it</h2>
 <ol>
 <li>
 <p>Do you know how is called the PHP function that checks the presence of a string in another string?</p>
@@ -120,19 +120,19 @@ if ($contains) {
     $fileContent = file_get_contents($filePath);
 }</code></pre>
 <p><strong>Thanks to Nette\Utils I can be lazy, safe and much faster</strong> in all these cases above and more.</p>
-<h2 id="how-to-install">How to Install</h2>
+<h2 id="How-to-Install">How to Install</h2>
 <pre><code class="language-bash">composer require nette/utils</code></pre>
-<h2 id="how-i-use-it">How I Use it</h2>
+<h2 id="How-I-Use-it">How I Use it</h2>
 <p>We can look at <a href="https://doc.nette.org/en/2.4/utils">the Nette\Utils documentation</a> to find 12 classes with many methods and study their API... and leave the page overwhelmed by details and over-bored.</p>
 <p>Instead, <strong>we can look at real-life examples in Symplify code</strong>. That's much more interesting and relevant, right? When we use Github search, we see that Symplify packages use Nette\Utils package at <a href="https://github.com/search?l=&amp;q=Nette%5CUtils+repo%3Asymplify%2Fsymplify+extension%3Aphp&amp;type=Code">100+ places</a>. What are these cases?</p>
-<h2 id="strings-class"><code>Strings</code> class</h2>
-<h3 id="replace()"><code>replace()</code></h3>
+<h2 id="Strings-class"><code>Strings</code> class</h2>
+<h3 id="replace"><code>replace()</code></h3>
 <p>It accepts content, pattern to look for and replacement. This is basic building stone for packages like <a href="/blog/2018/07/05/how-to-convert-latte-templates-to-twig-in-27-regular-expressions/">LatteToTwigConverter</a>:</p>
 <pre><code class="language-php">// in Latte: {var $var = $anotherVar}
 // in Twig: {% set var = anotherVar %}
 $content = Nette\Utils\Strings::replace($content, '#{var \$?(.*?) = \$?(.*?)}#s', '{% set $1 = $2 %}');</code></pre>
 <p>It's nice that you don't have to deal with PHP native edge-cases of regular expressions. I think regulars are difficult enough to work with, so this piece comes very handy.</p>
-<h3 id="contains()"><code>contains()</code></h3>
+<h3 id="contains"><code>contains()</code></h3>
 <p>It accepts the content and the string we look for:</p>
 <pre><code class="language-php">if (Nette\Utils\Strings::contains($key, '.')) {
     // is a code
@@ -141,7 +141,7 @@ $content = Nette\Utils\Strings::replace($content, '#{var \$?(.*?) = \$?(.*?)}#s'
     // is a class
     $this-&gt;skipped[$key] = $settings;
 }</code></pre>
-<h3 id="starts-with()"><code>startsWith()</code></h3>
+<h3 id="startsWith"><code>startsWith()</code></h3>
 <p>How to detect a nullable type?</p>
 <pre><code class="language-php"># &lt; 1 s of thinking
 return Nette\Utils\Strings::startsWith($type, '?');</code></pre>
@@ -149,12 +149,12 @@ return Nette\Utils\Strings::startsWith($type, '?');</code></pre>
 return strpos('Content', $lookingFor) === ?;
 # or was it this one?
 return strpos('Content', $lookingFor) === strlen($lookingFor);</code></pre>
-<h3 id="ends-with()"><code>endsWith()</code></h3>
+<h3 id="endsWith"><code>endsWith()</code></h3>
 <pre><code class="language-php">if (Strings::endsWith($class, 'Interface')) {
     // is interface
 }</code></pre>
-<h2 id="file-system-class"><code>FileSystem</code> class</h2>
-<h3 id="read()"><code>read()</code></h3>
+<h2 id="FileSystem-class"><code>FileSystem</code> class</h2>
+<h3 id="read"><code>read()</code></h3>
 <p>If we know the file will be there (e.g. it's convention or we just put it there), we can use <code>file_get_contents()</code>.</p>
 <pre><code class="language-php">$content = file_get_contents($accidentallyMissingFile);
 // $content is `FALSE`</code></pre>
@@ -168,7 +168,7 @@ return strpos('Content', $lookingFor) === strlen($lookingFor);</code></pre>
 <p>...you could use helper method and make yourself useful instead:</p>
 <pre><code class="language-php">Nette\Utils\FileSystem::read($accidentallyMissingFile);</code></pre>
 <p>✅ Kaboom! An Exception!</p>
-<h3 id="create-dir()"><code>createDir()</code></h3>
+<h3 id="createDir"><code>createDir()</code></h3>
 <p>Do you want to create a directory for your cache?</p>
 <pre><code class="language-php">mkdir($cacheDiretory);</code></pre>
 <p>Oh, but what if that already exists?</p>
@@ -180,7 +180,7 @@ return strpos('Content', $lookingFor) === strlen($lookingFor);</code></pre>
 <p>Ok, but what if we don't care about these because <strong>all we need is to create a directory</strong>?</p>
 <pre><code class="language-php">Nette\Utils\FileSystem::createDir($cacheDirectory);</code></pre>
 <p>✅</p>
-<h3 id="delete()"><code>delete()</code></h3>
+<h3 id="delete"><code>delete()</code></h3>
 <p>We want to delete temporary data in tests or a gallery of pictures. All we have is a <code>$source</code> variable.</p>
 <p>I admit I often have to Google the name of this function because it's super counter-intuitive to first that pops to my mind - <code>delete(file|directory)</code>.</p>
 <p>So let's try:</p>

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?465061165" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?125640800" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="STAMP #3: How to Turn TWIG Helper Functions to Origin Object" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/stamp-3-how-to-turn-twig-helper-functions-to-origin-object" />
@@ -116,14 +116,14 @@ class __TwigTemplate_8a9d1381e8329967... extends Template
     }
 }</code></pre>
 <p>Would it be enough to run PHPStan on an analyze <code>App\Meal</code> object? There is no single mention about <code>App\Meal</code> type, not even an object - we can see: functions, <code>$this-&gt;env</code> property, and some <code>$context</code> array.</p>
-<h2 id="keep-it-simple">Keep it Simple</h2>
+<h2 id="Keep-it-Simple">Keep it Simple</h2>
 <p>This looks like a desperate situation in a new job when they tell you, &quot;we have strict clean code standards&quot;.</p>
 <p>Time to quit? Not so fast.</p>
 <p><br></p>
 <p>Let's get back to basics, our TWIG template:</p>
 <pre><code class="language-twig">{{ meal.title }}</code></pre>
 <p>Now forget everything we know about TWIG PHP and complex <code>php-parser</code>.</p>
-<h2 id="back-to-the-facts">Back to the Facts</h2>
+<h2 id="Back-to-the-Facts">Back to the Facts</h2>
 <p>What are the known axioms we can work with?</p>
 <ul>
 <li>the <code>meal</code> is an object of <code>App\Meal</code> type</li>
@@ -158,7 +158,7 @@ But seeing only this line of code, the <code>$meal</code> could be just an empty
 <pre><code class="language-php">/** @var \App\Meal $meal */
 echo $meal-&gt;getTitle()</code></pre>
 <p>Great! It would be better to define the type in parameter type of some function, but we don't see any function there. The important one is that <strong>PHPStan now sees an object of a specific type and method call of a specific name on it</strong>.</p>
-<h2 id="stripping-down-twig-get-attribute()">Stripping down <code>twig_get_attribute()</code></h2>
+<h2 id="Stripping-down-twig-get-attribute">Stripping down <code>twig_get_attribute()</code></h2>
 <p>It's important to know what one wants. Now we can modify the original <code>echo</code> statement in <code>doDisplay()</code> method. First, we can drop the <code>twig_escape_filter()</code> function call, which is TWIG internal, unrelated to our template code.</p>
 <pre><code class="language-diff">// line 1
 -echo twig_escape_filter(
@@ -193,7 +193,7 @@ echo twig_get_attribute(
     1
 );</code></pre>
 <p><br></p>
-<h2 id="drop-the-boolean-and-repeated-values">Drop the Boolean and Repeated Values</h2>
+<h2 id="Drop-the-Boolean-and-Repeated-Values">Drop the Boolean and Repeated Values</h2>
 <p>Let's take it further. What does <code>twig_get_attribute()</code> probably do?</p>
 <ul>
 <li>It checks if the variable <code>meal</code> is defined.</li>
@@ -211,7 +211,7 @@ echo twig_get_attribute(
 -    false,
 -    1
  );</code></pre>
-<h2 id="still,-keep-it-simple">Still, Keep it Simple</h2>
+<h2 id="Still-Keep-it-Simple">Still, Keep it Simple</h2>
 <p>What do we already know about our new code snippet?</p>
 <pre><code class="language-php">// line 1
 echo twig_get_attribute(
@@ -263,7 +263,7 @@ echo $meal-&gt;getTitle();</code></pre>
 <p>Now PHPStan can check the file and tell us if the <code>getTitle</code> method exists on <code>App\Meal</code> or not.</p>
 <p>PHPStan now knows that <code>$meal-&gt;getTitle()</code> returns a <code>string</code>, and can report type errors:</p>
 <pre><code class="language-twig">10 * {{ meal.title }}</code></pre>
-<h2 id="p-h-p-line-vs.-t-w-i-g-line">PHP Line vs. TWIG Line</h2>
+<h2 id="PHP-Line-vs-TWIG-Line">PHP Line vs. TWIG Line</h2>
 <p>You've probably noticed we kept <code>// line 1</code> comment in every snippet. What is it for?</p>
 <p><strong>Every proper PHPStan error</strong> has:</p>
 <ul>
@@ -274,7 +274,7 @@ echo $meal-&gt;getTitle();</code></pre>
 <p><br></p>
 <p>Here we analyze a PHP file that is much bigger than the original TWIG file. Our 1 line in TWIG template was compiled to <strong>~80 lines of PHP.</strong></p>
 <p>So why is the <code>// line 1</code> important? The metadata from the native TWIG compiler tells us that <strong>code under this comment belongs to line <code>X</code> in the TWIG template</strong>.</p>
-<h2 id="smart-p-h-p-=&gt;-t-w-i-g-line-mapping">Smart PHP =&gt; TWIG Line Mapping</h2>
+<h2 id="Smart-PHP-and-gt-TWIG-Line-Mapping">Smart PHP =&gt; TWIG Line Mapping</h2>
 <p>How can we use line mapping? Let's say we change the method name in our template:</p>
 <pre><code class="language-diff">-{{ meal.title }}
 +{{ meal.name }}</code></pre>
@@ -283,7 +283,7 @@ echo $meal-&gt;getTitle();</code></pre>
 <p>With mapping, we get <strong>correct TWIG line</strong>:</p>
 <pre><code class="language-bash">Error in /templates/meal.twig file on line 1:</code></pre>
 <p><br></p>
-<h2 id="to-sum-up">To Sum Up</h2>
+<h2 id="To-Sum-Up">To Sum Up</h2>
 <p>All right, we have removed clutter from the compiled PHP template file and used <code>NodeVisitor</code> from <code>php-parser</code> to convert magical TWIG functions to explicit PHP code.</p>
 <p>We're now ready use PHPStan for analysis:</p>
 <pre><code class="language-bash">vendor/bin/phpstan analyze /temp/twig/__TwigTemplate_8a9d1381e8329967...php</code></pre>

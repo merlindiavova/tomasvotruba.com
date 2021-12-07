@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?305170069" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?900690368" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Stylish and Standard Console Output with Symfony Style" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/08/06/stylish-and-standard-console-output-with-symfony-style" />
@@ -81,7 +81,7 @@ It's simple, provides standard and makes your output look like a design from App
             </div>
 
             <p>We want to <strong>report various states</strong> in PHP CLI Apps. Success message on the finish, errors message in case of failure or just simple note so users know that command is not stuck but working.</p>
-<h2 id="too-many-ways-to-do-1-thing">Too Many Ways to Do 1 Thing</h2>
+<h2 id="Too-Many-Ways-to-Do-1-Thing">Too Many Ways to Do 1 Thing</h2>
 <p>You can use plain PHP like <a href="https://github.com/squizlabs/PHP_CodeSniffer/blob/f893189392f9a0566aa837c4bcad3929c60d5348/src/Runner.php#L199">in PHP_CodeSniffer</a>:</p>
 <pre><code class="language-php">&lt;?php
 
@@ -133,7 +133,7 @@ $output-&gt;writeln('&lt;fg=green&gt;foo&lt;/&gt;');
 $output-&gt;writeln('&lt;options=bold,underscore&gt;foo&lt;/&gt;');</code></pre>
 <p><br></p>
 <p>Which one do you like so far? So many colors, so many options... maybe too many.</p>
-<h3 id="united-we-stand,-divided-we-autumn">United We Stand, Divided We Autumn</h3>
+<h3 id="United-We-Stand-Divided-We-Autumn">United We Stand, Divided We Autumn</h3>
 <p>Do you remember when there were <a href="https://github.com/container-interop/container-interop">a dozen ways to create Dependency Injection Container</a>? Fortunately, the <a href="https://www.php-fig.org/psr/psr-11">PSR-11 was born</a> to solve this and moved our focus to things that matter more.</p>
 <p>We don't want to play with colors, with <code>fg</code>, <code>underscore</code>, <code>green</code>, <code>cyan</code> (wtf is cyan?) words. Also, you know what they say:</p>
 <blockquote class="blockquote text-center">
@@ -141,11 +141,11 @@ $output-&gt;writeln('&lt;options=bold,underscore&gt;foo&lt;/&gt;');</code></pre>
     Break things.
 </blockquote>
 <p><strong>We want to print the error and get back to coding</strong>.</p>
-<h2 id="symfony-2.8-to-the-rescue">Symfony 2.8 to the Rescue</h2>
+<h2 id="Symfony-2-8-to-the-Rescue">Symfony 2.8 to the Rescue</h2>
 <p>I was super happy when the <a href="https://symfony.com/blog/new-in-symfony-2-8-console-style-guide">SymfonyStyle</a> helper class came with Symfony 2.8. Simple wrapper about all mentioned above, <code>success()</code> method, <code>error()</code> method, all in API.</p>
 <img src="https://farm1.staticflickr.com/666/23555673406_6cbd4f5460_o.png">
 <p>I think it's not an understatement to say that <code>SymfonyStyle</code> is state of art in this matter.</p>
-<h3 id="1.-its-easy-to-integrate-into-symfony-command">1. It's Easy to Integrate into Symfony Command</h3>
+<h3 id="1-It-s-Easy-to-Integrate-into-Symfony-Command">1. It's Easy to Integrate into Symfony Command</h3>
 <p>PHPStan is <a href="https://github.com/phpstan/phpstan/blob/1e232b3da00671a578b0ba451c5d15c904a82fd5/src/Command/ErrorsConsoleStyle.php#L9">using it</a>:</p>
 <pre><code class="language-diff"> &lt;?php
 
@@ -164,11 +164,11 @@ $output-&gt;writeln('&lt;options=bold,underscore&gt;foo&lt;/&gt;');</code></pre>
 +         $symfonyStyle-&gt;success('DONE!');
     }
 }</code></pre>
-<h3 id="2.-dont-make-user-think">2. Don't make User Think</h3>
+<h3 id="2-Don-t-make-User-Think">2. Don't make User Think</h3>
 <p>When I was 13 years old I've accidentally read <a href="https://www.sensible.com/dmmt.html"><em>Don’t Make Me Think</em></a>, amazing book about UX, programming and psychology for dummies (I'm about to read 2014-revised version). The main point of the book was the Apple, the UX, and the DX mantra - <strong>create a design that users already expect, don't teach them doing common things differently</strong>.</p>
 <p>I recall many CLI Apps that each has different output - no colors, different font-size, cool underlines, error message is not red but success is green etc. <strong>User have to focus on the design and understand it instead of enjoying your app</strong>. WTF of non-red exception is just great!</p>
 <p>This class offers a common way not to make use think. ECS users it, Statie uses it, PHPStan uses it, Rector uses and <a href="https://github.com/lmc-eu/steward/blob/66b90dc1b7325f680481e104ae19f7e6d77e7133/src/Console/Command/Command.php#L52">Steward</a> use it.</p>
-<h3 id="3.-symfony-style-as-a-service">3. SymfonyStyle as a Service</h3>
+<h3 id="3-SymfonyStyle-as-a-Service">3. SymfonyStyle as a Service</h3>
 <p>You can create <code>SymfonyStyle</code> in simple static construction as in point 1, but what if you need it somewhere else than in a command? Imagine you have 1200 long Command (~= Controller) and you want to extract logic to another class?</p>
 <p>Do you have to pass the whole command there or move the <code>SymfonyStyle</code> manually?</p>
 <p>Save <a href="/blog/2018/04/26/how-i-got-into-static-trap-and-made-fool-of-myself/">the vendor-locking statics</a> for value objects and enjoy the constructor injection. There are more lines than one because we need to register <code>Input</code> and <code>Output</code> as a service and autowire their interfaces.</p>
@@ -209,7 +209,7 @@ $output-&gt;writeln('&lt;options=bold,underscore&gt;foo&lt;/&gt;');</code></pre>
 +         $this-&gt;symfonyStyle-&gt;success('DONE!');
     }
 }</code></pre>
-<h3 id="4.-show-your-style">4. Show Your Style</h3>
+<h3 id="4-Show-Your-Style">4. Show Your Style</h3>
 <p>Last little detail that makes the whole experience nice and smooth. EasyCodingStandard uses SymfonyStyle, but it needed to add 1 extra method.</p>
 <ul>
 <li>There could be 2 services but that extra burden for the contributors... but <strong>we don't make the user think</strong>.</li>

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?2002880013" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?2081805850" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="4 Ways to Make Your Nette Project More Readable" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/08/10/4-ways-to-make-your-nette-project-more-readable" />
@@ -83,7 +83,7 @@ What belongs to these 80 % when it comes to Nette-specific code?</p>
             <p>Each framework has its documentation. The developers take it and test it in practice, how good the examples stand in real life. Sometimes <strong>the practical experience goes against the documentation primary choice</strong>, like using <a href="/blog/2019/03/04/how-to-turn-laravel-from-static-to-dependency-injection-in-one-day/">dependency injection in Laravel</a>.</p>
 <p>These practical tips are golden mine, <strong>because they save the company money and developer work time in the further future</strong>.
 Do you use Nette? Today, we look at 10 such spots that will bring you code advantage and make changes more comfortable and stable.</p>
-<h2 id="1.-avoid-array-access">1. Avoid Array Access</h2>
+<h2 id="1-Avoid-Array-Access">1. Avoid Array Access</h2>
 <p>Could you guess, what type is <code>$something</code>?</p>
 <pre><code class="language-php">use Nette\Application\UI\Presenter;
 
@@ -101,7 +101,7 @@ final class SomePresenter extends Presenter
 <p>What do you think? I'd go with <code>int</code> or <code>User</code>. It can be a form, a control, a form input... because array access in <code>Control</code> or <code>Presenter</code> is delegated to...</p>
 <img src="/assets/images/posts/2020/nette_readability_array_access.png" class="img-thumbnail">
 <p>... <code>getComponent()</code>/<code>addComponent()</code> methods.</p>
-<h3 id="how-to-make-such-code-readable?">How to Make Such Code Readable?</h3>
+<h3 id="How-to-Make-Such-Code-Readable">How to Make Such Code Readable?</h3>
 <p>Add PHPStan that prevent array access on objects:</p>
 <pre><code class="language-yaml"># phpstan.neon
 rules:
@@ -117,8 +117,8 @@ rules:
 +$something = $this-&gt;getComponent('user');</code></pre>
 <pre><code class="language-diff">-$this['user'] = $something ;
 +$this-&gt;addComponent($something, 'user');</code></pre>
-<h3 id="👍">👍</h3>
-<h2 id="2.-be-honest-about-components-you-use">2. Be Honest About Components You Use</h2>
+<h3 id="">👍</h3>
+<h2 id="2-Be-Honest-About-Components-You-Use">2. Be Honest About Components You Use</h2>
 <p>Alright, now we know its <em>a</em> component.</p>
 <pre><code class="language-php">$something = $this-&gt;getComponent('user');
 $something-&gt;...</code></pre>
@@ -131,7 +131,7 @@ $entity-&gt;...
 // forget IDE autocomplete for specific entities
 $entity-&gt;getName();</code></pre>
 <p>Honestly, <a href="/blog/2018/08/27/why-and-how-to-avoid-the-memory-lock/">I don't memorize code</a>, my super-smart IDE does it for me.</p>
-<h3 id="how-to-make-such-code-readable?">How to Make Such Code Readable?</h3>
+<h3 id="How-to-Make-Such-Code-Readable">How to Make Such Code Readable?</h3>
 <p>Again, all we need is common sense. Nothing fancy.</p>
 <p>How can we get an exact specific entity?</p>
 <pre><code class="language-php">// 1. annotation
@@ -143,7 +143,7 @@ $user = $this-&gt;getUser();
 
 // another way or two you can think of</code></pre>
 <img src="/assets/images/posts/2020/nette_readability_get_component.gif" class="img-thumbnail">
-<h3 id="what-are-benefits-of-typed-code?">What are Benefits of Typed Code?</h3>
+<h3 id="What-are-Benefits-of-Typed-Code">What are Benefits of Typed Code?</h3>
 <ul>
 <li>IDE automated refactoring works on specific components</li>
 <li>IDE can provide autocomplete, that is unique per component</li>
@@ -173,15 +173,15 @@ return function (ContainerConfigurator $containerConfigurator): void {
 };</code></pre>
 <p>And run Rector:</p>
 <pre><code class="language-bash">vendor/bin/rector process src</code></pre>
-<h3 id="👍">👍</h3>
-<h2 id="3.-remove-array-access-on-form-controls">3. Remove Array Access on Form Controls</h2>
+<h3 id="">👍</h3>
+<h2 id="3-Remove-Array-Access-on-Form-Controls">3. Remove Array Access on Form Controls</h2>
 <p>The #1 was about use in <code>Presenter</code> and <code>Control</code>, but what about <code>Form</code>?</p>
 <pre><code class="language-php">use Nette\Application\UI\Form;
 
 $form = new Form();
 $form-&gt;addText('name', 'Name');</code></pre>
 <p>Different class, same array access magic, same problem.</p>
-<h3 id="how-to-make-such-code-readable?">How to Make Such Code Readable?</h3>
+<h3 id="How-to-Make-Such-Code-Readable">How to Make Such Code Readable?</h3>
 <img src="/assets/images/posts/2020/nette_readability_get_form_control.gif" class="img-thumbnail">
 <p>This makes code readable in the same points above - for IDE, PHPStan, and Rector.</p>
 <p>&quot;So much work?&quot; Rector got you covered:</p>
@@ -195,7 +195,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
     $services-&gt;set(ChangeControlArrayAccessToAnnotatedControlVariableRector::class);
 };</code></pre>
 <p><br></p>
-<h3 id="can-we-do-better?">Can We do Better?</h3>
+<h3 id="Can-We-do-Better">Can We do Better?</h3>
 <p>Imagine you create a form, and somewhere in your code, an input is removed, and select box added. Where? How? Magic!</p>
 <p>So even better, <strong>modify forms only in the method they were created</strong>.</p>
 <p>Do you need a form that is just slightly different from an already existing one? Don't mutate existing, but rather:</p>
@@ -204,7 +204,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <li>decouple common <strong>abstract parent form factory</strong> class for re-use</li>
 </ul>
 <p>That way, you promote composition over inheritance in your code and respect SOLID principles.</p>
-<h2 id="4.-move-latte-engine-tuning-from-presenter/control-to-latte-factory">4. Move Latte Engine tuning from Presenter/Control to LatteFactory</h2>
+<h2 id="4-Move-Latte-Engine-tuning-from-Presenter-Control-to-LatteFactory">4. Move Latte Engine tuning from Presenter/Control to LatteFactory</h2>
 <p>Latte modification in the wrong places is more common than you'd expect.</p>
 <p><br></p>
 <p>How would you add <code>setStrictTypes(true)</code> for all templates?</p>
@@ -256,7 +256,7 @@ abstract class AbstractControl extends Control
 }</code></pre>
 <p>Now we have to enforce this parent control in every other control we have, and we should be fine...</p>
 <p>Until we <strong>use templates for mail</strong>. What a surprise when final invoice price was accidentally a string <code>''</code> that turned into <code>0</code>. Ups, we just got paid 0 € instead of 750 €.</p>
-<h3 id="how-to-make-such-code-readable?">How to Make Such Code Readable?</h3>
+<h3 id="How-to-Make-Such-Code-Readable">How to Make Such Code Readable?</h3>
 <p>Instead of trying to put down every fire our child makes in our home, we could... I don't know, take their matches?</p>
 <p>It's also known as <em>single responsibility principle</em>. There is <strong>max. 1 place to make 1 change</strong> - meet <code>LatteFactory</code>:</p>
 <pre><code class="language-php">&lt;?php
@@ -308,7 +308,7 @@ final class LatteFactoryExtension extends CompilerExtension
 <p>Register the extension to config, and you're ready to go:</p>
 <pre><code class="language-yaml">extensions:
     - App\DI\LatteFactoryExtension</code></pre>
-<h3 id="change-is-the-only-constant">Change is the Only Constant</h3>
+<h3 id="Change-is-the-Only-Constant">Change is the Only Constant</h3>
 <p>Do we need to add <strong>translator to all templates</strong>?</p>
 <p>No need to edit 3 places, just one:</p>
 <pre><code class="language-diff"> &lt;?php
@@ -342,10 +342,10 @@ final class LatteFactoryExtension extends CompilerExtension
          return $engine;
      }
  }</code></pre>
-<h3 id="👍">👍</h3>
+<h3 id="">👍</h3>
 <p><br></p>
 <p>That's all for today.</p>
-<h2 id="removing-magic-makes-us-feel-safe">Removing Magic makes us Feel Safe</h2>
+<h2 id="Removing-Magic-makes-us-Feel-Safe">Removing Magic makes us Feel Safe</h2>
 <p>Just to repeat the basics. The goal of refactoring is to make code SOLID, unbreakable, and reliable source. When we have a code we understand, we feel safe.</p>
 <blockquote class="blockquote text-center mt-5 mb-5">
 When we feel safe, we are more productive and make huge changes faster.<br>

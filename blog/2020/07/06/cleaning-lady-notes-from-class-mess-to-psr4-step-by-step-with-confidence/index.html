@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?517575891" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?650441507" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Cleaning Lady Notes: From Class Mess to PSR-4 Step by Step With Confidence" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/07/06/cleaning-lady-notes-from-class-mess-to-psr4-step-by-step-with-confidence" />
@@ -98,8 +98,8 @@ We start with the most problematic topic in PHP legacy, that every project needs
 
             <p><em>Dedicated to <a href="https://github.com/Kerrialn">Kerrial</a>, my great friend who teaches me so much about not giving a f_ck and just do the stuff.<br>Thanks, dude!</em></p>
 <p><br></p>
-<h2 id="how-to-approach-the-migration-itself?">How to Approach the Migration Itself?</h2>
-<h3 id="know-your-enemy">Know Your Enemy</h3>
+<h2 id="How-to-Approach-the-Migration-Itself">How to Approach the Migration Itself?</h2>
+<h3 id="Know-Your-Enemy">Know Your Enemy</h3>
 <p>There are many use cases that we have to handle to get to PSR-4. Honestly, I find it easier to <a href="/blog/2019/08/26/how-we-migrated-54-357-lines-of-code-nette-to-symfony-in-2-people-under-80-hours/">switch a framework</a>, where start is clear and goal is clear.</p>
 <p>In PSR-4 migration, we have a clear goal:</p>
 <ul>
@@ -107,7 +107,7 @@ We start with the most problematic topic in PHP legacy, that every project needs
 <li>the class/trait/interface has a unique fully qualified name, that reflects file location</li>
 <li>nothing else exists</li>
 </ul>
-<h3 id="start-has-many-ugly-forms">Start has Many Ugly Forms</h3>
+<h3 id="Start-has-Many-Ugly-Forms">Start has Many Ugly Forms</h3>
 <ul>
 <li><strong>in 1 file, there is a dozen classes</strong> - very popular for exceptions or test fixtures</li>
 <li>some classes have <strong>identical name</strong> and custom class loader gives one or the other preference (e.g., Magento and Drupal use this in some version)</li>
@@ -124,7 +124,7 @@ We start with the most problematic topic in PHP legacy, that every project needs
     }
 }</code></pre>
 <p>A lot to suck in, right? Don't worry; each of them has a guide to follow.</p>
-<h3 id="low-hanging-fruit">Low Hanging Fruit</h3>
+<h3 id="Low-Hanging-Fruit">Low Hanging Fruit</h3>
 <p>Each project is different, some of them has <a href="/blog/2020/04/13/how-to-migrate-spaghetti-to-304-symfony-5-controllers-over-weekend/">functions mixed with HTML</a>, some is missing composer completely, some needs to <a href="/blog/2020/06/08/drop-robot-loader-and-let-composer-deal-with-autoloading/">switch from custom-framework autoloading</a>.</p>
 <p>But you should always apply basic rule:</p>
 <blockquote class="blockquote text-center mt-5 mb-5">
@@ -147,10 +147,10 @@ But all those 9 steps are now 10 % less complicated.</p>
 </blockquote>
 <p>I love this coding principle. Why? Because it takes minimalism and productivity to the practical world. It narrows our focus, so any developer becomes a 10x programmer effortlessly.</p>
 <p><br></p>
-<h2 id="what-exactly-to-do?-case-study">What Exactly to Do? - Case Study</h2>
+<h2 id="What-Exactly-to-Do-Case-Study">What Exactly to Do? - Case Study</h2>
 <p>Enough theory. <strong>Let's look at the project we've recently migrate to PSR-4 and how exactly we did it</strong>.</p>
 <p>This is not paid promo, but <a href="https://www.startupjobs.cz/en/startup/scrumworks-s-r-o">Amateri are hiriging</a>. We're far enough with the migration, so I'm confident it would be fun to work with such codebase.</p>
-<h2 id="1.-split-multiple-classes-in-1-file">1. Split Multiple Classes in 1 File</h2>
+<h2 id="1-Split-Multiple-Classes-in-1-File">1. Split Multiple Classes in 1 File</h2>
 <p>How does it look?</p>
 <pre><code class="language-diff"> // SomeFile.php
  class SomeClass
@@ -165,12 +165,12 @@ But all those 9 steps are now 10 % less complicated.</p>
 +{
 +}</code></pre>
 <p><br></p>
-<p>The <strong>1st cool tool</strong> we look at today is <a href="https://github.com/symplify/psr4-switcher">symplify/psr4-switcher</a>.
+<p>The <strong>1st cool tool</strong> we look at today is <a href="https://github.com/symplify/easy-ci">symplify/easy-ci</a>.
 It doesn't need projects' autoloader so that it can be installed outside the project, e.g., in <code>/var/www/tools</code>, while your project is in <code>/var/www/old_project</code>.</p>
 <p>Install it:</p>
-<pre><code class="language-bash">composer require symplify/psr4-switcher --dev</code></pre>
+<pre><code class="language-bash">composer require symplify/easy-ci --dev</code></pre>
 <p>It would be great to have a list of all such multi-class files, right?</p>
-<pre><code class="language-bash">vendor/bin/psr4-switcher find-multi-classes /src</code></pre>
+<pre><code class="language-bash">vendor/bin/easy-ci find-multi-classes /src</code></pre>
 <p>↓</p>
 <pre><code class="language-bash">* SomeFile.php
     * SomeClass
@@ -178,23 +178,23 @@ It doesn't need projects' autoloader so that it can be installed outside the pro
 <p>Now we know how big a problem we're dealing with.</p>
 <ul>
 <li>Are there 3 files with 20 classes? <strong>Separate them manually</strong>.</li>
-<li>Is that 50 files with 300 classes? Use <strong>Rector rule</strong> - <a href="https://github.com/rectorphp/rector/blob/master/docs/rector_rules_overview.md#multipleclassfiletopsr4classesrector"><code>MultipleClassFileToPsr4ClassesRector</code></a>.</li>
+<li>Is that 50 files with 300 classes? Use <strong>Rector rule</strong> - <a href="https://github.com/rectorphp/rector/blob/main/docs/rector_rules_overview.md#multipleclassfiletopsr4classesrector"><code>MultipleClassFileToPsr4ClassesRector</code></a>.</li>
 </ul>
 <p>Now 1 file has exactly 1 class/interface/trait.</p>
 <p>Send pull request, make sure your project's autoloader autoloads them, and tests are passing. Merge it, and you're done.</p>
-<h2 id="2.-check-class-short-name-vs.-filename">2. Check Class Short name vs. Filename</h2>
+<h2 id="2-Check-Class-Short-name-vs-Filename">2. Check Class Short name vs. Filename</h2>
 <pre><code class="language-diff"> // Cucumber.php
 -class Car
 +class Cucumber
  {
  }</code></pre>
-<p>If we only knew how many such files are there and where... back to PSR4-Switcher:</p>
-<pre><code class="language-bash">vendor/bin/psr4-switcher check-file-class-name src</code></pre>
+<p>If we only knew how many such files are there and where... back to Easy CI:</p>
+<pre><code class="language-bash">vendor/bin/easy-ci check-file-class-name src</code></pre>
 <p>You will get a list of files that don't match. Use PHPStorm refactoring to change the class name everywhere:</p>
 <img src="/assets/images/posts/2020/psr4_rename_class.gif" class="img-thumbnail">
 <p>Commit, PR, CI passes, merge.</p>
 <p>✅</p>
-<h2 id="3.-upper-case-directories-first-letter">3. Upper-case Directories First Letter</h2>
+<h2 id="3-Upper-case-Directories-First-Letter">3. Upper-case Directories First Letter</h2>
 <p>In PSR-4, any non-root directory must start with the first big letter. Root is e.g. <code>/app</code>, <code>/src</code>.</p>
 <pre><code class="language-diff">-/app/form/someForm
 +/app/Form/SomeForm</code></pre>
@@ -202,7 +202,7 @@ It doesn't need projects' autoloader so that it can be installed outside the pro
 <img src="/assets/images/posts/2020/psr4_rename_dirs.gif" class="img-thumbnail">
 <p>Commit, PR, CI passes, merge.</p>
 <p>✅</p>
-<h2 id="4.-check-p-s-r-4-root">4. Check PSR-4 root</h2>
+<h2 id="4-Check-PSR-4-root">4. Check PSR-4 root</h2>
 <p>We've done 3 steps so far. Now comes the biggest one, actually adding PSR-4 roots to <code>composer.json</code>.</p>
 <p>It will not be as pretty as 1 root line, but that's not what we go here now. Our goal is <strong>to have all classes loaded with PSR-4, no matter how many lines</strong> in <code>composer.json</code> does it need.</p>
 <pre><code class="language-json">{
@@ -214,7 +214,7 @@ It doesn't need projects' autoloader so that it can be installed outside the pro
     }
 }</code></pre>
 <p>We can guess what namespace roots (<code>"Amateri\\Payment\\"</code>) should be loaded from which directory (<code>"src/somewhere-else/Payment"</code>)... or we can use science!</p>
-<pre><code class="language-bash">vendor/bin/psr4-switcher generate-psr4-paths project/src --composer-json project/composer.json</code></pre>
+<pre><code class="language-bash">vendor/bin/easy-ci generate-psr4-paths project/src --composer-json project/composer.json</code></pre>
 <p>The command will generate such paths for us, based on existing namespaces and file locations.
 There may be over 10 or even 50 of those. <strong>Don't worry about it now</strong>.</p>
 <ul>
@@ -224,7 +224,7 @@ There may be over 10 or even 50 of those. <strong>Don't worry about it now</stro
 </ul>
 <p>If everything passes... Commit, PR, CI passes, merge.</p>
 <p>✅</p>
-<h2 id="5.-narrow-the-namespace-root-and-directories-in-composer.json">5. Narrow the Namespace Root and Directories in <code>composer.json</code></h2>
+<h2 id="5-Narrow-the-Namespace-Root-and-Directories-in-composer-json">5. Narrow the Namespace Root and Directories in <code>composer.json</code></h2>
 <p>Now comes my favorite part. Here we move all directories <strong>to use as little namespace root as possible</strong>.</p>
 <p>It might be a little bit unclear, but give it time and it will fit in. Let's look at the example:</p>
 <pre><code class="language-diff"> {
@@ -248,7 +248,7 @@ There may be over 10 or even 50 of those. <strong>Don't worry about it now</stro
 </ul>
 <p>If everything passes... Commit, PR, CI passes, merge.</p>
 <p>✅</p>
-<h2 id="6.-what-if-there-are-no-namespaces-or-are-very-very-bad?">6. What if there are No Namespaces or Are Very Very Bad?</h2>
+<h2 id="6-What-if-there-are-No-Namespaces-or-Are-Very-Very-Bad">6. What if there are No Namespaces or Are Very Very Bad?</h2>
 <p><div class="card ml-4 mt-4 border-warning float-right post-snippet" style="width: 14em">
     <div class="card-body">
         Would you like to <strong>learn more about Rector</strong>? Step by step, from zero to hero?
@@ -263,11 +263,11 @@ There may be over 10 or even 50 of those. <strong>Don't worry about it now</stro
     </div>
 </div>
 </p>
-<p>In many codebases, there are just random files—no namespace, no fake namespace, etc.</p>
+<p>In many code bases, there are just random files—no namespace, no fake namespace, etc.</p>
 <p>For these, we have help of Rector with these 2 rules:</p>
 <ul>
-<li><a href="https://github.com/rectorphp/rector/blob/master/docs/rector_rules_overview.md#normalizenamespacebypsr4composerautoloadfilesystemrector"><code>NormalizeNamespaceByPSR4ComposerAutoloadRector</code></a></li>
-<li><a href="https://github.com/rectorphp/rector/blob/master/docs/rector_rules_overview.md#normalizenamespacebypsr4composerautoloadrector"><code>NormalizeNamespaceByPSR4ComposerAutoloadFileSystemRector</code></a></li>
+<li><a href="https://github.com/rectorphp/rector/blob/main/docs/rector_rules_overview.md#normalizenamespacebypsr4composerautoloadfilesystemrector"><code>NormalizeNamespaceByPSR4ComposerAutoloadRector</code></a></li>
+<li><a href="https://github.com/rectorphp/rector/blob/main/docs/rector_rules_overview.md#normalizenamespacebypsr4composerautoloadrector"><code>NormalizeNamespaceByPSR4ComposerAutoloadFileSystemRector</code></a></li>
 </ul>
 <p><br></p>
 <p>Register them in <code>rector.php</code>:</p>

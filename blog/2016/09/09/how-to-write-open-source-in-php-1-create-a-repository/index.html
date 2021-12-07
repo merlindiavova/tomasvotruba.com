@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1307948382" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1401871851" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to write open-source in PHP 1: Create a repository on Github" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2016/09/09/how-to-write-open-source-in-php-1-create-a-repository" />
@@ -94,10 +94,10 @@ Ready? Let's start with creating a Github repository!</p>
                 </div>
             </div>
 
-            <h2 id="meet-git-hub,-o-ss-best-friend">Meet GitHub, OS's best friend</h2>
+            <h2 id="Meet-GitHub-OS-s-best-friend">Meet GitHub, OS's best friend</h2>
 <p>If not already, <a href="https://github.com">register on Github</a>. It's a place where all open-source lives and breathes. For free!</p>
 <p>Then create a repository with <a href="https://github.com/new">New Repository</a> button.</p>
-<h3 id="name-repository-well...-well-how?">Name repository well... well how?</h3>
+<h3 id="Name-repository-well-well-how">Name repository well... well how?</h3>
 <ul>
 <li>name should be explicit</li>
 <li>noun... well pretty <strong>same rules as for class naming</strong></li>
@@ -111,9 +111,9 @@ Ready? Let's start with creating a Github repository!</p>
 <li><strong>bad names</strong>: <em>TomasPackage</em>, <em>DoctrineExtras</em>, <em>Translate</em></li>
 </ul>
 <p>That's all you need now. Hit &quot;Create repository&quot; and you are done!</p>
-<h2 id="little-book-of-git">Little book of git</h2>
+<h2 id="Little-book-of-git">Little book of git</h2>
 <p>Now we practise first few git lines.</p>
-<h3 id="get-to-the-right-place">Get to the right place</h3>
+<h3 id="Get-to-the-right-place">Get to the right place</h3>
 <p>Move to the directory, where you want to host your package locally.
 Open command line or Terminal in PHPStorm. Actually the PHPStorm way will open terminal already in right place. So you don't have to browse directories via <code>cd</code> command.
 And call these commands there.</p>
@@ -125,18 +125,18 @@ git add README.md
 git commit -m "first commit"
 git remote add origin git@github.com:tomasvotruba/open-source-package-demo.git
 git push -u origin master</code></pre>
-<h3 id="you-dont-understand-those-geek-lines?-ill-explain">You don't understand those geek lines? I'll explain</h3>
+<h3 id="You-don-t-understand-those-geek-lines-I-ll-explain">You don't understand those geek lines? I'll explain</h3>
 <p>These commits can be divided into 2 groups:</p>
 <ol>
 <li>to setup repository, <strong>just once</strong></li>
 <li>to add some code, <strong>use repeatedly</strong></li>
 </ol>
-<h4 id="1.-setup-repository">1. Setup repository</h4>
+<h4 id="1-Setup-repository">1. Setup repository</h4>
 <p>Create an empty repository git repository</p>
 <pre><code class="language-bash">git init</code></pre>
 <p>Add ONLINE address where we want publish your code</p>
 <pre><code class="language-bash">git remote add origin git@github.com:tomasvotruba/open-source-package-demo.git</code></pre>
-<h4 id="2.-add-some-code">2. Add some code</h4>
+<h4 id="2-Add-some-code">2. Add some code</h4>
 <p>Create a file README.md and add &quot;Unziping Package&quot; in it (this is just command line for geeks, I do this manually in my PHPStorm of course)</p>
 <pre><code class="language-bash">echo "Unziping Package" &gt;&gt; README.md</code></pre>
 <p>Tell git to NOTICE this file to be added later</p>
@@ -146,23 +146,23 @@ git push -u origin master</code></pre>
 <p>Send ALL COMMITS online. Now your local system and Github repository are synced 1:1</p>
 <pre><code class="language-bash">git push -u origin master</code></pre>
 <p><a name="your-code-is-online"></a></p>
-<h2 id="your-code-is-online!">Your code is online!</h2>
+<h2 id="Your-code-is-online">Your code is online!</h2>
 <p>Just feel the smell of success.</p>
 <hr />
-<h2 id="do-you-want-get-deeper-than-that?-check-the-checklist-(~2-min)">Do you want get deeper than that? Check the Checklist (~2 min)</h2>
+<h2 id="Do-you-want-get-deeper-than-that-Check-the-Checklist-2-min">Do you want get deeper than that? Check the Checklist (~2 min)</h2>
 <p>Fast and clear? Go to <a href="http://phppackagechecklist.com">PHP Package Checklist</a>, that is easy to read and easy to follow.
 This helped me to integrate workflow to all my packages in the start. I've selected <a href="http://phppackagechecklist.com/#1,2,3,4,6,7,11,12,13">9 most important points</a>.</p>
 <p>Some of them I've already mentioned. Other will follow in next 2 articles.</p>
 <p>Before creating next package, just go trough it to remind yourself what is most relevant.</p>
 <hr />
-<h2 id="so-our-first-step-is-behind-us">So our first step is behind us</h2>
+<h2 id="So-our-first-step-is-behind-us">So our first step is behind us</h2>
 <p>What have you learned today?</p>
 <ul>
 <li>That <em>OS</em> stands for <em>open-source</em>. You can also find <em>OSS</em> as for <em>open-source software</em>.</li>
 <li>How to <strong>create proper OS repository</strong>.</li>
 <li>How to <strong>add few lines there with git</strong>.</li>
 </ul>
-<h2 id="what-is-coming-next?">What is coming next?</h2>
+<h2 id="What-is-coming-next">What is coming next?</h2>
 <ul>
 <li>How does package skeleton make your work much easier.</li>
 <li>What are <strong>repository meta files</strong>.</li>

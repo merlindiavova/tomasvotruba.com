@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1179244945" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1258512718" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Traverse PHPDoc and Modify It" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/how-to-traverse-phpdoc-and-modify-it" />
@@ -114,7 +114,7 @@ $phpDocNode = $simplePhpDocParser-&gt;parse($values);</code></pre>
             |- type: IdentifierTypeNode
                 |- name: "int"</code></pre>
 <p>This is classic PHP - object in an object in an object...</p>
-<h2 id="how-can-we-replace-int-with-string?">How can we Replace <code>int</code> with <code>string</code>?</h2>
+<h2 id="How-can-we-Replace-int-with-string">How can we Replace <code>int</code> with <code>string</code>?</h2>
 <p>First, we need to get to the <code>IdentifierTypeNode</code>. Then we check its value is <code>"int"</code>. If so, we change it to <code>"string"</code>. Seems pretty straightforward, right?</p>
 <pre><code class="language-php">use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
@@ -152,7 +152,7 @@ foreach ($phpDocNode-&gt;children as $phpDocChildNode) {
 - * @return int
 + * @return string
   */</code></pre>
-<h2 id="next-level:-2-nodes">Next Level: 2 Nodes</h2>
+<h2 id="Next-Level-2-Nodes">Next Level: 2 Nodes</h2>
 <p>In real life, the type is rarely used in a single location. Let's add <code>@param</code>:</p>
 <pre><code class="language-php">/**
  * @param int $age
@@ -182,7 +182,7 @@ foreach ($phpDocNode-&gt;children as $phpDocChildNode) {
 <p>Easy pick, right?</p>
 <p><br></p>
 <img src="/assets/images/posts/2020/symplify_monorepo_split.jpg" class="img-thumbnail">
-<h2 id="next-level:-2-nodes-with-nested-types">Next Level: 2 Nodes with Nested Types</h2>
+<h2 id="Next-Level-2-Nodes-with-Nested-Types">Next Level: 2 Nodes with Nested Types</h2>
 <p>Types are can be also compound, here is <code>UnionTypeNode</code> with 2 <code>IdentifierTypeNode</code> nodes in it:</p>
 <pre><code class="language-php">/**
  * @param int|null $age
@@ -197,10 +197,10 @@ foreach ($phpDocNode-&gt;children as $phpDocChildNode) {
 - * @return OldClass
 + * @return NewClass
   */</code></pre>
-<h2 id="so-much-complexity!">So Much Complexity!</h2>
+<h2 id="So-Much-Complexity">So Much Complexity!</h2>
 <p>You're probably wondering, <strong>why is it so hard to change one node in a docblock?</strong> It is only hard if we try to hard-code solution for every single node.</p>
 <p>In reality, there are ~40 classes that inherit from <code>PHPStan\PhpDocParser\Ast\Node</code>. We would have to add a check for every single of it, if it has a type, nested typed in some property, and so on.</p>
-<h2 id="what-about-node-traverser?">What about Node Traverser?</h2>
+<h2 id="What-about-Node-Traverser">What about Node Traverser?</h2>
 <p>Instead, we could use the same principle as php-parser - <strong>a node traverser</strong> with <strong>node visitors</strong>.</p>
 <p>Do you hear about it the first time? Think of it as an analogy to event dispatcher:</p>
 <ul>
@@ -217,7 +217,7 @@ foreach ($phpDocNode-&gt;children as $phpDocChildNode) {
 <li>EventSubscribers is waiting for a specific event to happen</li>
 <li>NodeVisitor is waiting for a specific node to come</li>
 </ul>
-<h2 id="the-real-code">The Real Code</h2>
+<h2 id="The-Real-Code">The Real Code</h2>
 <p>In reality, we should run the traverse on <code>PhpDocNode</code> to get the result:</p>
 <pre><code class="language-php">use Symplify\SimplePhpDocParser\PhpDocNodeTraverser;
 
@@ -262,7 +262,7 @@ $phpDocNodeTraverser-&gt;traverse($phpDocNode);
 <pre><code class="language-php">/**
  * @var array{string, Iterable&lt;int, int&gt;}
  */</code></pre>
-<h2 id="how-does-it-work?-magic-revealed">How Does it Work? Magic Revealed</h2>
+<h2 id="How-Does-it-Work-Magic-Revealed">How Does it Work? Magic Revealed</h2>
 <p>The logic is crazy simple - again, credit goes to Nikita Popov, who created the <a href="https://github.com/nikic/PHP-Parser/blob/master/lib/PhpParser/NodeTraverser.php">NodeTraverser</a> in php-parser.</p>
 <p>The <code>PhpDocNodeTraverser</code> goes through <strong>every public property</strong> of that node (see <a href="https://github.com/symplify/symplify/blob/58ee4f76a7373b3ae44e4ad608aea5dae5c9b63c/packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php#L52-L83">the responsible method</a> on Github).</p>
 <p>That means if the <code>ReturnTagValueNode</code> enters, it will go through there:</p>
