@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?440403745" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1650057218" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="New in Rector: Asterisk Type Match" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/02/04/new-in-rector-asterisk-type-match" />
@@ -74,12 +74,12 @@ The positive side effect of Rector helping to migrate real commercial project **
             
                             <div class="card border-success mt-4">
                     <div class="card-header text-white bg-success">
-                        This post was updated at August 2020 with fresh know-how.
+                        This post was updated at December 2021 with fresh know-how.
                         <br>
                         <strong>What is new?</strong>
                     </div>
                                             <div class="card-body pb-2">
-                            <p>Updated Rector YAML to PHP configuration, as current standard.</p>
+                            <p>Updated Rector YAML to PHP configuration, as current standard. Use value object configuration and <code>configure()</code> method for code.</p>
                         </div>
                                     </div>
 
@@ -109,16 +109,11 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 
 return function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator-&gt;services();
+
     $services-&gt;set(RenameMethodRector::class)
-        -&gt;call('configure', [[
-            RenameMethodRector::OLD_TO_NEW_METHODS_BY_CLASS =&gt; [
-                // match type
-                'SomeFramework\AbstractPresenter' =&gt; [
-                    // old method: new method
-                    'run' =&gt; '__invoke'
-                ]
-            ]
-        ]]);
+        -&gt;configure([
+            new MethodCallRename('SomeFramework\AbstractPresenter', 'run', '__invoke')
+        ]);
 };</code></pre>
 <p>Then Rector will change the code for you:</p>
 <pre><code class="language-bash">vendor/bin/rector process src</code></pre>
@@ -151,13 +146,9 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 return function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator-&gt;services();
     $services-&gt;set(RenameMethodRector::class)
-        -&gt;call('configure', [[
-            RenameMethodRector::OLD_TO_NEW_METHODS_BY_CLASS =&gt; [
-                'App\*Module\Presenter\*Controller' =&gt; [
-                    'run' =&gt; '__invoke'
-                ]
-            ]
-        ]]);
+        -&gt;configure([
+            new MethodCallRename('App\*Module\Presenter\*Controller', 'run', '__invoke')
+        ]);
 };</code></pre>
 <p>Kittens will love you now!</p>
 <p><em>This <a href="https://github.com/rectorphp/rector/pull/1004">feature</a> was added to Rector v0.3.40.</em></p>
@@ -169,25 +160,21 @@ return function (ContainerConfigurator $containerConfigurator): void {
 
  declare(strict_types=1);
 
- use Rector\Renaming\Rector\Constant\RenameClassConstantRector;use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
  use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+ use Rector\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector;
+ use Rector\Renaming\ValueObject\RenameClassConstFetch;
 
  return function (ContainerConfigurator $containerConfigurator): void {
      $services = $containerConfigurator-&gt;services();
-     $services-&gt;set(RenameClassConstantRector::class)
-         -&gt;call('configure', [[
-             RenameClassConstantRector::OLD_TO_NEW_CONSTANTS_BY_CLASS =&gt; [
--                'Framework\Request' =&gt; [
-+                'Framework\Request*' =&gt; [
-                     200 =&gt; 'CODE_200',
-                     300 =&gt; 'CODE_300',
-                 ],
--                'Framework\RequestInterface' =&gt; [
--                    200 =&gt; 'CODE_200',
--                    300 =&gt; 'CODE_300',
--                ],
-            ]
-        ]]);
+     $services-&gt;set(RenameClassConstFetchRector::class)
+         -&gt;configure([
+-            new RenameClassConstFetch('Framework\Request', 200, 'CODE_200'),
++            new RenameClassConstFetch('Framework\Request*', 200, 'CODE_200'),
+-            new RenameClassConstFetch('Framework\Request', 300, 'CODE_300'),
++            new RenameClassConstFetch('Framework\Request*', 300, 'CODE_300'),
+-            new RenameClassConstFetch('Framework\RequestInterface', 200, 'CODE_200'),
+-            new RenameClassConstFetch('Framework\RequestInterface', 300, 'CODE_300'),
+        ]);
 };</code></pre>
 <p><br></p>
 <p>Happy instant refactorings!</p>

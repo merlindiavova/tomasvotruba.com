@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1498317417" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?604608246" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Rector: Part 1 - What and How" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/02/19/rector-part-1-what-and-how" />
@@ -193,13 +193,9 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 return function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator-&gt;services();
     $services-&gt;set(RenameMethodRector::class)
-        -&gt;call('configure', [[
-            RenameMethodRector::OLD_TO_NEW_METHODS_BY_CLASS =&gt; [
-                'Symfony\Component\HttpFoundation\Request' =&gt; [
-                    'isMethodSafe' =&gt; 'isMethodCacheable'
-                ]
-            ]
-        ]]);
+        -&gt;configure([
+            new MethodCallRename('Symfony\Component\HttpFoundation\Request', 'isMethodSafe', 'isMethodCacheable')
+        ]);
 };</code></pre>
 <h3 id="Member-of-Big-AST-PHP-Family">Member of Big AST PHP Family</h3>
 <p>Rector is not the only tool that uses <code>nikic\php-parser</code> for context-aware operation on your code.</p>
