@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?450247649" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?48260370" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Upgrade Symfony 2.8 to 3.4" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/02/28/how-to-upgrade-symfony-2-8-to-3-4" />
@@ -144,11 +144,11 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 return function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator-&gt;import(SymfonySetList::SYMFONY_28);
     // take it 1 set at a time to so next set works with output of the previous set; I do 1 set per pull-request
-    // $containerConfigurator-&gt;import(SetList::SYMFONY_30);
-    // $containerConfigurator-&gt;import(SetList::SYMFONY_31);
-    // $containerConfigurator-&gt;import(SetList::SYMFONY_32);
-    // $containerConfigurator-&gt;import(SetList::SYMFONY_33);
-    // $containerConfigurator-&gt;import(SetList::SYMFONY_34);
+    // $containerConfigurator-&gt;import(SymfonySetList::SYMFONY_30);
+    // $containerConfigurator-&gt;import(SymfonySetList::SYMFONY_31);
+    // $containerConfigurator-&gt;import(SymfonySetList::SYMFONY_32);
+    // $containerConfigurator-&gt;import(SymfonySetList::SYMFONY_33);
+    // $containerConfigurator-&gt;import(SymfonySetList::SYMFONY_34);
 
     // set paths to directories with your code
     $parameters = $containerConfigurator-&gt;parameters();
