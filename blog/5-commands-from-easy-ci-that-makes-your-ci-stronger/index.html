@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>5 Commands from Easy CI that makes your CI Stronger | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+<meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
+
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?678290933" rel="stylesheet" type="text/css" />
+
+                <meta property="og:title" content="5 Commands from Easy CI that makes your CI Stronger" />
+        <meta property="og:url" content="https://tomasvotruba.com/blog/5-commands-from-easy-ci-that-makes-your-ci-stronger" />
+        <meta name="description" property="og:description" content="Sometimes my clients need a specific CI check that spots tiny but annoying bugs, and they cannot be discovered by PHPStan, Rector, or coding standard tool. It can be unresolved conflict `" />
+
+                    <meta property="og:image" content="https://tomasvotruba.com/assets/images/posts/2021/easy_ci_report.png" />
+            <meta name="twitter:card" content="summary_large_image"/>
+            </head>
+
+    <body>
+        <!-- post_id: 335 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <h1>5 Commands from Easy CI that makes your CI Stronger</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2021/2021-10-18-5-commands-from-easy-ci-that-makes-your-ci-stronger.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2021-10-Mon" class="text-muted">
+                2021-10-18
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>Sometimes my clients need a specific CI check that spots tiny but annoying bugs, and they cannot be discovered by PHPStan, Rector, or coding standard tool. It can be unresolved conflict <code>&lt;&lt;&lt;&lt;&lt;&lt;</code>, invalid config syntax, or forgotten commented code.
+<br><br>
+Usually, we write specific PHP commands just for the particular project and let them rotten in spaghetti time. Instead, I cherry-pick those commands to <strong>a package called <code>symplify/easy-ci</code></strong>. That way, I can use them in any project and improve them.
+<br><br>
+Today we'll look at 5 commands you can use in your CI. <strong>They might save you from bugs that no other tool can check</strong>.</p>
+                </div>
+            </div>
+
+            <p>To start, we first add the package:</p>
+<pre><code class="language-bash">composer require symplify/easy-ci --dev</code></pre>
+<h2 id="1-Check-Latte-templates-for-Existing-Code">1. Check Latte templates for Existing Code</h2>
+<p>PHPStorm is very good at renaming classes and methods. But its power stops at templates and configs, leading to bugs when the template contains a non-existing method. It can take days to discover this, as not everyone has tested and not everyone has I test that check every single render path of every template.</p>
+<h3 id="What-does-it-do">What does it do?</h3>
+<p>This command checks <code>*.latte</code> templates for:</p>
+<ul>
+<li>existing classes</li>
+<li>existing methods</li>
+<li>existing constants</li>
+</ul>
+<pre><code class="language-html">{if App\Utils::validateUlr($url)}
+    ...
+    &lt;p&gt;{App\ErrorMessg:VALID}&lt;/p&gt;
+{else}
+    ...
+    &lt;p&gt;{App\ErrorMessage::NOT_VALID}&lt;/p&gt;
+{/if}</code></pre>
+<h3 id="How-to-Use-it">How to Use it?</h3>
+<pre><code class="language-bash">vendor/bin/easy-ci check-latte-template &lt;paths&gt;
+
+# e.g.
+vendor/bin/easy-ci check-latte-template app src</code></pre>
+<p class="text-success pt-3 pb-3">✅</p>
+<h2 id="2-Checks-NEON-YAML-Configs-for-Existing-Classes">2. Checks NEON/YAML Configs for Existing Classes</h2>
+<p>This command is similar to the above. If PHPStorm or any developer renames a class, it can be missed in configs.</p>
+<h3 id="What-does-it-do">What does it do?</h3>
+<p>It checks all <code>*.neon</code> and <code>*.yaml</code> files for:</p>
+<ul>
+<li>existing classes</li>
+<li>existing class constants</li>
+</ul>
+<pre><code class="language-yaml">services:
+    -
+        class: App\SomeService
+        arguments:
+            level: App\Level::TOPP</code></pre>
+<h3 id="How-to-Use-it">How to Use it?</h3>
+<pre><code class="language-bash">vendor/bin/easy-ci check-config &lt;paths&gt;
+
+# e.g.
+vendor/bin/easy-ci check-config config</code></pre>
+<p class="text-success pt-3 pb-3">✅</p>
+<h2 id="3-Check-NEON-for-Complex-Syntax">3. Check NEON for Complex Syntax</h2>
+<p>How can we write the YAML syntax above in NEON? Very similar, but also in a much shorter way thanks to &quot;NEON entities&quot;:</p>
+<pre><code class="language-neon">services:
+    - App\SomeService([App\Level::TOPP])</code></pre>
+<p>Do you understand this code? I'm not sure if it's interface, class, arguments of the method call.
+<br>
+<br>
+This magic syntax also proven very hard to analyze with other tools. That's why we added a check to require explicit and straightforward code:</p>
+<pre><code class="language-yaml">services:
+    -
+        class: App\SomeService
+        arguments:
+            level: App\Level::TOPP</code></pre>
+<h3 id="What-does-it-do">What does it do?</h3>
+<p>It checks <code>*.neon</code> files to a magical inlined configuration that can be written explicit and transparent way.</p>
+<h3 id="How-to-Use-it">How to Use it?</h3>
+<pre><code class="language-bash">vendor/bin/easy-ci check-neon &lt;paths&gt;
+
+# e.g.
+vendor/bin/easy-ci check-neon config</code></pre>
+<p class="text-success pt-3 pb-3">✅</p>
+<h2 id="4-Check-for-Unresolved-Conflicts">4. Check for Unresolved Conflicts</h2>
+<p>Sometimes we merge old pull-request, and we have to rebase dozens of commits in the past. In 99 % of use cases, it goes well, or the CI reports a failure, but in 1 %, it hits us.</p>
+<pre><code class="language-html">The price of this product is
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+0
+=======
+100
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; branch-a</code></pre>
+<p>And then we have to explore how it got here, who added it etc. Why waste the energy if you can find this before merging?</p>
+<h3 id="What-does-it-do">What does it do?</h3>
+<p>Goes through all files and detects any unresolved <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> code.</p>
+<h3 id="How-to-Use-it">How to Use it?</h3>
+<pre><code class="language-bash">vendor/bin/easy-ci check-conflicts &lt;paths&gt;
+
+# e.g.
+vendor/bin/easy-ci check-conflicts .</code></pre>
+<p class="text-success pt-3 pb-3">✅</p>
+<h2 id="5-Detect-Commented-Code">5. Detect Commented Code</h2>
+<p>Last but not least, sometimes, we temporarily comment out a chunk of code. We're testing something, or we don't need the method right now, so we comment it. Keeping commented code in main codebase is wrong for couple reasons:</p>
+<ul>
+<li>We have tools like <code>git history</code> and <code>git blame</code> to re-use old code.</li>
+<li>When we merge the pull-request, we don't known if we've left some commented code we forgot to use or remove.</li>
+<li>If the commented code is part of security layer, we might have a business chasing our tail.</li>
+</ul>
+<h3 id="What-does-it-do">What does it do?</h3>
+<p>It goes through all <code>*.php</code> files and looks for lines of <code>//</code> commented code:</p>
+<pre><code class="language-php">final class MoneyTransferer
+{
+    public function run()
+    {
+           // @todo enable before merge
+//         if (! $this-&gt;ensureHasAccess()) {
+//              throw new ForbiddenAccessException();
+//         }
+
+        $this-&gt;sendMoney();
+    }
+}</code></pre>
+<p>If there are 3 and more commented lines in a row, it will let you know.</p>
+<h3 id="How-to-Use-it">How to Use it?</h3>
+<pre><code class="language-bash">vendor/bin/easy-ci check-commented-code &lt;paths&gt;
+
+# e.g.
+vendor/bin/easy-ci check-commented-code app src packages</code></pre>
+<p><br></p>
+<p>Is the line limit too strict for your project?
+<br>
+Use <code>--line-limit</code> option to modify it to your needs:</p>
+<pre><code class="language-bash">vendor/bin/easy-ci check-commented-code app src packages --line-limit 6</code></pre>
+<p class="text-success pt-3 pb-3">✅</p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                            <a href="/blog/introducing-up-to-16-times-faster-easy-coding-standard" class="d-block">
+                            <div>
+                                Read next → <strong>Introducing up-to 16 Times Faster Easy Coding Standard</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+    </body>
+</html>
