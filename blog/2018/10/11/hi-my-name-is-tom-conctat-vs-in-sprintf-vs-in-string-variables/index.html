@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?383189103" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1427335394" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Hi, my name is Tom - Concat vs. Sprintf vs. In-String Variable" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/10/11/hi-my-name-is-tom-conctat-vs-in-sprintf-vs-in-string-variables" />
@@ -64,6 +64,12 @@ You have 3 options. Each has its strong and weak points. How do you pick the rig
 </div>
 
         <div class="container-fluid post" id="content">
+            <div class="text-center book-banner">
+                <a href="https://leanpub.com/rector-the-power-of-automated-refactoring" target="blank" class="text-center">
+                    <img src="/assets/images/banner-rector-book.png" class="mb-2 ml-auto mr-auto rounded " style="max-height: 5em" alt="">
+                </a>
+            </div>
+
             <h1>Hi, my name is Tom - Concat vs. Sprintf vs. In-String Variable</h1>
 
             <div class="pull-right">
@@ -308,5 +314,16 @@ Your readers will have <strong>50 % more brain energy to improve your code</stro
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+        <script type="text/javascript">
+            // @see https://stackoverflow.com/a/30776817/1348344
+            var date = new Date();
+            // display every 2nd hour, not to spam users
+            if (date.getHours() % 2 === 1) {
+                document.querySelector('.book-banner').style.display = 'visible';
+            } else {
+                document.querySelector('.book-banner').style.display = 'none';
+            }
+        </script>
     </body>
 </html>

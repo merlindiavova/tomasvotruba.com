@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?102762439" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?5227161" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="7 Tips to Get the Most out of Travis CI" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/10/29/7-tips-to-get-the-most-out-of-travis-ci" />
@@ -57,6 +57,12 @@
 </div>
 
         <div class="container-fluid post" id="content">
+            <div class="text-center book-banner">
+                <a href="https://leanpub.com/rector-the-power-of-automated-refactoring" target="blank" class="text-center">
+                    <img src="/assets/images/banner-rector-book.png" class="mb-2 ml-auto mr-auto rounded " style="max-height: 5em" alt="">
+                </a>
+            </div>
+
             <h1>7 Tips to Get the Most out of Travis CI</h1>
 
             <div class="pull-right">
@@ -296,5 +302,16 @@ for ($i = 0; $i &lt; strlen($secret); ++$i) {
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+        <script type="text/javascript">
+            // @see https://stackoverflow.com/a/30776817/1348344
+            var date = new Date();
+            // display every 2nd hour, not to spam users
+            if (date.getHours() % 2 === 1) {
+                document.querySelector('.book-banner').style.display = 'visible';
+            } else {
+                document.querySelector('.book-banner').style.display = 'none';
+            }
+        </script>
     </body>
 </html>

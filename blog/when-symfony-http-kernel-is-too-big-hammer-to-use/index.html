@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>When Symfony Http Kernel is a Too Big Hammer to Use | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+<meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
+
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?1866771407" rel="stylesheet" type="text/css" />
+
+                <meta property="og:title" content="When Symfony Http Kernel is a Too Big Hammer to Use" />
+        <meta property="og:url" content="https://tomasvotruba.com/blog/when-symfony-http-kernel-is-too-big-hammer-to-use" />
+        <meta name="description" property="og:description" content="I&#039;ve been a big fan of Symfony components for ages. I use them as core bricks of my projects [migrate other frameworks to it](/blog/2019/08/26/how-we-migrated-54-357-lines-of-code-nette-to-symfony-in-2-people-under-80-hours), and every 6 months, I&#039;m excited about what new features are coming in the next minor release.
+
+But, one tough spot has been bothering me for the last 4 years. I tried to find my way out of it, hack around it or accept it. In March 2021, we [downgrade Rector 0.10 from PHP 8 to 7.1](https://getrector.org/blog/2021/03/22/rector-010-released-with-php71-support#rector-on-php-7-1-and-7-2-without-docker), and the issue became visible more than ever.
+
+I knew there was a time for a change.
+" />
+
+                    <meta property="og:image" content="https://tomasvotruba.com/assets/images/posts/2021/symfony_kernel/composer_require.gif" />
+            <meta name="twitter:card" content="summary_large_image"/>
+            </head>
+
+    <body>
+        <!-- post_id: 337 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <div class="text-center book-banner">
+                <a href="https://leanpub.com/rector-the-power-of-automated-refactoring" target="blank" class="text-center">
+                    <img src="/assets/images/banner-rector-book.png" class="mb-2 ml-auto mr-auto rounded " style="max-height: 5em" alt="">
+                </a>
+            </div>
+
+            <h1>When Symfony&nbsp;Http&nbsp;Kernel is a Too&nbsp;Big&nbsp;Hammer to&nbsp;Use</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2021/2021-10-25-when-symfony-http-kernel-is-too-big-hammer-to-use.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2021-10-Mon" class="text-muted">
+                2021-10-25
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>I've been a big fan of Symfony components for ages. I use them as core bricks of my projects <a href="/blog/2019/08/26/how-we-migrated-54-357-lines-of-code-nette-to-symfony-in-2-people-under-80-hours">migrate other frameworks to it</a>, and every 6 months, I'm excited about what new features are coming in the next minor release.
+<br><br>
+But, one tough spot has been bothering me for the last 4 years. I tried to find my way out of it, hack around it or accept it. In March 2021, we <a href="https://getrector.org/blog/2021/03/22/rector-010-released-with-php71-support#rector-on-php-7-1-and-7-2-without-docker">downgrade Rector 0.10 from PHP 8 to 7.1</a>, and the issue became visible more than ever.
+<br><br>
+I knew there was a time for a change.</p>
+                </div>
+            </div>
+
+            <h2 id="Http-Kernel-and-Console-Applications">Http Kernel and Console Applications</h2>
+<p>The command-line application is anything we run from CLI - PHPUnit, PHPStan, Rector, Composer, or ECS. At the start of building such an application, you stand in front of an important decision:</p>
+<ul>
+<li>manual construction of every service, aka &quot;manual dependency injection&quot;,</li>
+</ul>
+<pre><code class="language-php">use Symfony\Component\Console\Application;
+
+$application = new Application();
+$fileAnalyzer = new FileAnalyzer();
+$application-&gt;addCommand(new ProcessCommand($fileAnalyzer));
+$application-&gt;run();</code></pre>
+<ul>
+<li>or re-use of existing DI container</li>
+</ul>
+<pre><code class="language-php">use Symfony\Component\Console\Application;
+
+$application = $container-&gt;get(Application::class);
+$application-&gt;run();</code></pre>
+<p>I grew up on DI containers, so I'm spoiled by the automatic injection and service management this pattern handle for me. That's why <a href="/blog/2018/05/28/build-your-first-symfony-console-application-with-dependency-injection-under-4-files/">I picked <code>symfony/http-kernel</code> to build console application</a>.</p>
+<h2 id="What-about-symfony-dependency-injection">What about <code>symfony/dependency-injection</code>?</h2>
+<p>The name seems quite fitting, right? We could provide a single config file, and that's it. Unfortunately, the name is a bit misleading. It does not handle compiler passes, extensions, service autodiscovery, container cache, and container build. You'll find most of the building bricks there, <strong>but the glue is missing</strong>.</p>
+<p>There is no &quot;container factory&quot; class in <code>symfony/dependency-injection</code>, that would handle even the simplest use case:</p>
+<pre><code class="language-php">use Symfony\Component\DependencyInjection\ContainerFactory;
+use Symfony\Component\Console\Application;
+
+$containerFactory = new ContainerFactory();
+$container = $containerFactory-&gt;createFromConfigs([__DIR__ . '/config/config.php']);
+
+$application = $container-&gt;get(Application::class);</code></pre>
+<p><br></p>
+<p>On the other hand, there is an <a href="https://matthiasnoback.nl/2014/04/theres-no-such-thing-as-an-optional-dependency/">&quot;optional dependency&quot;</a> on <code>symfony/http-kernel</code> package. Some Symfony components are decoupled well, but some are <a href="https://paul-m-jones.com/post/2013/01/02/symfony-components-sometimes-decoupled-sometimes-not/">mutually dependent even if you don't need them</a>:</p>
+<img src="/assets/images/posts/2021/symfony_kernel/symfony_paul_m_jones.png" class="img-thumbnail">
+<p>And we're forced to use Kernel with Http.</p>
+<p><br></p>
+<p>Btw, both articles by <a href="https://matthiasnoback.nl/2014/04/theres-no-such-thing-as-an-optional-dependency/">Matthias Noback</a> and <a href="https://paul-m-jones.com/post/2013/01/02/symfony-components-sometimes-decoupled-sometimes-not/">Paul M. Jones</a> are not just critics of tight coupling, but great specific tips about how to create a future proof and solid architecture design. If you haven't seen them, make sure you grasp the main ideas, and they will serve you in the future.</p>
+<h2 id="There-is-no-and-quot-Http-and-quot-in-CLI">There is no &quot;Http&quot; in CLI</h2>
+<p>The command-line application run in a command line. There is no HTTP request, no browser, no routes, no session, no-cache.</p>
+<p>Instead of URL with parameters, <strong>we run command-line arguments and options</strong>:</p>
+<pre><code class="language-bash">composer require symfony/http-kernel --dev</code></pre>
+<h2 id="The-4-Components-you-don-t-Need-but-Must-Have">The 4 Components you don't Need, but Must Have</h2>
+<p>If there few more &quot;http&quot; classes we never use, we can live with that.</p>
+<p>But what do we get when we actually run the composer command above?</p>
+<img src="/assets/images/posts/2021/symfony_kernel/composer_require.gif" class="img-thumbnail">
+<p><br></p>
+<p>There are some packages related to http that's expected. But why is there debugging package in our production tool?</p>
+<img src="/assets/images/posts/2021/symfony_kernel/symfony_dependent_var_dumper.gif" class="img-thumbnail">
+<p><br></p>
+<p>So when we require <code>symfony/http-kernel</code>, we also get 4 more packages we don't use:</p>
+<ul>
+<li><code>symfony/error-handler</code> - for debug?</li>
+<li><code>symfony/event-dispatcher</code> - in case we <em>might use</em> events some day?</li>
+<li><a href="https://github.com/symfony/http-foundation"><code>symfony/http-foundation</code></a> - over 40 classes related exclusively to http request and response</li>
+<li><code>symfony/var-dumper</code> - for debug?</li>
+</ul>
+<p><br></p>
+<p>Maybe we could say:</p>
+<blockquote class="blockquote text-center">
+That's "optional dependency" in case of<br>
+"dev" environment to report bugs.
+</blockquote>
+<p>That's completely ok for <a href="https://en.wikipedia.org/wiki/Request%E2%80%93response">request and response</a> http workflow, but <strong>one more package we'll never use, but have to maintain</strong>.</p>
+<p>Now we understand why most CLI app developers decided not to use any container but <a href="https://github.com/composer/composer/blob/e6cfc924f24089bc02cf8f4d27367b283247610e/src/Composer/Console/Application.php#L490-L519">create their services manually</a>.</p>
+<h2 id="The-Downgrade-Covariance-of-Symfony-Config">The Downgrade Covariance of Symfony Config</h2>
+<p>You might think:</p>
+<blockquote class="blockquote text-center">
+What do you mean by 'maintain'? It's few dependencies<br>
+that we'll never use and just take little space on a disk.
+<br>
+What's the big deal?
+</blockquote>
+<p>Let's get back to the start. In April 2021, we started to develop Rector on PHP 8 and <a href="https://getrector.org/blog/2021/03/22/rector-010-released-with-php71-support#rector-on-php-7-1-and-7-2-without-docker">release PHP 7.1 downgraded version</a>. Downgraded and scoped version means fully downgraded and scoped <code>/vendor</code>. Yes, including all Symfony components we use.</p>
+<p>The downgrade PHP market is still quite a niche, but <strong>the community is interested more and more in this field</strong>. In December 2021 alone, there have been over 20 brand new downgrade rules contributed from Rector users.</p>
+<h2 id="Try-to-Downgrade-Invalid-Code-with-Invalid-Types">Try to Downgrade Invalid Code with Invalid Types</h2>
+<p>When we started downgrading Rector, we often came to incompatible types in <code>FileLoader</code> classes. The <a href="https://wiki.php.net/rfc/covariant-returns-and-contravariant-parameters">covariant parameters added in PHP 7.4</a> started to cause problems on PHP 7.3 and bellow.</p>
+<p>The most problematic was a downgrade of <code>import()</code> methods.</p>
+<p><br></p>
+<p>In <a href="https://github.com/symfony/symfony/blob/54015cccf0236bbdb38cd5abae5b2bdc89aa8ac2/src/Symfony/Component/Config/Loader/FileLoader.php#L71">config <code>FileLoader.php</code></a> they require <code>bool</code> parameter:</p>
+<pre><code class="language-php">public function import($resource, $type = null, bool $ignoreErrors = false) {}</code></pre>
+<p>But in a <a href="https://github.com/symfony/symfony/blob/54015cccf0236bbdb38cd5abae5b2bdc89aa8ac2/src/Symfony/Component/DependencyInjection/Loader/FileLoader.php#L55">dependency injection <code>FileLoader.php</code></a> that inherits former class, it is <code>string|bool</code>:</p>
+<pre><code class="language-php">public function import($resource, $type = null, bool|string $ignoreErrors = false) {}</code></pre>
+<p><br></p>
+<p>We worked on a downgrade fix for 2 months before figuring our rules were correct. The problem is in contracts of Symfony method, which is invalid on PHP 7.3 and below.</p>
+<h2 id="Accidental-Complexity">Accidental Complexity?</h2>
+<p>The problem is not about invalid contracts, and anyone could make a mistake in those. The problem is in <strong>maintaining code we don't need nor use</strong>.</p>
+<h2 id="Need-for-Really-Decoupled-Container-Factory">Need for Really Decoupled Container Factory</h2>
+<p>I wish there were a more straightforward container factory service that we could add to the project:</p>
+<pre><code class="language-bash">symfony/dependnecy-container-factory
+
+Installing...
+* symfony/dependnecy-container-factory
+* symfony/dependnecy-injection</code></pre>
+<p><br></p>
+<p>That would allow us only to create the container. With no extra dependencies, with a focus on service tree construction:</p>
+<pre><code class="language-php">use Symfony\Component\DependencyInjection\ContainerFactory;
+use Symfony\Component\Console\Application;
+
+$compilerPasses = [...];
+$extensions = [...];
+
+$containerFactory = new ContainerFactory($compilerPasses, $extensions);
+$container = $containerFactory-&gt;createFromConfigs([__DIR__ . '/config/config.php']);
+
+$application = $container-&gt;get(Application::class);</code></pre>
+<p class="text-success pt-3 pb-3">✅</p>
+<p><br></p>
+<p>It would make CLI apps much cleaner and easier to use Symfony in them.</p>
+<p><br></p>
+<p>What do you think? <strong>What is your approach to creating service in your CLI applications?</strong></p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                            <a href="/blog/5-commands-from-easy-ci-that-makes-your-ci-stronger" class="d-block">
+                            <div>
+                                Read next → <strong>5 Commands from Easy CI that makes your CI Stronger</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+        <script type="text/javascript">
+            // @see https://stackoverflow.com/a/30776817/1348344
+            var date = new Date();
+            // display every 2nd hour, not to spam users
+            if (date.getHours() % 2 === 1) {
+                document.querySelector('.book-banner').style.display = 'visible';
+            } else {
+                document.querySelector('.book-banner').style.display = 'none';
+            }
+        </script>
+    </body>
+</html>

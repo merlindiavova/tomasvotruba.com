@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?64485973" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?363513686" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="The Rocket Science Behind Migration of Docblock Types to PHP Typehints" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/12/10/rocket-science-behind-migration-of-docblock-types-to-php-typehints" />
@@ -63,6 +63,12 @@ Do you think it&#039;s an easy task to move `@param int $number` to `(int $numbe
 </div>
 
         <div class="container-fluid post" id="content">
+            <div class="text-center book-banner">
+                <a href="https://leanpub.com/rector-the-power-of-automated-refactoring" target="blank" class="text-center">
+                    <img src="/assets/images/banner-rector-book.png" class="mb-2 ml-auto mr-auto rounded " style="max-height: 5em" alt="">
+                </a>
+            </div>
+
             <h1>The Rocket Science Behind Migration of Docblock Types to PHP Typehints</h1>
 
             <div class="pull-right">
@@ -416,5 +422,16 @@ vendor/bin/rector process src</code></pre>
     ga('send','pageview');
 </script>
 <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+        <script type="text/javascript">
+            // @see https://stackoverflow.com/a/30776817/1348344
+            var date = new Date();
+            // display every 2nd hour, not to spam users
+            if (date.getHours() % 2 === 1) {
+                document.querySelector('.book-banner').style.display = 'visible';
+            } else {
+                document.querySelector('.book-banner').style.display = 'none';
+            }
+        </script>
     </body>
 </html>
