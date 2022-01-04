@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Decomposing Symfony Kernel: What does Minimal Symfony Bundle Do | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+<meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
+
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?1458185600" rel="stylesheet" type="text/css" />
+
+                <meta property="og:title" content="Decomposing Symfony Kernel: What does Minimal Symfony Bundle Do" />
+        <meta property="og:url" content="https://tomasvotruba.com/blog/decomposing-symfony-kernel-what-does-minimal-symfony-bundle-do" />
+        <meta name="description" property="og:description" content="In the previous post, we looked at [When Symfony Http Kernel is a Too Big Hammer to Use](/blog/when-symfony-http-kernel-is-too-big-hammer-to-use). We talked about the enormous content this package provides, but we don&#039;t need it.
+
+Today we&#039;ll have a little self-reflecting pause in the middle of the 4-post journey. We&#039;ll look at the main glue in Symfony Kernel - the Bundle. **Can we find a way to decompose it and use it without Kernel?**
+" />
+
+            </head>
+
+    <body>
+        <!-- post_id: 338 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <div class="text-center book-banner">
+                <a href="https://leanpub.com/rector-the-power-of-automated-refactoring" target="blank" class="text-center">
+                    <img src="/assets/images/banner-rector-book.png" class="mb-2 ml-auto mr-auto rounded " style="max-height: 5em" alt="">
+                </a>
+            </div>
+
+            <h1>Decomposing Symfony Kernel: What does Minimal Symfony Bundle Do</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2021/2021-11-01-decomposing-symfony-kernel-what-does-minimal-symfony-bundle-do.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2021-11-Mon" class="text-muted">
+                2021-11-01
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>In the previous post, we looked at <a href="/blog/when-symfony-http-kernel-is-too-big-hammer-to-use">When Symfony Http Kernel is a Too Big Hammer to Use</a>. We talked about the enormous content this package provides, but we don't need it.
+<br><br>
+Today we'll have a little self-reflecting pause in the middle of the 4-post journey. We'll look at the main glue in Symfony Kernel - the Bundle. <strong>Can we find a way to decompose it and use it without Kernel?</strong></p>
+                </div>
+            </div>
+
+            <p>In the previous post, we described the problem: the Symfony Kernel requires a lot of http-related code <strong>that we don't need in command line applications</strong>. We still have to maintain it, require-dev dependencies in production, and handle their downgrade.</p>
+<p>When a pandemic hit our world in 2020, we didn't think about our studies, where we would go for a vacation, or what car we'd buy. We care about our family, what we eat for dinner, and where we can buy everyday life essentials. When we find ourselves in times of trouble, we try to look at bare essentials.</p>
+<h2 id="What-are-the-Kernel-Essentials">What are the Kernel Essentials?</h2>
+<p>How can we use this approach in the &quot;my application kernel is way too big&quot; situation?</p>
+<p><br></p>
+<p><strong>What do we need from Kernel?</strong></p>
+<ul>
+<li>To build our dependency injection container from provided PHP config.</li>
+</ul>
+<p><br></p>
+<p><strong>How can Kernel do that?</strong></p>
+<ul>
+<li>It takes the main config, few bundles, and loads them together.</li>
+</ul>
+<p><br></p>
+<p><strong>What is the bundle class doing?</strong></p>
+<ul>
+<li>It collects one PHP config, sometimes Extension or compiler passes, and passes it to Kernel to process further.</li>
+</ul>
+<p><br></p>
+<p><strong>Which do we need from those 3?</strong></p>
+<ul>
+<li>The config, because it defines service autodiscovery, parameters, and sometimes manual arguments.</li>
+<li>The Extension primarily refers to the config, so we don't need that.</li>
+<li>We need compiler passes because they decorate service definitions and interact with each other.</li>
+</ul>
+<p><br></p>
+<h2 id="1-The-Bundle">1. The Bundle</h2>
+<p>Let's look at one of the Symplify bundles to demonstrate actual code. This is <code>AstralBundle</code>, which allows other kernels to register <code>symplify/astral</code> service and use them:</p>
+<pre><code class="language-php">namespace Symplify\Astral\Bundle;
+
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Symplify\Astral\DependencyInjection\Extension\AstralExtension;
+
+final class AstralBundle extends Bundle
+{
+    protected function createContainerExtension(): AstralExtension
+    {
+        return new AstralExtension();
+    }
+}</code></pre>
+<h3 id="2-The-Extension">2. The Extension</h3>
+<p>The Bundle class contains <code>createContainerExtension()</code> that further creates <code>AstralExtension</code>. What is that one doing?</p>
+<pre><code class="language-php">namespace Symplify\Astral\DependencyInjection\Extension;
+
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
+
+final class AstralExtension extends Extension
+{
+    public function load(array $configs, ContainerBuilder $containerBuilder): void
+    {
+        $phpFileLoader = new PhpFileLoader(
+            $containerBuilder,
+            new FileLocator(__DIR__ . '/../../config')
+        );
+
+        $phpFileLoader-&gt;load('config.php');
+    }
+}</code></pre>
+<p><br></p>
+<p>It seems it loads the <code>../../config/config.php</code>. There we define services and parameters.</p>
+<p>So we need:</p>
+<ul>
+<li>a <code>*Bundle</code> class,</li>
+<li>an <code>*Extension</code> class,</li>
+<li>and register the <code>*Bundle</code> class in <code>*Kernel.php</code> in the <code>registerBundles()</code> method.</li>
+</ul>
+<pre><code class="language-php">$fileLoader-&gt;load(__DIR__ . '/../../config.php');</code></pre>
+<h2 id="Where-Else-can-we-Load-Configs">Where Else can we Load Configs?</h2>
+<p>Does this look familiar? There are at least 2 places that handle the same operation. Nothing special, and they're pretty standard - you can see both in the code of this website.</p>
+<p>One of them is <code>MicroKernelTrait::configureContainer()</code> method:</p>
+<pre><code class="language-php">use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Kernel;
+
+final class TomasVotrubaKernel extends Kernel
+{
+    use MicroKernelTrait;
+
+    protected function configureContainer(
+        ContainerBuilder $containerBuilder,
+        LoaderInterface $loader
+    ): void {
+        $loader-&gt;load(__DIR__ . '/../../vendor/symplify/astral/config/config.php');
+    }
+}</code></pre>
+<p><br></p>
+<p>The other is any <code>config/config.php</code> that we already load in our Kernel:</p>
+<pre><code class="language-php">use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator-&gt;import(
+        __DIR__ . '/../../vendor/symplify/astral/config/config.php'
+    );
+};</code></pre>
+<p>As you can see, we can replace Bundle + Extension classes with single-line import either in Kernel or in <code>config.php</code>. That's <strong>2 classes and one method we don't have to worry about anymore</strong>.</p>
+<p class="text-success pt-3 pb-3">
+    ✅
+</p>
+<p><br></p>
+<p>~~ Extension ~~ is gone, and we can import config elsewhere. What about the compiler passes? We can <a href="https://symfony.com/doc/current/service_container/compiler_passes.html">add them in the Kernel</a> in <code>build()</code> method:</p>
+<pre><code class="language-php">use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Kernel as BaseKernel;
+
+class Kernel extends BaseKernel
+{
+    use MicroKernelTrait;
+
+    protected function build(ContainerBuilder $containerBuilder): void
+    {
+        $containerBuilder-&gt;addCompilerPass(new SomeCompilerPass());
+    }
+}</code></pre>
+<p>We've managed to tidy up the Kernel a bit. With less code to work with, we might see the solution more easily... or <strong>have we just moved the same problem with somewhere else</strong>?</p>
+<p>We'll see about that next time.</p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                            <a href="/blog/when-symfony-http-kernel-is-too-big-hammer-to-use" class="d-block">
+                            <div>
+                                Read next → <strong>When Symfony Http Kernel is a Too Big Hammer to Use</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+        <script type="text/javascript">
+            // @see https://stackoverflow.com/a/30776817/1348344
+            var date = new Date();
+            // display every 2nd hour, not to spam users
+            if (date.getHours() % 2 === 1) {
+                document.querySelector('.book-banner').style.display = 'visible';
+            } else {
+                document.querySelector('.book-banner').style.display = 'none';
+            }
+        </script>
+    </body>
+</html>
