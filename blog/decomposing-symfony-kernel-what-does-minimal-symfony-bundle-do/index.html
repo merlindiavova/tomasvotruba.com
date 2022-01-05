@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?561975341" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?634411828" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Decomposing Symfony Kernel: What does Minimal Symfony Bundle Do" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/decomposing-symfony-kernel-what-does-minimal-symfony-bundle-do" />
@@ -190,7 +190,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
     ✅
 </p>
 <p><br></p>
-<p>~~ Extension ~~ is gone, and we can import config elsewhere. What about the compiler passes? We can <a href="https://symfony.com/doc/current/service_container/compiler_passes.html">add them in the Kernel</a> in <code>build()</code> method:</p>
+<p><del>Extension</del> is gone, and we can import config elsewhere. What about the compiler passes? We can <a href="https://symfony.com/doc/current/service_container/compiler_passes.html">add them in the Kernel</a> in <code>build()</code> method:</p>
 <pre><code class="language-php">use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
