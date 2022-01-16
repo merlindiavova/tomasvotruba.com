@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?805277298" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1874172991" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Mock Final Classes in PHPUnit" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/03/28/how-to-mock-final-classes-in-phpunit" />
@@ -197,6 +197,7 @@ Class "SomeClass" is declared "final" and cannot be mocked.</code></pre>
          $this-&gt;createMock(FinalClass::class);
      }
  }</code></pre>
+<p><br></p>
 <p>And run tests again:</p>
 <pre><code class="language-bash">vendor/bin/phpunit
 
@@ -274,6 +275,7 @@ final class BypassFinalListener implements TestListener
         &lt;listener class="Listener\BypassFinalListener"/&gt;
     &lt;/listeners&gt;
 &lt;/phpunit&gt;</code></pre>
+<p><br></p>
 <p>And run tests again:</p>
 <pre><code class="language-bash">vendor/bin/phpunit
 
@@ -288,7 +290,7 @@ Success!</code></pre>
 <p>What do you think about the Listener class? There is <strong>10+ methods</strong> and <strong>only one is used</strong>. It's very hard to read. To add more fire to the fuel, <code>TestListener</code> class is <a href="https://github.com/sebastianbergmann/phpunit/issues/3388">deprecated since PHPUnit 8</a> and will be <a href="https://github.com/sebastianbergmann/phpunit/issues/3389">removed in PHPUnit 9</a>. Don't worry, <a href="https://github.com/rectorphp/rector/pull/1270">Rector already covers the migration path</a>.</p>
 <p>After bit of Googling on PHPUnit Github and documentation I found something called <em>hooks</em>!</p>
 <h3 id="4-Single-Hook">4. Single Hook</h3>
-<p>You can read about them in the PHPUnit documentation](<a href="https://phpunit.readthedocs.io/en/9.5/extending-phpunit.html#extending-the-testrunner">https://phpunit.readthedocs.io/en/9.5/extending-phpunit.html#extending-the-testrunner</a>), but in short: they're the same as the listener, just <strong>with 1 event</strong>.</p>
+<p>You can read about them in <a href="https://phpunit.readthedocs.io/en/9.5/extending-phpunit.html#extending-the-testrunner">the PHPUnit documentation</a>, but in short: they're the same as the listener, just <strong>with 1 event</strong>.</p>
 <pre><code class="language-php">&lt;?php declare(strict_types=1);
 
 use DG\BypassFinals;
