@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1967271933" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?2013288480" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Decomposing Symfony Kernel: What does Minimal Symfony Bundle Do" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/decomposing-symfony-kernel-what-does-minimal-symfony-bundle-do" />
@@ -128,7 +128,7 @@ final class AstralBundle extends Bundle
     }
 }</code></pre>
 <h3 id="2-The-Extension">2. The Extension</h3>
-<p>The Bundle class contains <code>createContainerExtension()</code> that further creates <code>AstralExtension</code>. What is that one doing?</p>
+<p>The Bundle class contains <code>createContainerExtension()</code> that further creates <code>AstralExtension</code>. What is that extension doing?</p>
 <pre><code class="language-php">namespace Symplify\Astral\DependencyInjection\Extension;
 
 use Symfony\Component\Config\FileLocator;
@@ -177,7 +177,7 @@ final class TomasVotrubaKernel extends Kernel
     }
 }</code></pre>
 <p><br></p>
-<p>The other is any <code>config/config.php</code> that we already load in our Kernel:</p>
+<p>The other is in any <code>config/config.php</code> that we already load in our Kernel:</p>
 <pre><code class="language-php">use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $containerConfigurator): void {
@@ -204,7 +204,7 @@ class Kernel extends BaseKernel
         $containerBuilder-&gt;addCompilerPass(new SomeCompilerPass());
     }
 }</code></pre>
-<p>We've managed to tidy up the Kernel a bit. With less code to work with, we might see the solution more easily... or <strong>have we just moved the same problem with somewhere else</strong>?</p>
+<p>We've managed to tidy up the Kernel a bit. With less code to work with, we might see the solution more easily... or <strong>have we just moved the same problem to somewhere else</strong>?</p>
 <p>We'll see about that next time.</p>
 <p><br></p>
 <p>Happy coding!</p>
