@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Introducing Light Kernel for Symfony Console Apps | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+<meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
+
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?1214888280" rel="stylesheet" type="text/css" />
+
+                <meta property="og:title" content="Introducing Light Kernel for Symfony Console Apps" />
+        <meta property="og:url" content="https://tomasvotruba.com/blog/introducing-light-kernel-for-symfony-console-apps" />
+        <meta name="description" property="og:description" content="In the first post of this miniseries, we look at Symfony Http Kernel with a critical eye on [how it causes project overweight](/blog/when-symfony-http-kernel-is-too-big-hammer-to-use).
+
+In the second post, we [looked at bundles](/blog/decomposing-symfony-kernel-what-does-minimal-symfony-bundle-do) from a very raw point of view - what do we need from them?
+
+In the spirit of [thesis, antithesis, and synthesis](https://link.springer.com/referenceworkentry/10.1007%2F978-1-4020-8265-8_200183) philosophy, today, we&#039;ll combine both parts. We&#039;ll look for a solution to the original question: **How can we build Kernel in Console Application without the Http burden?**
+" />
+
+                    <meta property="og:image" content="https://tomasvotruba.com/assets/images/posts/2021/ecs_light_commit.png" />
+            <meta name="twitter:card" content="summary_large_image"/>
+            </head>
+
+    <body>
+        <!-- post_id: 347 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/about-me">About Me</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <div class="text-center book-banner">
+                <a href="https://leanpub.com/rector-the-power-of-automated-refactoring" target="blank" class="text-center">
+                    <img src="/assets/images/banner-rector-book.png" class="mb-2 ml-auto mr-auto rounded " style="max-height: 5em" alt="">
+                </a>
+            </div>
+
+            <h1>Introducing Light Kernel for Symfony&nbsp;Console&nbsp;Apps</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2021/2021-11-15-introducing-light-kernel-for-symfony-console-apps.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2021-11-Mon" class="text-muted">
+                2021-11-15
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>In the first post of this miniseries, we look at Symfony Http Kernel with a critical eye on <a href="/blog/when-symfony-http-kernel-is-too-big-hammer-to-use">how it causes project overweight</a>.
+<br><br>
+In the second post, we <a href="/blog/decomposing-symfony-kernel-what-does-minimal-symfony-bundle-do">looked at bundles</a> from a very raw point of view - what do we need from them?
+<br><br>
+In the spirit of <a href="https://link.springer.com/referenceworkentry/10.1007%2F978-1-4020-8265-8_200183">thesis, antithesis, and synthesis</a> philosophy, today, we'll combine both parts. We'll look for a solution to the original question: <strong>How can we build Kernel in Console Application without the Http burden?</strong></p>
+                </div>
+            </div>
+
+            <div class="card border-warning mt-4">
+    <div class="card-header text-black bg-warning shadow">
+        <strong>Proof over theory?</strong>
+        ECS, Monorepo Builder, EasyCI, Config Transformer and Rector are using this method since 1st November 2021. ECS is now <a href="https://github.com/symplify/easy-coding-standard/commit/278d4d52958c1ca01c21219cb6e14ca4493914ad">40 000 lines lighter</a>, while keeping all the features running.
+        <img src="/assets/images/posts/2021/ecs_light_commit.png" class="img-thumbnail mt-4">
+    </div>
+</div>
+<blockquote class="blockquote">
+    "Perfection is achieved, not when there is nothing more to add,<br>
+    but when there is nothing left to take away."
+    <footer class="blockquote-footer text-right">Antoine de Saint-Exupery</footer>
+</blockquote>
+<h2 id="Striving-for-Simplicity">Striving for Simplicity</h2>
+<p>In previous posts, we defined requirements that we want from Symfony Kernel from Console Applications:</p>
+<ul>
+<li>build dependency injection container</li>
+<li>use only <code>symfony/console</code> and <code>symfony/dependency-injection</code> packages</li>
+<li>use as simple API as possible, ideally Kernel with 1 method that loads configs</li>
+<li>avoid the <em>http</em> part of Symfony Kernel, as we don't use it in CLI</li>
+</ul>
+<h2 id="What-do-we-Have">What do we Have?</h2>
+<p>Currently, we have old projects that use <code>symfony/http-kernel</code> with a bunch of bundles. But when we look closer at Symfony bundles, we'll see <a href="/blog/decomposing-symfony-kernel-what-does-minimal-symfony-bundle-do">they only add configs and compiler passes</a>. So we can drop bundles and extensions altogether.</p>
+<h2 id="What-do-we-Want">What do we Want?</h2>
+<p>Drop dependency on <code>symfony/http-kernel</code>, but make the project work as before.</p>
+<img src="/assets/images/posts/2021/light_remove_http_kernel.png" class="img-thumbnail" style="max-width: 25em">
+<p><br></p>
+<p>In an ideal world, we want a container factory class that loads provided configs:</p>
+<pre><code class="language-php">use Symfony\Component\DependencyInjection\ContainerBuilder;
+
+final class ContainerBuilderFactory
+{
+    /**
+     * @param ExtensionInterface[] $extensions
+     * @param CompilerPassInterface[] $compilerPasses
+     * @param string[] $configFiles
+     */
+    public function create(
+        array $extensions,
+        array $compilerPasses,
+        array $configFiles
+    ): ContainerBuilder {
+        $containerBuilder = new ContainerBuilder();
+
+        foreach ($extensions as $extension) {
+            $containerBuilder-&gt;registerExtension($extension);
+        }
+
+        foreach ($configFiles as $configFile) {
+            $delegatingLoader-&gt;load($configFile);
+        }
+
+        foreach ($compilerPasses as $compilerPass) {
+            $containerBuilder-&gt;addCompilerPass($compilerPass);
+        }
+
+        return $containerBuilder;
+    }
+}</code></pre>
+<p><br></p>
+<p>Then we could use it directly in any command-line application Kernel:</p>
+<pre><code class="language-php">use Psr\Container\ContainerInterface;
+use Symplify\SymplifyKernel\ContainerBuilderFactory;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonManipulatorConfig;
+
+final class MonorepoBuilderKernel
+{
+    /**
+     * @param string[] $configFiles
+     */
+    public function createFromConfigs(array $configFiles): ContainerInterface
+    {
+        // provide local config here
+        $configFiles[] = __DIR__ . '/../../config/config.php';
+
+        // external configs
+        $configFiles[] = ComposerJsonManipulatorConfig::FILE_PATH;
+
+        $containerBuilderFactory = new ContainerBuilderFactory();
+
+        $containerBuilder = $containerBuilderFactory-&gt;create([], [], $configFiles);
+
+        // build the container
+        $containerBuilder-&gt;compile();
+
+        return $containerBuilder;
+    }
+}</code></pre>
+<p><br></p>
+<p>How would it meet our requirements?</p>
+<ul>
+<li>single method <span class="text-success pt-3 pb-3">✅</span></li>
+<li>only <code>symfony/dependency-injection</code> <span class="text-success pt-3 pb-3">✅</span></li>
+<li>no http <span class="text-success pt-3 pb-3">✅</span></li>
+</ul>
+<h2 id="How-to-use-ContainerBuilderFactory-in-3-Steps">How to use ContainerBuilderFactory in 3 Steps</h2>
+<p>For a couple of years, the <a href="https://github.com/symplify/symplify">Symplify</a> uses own Symfony Kernel wrapper package - the <code>symplify/symplify-kernel</code>. It abstracts repeated methods and eases testing. What better place we could use for adding a dependency container factory?</p>
+<p><br></p>
+<p><strong>1. Install Symplify Kernel</strong></p>
+<pre><code class="language-bash">composer require symplify/symplify-kernel</code></pre>
+<p><br></p>
+<p><strong>2. Extend <code>AbstractSymplifyKernel</code> and provide config files</strong></p>
+<p>This the full kernel for the <a href="/blog/5-commands-from-easy-ci-that-makes-your-ci-stronger/">EasyCI package</a> looks like:</p>
+<pre><code class="language-php">namespace Symplify\EasyCI\Kernel;
+
+use Psr\Container\ContainerInterface;
+use Symplify\Astral\ValueObject\AstralConfig;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonManipulatorConfig;
+use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
+
+final class EasyCIKernel extends AbstractSymplifyKernel
+{
+    /**
+     * @param string[] $configFiles
+     */
+    public function createFromConfigs(array $configFiles): ContainerInterface
+    {
+        $configFiles[] = __DIR__ . '/../../config/config.php';
+        $configFiles[] = ComposerJsonManipulatorConfig::FILE_PATH;
+        $configFiles[] = AstralConfig::FILE_PATH;
+
+        return $this-&gt;create([], [], $configFiles);
+    }
+}</code></pre>
+<p><br></p>
+<p><strong>3. Boot Kernel in your bin file and enjoy the Symfony DI</strong></p>
+<pre><code class="language-php">$easyCIKernel = new EasyCIKernel();
+$easyCIKernel-&gt;createFromConfigs([__DIR__ . '/config/config.php']);
+
+$container = $easyCIKernel-&gt;getContainer();
+
+/** @var Application $application */
+$application = $container-&gt;get(Application::class);
+exit($application-&gt;run());</code></pre>
+<p>That's it! In the end, the setup is very simple.</p>
+<p>It allowed us to drop the following files from 4 Simplify CLI packages:</p>
+<img src="/assets/images/posts/2021/light_kernel_vendor_diff.gif" class="img-thumbnail">
+<p>Less code to transfer, faster CI pipelines, and environment-friendly code.</p>
+<p><br></p>
+<p>What would be even better? If Symfony core would provide a similar factory out of the box. Maybe one day, it will.</p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                            <a href="/blog/how-to-run-naked-unit-tests-in-a-new-legacy-project" class="d-block">
+                            <div>
+                                Read next → <strong>How to Run Naked Unit Tests in a New Legacy Project</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+        <script type="text/javascript">
+            // @see https://stackoverflow.com/a/30776817/1348344
+            var date = new Date();
+            // display every 2nd hour, not to spam users
+            if (date.getHours() % 2 === 1) {
+                document.querySelector('.book-banner').style.display = 'visible';
+            } else {
+                document.querySelector('.book-banner').style.display = 'none';
+            }
+        </script>
+    </body>
+</html>
