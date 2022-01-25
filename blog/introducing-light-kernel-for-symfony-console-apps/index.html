@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1267048120" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?21821411" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Introducing Light Kernel for Symfony Console Apps" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/introducing-light-kernel-for-symfony-console-apps" />
@@ -127,14 +127,14 @@ In the spirit of <a href="https://link.springer.com/referenceworkentry/10.1007%2
 final class ContainerBuilderFactory
 {
     /**
-     * @param ExtensionInterface[] $extensions
-     * @param CompilerPassInterface[] $compilerPasses
      * @param string[] $configFiles
+     * @param CompilerPassInterface[] $compilerPasses
+     * @param ExtensionInterface[] $extensions
      */
     public function create(
-        array $extensions,
+        array $configFiles,
         array $compilerPasses,
-        array $configFiles
+        array $extensions
     ): ContainerBuilder {
         $containerBuilder = new ContainerBuilder();
 
@@ -174,7 +174,7 @@ final class MonorepoBuilderKernel
 
         $containerBuilderFactory = new ContainerBuilderFactory();
 
-        $containerBuilder = $containerBuilderFactory-&gt;create([], [], $configFiles);
+        $containerBuilder = $containerBuilderFactory-&gt;create($configFiles, [], []);
 
         // build the container
         $containerBuilder-&gt;compile();
