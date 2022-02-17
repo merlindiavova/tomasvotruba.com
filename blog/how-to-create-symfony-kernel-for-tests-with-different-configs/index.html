@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>How to Create Symfony Kernel for Tests with Different Configs | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+<meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
+
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?798980600" rel="stylesheet" type="text/css" />
+
+                <meta property="og:title" content="How to Create Symfony Kernel for Tests with Different Configs" />
+        <meta property="og:url" content="https://tomasvotruba.com/blog/how-to-create-symfony-kernel-for-tests-with-different-configs" />
+        <meta name="description" property="og:description" content="How can we create 2 tests scenarios for the Symfony Kernel project with 2 different parameters? How can we inject 2 different instances of the same interface? How can we do it in the same way we already configure both of them?
+
+Today we&#039;ll look at a little trick that allows us to create Symfony Kernel with different configs.
+" />
+
+            </head>
+
+    <body>
+        <!-- post_id: 349 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/about-me">About Me</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <div class="text-center book-banner">
+                <a href="https://leanpub.com/rector-the-power-of-automated-refactoring" target="blank" class="text-center">
+                    <img src="/assets/images/banner-rector-book.png" class="mb-2 ml-auto mr-auto rounded " style="max-height: 5em" alt="">
+                </a>
+            </div>
+
+            <h1>How to Create Symfony Kernel for Tests with Different Configs</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2022/2022-02-07-how-to-create-symfony-kernel-for-tests-with-different-configs.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2022-02-Mon" class="text-muted">
+                2022-02-07
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>How can we create 2 tests scenarios for the Symfony Kernel project with 2 different parameters? How can we inject 2 different instances of the same interface? How can we do it in the same way we already configure both of them?
+<br><br>
+Today we'll look at a little trick that allows us to create Symfony Kernel with different configs.</p>
+                </div>
+            </div>
+
+            <p>In Symfony, we can use config to define almost any container change - from parameter, a specific implementation of service to extension configuration. That's why it's so easy to use them for tests.</p>
+<p>To make the example simple, we'll go with the simplest difference - a bool parameter value.</p>
+<p><br></p>
+<p>We want to run tests with 2 different configs:</p>
+<pre><code class="language-yaml">parameters:
+    auto_import: true</code></pre>
+<p>and</p>
+<pre><code class="language-yaml">parameters:
+    auto_import: false</code></pre>
+<p>When we load the first config, the project automatically imports long FQN class names.
+If we use the 2nd config, the FQN class names will be untouched. And that's precisely what we want to test!</p>
+<p><br></p>
+<p>What options do we have?</p>
+<h2 id="1-ENV-Variable">1. ENV Variable</h2>
+<p>The first one that comes to mind is the environment. We have a different environment for development, production, and tests. We can define it in the <code>phpunit.xml</code> or directly in the command line before running the test:</p>
+<pre><code class="language-bash">APP_ENV=tests vendor/bin/phpunit</code></pre>
+<p><br></p>
+<p>This way, the Symfony project will try to load configs from a specific path, like you can see in <a href="https://github.com/symfony/demo/tree/main/config/packages"><code>symfony/demo</code></a>:</p>
+<pre><code class="language-bash">/config/packages/tests</code></pre>
+<p><br></p>
+<p>This way, we can use the environment to load our configs:</p>
+<pre><code class="language-bash">APP_ENV=tests-import-enabled vendor/bin/phpunit
+# loads configs from ↓
+/config/packages/tests-import-enabled
+
+APP_ENV=tests-import-disabled vendor/bin/phpunit
+# loads configs from ↓
+/config/packages/tests-import-disabled</code></pre>
+<p><br></p>
+<p>As you can see, it's not a very flexible solution.</p>
+<h3 id="Pros-and-Cons">Pros and Cons</h3>
+<p>❌ We'd have to create a new environment for every test</p>
+<p>❌ The environment is miss-used as a feature flag</p>
+<p>❌ It feels bizarre</p>
+<p>❌ We can come across cache issues when we re-run the test with config modifications</p>
+<h2 id="2-Unit-Mocking-the-Service-Configuration">2. Unit Mocking the Service Configuration</h2>
+<p>Another option we have is to step away from the Kernel and container completely.
+The service we want to test is only a <code>ClassNameImporter</code>. Why not use it directly in unit tests?</p>
+<pre><code class="language-php">use PHPUnit\Framework\TestCase;
+
+final class ClassNameImporterTest extends TestCase
+{
+    public function testImport()
+    {
+        $classNameImporter = new ClassNameImporter(autoImport: true);
+        // ...
+    }
+
+    public function testNoImport()
+    {
+        $classNameImporter = new ClassNameImporter(autoImport: false);
+        // ...
+    }
+}</code></pre>
+<p>Then we can run tests quickly with expected input and output.</p>
+<p><br></p>
+<p>There is one little problem with false positives. How do we handle <code>ClassNameImporter</code> dependencies? We can create our services manually or <a href="/blog/2018/08/30/ways-i-fucked-up-open-source-code-mock-everything-and-test-units/">mock the external one</a>:</p>
+<pre><code class="language-php">$classNameImporter = new ClassNameImporter(
+    classNameResolver: new ClassNameResolver(),
+    reflectionProvider: $this-&gt;getMock(ReflectionProvider::class),
+    autoImport: false,
+);</code></pre>
+<p><br></p>
+<h3 id="Tested-Context-Real-Context">Tested Context !== Real Context</h3>
+<p>We run the test, it passes, and we merge the pull request. A few hours later, we got a server 500 error reports stream.</p>
+<ul>
+<li>Mocked method in <code>ReflectionProvider</code> is removed on actual code</li>
+<li><code>ClassNameResolver</code> dependency was resolved incorrectly by the Symfony kernel container.</li>
+<li>Symfony Kernel could not pass the <code>$autoImport</code> parameter because the config used <code>auto_import</code>.</li>
+</ul>
+<p>These errors <em>can</em> be discovered by other tests or static analysis in our CI, but that's wish-full thinking. Instead, we should aim for <strong>standalone robust tests</strong>.</p>
+<h3 id="Pros-and-Cons">Pros and Cons</h3>
+<p>✅ Clear unit approach</p>
+<p>✅ Useful for fast bootstrapping of a small project</p>
+<p>❌ Rather a puristic approach than pragmatic code</p>
+<p>❌ Not flexible for modification - in case of new parameter use or new dependencies, we have to modify the test</p>
+<p>❌ Creates technical debt as we have to maintain tests</p>
+<p>❌ Does test only minimal part, we miss the framework lifecycle test</p>
+<h2 id="3-Build-Your-Custom-Dependency-Container">3. Build Your Custom Dependency Container</h2>
+<p>Now we know that we need the Symfony dependency container to test interdependencies between our code and the framework.
+How can we build it with different configs?</p>
+<p><br></p>
+<p>I wrote about <a href="/blog/when-symfony-http-kernel-is-too-big-hammer-to-use">heavy Symfony Kernel</a> and how to make your <a href="/blog/introducing-light-kernel-for-symfony-console-apps">own light container factory</a>.</p>
+<p><br></p>
+<p>With this approach, we can load the exact config and fetch the configured service from the DI container:</p>
+<pre><code class="language-php">use PHPUnit\Framework\TestCase;
+
+final class ClassNameImporterTest extends TestCase
+{
+    public function testImport()
+    {
+        $containerBuilder = new ContainerBuilder();
+
+        $yamlFileLoader = new YamlFileLoader($containerBuilder);
+        $yamlFileLoader-&gt;load(__DIR__ . '/config/import_enabled.yaml');
+
+        // compiler passes?
+        // bundles?
+        // extensions?
+
+        $containerBuilder-&gt;compile();
+        $classNameImporter = $containerBuilder-&gt;get(ClassNameImporter::class);
+        // ...
+    }
+
+    // ...
+}</code></pre>
+<p>We're getting closer to Symfony lifecycle. But we moved from mocking issues to building Symfony components manually, replacing one problem with another.</p>
+<h3 id="Pros-and-Cons">Pros and Cons</h3>
+<p>✅ The tested context is now much closer to a real-life context</p>
+<p>✅ We delegate building dependency container to framework</p>
+<p>❌ It's too much code to write and maintain on our own.</p>
+<p>❌ We have moved technical debt from our code to framework code maintenance.</p>
+<p>❌ It requires deep Symfony container internals knowledge, mainly when it &quot;does not work anymore&quot;.</p>
+<p>❌ We missed bundles and compiler passes registered in Kernel</p>
+<h2 id="4-Kernel-with-Configurable-Configs">4. Kernel with Configurable Configs</h2>
+<p>With this approach, we don't have to learn anything new about Symfony internals, and we can re-use existing methods we already know.</p>
+<p>Before we start to enjoy testing with the configurable Kernel, we have to do 2 steps:</p>
+<h3 id="1-Modify-the-AppKernel-to-Accept-custom-Configs-on-Constructor">1. Modify the <code>AppKernel</code> to Accept custom Configs on Constructor</h3>
+<pre><code class="language-diff">use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\HttpKernel\Kernel;
+
+ final class AppKernel extends Kernel
+ {
++    /**
++     * @var string[]
++     */
++    private $extraConfigs = [];
+-    public function __construct($environment, $debug)
++    /**
++     * @param string[] $configs
++     */
++    public function __construct(string $environment, bool $debug, array $extraConfigs = [])
+     {
+         parent::__construct($environment, $debug);
++        $this-&gt;extraConfigs = $extraConfigs;
+     }
+
+     public function registerContainerConfiguration(LoaderInterface $loader)
+     {
+         // ...
++        foreach ($this-&gt;extraConfigs as $extraConfig) {
++            $loader-&gt;load($extraConfig);
++        }
+     }
+ }</code></pre>
+<p>Now the Kernel can accept an array of configs, and everything else remains in its original shape and untouched.</p>
+<h3 id="2-Create-a-test-Factory">2. Create a test Factory</h3>
+<pre><code class="language-php">use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\Filesystem\Filesystem;
+
+final class ConfigurableContainerFactory
+{
+    /**
+     * @param string[] $configs
+     */
+    public function create(array $configs): Container
+    {
+        // clear cache directory for fresh start
+        $filesystem = new Filesystem();
+        $filesystem-&gt;remove($cacheDirectory);
+
+        $appKernel = new AppKernel('test', true, $configs);
+        $appKernel-&gt;boot();
+
+        return $appKernel-&gt;getContainer();
+    }
+}</code></pre>
+<p><br></p>
+<p>We've done the hard work. Now we can enjoy a simple test as a reward:</p>
+<pre><code class="language-php">final class ClassNameImporterTest extends TestCase
+{
+    public function testImports()
+    {
+        $configurableContainerFactory = new ConfigurableContainerFactory();
+        $container = $configurableContainerFactory-&gt;create([__DIR__ . '/config/import_enabled.yaml');
+
+        $nameImporter = $container-&gt;get(NameImporter::class);
+
+        // ...
+    }
+}</code></pre>
+<h3 id="What-about-the-Performance">What about the Performance?</h3>
+<p>In the case of hundreds of tests like these, we might experience slower tests as a new container is built on every test run. But it's rarely the case when we need to test hundreds of different parameters.</p>
+<p>Usually, there is 1 shared container for 95 % of tests, then 5 % test with various combinations of parameters of service modifications.</p>
+<h3 id="Pros-and-Cons">Pros and Cons</h3>
+<p>✅ The tested context is identical to a real-life context</p>
+<p>✅ When we upgrade to newer Symfony, there is 0-work with an upgrade as we don't use any of Symfony internals</p>
+<p>✅ Verified by time - we've used this approach from Symfony 3 through Symfony 6</p>
+<p>✅ Zero test maintenance if our or external dependencies changes</p>
+<p>✅ Easy to modify</p>
+<p>✅ Easy to add container cache with the same config</p>
+<p>✅ Useful for both testing of Symfony apps and Symfony packages</p>
+<p>✅ No technical debt</p>
+<p>❌ We need to modify the Kernel class</p>
+<p><br></p>
+<p>That's all for today. How do you test your Symfony projects with minimal effort?</p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                            <a href="/blog/not-all-mixed-types-are-equally-useless" class="d-block">
+                            <div>
+                                Read next → <strong>Not all Mixed Types are Equally Useless</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+        <script type="text/javascript">
+            // @see https://stackoverflow.com/a/30776817/1348344
+            var date = new Date();
+            // display every 2nd hour, not to spam users
+            if (date.getHours() % 2 === 1) {
+                document.querySelector('.book-banner').style.display = 'visible';
+            } else {
+                document.querySelector('.book-banner').style.display = 'none';
+            }
+        </script>
+    </body>
+</html>

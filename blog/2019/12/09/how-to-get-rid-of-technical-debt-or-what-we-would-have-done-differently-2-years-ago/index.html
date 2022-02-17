@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?408599313" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?392350406" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Get Rid of Technical Debt or What We Would Have Done Differently 2 Years ago" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/12/09/how-to-get-rid-of-technical-debt-or-what-we-would-have-done-differently-2-years-ago" />
@@ -253,9 +253,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 </ul>
 <img src="/assets/images/posts/2019/spaceflow_10_points/14.png" class="img-thumbnail col-12 col-md-8">
 <p>God, don't do this manually! Automate ↓</p>
-<pre><code class="language-php">&lt;?php
-
-// rector.php
+<pre><code class="language-php">// rector.php
 
 declare(strict_types=1);
 
@@ -285,9 +283,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <p>But there is even better one - <a href="https://github.com/nette/utils">Nette\Utils</a>:</p>
 <img src="/assets/images/posts/2019/spaceflow_10_points/18.png" class="img-thumbnail col-12 col-md-8">
 <p>How to get it into your code? Easy:</p>
-<pre><code class="language-php">&lt;?php
-
-// rector.php
+<pre><code class="language-php">// rector.php
 
 declare(strict_types=1);
 
@@ -335,9 +331,7 @@ return function (ContainerConfigurator $containerConfigurator) : void {
 <p>It was hard to maintain, even read or change a value in that mess. We had many bugs just because of invalid quote concat, missed closing quote or new-line issues. <strong>We needed to use a normal array like most people do</strong>, but it was spread in over 70 use cases, some of them nesting array into 5 levels.</p>
 <p>What now?</p>
 <p>Easy, we made a Rector rule for that:</p>
-<pre><code class="language-php">&lt;?php
-
-// rector.php
+<pre><code class="language-php">// rector.php
 
 declare(strict_types=1);
 

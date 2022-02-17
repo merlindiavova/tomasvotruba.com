@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?541808387" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1501679533" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="New in Rector: Asterisk Type Match" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/02/04/new-in-rector-asterisk-type-match" />
@@ -107,9 +107,7 @@ The positive side effect of Rector helping to migrate real commercial project <s
 That allows migration between them pretty smooth process. What do have <em>presenter</em>, <em>action</em>, <em>route-target</em> or <em>controller</em> in common? All are various names for the same entry point to the application.</p>
 <p>Each PHP frameworks has its conventions and conventions are the main topics during migration.</p>
 <p>E.g. one framework has default method of controller named <code>run</code>, the other <code>__invoke</code>. How can Rector help us?</p>
-<pre><code class="language-php">&lt;?php
-
-// rector.php
+<pre><code class="language-php">// rector.php
 
 declare(strict_types=1);
 
@@ -143,9 +141,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
  }</code></pre>
 <p>Do you have more classes? No troubles! Just put each class one by one carefully to the config...</p>
 <p>Wait. What if you could use <a href="http://php.net/manual/en/function.fnmatch.php"><code>fnmatch</code></a> pattern?</p>
-<pre><code class="language-php">&lt;?php
-
-// rector.php
+<pre><code class="language-php">// rector.php
 
 declare(strict_types=1);
 

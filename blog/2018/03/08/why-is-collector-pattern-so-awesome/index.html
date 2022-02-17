@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?511832527" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1484276732" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Why is Collector Pattern so Awesome" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/03/08/why-is-collector-pattern-so-awesome" />
@@ -107,9 +107,7 @@ Why Collector pattern beats config tagging? How to use the in Symfony applicatio
 <p>Yesterday I worked on <a href="https://github.com/rectorphp/rector">Rector</a> and <strong>needed an entry point to add one or more Rectors by user</strong>.</p>
 <p><br></p>
 <p>To give you a context, now you can register particular Rectors to config as in Symfony:</p>
-<pre><code class="language-php">&lt;?php
-
-// rector.php
+<pre><code class="language-php">// rector.php
 
 declare(strict_types=1);
 
@@ -145,9 +143,7 @@ final class SymfonyRectorProvider implements RectorInterface
 }</code></pre>
 <p><br></p>
 <p>Such service is registered by user to the config:</p>
-<pre><code class="language-php">&lt;?php
-
-// rector.php
+<pre><code class="language-php">// rector.php
 
 declare(strict_types=1);
 
@@ -212,9 +208,7 @@ $rectorCollector-&gt;addRector((new App\Rector\SymfonyRectorProvider)-&gt;provid
 <p>The most common case is product in e-commerce. Product <em>JBL Charge 3</em> has 1 category - <em>speaker</em>. Ok, you write a code with Doctrine Entity that each product has one category. But as it happens in life, <em>change is the only constant</em>, website grows and search expands with new request from your boss: &quot;A product needs to have multiple categories&quot;. What now?</p>
 <p>The same happened for Rector - <strong>I need to add multiple Rectors in <code>RectorProvider</code></strong>. What now?</p>
 <p>Damn! Mmm, tell people to use one provider per Rector?</p>
-<pre><code class="language-php">&lt;?php
-
-// rector.php
+<pre><code class="language-php">// rector.php
 
 declare(strict_types=1);
 
