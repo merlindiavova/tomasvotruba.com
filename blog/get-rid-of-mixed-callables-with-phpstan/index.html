@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Get Rid of Mixed Callables with PHPStan | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+<meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
+
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?879800385" rel="stylesheet" type="text/css" />
+
+                <meta property="og:title" content="Get Rid of Mixed Callables with PHPStan" />
+        <meta property="og:url" content="https://tomasvotruba.com/blog/get-rid-of-mixed-callables-with-phpstan" />
+        <meta name="description" property="og:description" content="Working with PHPStan on level 8 is a luxury, at least for a project where you&#039;ve just introduced it. To give you a practical non-open-source perspective: **we&#039;re at level 5 after 2 years of hard work**.
+
+In this level, we&#039;ve noticed that PHPStan skips expression on variables that it resolved as `mixed`. Level 5 already provides valuable checks that we wanted for all **method calls and property fetches**. So [we added custom rule to report those](/blog/not-all-mixed-types-are-equally-useless).
+
+After we cut the low-hanging fruit, we discovered the same way are skipped all *callable* types. How to deal with those?
+" />
+
+                    <meta property="og:image" content="https://tomasvotruba.com/assets/images/posts/2022/mixed_callable_rule.png" />
+            <meta name="twitter:card" content="summary_large_image"/>
+            </head>
+
+    <body>
+        <!-- post_id: 350 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/about-me">About Me</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <div class="text-center book-banner">
+                <a href="https://leanpub.com/rector-the-power-of-automated-refactoring" target="blank" class="text-center">
+                    <img src="/assets/images/banner-rector-book.png" class="mb-2 ml-auto mr-auto rounded " style="max-height: 5em" alt="">
+                </a>
+            </div>
+
+            <h1>Get Rid of Mixed Callables with PHPStan</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2022/2022-01-31-get-rid-of-mixed-callables-with-phpstan.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2022-01-Mon" class="text-muted">
+                2022-01-31
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>Working with PHPStan on level 8 is a luxury, at least for a project where you've just introduced it. To give you a practical non-open-source perspective: <strong>we're at level 5 after 2 years of hard work</strong>.
+<br><br>
+In this level, we've noticed that PHPStan skips expression on variables that it resolved as <code>mixed</code>. Level 5 already provides valuable checks that we wanted for all <strong>method calls and property fetches</strong>. So <a href="/blog/not-all-mixed-types-are-equally-useless">we added custom rule to report those</a>.
+<br><br>
+After we cut the low-hanging fruit, we discovered the same way are skipped all <em>callable</em> types. How to deal with those?</p>
+                </div>
+            </div>
+
+            <div class="card border-warning mt-4 mb-4">
+    <div class="card-header text-black bg-warning shadow">
+        <strong>Proof over theory?</strong>
+        Thanks to this PHPStan rule, the Symplify <a href="https://github.com/symplify/symplify/commit/61e8bf67d52f0759d2efb688728a4ebd2c72b64b">improved 8 callables</a> from <code>mixed</code> to param and return typed.
+    </div>
+</div>
+<h2 id="mixed-mixed"><code>mixed</code> !== <code>mixed</code></h2>
+<p>Dealing with mixed is so hard. That's why it's included in the highest level of PHPStan - level 9.</p>
+<p>Let's look at quite a typical code snippet. How would you this detect type?</p>
+<pre><code class="language-php">final class TripController
+{
+    public function showFlights($destination)
+    {
+        // what exactly is $destination?
+        echo $destination;
+    }
+}</code></pre>
+<p>This can be tricky with scalar variables and entry points like controller or API calls.
+To be 100 % sure, we have to run the code <a href="/blog/2019/11/11/from-0-doc-types-to-full-type-declaration-with-dynamic-analysis">collect production types with dynamic analysis</a>, verify the user input, etc.</p>
+<p><br></p>
+<p>We won't deal with those now. Instead, we take the low hanging fruit, like method calls or property fetches:</p>
+<pre><code class="language-php">public function fetchFlights($destination): array
+{
+    $destination-&gt;getCovidRestrictions();
+}</code></pre>
+<p>For the human eye, it's obvious how to type this parameter. But how to detect these with PHPStan? <a href="/blog/not-all-mixed-types-are-equally-useless">See the previous post for unlocking the secret</a>.</p>
+<p>But today, we'll look at something different.</p>
+<h2 id="From-Typed-Method-to-a-Callable">From Typed Method to a Callable</h2>
+<p>Try to follow this analogy with class structure. We have a class with 1 method, with clearly defined types:</p>
+<pre><code class="language-php">final class CovidRestrictionResolver implements RestrictionResolverInterface
+{
+    public function resolve(Destination $destination): Restrictions
+    {
+        // ...
+    }
+}</code></pre>
+<p><br></p>
+<p>Now we go one level lover, from class method to a function. We still have types and know what comes there:</p>
+<pre><code class="language-php">function resolve(Destination $destination): Restrictions
+{
+    // ...
+}</code></pre>
+<p><br></p>
+<p>Let's say we need to use callable for JSON input/output, parallel run, or because we love functional programming.</p>
+<pre><code class="language-php">$restrictionResolver = function (Destination $destination): Restrictions
+{
+    // ...
+};
+
+echo $restrictionResolver(new Destination('Portugal'));</code></pre>
+<p><br></p>
+<p>Do you see what happened with <code>$restrictionResolver</code>? From the typed class method, nested in beautiful final class with the interface we got to... <code>mixed</code>.</p>
+<p>We can use any of the following lines, and static analysis would silently pass:</p>
+<pre><code class="language-php">echo $restrictionResolver('Portugal');
+echo $restrictionResolver(new Destination('Portugal'));
+echo $restrictionResolver(776);</code></pre>
+<h2 id="How-to-Type-a-Callable">How to Type a Callable?</h2>
+<p>What if we love defensive programming? We promote the closure back to the class method with type declarations and use the <code>RestrictionResolverInterface</code> interface to type it in place of use:</p>
+<pre><code class="language-php">/** @var RestrictionResolverInterface $restrictionResolver */
+$restrictionResolver-&gt;resolve(...);</code></pre>
+<p>Here the PHPStan knows everything and has our back <p class="text-success pt-3 pb-3">✅</p></p>
+<p><strong>But how do we get the same luxury with callables?</strong> We can use docblock to define the types explicitly. We just move class method declaration from the very start to a <code>@var</code> format:</p>
+<pre><code class="language-php">/** @var callable(Destination $destination): Restrictions $restrictionResolver */
+$restrictionResolver(...);</code></pre>
+<p>We have defined parameter types and a return type.</p>
+<p><br></p>
+<p>You can read more <a href="https://phpstan.org/writing-php-code/phpdoc-types#callables">in PHPStan docs</a>:</p>
+<img src="/assets/images/posts/2022/mixed_callable_rule.png" class="img-thumbnail" style="max-width: 35em">
+<p>It's almost identical PHP code, you know, except union type has to be wrapped in brackets <code>()</code>:</p>
+<p><br></p>
+<p>Now we know how to type callables in our code. Just image it's a class method and write the types:</p>
+<pre><code class="language-php">/** @var callable(&lt;paramNamesWithTypes&gt;): &lt;returnType&gt; $&lt;variableName&gt; */</code></pre>
+<p>In our case:</p>
+<pre><code class="language-php">/** @var callable(Destination $destination): Restrictions $restrictionResolver */</code></pre>
+<p><br></p>
+<p>But how do we detect this in CI before merging them in our code base?</p>
+<h2 id="Detect-Mixed-Callables-in-2-Steps">Detect Mixed Callables in 2 Steps</h2>
+<ol>
+<li>Add new rule from <a href="https://github.com/symplify/phpstan-rules"><code>symplify/phpstan-rules</code></a>:</li>
+</ol>
+<pre><code class="language-yaml"># phpstan.neon
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\Explicit\NoMixedCallableRule
+        tags: [phpstan.rules.rule]</code></pre>
+<ol start="2">
+<li>Run PHPStan:</li>
+</ol>
+<pre><code class="language-bash">vendor/bin/phpstan</code></pre>
+<p>That's it!</p>
+<p><br></p>
+<p>To make the type as strict as possible, we always have to type all the places with callable:</p>
+<ul>
+<li>the assigned property with <code>@var</code>,</li>
+<li>the parameter with <code>@param</code>,</li>
+<li>the return value with <code>@return</code>,</li>
+<li>and the inlined variables with <code>@var ... $variableName</code>.</li>
+</ul>
+<p>Then your PHPStan will see much more than before, making your code <strong>even safer to work with</strong>!</p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                            <a href="/blog/how-to-create-symfony-kernel-for-tests-with-different-configs" class="d-block">
+                            <div>
+                                Read next → <strong>How to Create Symfony Kernel for Tests with Different Configs</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+        <script type="text/javascript">
+            // @see https://stackoverflow.com/a/30776817/1348344
+            var date = new Date();
+            // display every 2nd hour, not to spam users
+            if (date.getHours() % 2 === 1) {
+                document.querySelector('.book-banner').style.display = 'visible';
+            } else {
+                document.querySelector('.book-banner').style.display = 'none';
+            }
+        </script>
+    </body>
+</html>
