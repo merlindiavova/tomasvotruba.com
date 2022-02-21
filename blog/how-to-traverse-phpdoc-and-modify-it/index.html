@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1049338810" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?420275069" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Traverse PHPDoc and Modify It" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/how-to-traverse-phpdoc-and-modify-it" />
@@ -103,9 +103,9 @@ Is that even possible without using complex nested structures or regular express
  * @return int
  */</code></pre>
 <p>If we parse it with <code>PhpDocParser</code>... you know what? Let's try this together:</p>
-<pre><code class="language-bash">composer require symplify/simple-phpdoc-parser</code></pre>
+<pre><code class="language-bash">composer require symplify/astral</code></pre>
 <p><br></p>
-<pre><code class="language-php">use Symplify\SimplePhpDocParser\StaticFactory\SimplePhpDocParserStaticFactory;
+<pre><code class="language-php">use Symplify\Astral\PhpDocParser\StaticFactory\SimplePhpDocParserStaticFactory;
 
 $values = &lt;&lt;&lt;'PHPDOC'
 /**
@@ -229,7 +229,7 @@ foreach ($phpDocNode-&gt;children as $phpDocChildNode) {
 </ul>
 <h2 id="The-Real-Code">The Real Code</h2>
 <p>In reality, we should run the traverse on <code>PhpDocNode</code> to get the result:</p>
-<pre><code class="language-php">use Symplify\SimplePhpDocParser\PhpDocNodeTraverser;
+<pre><code class="language-php">use Symplify\Astral\PhpDocParser\PhpDocNodeTraverser;
 
 $phpDocNodeTraverser = new PhpDocNodeTraverser();
 $phpDocNodeTraverser-&gt;traverse($phpDocNode);
@@ -238,7 +238,7 @@ $phpDocNodeTraverser-&gt;traverse($phpDocNode);
 <p>Oh, we forgot to add the <code>NodeVisitor</code>:</p>
 <pre><code class="language-php">use PHPStan\PhpDocParser\Ast\Node;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
-use Symplify\SimplePhpDocParser\PhpDocNodeVisitor\AbstractPhpDocNodeVisitor;
+use Symplify\Astral\PhpDocParser\PhpDocNodeVisitor\AbstractPhpDocNodeVisitor;
 
 final class FirstNodeVisitor extends AbstractPhpDocNodeVisitor
 {
@@ -259,7 +259,7 @@ final class FirstNodeVisitor extends AbstractPhpDocNodeVisitor
     }
 }</code></pre>
 <p>Now we only add <code>FirstNodeVisitor</code> to <code>PhpDocNodeTraverser</code> ↓</p>
-<pre><code class="language-php">use Symplify\SimplePhpDocParser\PhpDocNodeTraverser;
+<pre><code class="language-php">use Symplify\Astral\PhpDocParser\PhpDocNodeTraverser;
 
 $firstNodeVisitor = new FirstNodeVisitor();
 
