@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?319521180" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1049338810" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Traverse PHPDoc and Modify It" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/how-to-traverse-phpdoc-and-modify-it" />
@@ -104,6 +104,7 @@ Is that even possible without using complex nested structures or regular express
  */</code></pre>
 <p>If we parse it with <code>PhpDocParser</code>... you know what? Let's try this together:</p>
 <pre><code class="language-bash">composer require symplify/simple-phpdoc-parser</code></pre>
+<p><br></p>
 <pre><code class="language-php">use Symplify\SimplePhpDocParser\StaticFactory\SimplePhpDocParserStaticFactory;
 
 $values = &lt;&lt;&lt;'PHPDOC'
