@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>5 Constant Lists That Give Context to your Integers and Strings | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+<meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
+
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?1672030083" rel="stylesheet" type="text/css" />
+
+                <meta property="og:title" content="5 Constant Lists That Give Context to your Integers and Strings" />
+        <meta property="og:url" content="https://tomasvotruba.com/blog/5-constant-lists-that-give-context-to-your-integers-and-strings" />
+        <meta name="description" property="og:description" content="[Native enums](https://php.watch/versions/8.1/enums) is a new PHP 8.1 feature. This feature brings more focus on *what* enums are *where* we can use them.
+
+**Not on PHP 8.1 yet?** Don&#039;t worry, before that, enums were emulated by public constants. Few constant lists are already part of your favorite framework, ORM, or utils package for years.
+
+Today we look at 5 constant lists that you can use today to replace that `int` or `string` and give it a context.
+" />
+
+                    <meta property="og:image" content="https://tomasvotruba.com/assets/images/posts/2022/kernel_events_usage.png" />
+            <meta name="twitter:card" content="summary_large_image"/>
+            </head>
+
+    <body>
+        <!-- post_id: 351 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/about-me">About Me</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <div class="text-center book-banner">
+                <a href="https://leanpub.com/rector-the-power-of-automated-refactoring" target="blank" class="text-center">
+                    <img src="/assets/images/banner-rector-book.png" class="mb-2 ml-auto mr-auto rounded " style="max-height: 5em" alt="">
+                </a>
+            </div>
+
+            <h1>5 Constant Lists That Give&nbsp;Context to&nbsp;your Integers&nbsp;and&nbsp;Strings</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2022/2022-03-07-5-constant-lists-that-give-context-to-your-integers-and-strings.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2022-03-Mon" class="text-muted">
+                2022-03-07
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p><a href="https://php.watch/versions/8.1/enums">Native enums</a> is a new PHP 8.1 feature. This feature brings more focus on <em>what</em> enums are <em>where</em> we can use them.</p>
+<p><strong>Not on PHP 8.1 yet?</strong> Don't worry, before that, enums were emulated by public constants. Few constant lists are already part of your favorite framework, ORM, or utils package for years.
+<br><br>
+Today we look at 5 constant lists that you can use today to replace that <code>int</code> or <code>string</code> and give it a context.</p>
+                </div>
+            </div>
+
+            <h2 id="Why-even-Bother-with-Enums">Why even Bother with Enums?</h2>
+<pre><code class="language-php">if ($duration &lt; 14400) {
+   return 'today';
+}
+
+return 'later;</code></pre>
+<p><br></p>
+<p>We might ask, why even bother using some constants? Everybody knows 14400 is the number of minutes in a day or is it seconds... or is it 1440?</p>
+<pre><code class="language-diff">-if ($duration &lt; 14400) {
++if ($duration &lt; self::DAY_IN_MINUTES) {
+    return 'today';
+ }
+
+ return 'later;</code></pre>
+<p>We are using constant to remove these questions. Somebody already did the calculation before me and was much better at the result. We avoid the crash of <a href="https://www.amazon.com/Thinking-Fast-Slow-Daniel-Kahneman/dp/0374533555">thinking fast and thinking slow</a> at the same time - great book about how we think about others peoples' thinking.</p>
+<p><br></p>
+<p>There is <a href="/blog/2020/07/16/10-cool-features-you-get-after-switching-from-yaml-to-php-configs#10-Constants-over-Strings">more pratcical benefits in using constants over scalars</a>:</p>
+<ul>
+<li>we <strong>give the context</strong> to any reader, who will come 5 years later</li>
+<li>we reduce maintenance of all usages <strong>to single place</strong></li>
+<li>and we don't have to ever think about it anymore</li>
+</ul>
+<p><br></p>
+<hr />
+<p>I've shared one such constant on Twitter, and it so much traction and responses than I expected:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Did you know <a href="https://twitter.com/symfony?ref_src=twsrc%5Etfw">@symfony</a> offers constant codes for HTTP?<br><br>Since PHP 8.1 even more useful as enum! <a href="https://t.co/n1jpBYiu8i">pic.twitter.com/n1jpBYiu8i</a></p>— Tomas Votruba 🇺🇦 (@VotrubaT) <a href="https://twitter.com/VotrubaT/status/1502360490328080384?ref_src=twsrc%5Etfw">March 11, 2022</a></blockquote>
+<p>I've picked <strong>the best and least known constant lists</strong> in this post.</p>
+<p><br></p>
+<p>Ready for some hot constant code? Let's go:</p>
+<h2 id="1-HTTP-Response-Codes">1. HTTP Response Codes</h2>
+<p>After calling outside API service, we have to verify the result or the reason why it failed. Codes like 404 and 200 are mainstream, but what about the less known ones?</p>
+<p>Can you tell me in 2 seconds what is the condition checking here?</p>
+<pre><code class="language-php">$response = $this-&gt;callExternalApi(...);
+if ($response-&gt;getCode() === 403) {
+    // what happened?
+}</code></pre>
+<p>We know something is wrong... maybe something was not found? Maybe the URL is outdated?</p>
+<p><em>Maybe</em> is not good enough, and maybe, we can simply read it:</p>
+<pre><code class="language-diff">+use Symfony\Component\HttpFoundation\Response;
+
+ $response = $this-&gt;callExternalApi(...);
+-if ($response-&gt;getCode() === 403) {
++if ($response-&gt;getCode() === Response::HTTP_FORBIDDEN) {
+     // what happened?
+ }</code></pre>
+<p>The constant also differentiates HTTP response value, <a href="https://en.wikipedia.org/wiki/Area_code_403#:~:text=Area%20code%20403%20is%20a,assigned%20by%20AT%26T%20in%201947">Calgary telephone code</a> and an integer id in a test.</p>
+<h3 id="Where-is-the-List">Where is the List?</h3>
+<ul>
+<li><a href="https://github.com/symfony/symfony/blob/2f27b39add8c8cdf7c70f2acfe8c9905eb56dfcc/src/Symfony/Component/HttpFoundation/Response.php#L24-L86"><code>Symfony\Component\HttpFoundation\Response</code></a></li>
+<li><a href="https://github.com/nette/http/blob/17314395a830257e5db7167d5cccd1e6d1183ac9/src/Http/IResponse.php#L18-L79"><code>Nette\Http\IResponse</code></a></li>
+</ul>
+<h2 id="2-Request-Methods">2. Request Methods</h2>
+<p>Where is a response, there must be a request first:</p>
+<pre><code class="language-php">$response = $this-&gt;callExternalApi(..., 'get');</code></pre>
+<p>We've all debugged an external API. If we're lucky, it has documentation. <strong>If we're not lucky, the documentation is outdated</strong> and the endpoint silently fails (I look at you Twitter, Meetup.com...).</p>
+<p>A few hours later, we try the constant out of despair:</p>
+<pre><code class="language-diff">+use Symfony\Component\HttpFoundation\Request;
+
+-$response = $this-&gt;callExternalApi(..., 'get');
++$response = $this-&gt;callExternalApi(..., Request::METHOD_GET);</code></pre>
+<p>And it works!</p>
+<p><br></p>
+<p>Why? Some API packages can mitigate the lowercased <code>"get"</code> to correct <code>"GET"</code>, but some can not. <strong>We can mitigate bugs like these</strong> by using a standardized constant that uses the correct version.</p>
+<p><br></p>
+<h3 id="Where-is-the-List">Where is the List?</h3>
+<ul>
+<li><a href="https://github.com/symfony/symfony/blob/2f27b39add8c8cdf7c70f2acfe8c9905eb56dfcc/src/Symfony/Component/HttpFoundation/Request.php#L54-L63"><code>Symfony\Component\HttpFoundation\Request</code></a></li>
+<li><a href="https://github.com/nette/http/blob/17314395a830257e5db7167d5cccd1e6d1183ac9/src/Http/IRequest.php#L21-L28"><code>Nette\Http\IRequest</code></a></li>
+</ul>
+<p><br></p>
+<p>P.S. Be creative... where else do we use <code>"GET"</code> or <code>"POST"</code> methods?</p>
+<pre><code class="language-php">use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+
+final class PostController extends AbstractController
+{
+    #[Route(path: '/blog/{slug}', methods: [Request::METHOD_GET])]
+    public function __invoke(string $slug): Response
+    {
+    }
+}</code></pre>
+<h2 id="3-An-hour-a-Month-or-a-Year">3. An hour, a Month, or a Year?</h2>
+<p>During my 19-years PHP developer career, I've used the calculator countless times just to produce correct <em>time numbers</em> like <del><code>8640</code></del>... ehm, <code>86400</code>.</p>
+<p><br></p>
+<p>The moment I saw the following constant list first time, it blew both my mind and calculator away:</p>
+<pre><code class="language-diff">+use Nette\Utils\DateTime;
+
+-if ($durationInSeconds &lt; 86400) {
++if ($durationInSeconds &lt; DateTime::DAY) {
+     return 'less than a day';
+ }
+
+ return 'keep waiting';</code></pre>
+<p>The <code>DAY_IN_SECONDS</code> name would be better, but at least the constant has a comment to clarify this.</p>
+<p><br></p>
+<p>These constants come very handily with header expiration or <a href="https://en.wikipedia.org/wiki/Time_to_live"><em>time to leave</em> (TTLs)</a> in cache:</p>
+<pre><code class="language-php">use Nette\Utils\DateTime;
+
+$httpResponse-&gt;setHeader('Access-Control-Max-Age', 12 * DateTime::HOUR);</code></pre>
+<h3 id="Where-is-the-List">Where is the List?</h3>
+<ul>
+<li><a href="https://github.com/nette/utils/blob/4f7d3da873c4e3762cf7ebb9d3073efcd1bd56fc/src/Utils/DateTime.php#L22-L38"><code>Nette\Utils\DateTime</code></a></li>
+</ul>
+<h2 id="4-Accurate-Event-Subscribers">4. Accurate Event Subscribers</h2>
+<p>There are probably dozens of events in the Symfony event system we can hook into. We already <a href="/blog/2019/05/16/don-t-ever-use-listeners/">use subscribers over listeners</a> and the <code>getSubscribedEvents()</code> method:</p>
+<pre><code class="language-php">use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+final class SomeEventSubscriber implements EventSubscriberInterface
+{
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'kernel.controller' =&gt; ['onKernelController'],
+        ];
+    }
+}</code></pre>
+<p><br></p>
+<p>Instead of strings for event names, we can use Symfony constant list:</p>
+<pre><code class="language-diff">+use Symfony\Component\HttpKernel\KernelEvents;
+
+ return [
+-    'kernel.controller' =&gt; ['onKernelController'],
++    KernelEvents::CONTROLLER =&gt; ['onKernelController'],
+ ];</code></pre>
+<p><br></p>
+<p>Thanks to this constant, we <strong>open previously hidden knowledge</strong> = where is the event invoked and what subscribers use the event:</p>
+<img src="/assets/images/posts/2022/kernel_events_usage.png" class="img-thumbnail" style="max-width: 35em">
+<h3 id="Where-are-the-Lists">Where are the Lists?</h3>
+<ul>
+<li><a href="https://github.com/symfony/symfony/blob/6.1/src/Symfony/Component/HttpKernel/KernelEvents.php#L28-L111"><code>Symfony\Component\HttpKernel\KernelEvents</code></a></li>
+<li><a href="https://github.com/symfony/symfony/blob/2f27b39add8c8cdf7c70f2acfe8c9905eb56dfcc/src/Symfony/Component/Console/ConsoleEvents.php#L24-L59"><code>Symfony\Component\Console\ConsoleEvents</code></a></li>
+<li><a href="https://github.com/symfony/symfony/blob/2f27b39add8c8cdf7c70f2acfe8c9905eb56dfcc/src/Symfony/Component/Security/Http/SecurityEvents.php#L19-L36"><code>Symfony\Component\Security\Http\SecurityEvents</code></a></li>
+</ul>
+<h2 id="5-Doctrine-Column-Types">5. Doctrine Column Types</h2>
+<p>Back in the PHP 7.4 days, we used to write Doctrine annotations in a weird string-like format, called comments, right above the property:</p>
+<pre><code class="language-php">use Doctrine\ORM\Mapping as ORM;
+
+class Post
+{
+    /**
+     * @ORM\Column(type="int")
+     */
+    private $wordCount;
+}</code></pre>
+<p>Based on the <code>type=</code> part, the Doctrine was able to with database column type. Now I'm now sure about my memory, was it &quot;int&quot; or &quot;integer&quot;? We now use &quot;int&quot; everywhere, even in native PHP type declarations, so that should be correct, right?</p>
+<p><br></p>
+<p>Well, time flew by, and now we can use <a href="https://php.watch/versions/8.0/attributes">PHP 8.0-native attributes</a>:</p>
+<pre><code class="language-php">use Doctrine\ORM\Mapping as ORM;
+
+class Post
+{
+    #[ORM\Column(type: "int")]
+    private $wordCount;
+}</code></pre>
+<p><br></p>
+<p>The syntax changed, PHPStan and Rector can work with these better, and PhpStorm autocomplete more reliable. <strong>But my memory issue remains</strong> - was it &quot;int&quot; or &quot;integer&quot;? Is there some solution for my memory leak?</p>
+<p>Fortunately, there is:</p>
+<pre><code class="language-diff"> use Doctrine\ORM\Mapping as ORM;
++use Doctrine\DBAL\Types\Types;
+
+ class Post
+ {
+-     #[ORM\Column(type: "int")]
++     #[ORM\Column(type: Types::INTEGER)]
+     private $wordCount;
+ }</code></pre>
+<p>Now we can state the intention - define a column to work with integer numbers,
+and the knowledge is safely delegated to the tool itself - a constant it uses.</p>
+<h3 id="Where-is-the-List">Where is the List?</h3>
+<ul>
+<li><a href="https://github.com/doctrine/dbal/blob/83f779beaea1893c0bece093ab2104c6d15a7f26/src/Types/Types.php#L12-L36"><code>Doctrine\DBAL\Types\Types</code></a></li>
+</ul>
+<p>Thanks to <a href="https://twitter.com/alex_s_/status/1504064803719024645">Alexander Schranz</a> for mentioning.</p>
+<hr />
+<h2 id="Who-do-we-Write-Code-For">Who do we Write Code For?</h2>
+<p>Now we know <em>what</em> constant enum-like lists we can use, but I'd like to return to <em>why</em> we use them. We all know that <code>200</code> is success code, and <code>301</code> is a permanent redirect... but do we know how many bits are in 1024 bytes?</p>
+<blockquote class="blockquote text-center">
+"We don't write the code for use at present.<br>
+We write for future fellow developers we'll never meet."
+</blockquote>
+<p>If we pay more attention to writing standardized code now, future developers will thank us for making their lives easier. Maybe we will also thanks ourselves ;).</p>
+<h2 id="Honorable-Mentions">Honorable Mentions</h2>
+<ul>
+<li><a href="https://github.com/symfony/symfony/blob/2f27b39add8c8cdf7c70f2acfe8c9905eb56dfcc/src/Symfony/Component/Console/Command/Command.php#L36-L39"><code>Symfony\Component\Console\Command\Command::SUCCESS|FAILURE</code></a> for command line exit codes in <code>Command::execute()</code> and CLI apps</li>
+<li><a href="https://github.com/php-fig/log/blob/fe5ea303b0887d5caefd3d431c3e61ad47037001/src/LogLevel.php#L10-L17"><code>Psr\Log\LogLevel::*</code></a> for logging - thanks to <a href="https://twitter.com/OliverNybroe/status/1503308677306011650">Oliver Nybroe</a></li>
+<li><a href="https://github.com/symfony/symfony/blob/2f27b39add8c8cdf7c70f2acfe8c9905eb56dfcc/src/Symfony/Component/Form/FormEvents.php#L29-L95"><code>Symfony\Component\Form\FormEvents</code></a> - thanks to <a href="https://twitter.com/Shyim97/status/1503030223608107019">Shyim</a></li>
+</ul>
+<p>Have I missed a constant list that you use daily and makes your life easier? Please share in the comments or on Twitter to put it here too.</p>
+<p><br></p>
+<p>Happy coding!</p>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                            <a href="/blog/how-to-create-symfony-kernel-for-tests-with-different-configs" class="d-block">
+                            <div>
+                                Read next → <strong>How to Create Symfony Kernel for Tests with Different Configs</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+        <script type="text/javascript">
+            // @see https://stackoverflow.com/a/30776817/1348344
+            var date = new Date();
+            // display every 2nd hour, not to spam users
+            if (date.getHours() % 2 === 1) {
+                document.querySelector('.book-banner').style.display = 'visible';
+            } else {
+                document.querySelector('.book-banner').style.display = 'none';
+            }
+        </script>
+    </body>
+</html>
