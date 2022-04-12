@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1479404261" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1389787481" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Complete Type Declarations without Docblocks with Rector" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/01/03/how-to-complete-type-declarations-without-docblocks-with-rector" />
@@ -232,16 +232,11 @@ class SomeClass
 <p><br></p>
 <p><a href="https://github.com/jkuchar">Honza Kuchař</a> spend one afternoon over Rector with me and motivated me to add this feature to Rector, so PHP developers can enjoy the laziness AST provides. Thank you, Honza! It's done (<a href="https://github.com/rectorphp/rector/pull/880">see PR</a>).</p>
 <p>Just setup <a href="https://github.com/rectorphp/rector">Rector</a> and upgrade your code:</p>
-<pre><code class="language-php">// rector.php
+<pre><code class="language-php">use Rector\TypeDeclaration\Rector\FunctionLike\ReturnTypeDeclarationRector;
+use Rector\Config\RectorConfig;
 
-declare(strict_types=1);
-
-use Rector\TypeDeclaration\Rector\FunctionLike\ReturnTypeDeclarationRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator-&gt;services();
-    $services-&gt;set(ReturnTypeDeclarationRector::class);
+return function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;rule(ReturnTypeDeclarationRector::class);
 };</code></pre>
 <pre><code class="language-bash">vendor/bin/rector process src</code></pre>
 <p>Done!</p>
@@ -289,16 +284,11 @@ class Command
 + */
  private $application;</code></pre>
 <p>That's it! Let's put this algorithm into Rector:</p>
-<pre><code class="language-php">// rector.php
+<pre><code class="language-php">use Rector\TypeDeclaration\Rector\Property\CompleteVarDocTypePropertyRector;
+use Rector\Config\RectorConfig;
 
-declare(strict_types=1);
-
-use Rector\TypeDeclaration\Rector\Property\CompleteVarDocTypePropertyRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator-&gt;services();
-    $services-&gt;set(CompleteVarDocTypePropertyRector::class);
+return function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;rule(CompleteVarDocTypePropertyRector::class);
 };</code></pre>
 <pre><code class="language-bash">vendor/bin/rector process src</code></pre>
 <p>↓</p>

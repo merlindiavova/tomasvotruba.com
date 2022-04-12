@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1868709352" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1246479634" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Rectify: Turn All Action Injects to Constructor Injection in Your Symfony Application" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/05/10/rectify-turn-all-action-injects-to-constructor-injection-in-your-symfony-application" />
@@ -179,20 +179,14 @@ final class SomeController
 <pre><code class="language-bash">composer install rector/rector --dev</code></pre>
 <h3 id="2-Prepare-Config">2. Prepare Config</h3>
 <p>Add the <code>action-injection-to-constructor-injection</code> set and configure your Kernel class name.</p>
-<pre><code class="language-php">&lt;?php
-
-// rector.php
-
-declare(strict_types=1);
-
-use Rector\Core\Configuration\Option;
+<pre><code class="language-php">use Rector\Core\Configuration\Option;
 use Rector\Set\ValueObject\SetList;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Rector\Config\RectorConfig;
 
-return function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator-&gt;import(SetList::ACTION_INJECTION_TO_CONSTRUCTOR_INJECTION);
+return function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;import(SetList::ACTION_INJECTION_TO_CONSTRUCTOR_INJECTION);
 
-    $parameters = $containerConfigurator-&gt;parameters();
+    $parameters = $rectorConfig-&gt;parameters();
 
     // the default value
     $parameters-&gt;set('kernel_class', 'App\Kernel');

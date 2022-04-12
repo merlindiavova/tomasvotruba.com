@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?156924392" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?13469218" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="4 Ways to Make Your Nette Project More Readable" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/08/10/4-ways-to-make-your-nette-project-more-readable" />
@@ -166,19 +166,15 @@ But it's a lot of work to get there."
 </blockquote>
 <p>I feel you, same here. If I were about to do it manually, I would not do it.</p>
 <p>Luckily, we <strong>lazy people have tools to work for us</strong>. Let <a href="https://github.com/rectorphp/rector">Rector</a> handle it:</p>
-<pre><code class="language-php"># rector.php
-
-use Rector\NetteCodeQuality\Rector\Assign\ArrayAccessGetControlToGetComponentMethodCallRector;
+<pre><code class="language-php">use Rector\NetteCodeQuality\Rector\Assign\ArrayAccessGetControlToGetComponentMethodCallRector;
 use Rector\NetteCodeQuality\Rector\Assign\ArrayAccessSetControlToAddComponentMethodCallRector;
 use Rector\NetteCodeQuality\Rector\Assign\MakeGetComponentAssignAnnotatedRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Rector\Config\RectorConfig;
 
-return function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator-&gt;services();
-
-    $services-&gt;set(MakeGetComponentAssignAnnotatedRector::class);
-    $services-&gt;set(ArrayAccessSetControlToAddComponentMethodCallRector::class);
-    $services-&gt;set(ArrayAccessGetControlToGetComponentMethodCallRector::class);
+return function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;rule(MakeGetComponentAssignAnnotatedRector::class);
+    $rectorConfig-&gt;rule(ArrayAccessSetControlToAddComponentMethodCallRector::class);
+    $rectorConfig-&gt;rule(ArrayAccessGetControlToGetComponentMethodCallRector::class);
 };</code></pre>
 <p>And run Rector:</p>
 <pre><code class="language-bash">vendor/bin/rector process src</code></pre>
@@ -194,14 +190,11 @@ $form-&gt;addText('name', 'Name');</code></pre>
 <img src="/assets/images/posts/2020/nette_readability_get_form_control.gif" class="img-thumbnail">
 <p>This makes code readable in the same points above - for IDE, PHPStan, and Rector.</p>
 <p>&quot;So much work?&quot; Rector got you covered:</p>
-<pre><code class="language-php"># rector.php
+<pre><code class="language-php">use Rector\NetteCodeQuality\Rector\ArrayDimFetch\ChangeControlArrayAccessToAnnotatedControlVariableRector;
+use Rector\Config\RectorConfig;
 
-use Rector\NetteCodeQuality\Rector\ArrayDimFetch\ChangeControlArrayAccessToAnnotatedControlVariableRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator-&gt;services();
-    $services-&gt;set(ChangeControlArrayAccessToAnnotatedControlVariableRector::class);
+return function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;rule(ChangeControlArrayAccessToAnnotatedControlVariableRector::class);
 };</code></pre>
 <p><br></p>
 <h3 id="Can-We-do-Better">Can We do Better?</h3>

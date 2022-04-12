@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?271370517" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?622292102" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="New in Rector: Asterisk Type Match" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/02/04/new-in-rector-asterisk-type-match" />
@@ -107,20 +107,13 @@ The positive side effect of Rector helping to migrate real commercial project <s
 That allows migration between them pretty smooth process. What do have <em>presenter</em>, <em>action</em>, <em>route-target</em> or <em>controller</em> in common? All are various names for the same entry point to the application.</p>
 <p>Each PHP frameworks has its conventions and conventions are the main topics during migration.</p>
 <p>E.g. one framework has default method of controller named <code>run</code>, the other <code>__invoke</code>. How can Rector help us?</p>
-<pre><code class="language-php">// rector.php
+<pre><code class="language-php">use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
+use Rector\Config\RectorConfig;
 
-declare(strict_types=1);
-
-use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator-&gt;services();
-
-    $services-&gt;set(RenameMethodRector::class)
-        -&gt;configure([
-            new MethodCallRename('SomeFramework\AbstractPresenter', 'run', '__invoke')
-        ]);
+return function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;ruleWithConfiguration(RenameMethodRector::class, [
+        new MethodCallRename('SomeFramework\AbstractPresenter', 'run', '__invoke')
+    ]);
 };</code></pre>
 <p>Then Rector will change the code for you:</p>
 <pre><code class="language-bash">vendor/bin/rector process src</code></pre>
@@ -141,45 +134,31 @@ return function (ContainerConfigurator $containerConfigurator): void {
  }</code></pre>
 <p>Do you have more classes? No troubles! Just put each class one by one carefully to the config...</p>
 <p>Wait. What if you could use <a href="http://php.net/manual/en/function.fnmatch.php"><code>fnmatch</code></a> pattern?</p>
-<pre><code class="language-php">// rector.php
+<pre><code class="language-php">use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
+use Rector\Config\RectorConfig;
 
-declare(strict_types=1);
-
-use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator-&gt;services();
-    $services-&gt;set(RenameMethodRector::class)
-        -&gt;configure([
-            new MethodCallRename('App\*Module\Presenter\*Controller', 'run', '__invoke')
-        ]);
+return function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;ruleWithConfiguration(RenameMethodRector::class, [
+        new MethodCallRename('App\*Module\Presenter\*Controller', 'run', '__invoke')
+    ]);
 };</code></pre>
 <p>Kittens will love you now!</p>
 <p><em>This <a href="https://github.com/rectorphp/rector/pull/1004">feature</a> was added to Rector v0.3.40.</em></p>
 <p><br></p>
 <p>One more thing! You can use it on any type check:</p>
-<pre><code class="language-diff"> &lt;?php
-
- // rector.php
-
- declare(strict_types=1);
-
- use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
- use Rector\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector;
+<pre><code class="language-diff"> use Rector\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector;
  use Rector\Renaming\ValueObject\RenameClassConstFetch;
+ use Rector\Config\RectorConfig;
 
- return function (ContainerConfigurator $containerConfigurator): void {
-     $services = $containerConfigurator-&gt;services();
-     $services-&gt;set(RenameClassConstFetchRector::class)
-         -&gt;configure([
--            new RenameClassConstFetch('Framework\Request', 200, 'CODE_200'),
-+            new RenameClassConstFetch('Framework\Request*', 200, 'CODE_200'),
--            new RenameClassConstFetch('Framework\Request', 300, 'CODE_300'),
-+            new RenameClassConstFetch('Framework\Request*', 300, 'CODE_300'),
--            new RenameClassConstFetch('Framework\RequestInterface', 200, 'CODE_200'),
--            new RenameClassConstFetch('Framework\RequestInterface', 300, 'CODE_300'),
-        ]);
+ return function (RectorConfig $rectorConfig): void {
+     $rectorConfig-&gt;ruleWithConfiguration(RenameClassConstFetchRector::class, [
+-        new RenameClassConstFetch('Framework\Request', 200, 'CODE_200'),
++        new RenameClassConstFetch('Framework\Request*', 200, 'CODE_200'),
+-        new RenameClassConstFetch('Framework\Request', 300, 'CODE_300'),
++        new RenameClassConstFetch('Framework\Request*', 300, 'CODE_300'),
+-        new RenameClassConstFetch('Framework\RequestInterface', 200, 'CODE_200'),
+-        new RenameClassConstFetch('Framework\RequestInterface', 300, 'CODE_300'),
+     ]);
 };</code></pre>
 <p><br></p>
 <p>Happy instant refactorings!</p>

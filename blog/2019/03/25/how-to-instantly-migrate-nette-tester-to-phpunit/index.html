@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1931223885" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1256216351" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Instantly Migrate Nette\Tester to PHPUnit" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/03/25/how-to-instantly-migrate-nette-tester-to-phpunit" />
@@ -237,13 +237,11 @@
 <ol start="2">
 <li>Add <code>rector.php</code> config:</li>
 </ol>
-<pre><code class="language-php">// rector.php
-use Rector\Core\Configuration\Option;
-use Rector\Set\ValueObject\SetList;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+<pre><code class="language-php">use Rector\Set\ValueObject\SetList;
+use Rector\Config\RectorConfig;
 
-return function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator-&gt;import(SetList::NETTE_TESTER_TO_PHPUNIT);
+return function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;import(SetList::NETTE_TESTER_TO_PHPUNIT);
 };</code></pre>
 <ol start="3">
 <li>Run it on <code>/tests</code> directory</li>

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?198767780" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?280173166" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Turn Mocks from Nightmare to Solid Kiss Tests" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/06/11/how-to-turn-mocks-from-nightmare-to-solid-kiss-tests" />
@@ -217,16 +217,11 @@ final class SomeTest extends TestCase
 <p>The code already tells us what to do next.</p>
 <p>Some people mock because they follow good practice and <strong><a href="https://ocramius.github.io/blog/when-to-declare-classes-final">make every class abstract or final</a></strong>. They don't want to deal with constructors, that would often lead to more mocking. It's great practice and super easy to put make classes final with Rector CI:</p>
 <pre><code class="language-bash">composer require rector/rector --dev</code></pre>
-<pre><code class="language-php">// rector.php
+<pre><code class="language-php">use Rector\SOLID\Rector\Class_\FinalizeClassesWithoutChildrenRector;
+use Rector\Config\RectorConfig;
 
-declare(strict_types=1);
-
-use Rector\SOLID\Rector\Class_\FinalizeClassesWithoutChildrenRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator-&gt;services();
-    $services-&gt;set(FinalizeClassesWithoutChildrenRector::class);
+return function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;rule(FinalizeClassesWithoutChildrenRector::class);
 };</code></pre>
 <p>Yes, it's that simple, you just saved your project from most of its legacy code. But <code>final</code> classes should <strong>not be the reason to choose to mocks</strong>. Well, you can also <a href="https://phpfashion.com/how-to-mock-final-classes">hack the <code>final</code> and use mocking right away</a>, or you can go with the code flow. Dance with it!</p>
 <h2 id="SOLID-Code-as-a-Side-Effect">SOLID Code as a Side Effect</h2>

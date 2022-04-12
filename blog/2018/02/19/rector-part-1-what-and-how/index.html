@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1339873975" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1710253922" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Rector: Part 1 - What and How" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/02/19/rector-part-1-what-and-how" />
@@ -190,19 +190,13 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <p>Then it finds specific places in the code, e.g. all variables that contain <code>Symfony\Component\HttpFoundation\Request</code> type and call <code>isMethodSafe()</code> method.</p>
 <p>Then it changes it into <code>isMethodCacheable()</code> (see <a href="https://github.com/symfony/symfony/blob/master/UPGRADE-4.0.md#httpfoundation">UPGRADE-4.0.md</a>).</p>
 <p>Such a configuration looks like this (as shown in <a href="https://github.com/rectorphp/rector#change-a-method-name"><code>README</code></a>):</p>
-<pre><code class="language-php">// rector.php
+<pre><code class="language-php">use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
+use Rector\Config\RectorConfig;
 
-declare(strict_types=1);
-
-use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator-&gt;services();
-    $services-&gt;set(RenameMethodRector::class)
-        -&gt;configure([
-            new MethodCallRename('Symfony\Component\HttpFoundation\Request', 'isMethodSafe', 'isMethodCacheable')
-        ]);
+return function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;ruleWithConfiguration(RenameMethodRector::class, [
+        new MethodCallRename('Symfony\Component\HttpFoundation\Request', 'isMethodSafe', 'isMethodCacheable')
+    ]);
 };</code></pre>
 <h3 id="Member-of-Big-AST-PHP-Family">Member of Big AST PHP Family</h3>
 <p>Rector is not the only tool that uses <code>nikic\php-parser</code> for context-aware operation on your code.</p>

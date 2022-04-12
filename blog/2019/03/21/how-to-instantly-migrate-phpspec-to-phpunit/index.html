@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?437280747" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1648438636" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Instantly Migrate PhpSpec to PHPUnit" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/03/21/how-to-instantly-migrate-phpspec-to-phpunit" />
@@ -232,13 +232,11 @@ Last week I was approached by 2 different people with single need - <strong>migr
 <ol start="2">
 <li>Create <code>rector.php</code> config</li>
 </ol>
-<pre><code class="language-php">// rector.php
-use Rector\Core\Configuration\Option;
-use Rector\Set\ValueObject\SetList;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+<pre><code class="language-php">use Rector\Set\ValueObject\SetList;
+use Rector\Config\RectorConfig;
 
-return function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator-&gt;import(SetList::PHPSPEC_TO_PHPUNIT);
+return function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;import(SetList::PHPSPEC_TO_PHPUNIT);
 };</code></pre>
 <ol start="3">
 <li>Run Rector on your tests directories</li>

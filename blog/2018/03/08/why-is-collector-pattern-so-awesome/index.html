@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?213590480" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?784115275" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Why is Collector Pattern so Awesome" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/03/08/why-is-collector-pattern-so-awesome" />
@@ -107,16 +107,11 @@ Why Collector pattern beats config tagging? How to use the in Symfony applicatio
 <p>Yesterday I worked on <a href="https://github.com/rectorphp/rector">Rector</a> and <strong>needed an entry point to add one or more Rectors by user</strong>.</p>
 <p><br></p>
 <p>To give you a context, now you can register particular Rectors to config as in Symfony:</p>
-<pre><code class="language-php">// rector.php
+<pre><code class="language-php">use Rector\Privatization\Rector\MethodCall\PrivatizeLocalGetterToPropertyRector;
+use Rector\Config\RectorConfig;
 
-declare(strict_types=1);
-
-use Rector\Privatization\Rector\MethodCall\PrivatizeLocalGetterToPropertyRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator-&gt;services();
-    $services-&gt;set(PrivatizeLocalGetterToPropertyRector::class);
+return function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;rule(PrivatizeLocalGetterToPropertyRector::class);
 };</code></pre>
 <h2 id="Towards-Scalable-Architecture">Towards Scalable Architecture</h2>
 <p>Well, we could accept PR and hard-code it into application, that would work too. But the point is to allow end-user to <strong>add as many customs services of specific type as he or she wants without need to modify our application</strong>.</p>
@@ -143,11 +138,7 @@ final class SymfonyRectorProvider implements RectorInterface
 }</code></pre>
 <p><br></p>
 <p>Such service is registered by user to the config:</p>
-<pre><code class="language-php">// rector.php
-
-declare(strict_types=1);
-
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+<pre><code class="language-php">use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator-&gt;services();
@@ -208,11 +199,7 @@ $rectorCollector-&gt;addRector((new App\Rector\SymfonyRectorProvider)-&gt;provid
 <p>The most common case is product in e-commerce. Product <em>JBL Charge 3</em> has 1 category - <em>speaker</em>. Ok, you write a code with Doctrine Entity that each product has one category. But as it happens in life, <em>change is the only constant</em>, website grows and search expands with new request from your boss: &quot;A product needs to have multiple categories&quot;. What now?</p>
 <p>The same happened for Rector - <strong>I need to add multiple Rectors in <code>RectorProvider</code></strong>. What now?</p>
 <p>Damn! Mmm, tell people to use one provider per Rector?</p>
-<pre><code class="language-php">// rector.php
-
-declare(strict_types=1);
-
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+<pre><code class="language-php">use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator-&gt;services();

@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?792311052" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?274513312" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How we Completed Thousands of Missing @var Annotations in a Day" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/07/29/how-we-completed-thousands-of-missing-var-annotations-in-a-day" />
@@ -423,16 +423,11 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <p>2 500 errors? Not a problem.</p>
 <p><br></p>
 <p><strong>1. Configure Rector</strong></p>
-<pre><code class="language-php">// rector.php
+<pre><code class="language-php">use Rector\TypeDeclaration\Rector\Property\PropertyTypeDeclarationRector;
+use Rector\Config\RectorConfig;
 
-declare(strict_types=1);
-
-use Rector\TypeDeclaration\Rector\Property\PropertyTypeDeclarationRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator-&gt;services();
-    $services-&gt;set(PropertyTypeDeclarationRector::class);
+return function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;rule(PropertyTypeDeclarationRector::class);
 };</code></pre>
 <p><strong>2. Run Rector to fix your code</strong></p>
 <pre><code class="language-bash">vendor/bin/rector process src tests</code></pre>

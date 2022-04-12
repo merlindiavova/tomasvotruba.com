@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1255026055" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?176420463" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to Upgrade to Symplify 8 - From Fixers to Rector Rules" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2020/05/11/how-to-upgrade-to-symplify-8-from-fixers-to-rector-rules" />
@@ -163,16 +163,11 @@ The method order by interface Rector rule is removed now.</p>
 <p>Instead of <del><code>PhpCsFixer\Fixer\ControlStructure\PregDelimiterFixer</code></del> fixer:</p>
 <p>↓</p>
 <p>use Rector rule:</p>
-<pre><code class="language-php">// rector.php
+<pre><code class="language-php">use Rector\CodingStyle\Rector\FuncCall\ConsistentPregDelimiterRector;
+use Rector\Config\RectorConfig;
 
-declare(strict_types=1);
-
-use Rector\CodingStyle\Rector\FuncCall\ConsistentPregDelimiterRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator-&gt;services();
-    $services-&gt;set(ConsistentPregDelimiterRector::class)
+return function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;set(ConsistentPregDelimiterRector::class)
         // default
         -&gt;arg('delimiter', '#');
 };</code></pre>
@@ -188,16 +183,11 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <p>Instead of <del><code>PhpCsFixer\Fixer\ControlStructure\RequireFollowedByAbsolutePathFixer</code></del> fixer,</p>
 <p>↓</p>
 <p>use Rector rule:</p>
-<pre><code class="language-php">// rector.php
+<pre><code class="language-php">use Rector\CodingStyle\Rector\Include_\FollowRequireByDirRector;
+use Rector\Config\RectorConfig;
 
-declare(strict_types=1);
-
-use Rector\CodingStyle\Rector\Include_\FollowRequireByDirRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator-&gt;services();
-    $services-&gt;set(FollowRequireByDirRector::class);
+return function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;rule(FollowRequireByDirRector::class);
 };</code></pre>
 <h2 id="4-Match-Exception-variable-name-to-its-Type">4. Match Exception variable name to its Type</h2>
 <pre><code class="language-diff"> class SomeClass
@@ -216,16 +206,11 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <p>Instead of <del><code>PhpCsFixer\Fixer\Naming\CatchExceptionNameMatchingTypeFixer</code></del> Fixer:</p>
 <p>↓</p>
 <p>use Rector rule:</p>
-<pre><code class="language-php">// rector.php
+<pre><code class="language-php">use Rector\CodingStyle\Rector\Catch_\CatchExceptionNameMatchingTypeRector;
+use Rector\Config\RectorConfig;
 
-declare(strict_types=1);
-
-use Rector\CodingStyle\Rector\Catch_\CatchExceptionNameMatchingTypeRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator-&gt;services();
-    $services-&gt;set(CatchExceptionNameMatchingTypeRector::class);
+return function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;rule(CatchExceptionNameMatchingTypeRector::class);
 };</code></pre>
 <h2 id="5-Match-Property-and-Variable-to-its-Type">5. Match Property and Variable to its Type</h2>
 <pre><code class="language-diff"> class SomeClass
@@ -245,16 +230,11 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <p>Instead of <del><code>Symplify\CodingStandard\Fixer\Naming\PropertyNameMatchingTypeFixer</code></del> Fixer</p>
 <p>↓</p>
 <p>use Rector rule:</p>
-<pre><code class="language-php">// rector.php
+<pre><code class="language-php">use Rector\Naming\Rector\Class_\RenamePropertyToMatchTypeRector;
+use Rector\Config\RectorConfig;
 
-declare(strict_types=1);
-
-use Rector\Naming\Rector\Class_\RenamePropertyToMatchTypeRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator-&gt;services();
-    $services-&gt;set(RenamePropertyToMatchTypeRector::class);
+return function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;set(RenamePropertyToMatchTypeRector::class);
 };</code></pre>
 <h2 id="6-Set-Default-Values-to-bool-and-array-Type-to-Prevent-Undefined-Value">6. Set Default Values to bool and array Type to Prevent Undefined Value</h2>
 <pre><code class="language-diff"> class SomeClass
@@ -283,18 +263,13 @@ return function (ContainerConfigurator $containerConfigurator): void {
 </ul>
 <p>↓</p>
 <p>use Rector rules:</p>
-<pre><code class="language-php">// rector.php
-
-declare(strict_types=1);
-
-use Rector\CodingStyle\Rector\Class_\AddArrayDefaultToArrayPropertyRector;
+<pre><code class="language-php">use Rector\CodingStyle\Rector\Class_\AddArrayDefaultToArrayPropertyRector;
 use Rector\SOLID\Rector\Property\AddFalseDefaultToBoolPropertyRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Rector\Config\RectorConfig;
 
-return function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator-&gt;services();
-    $services-&gt;set(AddFalseDefaultToBoolPropertyRector::class);
-    $services-&gt;set(AddArrayDefaultToArrayPropertyRector::class);
+return function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;rule(AddFalseDefaultToBoolPropertyRector::class);
+    $rectorConfig-&gt;rule(AddArrayDefaultToArrayPropertyRector::class);
 };</code></pre>
 <h2 id="7-Use-class-over-Strings-Names">7. Use <code>::class</code> over Strings Names</h2>
 <p>This feature is here since PHP 5.5, and it's a massive help for static analysis and instant migrations.</p>
@@ -313,16 +288,11 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <p>Instead of <del><code>Symplify\CodingStandard\Fixer\Php\ClassStringToClassConstantFixer</code></del> Fixer:</p>
 <p>↓</p>
 <p>use Rector rule:</p>
-<pre><code class="language-php">// rector.php
+<pre><code class="language-php">use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
+use Rector\Config\RectorConfig;
 
-declare(strict_types=1);
-
-use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator-&gt;services();
-    $services-&gt;set(StringClassNameToClassConstantRector::class);
+return function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;rule(StringClassNameToClassConstantRector::class);
 };</code></pre>
 <h2 id="8-Order-Property-by-Complexity-Private-Methods-by-Use">8. Order Property by Complexity, Private Methods by Use</h2>
 <p>How do you order your methods? Random?</p>
@@ -334,18 +304,13 @@ return function (ContainerConfigurator $containerConfigurator): void {
 </ul>
 <p>↓</p>
 <p>use Rector rules:</p>
-<pre><code class="language-php">// rector.php
-
-declare(strict_types=1);
-
-use Rector\Order\Rector\Class_\OrderPrivateMethodsByUseRector;
+<pre><code class="language-php">use Rector\Order\Rector\Class_\OrderPrivateMethodsByUseRector;
 use Rector\Order\Rector\Class_\OrderPropertyByComplexityRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Rector\Config\RectorConfig;
 
-return function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator-&gt;services();
-    $services-&gt;set(OrderPrivateMethodsByUseRector::class);
-    $services-&gt;set(OrderPropertyByComplexityRector::class);
+return function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;set(OrderPrivateMethodsByUseRector::class);
+    $rectorConfig-&gt;set(OrderPropertyByComplexityRector::class);
 };</code></pre>
 <h2 id="9-Specific-Order-By-Parent-Contract">9. Specific Order By Parent Contract</h2>
 <p>*Update: this rule was removed since Rector 0.9+ as not very useful in everyday coding.</p>
@@ -355,16 +320,11 @@ return function (ContainerConfigurator $containerConfigurator): void {
 <p>Instead of <del><code>Symplify\CodingStandard\Fixer\Solid\FinalInterfaceFixer</code></del> Fixer:</p>
 <p>↓</p>
 <p>use Rector rule:</p>
-<pre><code class="language-php">// rector.php
+<pre><code class="language-php">use Rector\SOLID\Rector\Class_\FinalizeClassesWithoutChildrenRector;
+use Rector\Config\RectorConfig;
 
-declare(strict_types=1);
-
-use Rector\SOLID\Rector\Class_\FinalizeClassesWithoutChildrenRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator-&gt;services();
-    $services-&gt;set(FinalizeClassesWithoutChildrenRector::class);
+return function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;rule(FinalizeClassesWithoutChildrenRector::class);
 };</code></pre>
 <p><br></p>
 <p>And that's it. Now you're ready!</p>

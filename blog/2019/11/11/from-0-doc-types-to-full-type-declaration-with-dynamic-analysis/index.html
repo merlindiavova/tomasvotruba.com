@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1342104596" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1059901330" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="From 0 Doc Types to Full Type Declaration with Dynamic Analysis" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/11/11/from-0-doc-types-to-full-type-declaration-with-dynamic-analysis" />
@@ -240,43 +240,28 @@ For a payment system, a month would be better, maybe more to be sure.</p>
 I've  <a href="https://github.com/rectorphp/rector/pull/2264/files">merged the PR into Rector</a> just a few minutes ago.</p>
 <p>↓</p>
 <h3 id="Step-1-Add-Type-Collector">Step 1 - Add Type Collector</h3>
-<pre><code class="language-php">// rector.php
+<pre><code class="language-php">use Rector\DynamicTypeAnalysis\Rector\ClassMethod\DecorateMethodWithArgumentTypeProbeRector;
+use Rector\Config\RectorConfig;
 
-declare(strict_types=1);
-
-use Rector\DynamicTypeAnalysis\Rector\ClassMethod\DecorateMethodWithArgumentTypeProbeRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator-&gt;services();
-    $services-&gt;set(DecorateMethodWithArgumentTypeProbeRector::class);
+return function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;rule(DecorateMethodWithArgumentTypeProbeRector::class);
 };</code></pre>
 <pre><code class="language-bash">vendor/bin/rector process src</code></pre>
 <h3 id="Step-2-Wait-for-it">Step 2 - Wait for it...</h3>
 <h3 id="Step-3-Complete-Collected-Types">Step 3 - Complete Collected Types</h3>
-<pre><code class="language-php">// rector.php
+<pre><code class="language-php">use Rector\DynamicTypeAnalysis\Rector\ClassMethod\AddArgumentTypeWithProbeDataRector;
+use Rector\Config\RectorConfig;
 
-declare(strict_types=1);
-
-use Rector\DynamicTypeAnalysis\Rector\ClassMethod\AddArgumentTypeWithProbeDataRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator-&gt;services();
-    $services-&gt;set(AddArgumentTypeWithProbeDataRector::class);
+return function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;rule(AddArgumentTypeWithProbeDataRector::class);
 };</code></pre>
 <pre><code class="language-bash">vendor/bin/rector process src</code></pre>
 <h3 id="Step-4-Remove-Type-Collector">Step 4 - Remove Type Collector</h3>
-<pre><code class="language-php">// rector.php
+<pre><code class="language-php">use Rector\DynamicTypeAnalysis\Rector\StaticCall\RemoveArgumentTypeProbeRector;
+use Rector\Config\RectorConfig;
 
-declare(strict_types=1);
-
-use Rector\DynamicTypeAnalysis\Rector\StaticCall\RemoveArgumentTypeProbeRector;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator-&gt;services();
-    $services-&gt;set(RemoveArgumentTypeProbeRector::class);
+return function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;rule(RemoveArgumentTypeProbeRector::class);
 };</code></pre>
 <pre><code class="language-bash">vendor/bin/rector process src</code></pre>
 <p><br></p>

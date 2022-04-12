@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1119651024" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?529076970" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to turn Laravel from Static to Dependency Injection in one Day" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2019/03/04/how-to-turn-laravel-from-static-to-dependency-injection-in-one-day" />
@@ -192,12 +192,11 @@ $result = SomeService::someMethod();</code></pre>
 <ol start="2">
 <li>Create <code>rector.php</code> config with <code>SetList::LARAVEL_STATIC_TO_INJECTION</code> set</li>
 </ol>
-<pre><code class="language-php">use Rector\Core\Configuration\Option;
-use Rector\Laravel\Set\LaravelSetList;use Rector\Set\ValueObject\SetList;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+<pre><code class="language-php">use Rector\Laravel\Set\LaravelSetList;use Rector\Set\ValueObject\SetList;
+use Rector\Config\RectorConfig;
 
-return function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator-&gt;import(LaravelSetList::LARAVEL_STATIC_TO_INJECTION);
+return function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;import(LaravelSetList::LARAVEL_STATIC_TO_INJECTION);
 };</code></pre>
 <ol start="3">
 <li>Run Rector</li>
