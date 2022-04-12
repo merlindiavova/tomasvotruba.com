@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?59702473" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?932315911" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="Rectify: Turn All Doctrine Repositories From Inheritance To Composition in Seconds" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2018/04/02/rectify-turn-repositories-to-services-in-symfony" />
@@ -188,16 +188,16 @@ final class DoctrineEntityAndRepositoryMapper implements DoctrineEntityAndReposi
  use Rector\Rector\Architecture\RepositoryAsService\MoveRepositoryFromParentToConstructorRector;
  use Rector\Config\RectorConfig;
 
- return function (RectorConfig $rectorConfigurator): void {
+ return function (RectorConfig $rectorConfig): void {
      // order matters, this needs to be first to correctly detect parent repository
 
      // this will replace parent calls by "$this-&gt;repository" property
-     $rectorConfigurator-&gt;rule(ReplaceParentRepositoryCallsByRepositoryPropertyRector::class);
+     $rectorConfig-&gt;rule(ReplaceParentRepositoryCallsByRepositoryPropertyRector::class);
 
      // this will move the repository from parent to constructor
-     $rectorConfigurator-&gt;rule(MoveRepositoryFromParentToConstructorRector::class);
+     $rectorConfig-&gt;rule(MoveRepositoryFromParentToConstructorRector::class);
 
-+    $rectorConfigurator-&gt;rule(\App\Rector\DoctrineEntityAndRepositoryMapper::class);
++    $rectorConfig-&gt;rule(\App\Rector\DoctrineEntityAndRepositoryMapper::class);
  };</code></pre>
 <h3 id="4-Run-on-Your-Code">4. Run on Your Code</h3>
 <p>Now the fun part:</p>
