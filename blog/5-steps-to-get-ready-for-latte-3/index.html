@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>5 Steps to Get Ready for Latte 3 | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+<meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
+
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?591944099" rel="stylesheet" type="text/css" />
+
+                <meta property="og:title" content="5 Steps to Get Ready for Latte 3" />
+        <meta property="og:url" content="https://tomasvotruba.com/blog/5-steps-to-get-ready-for-latte-3" />
+        <meta name="description" property="og:description" content="After 3 months of intensive testing, David released [Latte 3.0](https://github.com/nette/latte/releases/tag/v3.0.0) two days ago, with massive evolution under the hood. We&#039;ve been using it in Amateri past weeks, and today I will share our experience with you about how **to get prepared for it**.
+" />
+
+            </head>
+
+    <body>
+        <!-- post_id: 353 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/about-me">About Me</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <div class="text-center book-banner">
+                <a href="https://leanpub.com/rector-the-power-of-automated-refactoring" target="blank" class="text-center">
+                    <img src="/assets/images/banner-rector-book.png" class="mb-2 ml-auto mr-auto rounded " style="max-height: 5em" alt="">
+                </a>
+            </div>
+
+            <h1>5 Steps to Get Ready for Latte 3</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2022/2022-05-19-5-steps-to-get-ready-for-latte-3.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2022-05-Thu" class="text-muted">
+                2022-05-19
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>After 3 months of intensive testing, David released <a href="https://github.com/nette/latte/releases/tag/v3.0.0">Latte 3.0</a> two days ago, with massive evolution under the hood. We've been using it in Amateri past weeks, and today I will share our experience with you about how <strong>to get prepared for it</strong>.</p>
+                </div>
+            </div>
+
+            <p>Today, our goal is not to get your project to Latte 3. Developers of Latte Extensions will need a few weeks to catch up with the upgrade and test it, as macros have entirely new syntax.</p>
+<p>Despite that, there are a few steps that we can <strong>do before the upgrade itself to prepare</strong> for boarding the beautiful ship called Latte 3.</p>
+<h2 id="1-Replace-ifCurrent-with-if-isLinkCurrent">1. Replace <code>{ifCurrent ...}</code> with <code>{if isLinkCurrent(...)}</code></h2>
+<p>The macro <code>ifCurrent</code> calls function <code>isLinkCurrent</code> on the background. It will trigger an error in Latte 3.</p>
+<p>Now, use the function directly instead:</p>
+<pre><code class="language-diff"> &lt;a href="/friends" class="
+-    {ifCurrent friends}active{/ifCurrent}
++    {if isLinkCurrent('friends')}active{/if}
+ "&gt;Friends&lt;/a&gt;</code></pre>
+<p>And also:</p>
+<pre><code class="language-diff">-{ifCurrent 'meeting:lunch'}eat{/ifCurrent}
++{if isLinkCurrent('meeting:lunch')}win{/if}</code></pre>
+<p><br></p>
+<p><strong>💡 Tip: Do you use PHPStorm?</strong> This is <a href="https://github.com/TomasVotruba/barista/blob/fce40f5805cfbd529e4ae1bcdd22890db9a66164/src/Upgrade/IfCurrentLatteSyntaxUpgrader.php#L16">the regex</a> that handles change for you.</p>
+<p><br></p>
+<p>There is a particular case for the <code>n:ifCurrent</code> macro that is better to handle manually:</p>
+<pre><code class="language-diff">-&lt;a href="/profile/change-password" n:ifCurrent="profile"&gt;Change Password&lt;/a&gt;
++{if isLinkCurrent('profile')}
++    &lt;a href="/profile/change-password"&gt;Change Password&lt;/a&gt;
++{/if}</code></pre>
+<h2 id="2-Get-the-Latest-Latte-2-version">2. Get the Latest Latte 2.* version</h2>
+<p>This version is the latest you can get from 2.11.*. It does not break anything, and it helps you with the upgrade:</p>
+<pre><code class="language-bash">composer require latte/latte:^2.11.3</code></pre>
+<p>Do you have it in your project? Great, now we can use it in the next step ↓</p>
+<h2 id="3-Try-Latte-Linter-Today">3. Try Latte Linter Today</h2>
+<p>Syntax changes are <a href="https://forum.nette.org/cs/35141-latte-3-nejvetsi-vyvojovy-skok-v-dejinach-nette#p219574">described in this forum post</a>, but how many of those <strong>are actually in our project</strong>? Maybe all of them? In our case it was just 4.</p>
+<p>But how can we find them quickly? With the new Latte linter command. Just run it in CLI:</p>
+<pre><code class="language-bash">vendor/bin/latte-lint templates</code></pre>
+<p><br></p>
+<p>During our testing, we assumed linter is an intelligent static analyzer (like PHPStan) that will not let us make mistakes. That's not the case.</p>
+<p>The <em>linter</em> only <strong>checks the syntax of the Latte language is valid</strong>. It does not have the context or logic of your Latte files. Something like <code>php -l</code>.</p>
+<p><br></p>
+<p>Latte linter has a few spots to improve:</p>
+<ul>
+<li>It create own isolated <code>Latte\Engine</code>. That means it misses your custom macros and filters. You <a href="https://github.com/nette/latte/blob/8742292dc2723fd42dd9f0b928a0c8e0764df0b2/src/Tools/Linter.php#L21">can hack in your Latte Engine</a>, but it seems like a heavy workaround.</li>
+<li>The CI will keep failing because of these errors, so you have to allow the job to fail or skip it completely</li>
+<li>It only accepts directories as arguments, so you can't check a single Latte file:</li>
+</ul>
+<pre><code class="language-bash">vendor/bin/latte-lint templates/single-file.latte</code></pre>
+<p>David is committing improvement coming the last 2 days, so upcoming patch versions might change it.</p>
+<p><br></p>
+<p>Latte <strong>syntax is now CASE sensitive</strong> and the Linter will tell you where it matters:</p>
+<pre><code class="language-diff">-{foreach $items AS $item}
++{foreach $items as $item}</code></pre>
+<p>Let me know in the comments what deprecations you've found in your code.</p>
+<h2 id="4-Prepare-for-the-Translations">4. Prepare for the Translations</h2>
+<p>Since Latte 3, there are few changes in translate macros as we know them:</p>
+<pre><code class="language-html">{_$bookTitle}</code></pre>
+<p><br></p>
+<p>The single <code>_</code> still works, but the dual <code>_</code> macro <strong>will be replaced by <code>translate</code></strong>:</p>
+<pre><code class="language-diff">-{_}Nice tree! How do you grow it?{/_}
++{translate}Nice tree! How do you grow it?{/translate}</code></pre>
+<p><br></p>
+<p>The <code>_</code>, <code>-</code> or <code>:</code> could be part the language syntax. I think this is an improvement, as &quot;translate&quot; is self-explanatory.</p>
+<p><br></p>
+<p><strong>Warning</strong>: the <code>translate</code> macro is not yet available in Latte 2.x. I think it's worth mentioning, as in our case, it means a change of hundreds of cases, and we have to prepare a plan to get ready for it.</p>
+<h2 id="5-Ping-Your-Latte-3-Dependencies">5. Ping Your Latte 3.* Dependencies</h2>
+<p>Let's say our project is ready, we've updated all macros, Latte syntax, and Latte linter works. We want to board Latte 3...</p>
+<p>But what about <strong>the external Latte extensions we use</strong>? We can find out easily by triggering the requirements:</p>
+<pre><code class="language-bash">composer require latte/latte:^3.0</code></pre>
+<p>Does the install pass? Congratulations, there is no blocker in your vendor and you're ready to sail!</p>
+<p><br></p>
+<p>Has the composer reported some conflicts?</p>
+<ul>
+<li><a href="https://github.com/milo/embedded-svg">https://github.com/milo/embedded-svg</a></li>
+<li><a href="https://github.com/contributte/mailing">https://github.com/contributte/mailing</a> (dev-master allows)</li>
+<li><a href="https://github.com/nextras/mail-panel">https://github.com/nextras/mail-panel</a></li>
+</ul>
+<p>Help out these packages to:</p>
+<ul>
+<li>allow <code>latte/latte</code> 3.0</li>
+<li>fix possible BC breaks</li>
+</ul>
+<p>The sooner these packages are ready and tagged, the sooner whole Latte 3 community can sail together.</p>
+<p><br></p>
+<p>How to upgrade a Latte extension to Latte 3? Stay tuned for the next post.</p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                            <a href="/blog/new-in-ecs-simpler-config" class="d-block">
+                            <div>
+                                Read next → <strong>New in ECS: Simpler Config</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+        <script type="text/javascript">
+            // @see https://stackoverflow.com/a/30776817/1348344
+            var date = new Date();
+            // display every 2nd hour, not to spam users
+            if (date.getHours() % 2 === 1) {
+                document.querySelector('.book-banner').style.display = 'visible';
+            } else {
+                document.querySelector('.book-banner').style.display = 'none';
+            }
+        </script>
+    </body>
+</html>
