@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1816230440" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?680691434" rel="stylesheet" type="text/css" />
 
                 <meta property="og:title" content="How to change PHP code with Abstract Syntax Tree" />
         <meta property="og:url" content="https://tomasvotruba.com/blog/2017/11/06/how-to-change-php-code-with-abstract-syntax-tree" />
@@ -125,11 +125,16 @@ Let's create first its synapse!</p>
 <pre><code class="language-php">use PhpParser\Parser;
 use PhpParser\ParserFactory;
 
-$parser = (new ParserFactory)-&gt;create(ParserFactory::PREFER_PHP7); # or PREFER_PHP5, if your code is older
+$parserFactory = new ParserFactory();
+
+// or PREFER_PHP5, if your code is older
+$parser = $parserFactory-&gt;create(ParserFactory::PREFER_PHP7); 
+
 $nodes = $parser-&gt;parse(file_get_contents(__DIR__ . '/SomeClass.php'));</code></pre>
 <h3 id="2-Find-Method-Node">2. Find Method Node</h3>
 <p>The best way to work with Nodes is to <strong>traverse them with <a href="https://github.com/nikic/PHP-Parser/blob/master/lib/PhpParser/NodeTraverser.php"><code>PhpParser\NodeTraverser</code></a></strong>:</p>
 <pre><code class="language-php">$nodeTraverser = new PhpParser\NodeTraverser;
+
 $traversedNodes = $nodeTraverser-&gt;traverse($nodes);</code></pre>
 <p>Now we traversed all nodes, but nothing actually happened. Do you think we forgot to invite somebody in?</p>
 <p>Yes, <strong>we need <a href="https://github.com/nikic/PHP-Parser/blob/master/lib/PhpParser/NodeVisitor.php"><code>PhpParser\NodeVisitor</code></a></strong> - an interface with 4 methods. We can either implement all 4 of them, or use <a href="https://github.com/nikic/PHP-Parser/blob/master/lib/PhpParser/NodeVisitorAbstract.php"><code>PhpParser\NodeVisitorAbstract</code></a> to save some work:</p>
@@ -178,7 +183,8 @@ final class ChangeMethodNameNodeVisitor extends NodeVisitorAbstract
 <p>To work with <strong>class names, interface names, method names</strong> etc., we need to <strong>use <code>PhpParser\Node\Name</code></strong>.</p>
 <p>Oh, I almost forgot, we need to actually <strong>invite visitor to the <code>NodeTraverser</code></strong> like this:</p>
 <pre><code class="language-php">$nodeTraverser = new PhpParser\NodeTraverser;
-$traversedNodes-&gt;addVisitor(new ChangeMethodNameNodeVisitor);
+$nodeTraverser-&gt;addVisitor(new ChangeMethodNameNodeVisitor);
+
 $traversedNodes = $nodeTraverser-&gt;traverse($nodes);</code></pre>
 <h3 id="4-Save-to-File">4. Save to File</h3>
 <p>Last step is saving the file (<a href="https://github.com/nikic/PHP-Parser/blob/master/doc/component/Pretty_printing.markdown">see docs</a>). We have 2 options here:</p>
