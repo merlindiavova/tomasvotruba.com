@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>How to Test Latte Macro in 4 Steps | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+    <meta property="og:image" content="https://tomasvotruba.com/assets/images/posts/2022/latte_macro_test.png" />
+    <meta property="og:title" content="How to Test Latte Macro in 4 Steps" />
+    <meta property="og:url" content="https://tomasvotruba.com/blog/how-to-test-latte-macro-in-4-steps" />
+
+    <meta name="twitter:image" content="https://tomasvotruba.com/assets/images/posts/2022/latte_macro_test.png"/>
+
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?2113601963" rel="stylesheet" type="text/css" />
+
+                <meta name="description" property="og:description" content="We&#039;re upgrading a couple of Latte macros into Latte 3. None of them have tests, and all of them will change entirely because of a complete rewrite of the Latte parser.
+
+To get ready, we want to prepare tests first. Although writing Latte macros is the most complicated feature in Latte, testing is easier than you think.
+" />
+    </head>
+
+    <body>
+        <!-- post_id: 361 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/about-me">About Me</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <div class="text-center book-banner">
+                <a href="https://leanpub.com/rector-the-power-of-automated-refactoring" target="blank" class="text-center">
+                    <img src="/assets/images/banner-rector-book.png" class="mb-2 ml-auto mr-auto rounded " style="max-height: 5em" alt="">
+                </a>
+            </div>
+
+            <h1>How to Test Latte Macro in 4 Steps</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2022/2022-04-18-how-to-test-latte-macro-in-4-steps.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2022-04-Mon" class="text-muted">
+                2022-04-18
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>We're upgrading a couple of Latte macros into Latte 3. None of them have tests, and all of them will change entirely because of a complete rewrite of the Latte parser.
+<br><br>
+To get ready, we want to prepare tests first. Although writing Latte macros is the most complicated feature in Latte, testing is easier than you think.</p>
+                </div>
+            </div>
+
+            <p>In another post, we focused on how to change the macro contents from Latte 2 to Latte 3 syntax. Today we'll see how to <strong>prepare a test that helps you upgrade easily</strong>. I never wrote any Latte macro in my life, but tests proved very helpful.</p>
+<h2 id="1-Create-Test-Case-with-Container">1. Create Test Case with Container</h2>
+<p>We'll need a <code>Latte\Engine</code> instance to load the Latte extension from provided <code>config.neon</code>.</p>
+<p>We could create manual registration of <code>Latte\Engine</code>, but using <code>nette/di</code> will be closer to the actual use of Latte in our framework and scales easily in case of adding more extensions.</p>
+<p>First, create a <code>ContainerFactory</code> that accepts config:</p>
+<pre><code class="language-php">namespace Tests\DI;
+
+use Nette\Bootstrap\Configurator;
+use Nette\DI\Container;
+use Nette\Utils\FileSystem;
+
+final class ContainerFactory
+{
+    public function create(string $config): Container
+    {
+        $tempDirectory = __DIR__ . '/../temp';
+
+        // clear before factory create to invoke cache rebuild
+        FileSystem::delete($tempDirectory);
+
+        $configurator = new Configurator();
+        $configurator-&gt;addConfig($config);
+        $configurator-&gt;setTempDirectory($tempDirectory);
+
+        return $configurator-&gt;createContainer();
+    }
+}</code></pre>
+<h2 id="2-Prepare-Latte-Engine-Service">2. Prepare <code>Latte\Engine</code> Service</h2>
+<p>We cannot get <code>Latte\Engine</code> directly, as the service does not exist.
+Instead, we'll use <code>LatteFactory</code> to create it. Create a simple test case and prepare the <code>Latte\Engine</code> in <code>setUp()</code>:</p>
+<pre><code class="language-php">namespace Tests\Latte\Macros;
+
+use PHPUnit\Framework\TestCase;
+use Latte\Engine;
+use Latte\Loaders\StringLoader;
+use Nette\Bridges\ApplicationLatte\LatteFactory;
+
+final class EmbeddedSvgMacroTest extends TestCase
+{
+    private Engine $latteEngine;
+
+    protected function setUp(): void
+    {
+        $containerFactory = new ContainerFactory();
+        $container = $containerFactory-&gt;create(__DIR__ . '/config/svg_macro.neon');
+
+        /** @var LatteFactory $latteFactory */
+        $latteFactory = $container-&gt;getByType(LatteFactory::class);
+        $this-&gt;latteEngine = $latteFactory-&gt;create();
+
+        $this-&gt;latteEngine-&gt;setLoader(new StringLoader());
+    }
+}</code></pre>
+<p><br></p>
+<h3 id="What-is-the-Loader-change-for">What is the Loader change for?</h3>
+<p>You might have noticed that we've added the extra sauce to the <code>Latte\Engine</code>:</p>
+<pre><code class="language-php">$this-&gt;latteEngine-&gt;setLoader(new StringLoader());</code></pre>
+<p><br></p>
+<p>Latte uses by default <code>Latte\Loaders\FileLoader</code>, which accepts the name of the template or path. So when we try to render string:</p>
+<pre><code class="language-php">$this-&gt;latteEngine-&gt;setLoader('{embeddedSvg "file.svg"}');</code></pre>
+<p>It looks for the <code>{embeddedSvg "file.svg"}</code> file and obviously - fails to find.</p>
+<p><br></p>
+<p>With the <code>StringLoader</code>, on the other hand, it will render the Latte input string directly.</p>
+<h2 id="3-Dump-Your-Macro-Contents">3. Dump Your Macro Contents</h2>
+<p>The macro has a straightforward job, and it converts input Latte to PHP contents of the cached template. When we test macro, we expect specific output.</p>
+<p>We have to create PHP output first from the first test run.</p>
+<pre><code class="language-php">public function test(): void
+{
+    $compiledPhpCode = $this-&gt;latteEngine-&gt;render('{embeddedSvg "file.svg"}');
+
+    // this creates first fixture file - run this only once, then remove!
+    file_put_contents(__DIR__ . '/expected_file.php', $compiledPhpCode);
+
+    $this-&gt;assertStringEqualsFile(__DIR__ . '/expected_file.php', $compiledPhpCode);
+}</code></pre>
+<p><br></p>
+<p>Latte uses tabs by default. Depending on your code style, you might want to convert them to 4 spaces:</p>
+<pre><code class="language-php">$compiledPhpCode = Strings::replace($compiledPhpCode, "#\t#", '    ');</code></pre>
+<p><br></p>
+<p>Run PHPUnit to create the first fixture file:</p>
+<pre><code class="language-bash">vendor/bin/phpunit</code></pre>
+<p>The test should pass, as the run just created the fixture.</p>
+<p>Good job!</p>
+<h2 id="4-Extend-Test-for-Various-Situations">4. Extend Test for Various Situations</h2>
+<p>One more thing. Just to be sure, we'll cover all various input situations:</p>
+<pre><code class="language-html">// basic
+{embeddedSvg "file.svg"}
+
+// no key argument
+{embeddedSvg "file.svg", "single_no_value"}
+
+// multiple arguments
+{embeddedSvg "file.svg", "class" =&gt; "blue", "size" =&gt; "medium"}</code></pre>
+<p><br></p>
+<p>Now our tests cover all possible situations this macro can use.</p>
+<p>Commit, push and merge. That's it!</p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                            <a href="/blog/5-steps-to-get-ready-for-latte-3" class="d-block">
+                            <div>
+                                Read next → <strong>5 Steps to Get Ready for Latte 3</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+        <script type="text/javascript">
+            // @see https://stackoverflow.com/a/30776817/1348344
+            var date = new Date();
+            // display every 2nd hour, not to spam users
+            if (date.getHours() % 2 === 1) {
+                document.querySelector('.book-banner').style.display = 'visible';
+            } else {
+                document.querySelector('.book-banner').style.display = 'none';
+            }
+        </script>
+    </body>
+</html>
