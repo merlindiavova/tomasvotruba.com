@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>How to Upgrade Latte 2 Macro to Latte 3 Tag | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+    <meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
+
+    <meta name="twitter:image" content="/assets/images/tomas_votruba.jpg"/>
+
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?1058445682" rel="stylesheet" type="text/css" />
+
+                <meta name="description" property="og:description" content="Latte 3 running on abstract syntax tree was released this week. Do you want to upgrade? First, check [5 steps to get ready](/blog/5-steps-to-get-ready-for-latte-3).
+
+Do you have any custom macros in your project? They&#039;re the biggest challenge of the Latte 3 upgrade. But don&#039;t worry, today we&#039;ll rewrite them together.
+" />
+    </head>
+
+    <body>
+        <!-- post_id: 354 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/about-me">About Me</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <div class="text-center book-banner">
+                <a href="https://leanpub.com/rector-the-power-of-automated-refactoring" target="blank" class="text-center">
+                    <img src="/assets/images/banner-rector-book.png" class="mb-2 ml-auto mr-auto rounded " style="max-height: 5em" alt="">
+                </a>
+            </div>
+
+            <h1>How to Upgrade Latte&nbsp;2&nbsp;Macro to&nbsp;Latte&nbsp;3&nbsp;Tag</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2022/2022-05-23-how-to-upgrade-latte-2-macro-to-latte-3-tag.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2022-05-Mon" class="text-muted">
+                2022-05-23
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>Latte 3 running on abstract syntax tree was released this week. Do you want to upgrade? First, check <a href="/blog/5-steps-to-get-ready-for-latte-3">5 steps to get ready</a>.
+<br><br>
+Do you have any custom macros in your project? They're the biggest challenge of the Latte 3 upgrade. But don't worry, today we'll rewrite them together.</p>
+                </div>
+            </div>
+
+            <h2 id="For-Early-Adopters">For Early Adopters</h2>
+<p>Note: this is an early way to upgrade macro to Latte 3 based on trial/error, and it might improve based on to-be-released documentation.
+Suppose you get stuck with your macro, <a href="https://forum.nette.org/cs/35141-latte-3-nejvetsi-vyvojovy-skok-v-dejinach-nette">ask in the dedicated topic on Nette Forum</a>.</p>
+<p><br></p>
+<p>Latte macro is a Latte &quot;shortcut&quot; that unwraps to compiled PHP code of the cached template, and it is compiled once, re-used, and improves the performance. In Latte 3, they're called <em>tags</em>.</p>
+<p>That's enough for theory. Now we check <a href="https://www.startupjobs.cz/nabidka/24580/hleda-se-senior-php-programator-se-zapalem-pro-vec">upgrade of actual code in Amateri</a>.</p>
+<p><br></p>
+<p>A macro that inlines SVG files right to HTML code. From macro in Latte file...</p>
+<pre><code class="language-html">{embeddedSvg "circle.svg"}
+{embeddedSvg "circle.svg", "class" =&gt; "blue"}</code></pre>
+<p><br></p>
+<p>...to compiled template PHP code:</p>
+<pre><code class="language-html">echo '&lt;svg width="10" height="10"&gt;&lt;circle cx="4.5" cy="4.5" r="3.5"/&gt;&lt;/svg&gt;';
+echo '&lt;svg width="10" height="10" class="blue"&gt;&lt;circle cx="4.5" cy="4.5" r="3.5"/&gt;&lt;/svg&gt;';</code></pre>
+<h2 id="Before-We-Start">Before We Start...</h2>
+<p>We can upgrade the first macro to Latte 3 today, but in the case of 2nd, 3rd... or external dependency, it might take some time. We could stay in a traffic jam between both versions for a few weeks.</p>
+<p><br></p>
+<p>To support both Latte 2 macros and Latte 3 tags, use <a href="https://forum.nette.org/cs/35141-latte-3-nejvetsi-vyvojovy-skok-v-dejinach-nette?p=2#p220012">following trick</a>:</p>
+<pre><code class="language-php">if (version_compare(Latte\Engine::VERSION, '3', '&lt;')) {
+    // Latte 2
+    $this-&gt;latte-&gt;onCompile[] = function { ... };
+} else {
+    // Latte 3
+    $this-&gt;latte-&gt;addExtension(...);
+}</code></pre>
+<h2 id="1-From-DI-extension-ot-Latte-Extension">1. From DI extension ot Latte Extension</h2>
+<p>Huh, what is this <code>addExtension()</code> method? Latte 3 uses its own extensions. No, it is not a usual a<code>CompilerExtension</code> as we know it.</p>
+<p>What does it look like for our embeddedSvg macro, then?</p>
+<pre><code class="language-php">namespace App\Latte;
+
+use Latte\Extension;
+
+final class EmbeddedSvgLatteExtension extends Extension
+{
+    // here we pass the configuration from config
+    public function __construct(
+        private string $baseDir
+    ) {
+    }
+}</code></pre>
+<p><br></p>
+<p>Then we replace the DI extension with the Latte extension in <code>config.neon</code>:</p>
+<pre><code class="language-diff">-extensions:
+-    embeddedSvg: App\Latte\DI\EmbeddedSvgExtension
+-
+-embeddedSvg:
+-    baseDir: %wwwDir%/images
+
++latte:
++    extensions:
++        - App\Latte\EmbeddedSvgLatteExtension(baseDir: %wwwDir%/images)</code></pre>
+<p><br></p>
+<p>We've just added Latte 3 extension that loads itself and does nothing. Time to add the first node!</p>
+<h2 id="2-From-Macro-to-an-AST-Node">2. From Macro to an AST Node</h2>
+<p>Abstract syntax tree landed in Latte Three. What does it mean for macros? The macro set is gone, and we'll create our own node class instead. Let's call it <code>EmbeddedSvgNode</code>.</p>
+<p>First, we register it in our newly created Latte extension in the <code>getTags()</code> method:</p>
+<pre><code class="language-php">namespace App\Latte;
+
+use Latte\Extension;
+use Latte\Compiler\Tag;
+use App\Latte\Node\EmbeddedSvgNode;
+
+final class EmbeddedSvgLatteExtension extends Extension
+{
+    public function __construct(
+        private string $baseDir
+    ) {
+    }
+
+    public function getTags(): array
+    {
+        return [
+            'embeddedSvg' =&gt; function (Tag $tag): EmbeddedSvgNode {
+                return new EmbeddedSvgNode($tag, $this-&gt;baseDir);
+            },
+        ];
+    }
+}</code></pre>
+<p>How should we read this? Everytime we call <code>{embeddedSvg ...}</code> in Latte, the <code>new EmbeddedSvgNode($tag, $this-&gt;baseDir)</code> will be created on that place.</p>
+<p>We can pass any arguments into its constructor. In our case:</p>
+<ul>
+<li><code>$tag</code> that holds every information from Latte, e.g., the file path argument</li>
+<li><code>$this-&gt;baseDir</code> path that leads to a base directory with all images</li>
+</ul>
+<p><br></p>
+<h2 id="3-From-Macro-open-to-the-AST-Node">3. From <code>Macro::open()</code> to the AST Node</h2>
+<p>In the old Latte 2 macro, we used an <code>open()</code> method that handles both input parsing and node printing:</p>
+<pre><code class="language-php">use Latte\MacroNode;
+use Latte\Macros\MacroSet;
+use Latte\PhpWriter;
+
+final class EmbeddedSvgMacro extends MacroSet
+{
+    // ...
+
+    public function open(MacroNode $node, PhpWriter $writer): string
+    {
+        // here we get string of first argument, the file path
+        $file = $node-&gt;tokenizer-&gt;fetchWord();
+        if ($file === null) {
+            throw new CompileException('Missing SVG file path.');
+        }
+
+        // don't forget to clean the quotes
+        $svgFilepath = $this-&gt;baseDir . DIRECTORY_SEPARATOR . trim($file, '\'"');
+
+        // get optional arguments
+        $macroAttributes = $writer-&gt;formatArray();
+
+        // print bellow
+        // ...
+    }</code></pre>
+<p>The <code>EmbeddedSvgNode</code> class splits these jobs into 2 separate methods:</p>
+<ul>
+<li>parse Latte input,</li>
+<li>print itself to compiled PHP templates</li>
+</ul>
+<p><br></p>
+<p>How do we write input parsing of the macro above in the Latte 3 node?</p>
+<pre><code class="language-php">use Latte\Compiler\Nodes\AreaNode;
+use Latte\Compiler\Nodes\Php\Expression\ArrayNode;
+
+// we chose AreaNode for parent, suitable for HTML nodes like &lt;svg&gt;
+final class EmbeddedSvgNode extends AreaNode
+{
+    private ArrayNode $arguments;
+
+    private string $svgFilepath;
+
+    public function __construct(Tag $tag, string $baseDir)
+    {
+        // parse first argument
+        $stringNode = $tag-&gt;parser-&gt;parseUnquotedStringOrExpression();
+        if (! $stringNode instanceof StringNode) {
+            // we need string node
+            throw new InvalidArgumentException('File must be string value');
+        }
+
+        // fullpath to directory
+        $this-&gt;svgFilepath = $baseDir . DIRECTORY_SEPARATOR . $stringNode-&gt;value;
+
+        // parse optional arguments, after ","
+        $tag-&gt;parser-&gt;stream-&gt;tryConsume(',');
+        $this-&gt;arguments = $tag-&gt;parser-&gt;parseArguments();
+    }
+}</code></pre>
+<p><br></p>
+<h2 id="What-has-Changed-in-the-Input">What has Changed in the Input?</h2>
+<ul>
+<li>instead of <code>string</code> for file name, we get a <code>StringNode</code> object</li>
+<li>instead of <code>string</code> for arguments (yes, <a href="https://github.com/nette/latte/blob/f2e16d3ec6968854029740452c20c38a514e6842/src/Latte/Compiler/PhpWriter.php#L164">it's a <code>string</code></a>), we have an <code>ArrayNode</code> object</li>
+</ul>
+<p>Beautiful object API with IDE autocomplete and static validation!</p>
+<p><br></p>
+<p>Back to our <del>macro</del> node. Now we have 2 essential pieces ready:</p>
+<ul>
+<li>the SVG file path</li>
+<li>the optional arguments, e.g. &quot;class&quot; =&gt; &quot;blue&quot;</li>
+</ul>
+<p><br></p>
+<p>The last step is <strong>to print them to compiled PHP code</strong>.</p>
+<p><br></p>
+<h2 id="4-From-writer-and-gt-write-To-node-and-gt-print">4. From <code>$writer-&gt;write(...)</code> To <code>$node-&gt;print(...)</code></h2>
+<p>For the printing, we re-use the original macro. What should we print?</p>
+<pre><code class="language-php">use Latte\MacroNode;
+use Latte\Macros\MacroSet;
+use Latte\PhpWriter;
+
+final class EmbeddedSvgMacro extends MacroSet
+{
+    // ...
+
+    public function open(MacroNode $node, PhpWriter $writer): string
+    {
+        // ...
+
+        // contains ['width' =&gt; '10', 'height' =&gt; '10']
+        $svgAttributes = $this-&gt;resolveSvgAttributes($svgFilepath);
+
+        // contains &lt;circle cx="4.5" cy="4.5" r="3.5"/&gt;
+        $innerSvgContent = $this-&gt;resolveSvgString($svgFilepath);
+
+        return $writer-&gt;write('
+            echo "&lt;svg";
+            foreach (%0.var + %1.raw as $key =&gt; $value) {
+                echo " " . %escape($key) . "=\"" . %escape($value) . "\"";
+         };
+         echo "&gt;" . %2.var . "&lt;/svg&gt;";
+         ',
+            $svgAttributes,
+            $macroAttributes,
+            $innerSvgContent
+        );
+    }
+}</code></pre>
+<p><br></p>
+<p>It seems we have to:</p>
+<ul>
+<li>foreach svg attributes, in bare <code>array</code> format via <code>%0.var%</code> mask</li>
+<li>macro defined arguments in <code>string</code> format via <code>%1.raw</code> mask</li>
+<li>print inner SVG <code>string</code> via <code>%2.var</code></li>
+</ul>
+<p><br></p>
+<p>How do we include it in <code>EmbeddedSvgNode::print()</code> method?</p>
+<pre><code class="language-php">use Latte\Compiler\Nodes\AreaNode;
+use Latte\Compiler\Nodes\TextNode;
+use Latte\Compiler\PrintContext;
+
+final class EmbeddedSvgNode extends AreaNode
+{
+    // ...
+
+    public function print(PrintContext $context): string
+    {
+        // contains ['width' =&gt; '10', 'height' =&gt; '10']
+        $svgAttributes = $this-&gt;resolveSvgAttributes($svgFilepath);
+
+        // contains &lt;circle cx="4.5" cy="4.5" r="3.5"/&gt;
+        $innerSvgContent = $this-&gt;resolveSvgString($svgFilepath);
+
+        return $context-&gt;format(
+            &lt;&lt;&lt;'PHP_CONTENT'
+echo '&lt;svg';
+
+foreach (%dump + %node as $key =&gt; $value) {
+    echo ' ' . %escape($key) . "='" . %escape($value) . "'";
+}
+
+%node
+echo '&lt;/svg&gt;';
+PHP_CONTENT,
+            $svgAttributes,
+            $this-&gt;arguments,
+            new TextNode($innerSvgContent)
+        );
+    }</code></pre>
+<p><br></p>
+<p>Tip: open this post in the 2nd tab and compare the old Latte 2 macro on the left side and the new Latte 3 node on the right side.</p>
+<p><br></p>
+<h3 id="What-has-Changed-in-Printing">What has Changed in Printing?</h3>
+<pre><code class="language-diff">-* foreach SVG attributes, in bare `array` format via `%0.var%` mask</code></pre>
+<ul>
+<li>print raw <code>array</code> via <code>%dump</code> mask</li>
+</ul>
+<p><br></p>
+<pre><code class="language-diff">-* + macro defined arguments in `string` format via `%1.raw` mask</code></pre>
+<ul>
+<li>print latte defined argument <code>ArrayNode</code> via <code>%node</code> mask</li>
+</ul>
+<p><br></p>
+<pre><code class="language-diff">-* print inner SVG `string` via `%2.var`</code></pre>
+<ul>
+<li>print <code>TextNode</code> via <code>%node</code> mask</li>
+</ul>
+<p><br></p>
+<p><strong>Proof over promise?</strong> Find an open-source version of this upgrade in <a href="https://github.com/TomasVotruba/embedded-svg/pull/4/files">this pull-request</a>, including tests and detailed parsing SVG via XML.</p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                            <a href="/blog/5-steps-to-get-ready-for-latte-3" class="d-block">
+                            <div>
+                                Read next → <strong>5 Steps to Get Ready for Latte 3</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+        <script type="text/javascript">
+            // @see https://stackoverflow.com/a/30776817/1348344
+            var date = new Date();
+            // display every 2nd hour, not to spam users
+            if (date.getHours() % 2 === 1) {
+                document.querySelector('.book-banner').style.display = 'visible';
+            } else {
+                document.querySelector('.book-banner').style.display = 'none';
+            }
+        </script>
+    </body>
+</html>
