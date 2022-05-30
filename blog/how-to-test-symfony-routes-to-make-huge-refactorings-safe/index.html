@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>How to test Symfony Routes Before Huge Refactoring | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+    <meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
+
+    <meta name="twitter:image" content="/assets/images/tomas_votruba.jpg"/>
+
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?201170462" rel="stylesheet" type="text/css" />
+
+                <meta name="description" property="og:description" content="The beauty of [pattern refactoring](/blog/2019/04/15/pattern-refactoring/) with Rector is transforming thousands of elements at once. Like nuclear chain reaction. But to do it safely, we need a high-quality test to ensure the code still works.
+
+Does a high-quality test mean *a lot of* tests? Not necessarily. Instead of writing many tests to cover all our routes, we can write one smart one. How?
+" />
+    </head>
+
+    <body>
+        <!-- post_id: 357 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/about-me">About Me</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <div class="text-center book-banner">
+                <a href="https://leanpub.com/rector-the-power-of-automated-refactoring" target="blank" class="text-center">
+                    <img src="/assets/images/banner-rector-book.png" class="mb-2 ml-auto mr-auto rounded " style="max-height: 5em" alt="">
+                </a>
+            </div>
+
+            <h1>How to test Symfony Routes Before Huge&nbsp;Refactoring</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2022/2022-05-02-how-to-test-symfony-routes-to-make-huge-refactorings-safe.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2022-05-Mon" class="text-muted">
+                2022-05-02
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>The beauty of <a href="/blog/2019/04/15/pattern-refactoring/">pattern refactoring</a> with Rector is transforming thousands of elements at once. Like nuclear chain reaction. But to do it safely, we need a high-quality test to ensure the code still works.
+<br><br>
+Does a high-quality test mean <em>a lot of</em> tests? Not necessarily. Instead of writing many tests to cover all our routes, we can write one smart one. How?</p>
+                </div>
+            </div>
+
+            <p>I was working on routing refactoring the Symfony 2.8 project a month ago. The test for routing we had only was able to count the routes. That's it.</p>
+<p>That's like assuming the nuclear reactor works because there is no fire in the village 5 miles away.</p>
+<p>We needed a better test that covers the loading of every route, path, prefix, and everything that <code>@Route</code> can hold. This was a rough 10 line idea:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I'm refactoring configuration ~80 routes from YAML to PHP, but need them to work 😊<br><br>How would you test that all routes all still the same in <a href="https://twitter.com/hashtag/symfony?src=hash&amp;ref_src=twsrc%5Etfw">#symfony</a>?<br><br>This is my go ↓ <a href="https://t.co/hdqLDAEk3v">pic.twitter.com/hdqLDAEk3v</a></p>— Tomas Votruba 🇺🇦 (@VotrubaT) <a href="https://twitter.com/VotrubaT/status/1519201806819205120?ref_src=twsrc%5Etfw">April 27, 2022</a></blockquote>
+<p><br></p>
+<h2 id="One-Month-Later">One Month Later...</h2>
+<p>We still have this test that is performing great. So far it:</p>
+<ul>
+<li>discovered 5 bugs in pull-request CI checks</li>
+<li>helped us to find 1 dead route</li>
+</ul>
+<p>That's why I want to share it with you, step by step. The beauty of it is <strong>you can write this test in 10 minutes and have 0 maintenance cost</strong>. You can use this approach not just for Symfony routing but for loaded entities or anything in the form of an array. The CI feedback that everything still works is priceless.</p>
+<h2 id="1-Get-loaded-Routes-from-Symfony">1. Get loaded Routes from Symfony</h2>
+<p>The first step that we have to do is to get all the loaded routes. For that, we need a <code>RouterInterface</code>. We'll look at how to get normalized routed data. Then we'll put everything together in a test case:</p>
+<pre><code class="language-php">/** @var \Symfony\Component\Routing\RouterInterface $router */
+$routeCollection = $router-&gt;getRouteCollection();
+
+// here we collect route data to an array
+$routeMap = [];
+
+foreach ($routeCollection-&gt;all() as $name =&gt; $route) {
+    // we wanted to test only attributes we use, but you can name all of them
+    $routeMap[$name] = [
+        'path' =&gt; $route-&gt;getPath(),
+        'requirements' =&gt; $route-&gt;getRequirements(),
+        'defaults' =&gt; $route-&gt;getDefaults(),
+        'methods' =&gt; $route-&gt;getMethods(),
+    ];
+}
+
+// sort A → Z for nice standardized output
+ksort($routeMap);</code></pre>
+<p>You can try this quickly in a controller or command. <code>dump($routeMap)</code> to see if you have collected routes.</p>
+<p><br></p>
+<p>All right! We have the data about routes our project has now. How do we turn it into a future-proof test to avoid nuclear core failure?</p>
+<h2 id="2-Persist-Snapshot-to-File">2. Persist Snapshot to File</h2>
+<p>The following testing is sometimes called &quot;snapshot&quot;, and is very useful for testing HTML outputs. We have data in an <code>array</code> with strings. How do we turn it into a snapshot stored in a file?</p>
+<p>Well, even more complex test <a href="/blog/2020/07/13/the-most-effetive-test-i-found-in-7-years-of-testing">like Rector I/O</a> can be turned into snapshots.</p>
+<p>We can handle an <code>array</code>, right? We'll use the good old &quot;what is an array, is a JSON; what is a JSON, is an array&quot; axiom:</p>
+<pre><code class="language-php">use Nette\Utils\Json;
+
+$routeMapJson = Json::encode($routeMap, Json::PRETTY);</code></pre>
+<p><br></p>
+<p>What is a string, can be persisted to file:</p>
+<pre><code class="language-php">file_put_contents(__DIR__ . '/Fixture/expected_route_map.json', $routeMapJson);</code></pre>
+<p>Now we have a snapshot of our routes <strong>in a single JSON file</strong>. Not just long line, but beautiful indented JSON file. We can open it and go through it ourselves. The routes include prefixes, YAML, XML, annotation, and attribute routes. We don't care about the format, just if everything is in the same place in the end.</p>
+<p>If one route name is changed by just one character, we know it. If a new route is added, we know it.</p>
+<h2 id="Easy-Maintenance">Easy Maintenance?</h2>
+<p>If we add a new route, we know it. The test would fail. But that is not what we expect. We added a new route, so we want it there. Oh, we'll have to update the <code>__DIR__ . '/Fixture/expected_route_map.json'</code> file.</p>
+<p>But how? Is this price for snapshot testing? Do we have to go to the file and manually update it? Do we have to run <code>file_put_contents()</code> to update the file contents?</p>
+<p><strong>That's a waste of time we want to use for more meaningful work.</strong></p>
+<p><br></p>
+<p>Here we'll leverage <a href="/blog/2020/07/20/how-to-update-hundreds-of-test-fixtures-with-single-phpunit-run/">testing trick</a> I learned from Nikita Popov while I've been contributing php-parser. It's not only a joy to contribute, but you can update tests from a command line. That's right, no work, no manual editing, just <code>vendor/bin/phpunit</code> run.</p>
+<pre><code class="language-php">if (getenv('UT')) {
+    // update test fixture knowingly, e.g. when new route is added
+    FileSystem::write($routeMapJson, __DIR__ . '/Fixture/expected_route_map.json');
+}</code></pre>
+<p><br></p>
+<p>It could not be simpler. To update the test fixture, add <code>UT=1</code> before the PHPUnit run:</p>
+<pre><code class="language-bash">UT=1 vendor/bin/phpunit</code></pre>
+<h2 id="The-Final-RoutingSnapshotTest">The Final <code>RoutingSnapshotTest</code></h2>
+<p>We have the pieces... now we just put them together:</p>
+<pre><code class="language-php">namespace App\Tests\Routing;
+
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\Routing\RouteCollection;
+
+final class RoutingSnapshotTest extends TestCase
+{
+    public function test(): void
+    {
+        // create container from Kernel or using KernelTestCase
+        $container = $this-&gt;createContainer();
+
+        $router = $container-&gt;get('router');
+
+        $routeCollection = $router-&gt;getRouteCollection();
+        $routeMap = $this-&gt;createRouteMap($routeCollection);
+
+        $currentRouteMapJson = Json::encode($routeMap, Json::PRETTY);
+
+        $expectedRouteMapFile = __DIR__ . '/Fixture/expected_route_map.json';
+
+        if (getenv('UT')) {
+            FileSystem::write($expectedRouteMapFile, $currentRouteMapJson);
+        }
+
+        $this-&gt;assertJsonStringEqualsJsonFile(
+            $expectedRouteMapFile,
+            $currentRouteMapJson
+        );
+    }
+
+    private function createRouteMap(RouteCollection $routeCollection): array
+    {
+        $routeMap = [];
+        foreach ($routeCollection-&gt;all() as $name =&gt; $route) {
+            $routeMap[$name] = [
+                'path' =&gt; $route-&gt;getPath(),
+                'requirements' =&gt; $route-&gt;getRequirements(),
+                'defaults' =&gt; $route-&gt;getDefaults(),
+                'methods' =&gt; $route-&gt;getMethods(),
+            ];
+        }
+
+        ksort($routeMap);
+    }
+}</code></pre>
+<p><br></p>
+<p>Let's add this test and run it... oh, it fails.
+First, we have to generate the fixture file with our little trick:</p>
+<pre><code class="language-bash">UT=1 vendor/bin/phpunit</code></pre>
+<p><br></p>
+<p>That's it! Now you're testing all your routes, and you can be sure the nuclear power station is safe.</p>
+<p><br></p>
+<p>Happy coding!</p>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                            <a href="/blog/how-to-make-configs-like-rector-config-or-ecs-config-for-your-symfony-project" class="d-block">
+                            <div>
+                                Read next → <strong>How to Make Configs like RectorConfig or ECSConfig for your Symfony Project</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+        <script type="text/javascript">
+            // @see https://stackoverflow.com/a/30776817/1348344
+            var date = new Date();
+            // display every 2nd hour, not to spam users
+            if (date.getHours() % 2 === 1) {
+                document.querySelector('.book-banner').style.display = 'visible';
+            } else {
+                document.querySelector('.book-banner').style.display = 'none';
+            }
+        </script>
+    </body>
+</html>
