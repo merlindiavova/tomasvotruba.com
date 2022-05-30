@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>How to Make Configs like RectorConfig or ECSConfig for your Symfony Project | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+    <meta property="og:image" content="https://tomasvotruba.com/assets/images/posts/2022/custom_config_symfony.png" />
+    <meta property="og:title" content="How to Make Configs like RectorConfig or ECSConfig for your Symfony Project" />
+    <meta property="og:url" content="https://tomasvotruba.com/blog/how-to-make-configs-like-rector-config-or-ecs-config-for-your-symfony-project" />
+
+    <meta name="twitter:image" content="https://tomasvotruba.com/assets/images/posts/2022/custom_config_symfony.png"/>
+
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?2067138961" rel="stylesheet" type="text/css" />
+
+                <meta name="description" property="og:description" content="We&#039;ve introduced a new way to configure PHP tools on Symfony DI. A way that is decoupled brings new methods with autocomplete and validates your input. I talk about [RectorConfig](https://getrector.org/blog/new-in-rector-012-introducing-rector-config-with-autocomplete) and [ECSConfig](https://tomasvotruba.com/blog/new-in-ecs-simpler-config/).
+
+At first, I thought it was not possible. Symfony is very strict about this and does not allow any extensions. After a few days of hacking Symfony, I found a space to squash `Config` class. After meeting with [Sebastian Schreiber](https://twitter.com/schreiberten) last week, we found an even better generic solution.
+
+Are you interested in a better developer experience for your Symfony project? Keep reading.
+" />
+    </head>
+
+    <body>
+        <!-- post_id: 356 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/about-me">About Me</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <div class="text-center book-banner">
+                <a href="https://leanpub.com/rector-the-power-of-automated-refactoring" target="blank" class="text-center">
+                    <img src="/assets/images/banner-rector-book.png" class="mb-2 ml-auto mr-auto rounded " style="max-height: 5em" alt="">
+                </a>
+            </div>
+
+            <h1>How to Make Configs like RectorConfig or ECSConfig for your Symfony Project</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2022/2022-05-30-how-to-make-configs-like-rector-config-or-ecs-config-for-your-symfony-project.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2022-05-Mon" class="text-muted">
+                2022-05-30
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>We've introduced a new way to configure PHP tools on Symfony DI. A way that is decoupled brings new methods with autocomplete and validates your input. I talk about <a href="https://getrector.org/blog/new-in-rector-012-introducing-rector-config-with-autocomplete">RectorConfig</a> and <a href="https://tomasvotruba.com/blog/new-in-ecs-simpler-config/">ECSConfig</a>.
+<br><br>
+At first, I thought it was not possible. Symfony is very strict about this and does not allow any extensions. After a few days of hacking Symfony, I found a space to squash <code>&lt;x&gt;Config</code> class. After meeting with <a href="https://twitter.com/schreiberten">Sebastian Schreiber</a> last week, we found an even better generic solution.
+<br><br>
+Are you interested in a better developer experience for your Symfony project? Keep reading.</p>
+                </div>
+            </div>
+
+            <p>This is <code>ECSConfig</code> in action:</p>
+<img src="/assets/images/posts/2022/ecs_config.gif" class="img-thumbnail">
+<p><br></p>
+<h2 id="What-is-Good-For">What is Good For?</h2>
+<h3 id="1-Isolate-from-Framework">1. Isolate from Framework</h3>
+<p>This is very important for projects like <a href="https://getrector.org/">Rector</a> or <a href="https://github.com/symplify/easy-coding-standard/">ECS</a>, as you'll use them to analyze or refactor code that uses Symfony.</p>
+<p><br></p>
+<p>You can have 2 classes with the same <code>Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator</code> name but different return types or event methods:</p>
+<ul>
+<li>an ECS class in Symfony 6.0</li>
+<li>your project class in Symfony 5.0</li>
+</ul>
+<p>The autoload will get confused, and your project <a href="https://github.com/rectorphp/rector/issues/6698">will crash</a>. Config class in <strong>your namespace prevents this</strong>.</p>
+<h3 id="2-Add-own-Config-Methods-with-Instant-Validation">2. Add own Config Methods with Instant Validation</h3>
+<p>This is a significant side effect from a developer experience point of view. We can still add parameters and services with the bare <code>ContainerConfigurator</code> class. But <strong>what about domain specifics</strong>? E.g., In Rector, we want to register rules and run them on specific paths:</p>
+<pre><code class="language-php">use Rector\Config\RectorConfig;
+use Rector\Php74\Rector\Closure\ClosureToArrowFunctionRector;
+
+return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig-&gt;paths([
+        __DIR__.'/src',
+    ]);
+
+    $rectorConfig-&gt;rule(ClosureToArrowFunctionRector::class);
+};</code></pre>
+<p><br></p>
+<p>Here we have <strong>2 domain-specific</strong> methods tailored to our developer needs:</p>
+<ul>
+<li>
+<p>We wrote a <code>paths()</code> method that validates provided directory exists. That way, we know about typos or incorrect nesting right in the first second.</p>
+</li>
+<li>
+<p>As for the <code>rule()</code> method, we can validate the class exists and that its type is <code>RectorInterface</code>. Such validation can prevent passing non-existing classes that Symfony silently skips.</p>
+</li>
+</ul>
+<h3 id="3-Narrow-Context-to-Narrow-Focus">3. Narrow Context to Narrow Focus</h3>
+<p>If we explore all Symfony config features like <code>autowire()</code>, <code>parameters()</code>, or autodiscovery, we'll slowly drift away. When we're driving a car, we should not try to check what cylinder has gasoline and which is exploding. Too much complexity will make our driving distracted and make it easier to crash.</p>
+<p>We should provide <strong>focus by design</strong>. Does your tool generate a static blog? Add <code>sourcePath()</code> and <code>outputPath()</code> methods. Do you work with real-time stats of cryptocurrencies? Create <code>watchCurrencies([...])</code> method to list currencies to watch, etc.</p>
+<p>With the exact 3 methods of simple scalar arguments, <strong>your users know what to do</strong>.</p>
+<p><br></p>
+<h2 id="How-to-teach-Symfony-to-work-with-our-Custom-Config">How to teach Symfony to work with our Custom Config?</h2>
+<p>Let's try to implement such a config class from scratch, e.g., for a cryptocurrency watcher. We use the <code>ContainerConfigurator</code> as a base-building stone:</p>
+<pre><code class="language-php">namespace CryptoWatch\Config;
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator
+
+final class CryptoWatchConfig extends ContainerConfigurator
+{
+    /**
+     * @param string[] $currencies
+     */
+    public function watchCurrencies(array $currencies): void
+    {
+        // you can validate $currencies to contain only currencies you handle
+
+        // set parameter (or create service), depending on your domain
+        $parameters = $this-&gt;parameters();
+        $parameters-&gt;set('currencies', $currencies);
+    }
+}</code></pre>
+<p><br></p>
+<p>The config uses public API methods from <code>ContainerConfigurator</code> to work with parameters and services.
+But the user of our package will be saved from those implementation details.</p>
+<p>They will <strong>simply use it like this</strong>:</p>
+<pre><code class="language-php">// config/config.php
+namespace CryptoWatch\Config\CryptoWatchConfig;
+
+return function (CryptoWatchConfig $cryptoWatchConfig): void {
+    $cryptoWatchConfig-&gt;watchCurrencies(['btc', 'eth']);
+};</code></pre>
+<p>That's it! How simple implementation, right?</p>
+<p>Here we expect the Symfony to take the <code>CryptoWatchConfig</code> type from the closure, create an instance, and pass it to the dependency injection container.
+That way, our project will have parameters of key <code>currencies</code> with value <code>['btc', 'eth']</code>. That's at least how <a href="https://symfony.com/blog/new-in-symfony-5-3-config-builder-classes">config builders like <code>SecurityConfig</code></a> in Symfony 5.3 should work.</p>
+<p><br></p>
+<p>That's how we <em>wish</em> the Symfony to work, but the reality is slightly... unexpected.</p>
+<p><br></p>
+<h2 id="How-to-Teach-Symfony-to-Accept-Custom-Configs">How to Teach Symfony to Accept Custom Configs</h2>
+<p>When we run the project with the config above, it will crash with the following message:</p>
+<pre><code class="language-bash">Could not resolve argument "CryptoWatchConfig $cryptoWatchConfig"</code></pre>
+<h3 id="1-New-Instance">1. New Instance</h3>
+<p>But why? The config builders <strong>only work for extensions</strong>, and methods are automatically generated in a temp directory. They're not &quot;use your own config class&quot; friendly.</p>
+<p><br></p>
+<p>The <code>PhpFileLoader</code> class is responsible for creating configs. When we explore it, <a href="https://github.com/symfony/symfony/blob/a10071bd657c350bb8f995361643072a97ff5819/src/Symfony/Component/DependencyInjection/Loader/PhpFileLoader.php#L67">there is a line</a> responsible for creating <code>ContainerConfigurator</code>:</p>
+<pre><code class="language-php">$this-&gt;executeCallback($callback, new ContainerConfigurator(...), $path);</code></pre>
+<p>It only creates exactly <code>ContainerConfigurator</code>. Nothing else.</p>
+<p><br></p>
+<h3 id="What-can-we-Improve-Here">What can we Improve Here?</h3>
+<p>We need to create the same type, as we put in the closure param type. This closure:</p>
+<pre><code class="language-php">return function (CryptoWatchConfig $cryptoWatchConfig): void {
+    // ...
+}</code></pre>
+<p><br></p>
+<p>Should result into:</p>
+<pre><code class="language-php">$containerBuilder = new CryptoWatchConfig(...);</code></pre>
+<p><br></p>
+<p>In other words, we need to change <code>PhpFileLoader</code> code into generic solution that takes param type and creates a class from it:</p>
+<pre><code class="language-php">$reflectionFunction = new \ReflectionFunction($callback);
+$firstParameterReflection = $reflectionFunction-&gt;getParameters()[0];
+$containerConfiguratorClass = $firstParameterReflection-&gt;getType()-&gt;getName();
+
+// the $containerConfiguratorClass is `CryptoWatchConfig` or any config we provide
+
+$this-&gt;executeCallback($callback, new $containerConfiguratorClass(...), $path);</code></pre>
+<p>👍️</p>
+<h3 id="2-Open-Param-Type">2. Open Param Type</h3>
+<p>But there is 2nd problem. The type is resolved from <a href="https://github.com/symfony/symfony/blob/a10071bd657c350bb8f995361643072a97ff5819/src/Symfony/Component/DependencyInjection/Loader/PhpFileLoader.php#L121-L137">param reflection here</a>:</p>
+<pre><code class="language-php">switch ($type) {
+    case ContainerConfigurator::class:
+        $arguments[] = $containerConfigurator;
+        break;
+
+    // ...
+    default:
+        throw new \InvalidArgumentException(sprintf(
+            'Could not resolve argument "%s"', $type
+        ));</code></pre>
+<p><br></p>
+<p>What can be improved here? <code>Switch</code> for type detection is generally a terrible idea, and it only matches a single exact type:</p>
+<pre><code class="language-php">// exclusive 1 entrance :(
+get_class($class) === Controller::class
+
+// children on-board :)
+$class instanceof Controller</code></pre>
+<p><br></p>
+<p>In other words, we change the code to this:</p>
+<pre><code class="language-php">if ($type instanceof ContainerConfigurator) {
+    $arguments[] = $containerConfigurator;
+} else {
+    // ... fallback to switch
+}</code></pre>
+<p>That's it!</p>
+<p><br></p>
+<p>We had to change that to make <code>ECSConfig</code>, <code>RectorConfig</code>, <code>MBConfig</code> <code>EasyCIConfig</code>, and the rest work with Symfony. It's a single change to allow all of them, including your custom config that extends <code>ContainerConfigurator</code>.</p>
+<p>Do you think this should be part of Symfony core? Let me know in the comments.</p>
+<p><br></p>
+<p><strong>tl;dr;</strong> Add <a href="https://github.com/symplify/vendor-patch-files/blob/main/patches/generic-php-config-loader.patch">the patch file</a> and create your config today.</p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                            <a href="/blog/how-to-upgrade-latte-2-macro-to-latte-3-tag" class="d-block">
+                            <div>
+                                Read next → <strong>How to Upgrade Latte 2 Macro to Latte 3 Tag</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+        <script type="text/javascript">
+            // @see https://stackoverflow.com/a/30776817/1348344
+            var date = new Date();
+            // display every 2nd hour, not to spam users
+            if (date.getHours() % 2 === 1) {
+                document.querySelector('.book-banner').style.display = 'visible';
+            } else {
+                document.querySelector('.book-banner').style.display = 'none';
+            }
+        </script>
+    </body>
+</html>
