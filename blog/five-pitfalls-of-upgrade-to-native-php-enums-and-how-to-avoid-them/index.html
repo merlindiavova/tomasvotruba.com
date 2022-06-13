@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>5 Pitfalls of Upgrade to Native PHP Enums and How to Avoid Them | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+    <meta property="og:title" content="5 Pitfalls of Upgrade to Native PHP Enums and How to Avoid Them" />
+    <meta property="og:url" content="https://tomasvotruba.com/blog/five-pitfalls-of-upgrade-to-native-php-enums-and-how-to-avoid-them" />
+
+            <meta property="og:image" content="https://tomasvotruba.com/assets/images/posts/2022/pitfalls.jpg" />
+        <meta name="twitter:image" content="https://tomasvotruba.com/assets/images/posts/2022/pitfalls.jpg"/>
+    
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?874707509" rel="stylesheet" type="text/css" />
+
+                <meta name="description" property="og:description" content="Native PHP Enums came almost a year ago in PHP 8.1. It&#039;s pretty easy to add a new enum. But how do we handle the old hacks we used to use before enums were legal in PHP land? MyCLabs, Spatie, or constants list.
+
+Today we&#039;ll upgrade them all. Is it a simple constant to enum replace? Surprisingly, there are **few blind paths we have to be aware of**.
+" />
+    </head>
+
+    <body>
+        <!-- post_id: 359 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/about-me">About Me</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <div class="text-center book-banner">
+                <a href="https://leanpub.com/rector-the-power-of-automated-refactoring" target="blank" class="text-center">
+                    <img src="/assets/images/banner-rector-book.png" class="mb-2 ml-auto mr-auto rounded " style="max-height: 5em" alt="">
+                </a>
+            </div>
+
+            <h1>5 Pitfalls of Upgrade to Native PHP&nbsp;Enums and How&nbsp;to&nbsp;Avoid&nbsp;Them</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2022/2022-06-06-five-pitfalls-of-upgrade-to-native-php-enums-and-how-to-avoid-them.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2022-06-Mon" class="text-muted">
+                2022-06-06
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>Native PHP Enums came almost a year ago in PHP 8.1. It's pretty easy to add a new enum. But how do we handle the old hacks we used to use before enums were legal in PHP land? MyCLabs, Spatie, or constants list.
+<br><br>
+Today we'll upgrade them all. Is it a simple constant to enum replace? Surprisingly, there are <strong>few blind paths we have to be aware of</strong>.</p>
+                </div>
+            </div>
+
+            <h2 id="The-MyClabs-or-Spatie-Early-Access">The MyClabs or Spatie Early Access</h2>
+<p>Before PHP 8.1, the best way to get enums to a code base was to use <a href="https://github.com/spatie/enum">Spatie</a> or <a href="https://github.com/myclabs/php-enum">MyClabs</a> packages. They provided an abstract class, <code>Enum</code>, that provided a set of methods to validate used constants. These constants could be public or faked as static methods:</p>
+<pre><code class="language-php">use Spatie\Enum\Enum;
+// or
+// use MyCLabs\Enum\Enum;
+
+/**
+ * @method static self draft()
+ * @method static self published()
+ */
+final class PostStatusEnum extends Enum
+{
+}</code></pre>
+<p>We can also use a different approach for refactoring from &quot;enums&quot; from entities called constant list. It's &quot;enums for poor people&quot; that do not depend on any 3rd party package:</p>
+<pre><code class="language-php">final class PostStatusEnum
+{
+    public const DRAFT = 'draft';
+
+    public const PUBLISHED = 'published';
+}</code></pre>
+<p>The class has different parent classes, but the way we use them is identical.
+Let's dive into 5 pitfalls of upgrade to native enums. It is basically just 2 patterns to be careful about, but 5 places they can go wrong. If we miss just one of them, the whole upgrade can collapse. Let's dive in and get through.</p>
+<p><br></p>
+<p>Let's say we have a <code>Post</code> class with <code>getStatus()</code> method. In the project, we use the &quot;constant static call&quot; fake to compare the value with post status:</p>
+<pre><code class="language-php">if ($post-&gt;getStatus() === Post::DRAFT()) {
+   echo 'Not yet published';
+}</code></pre>
+<p><br></p>
+<h3 id="Pre-enum-to-Enum">Pre-enum to Enum?</h3>
+<p>How should we upgrade this comparison to native PHP enums?</p>
+<pre><code class="language-diff">-($post-&gt;getStatus() === Post::DRAFT()) {
++($post-&gt;getStatus() === Post::DRAFT) {</code></pre>
+<p>Is it correct? From this code of view, it is. But what does the <code>getStatus()</code> method return?</p>
+<h2 id="Pitfall-1-Method-Return-Types">Pitfall #1: Method Return Types</h2>
+<p>We upgraded the comparison above; now it's time to look at the <code>getStatus()</code> method.</p>
+<p>It's a common standard that the &quot;pre-enum&quot; value is just a lowercased enum value. Method and constant can be written only as string, so the type is usually a <code>string</code>. If we use this convention, we could use it as a return type, right?</p>
+<pre><code class="language-php">final class Post
+{
+    // ...
+
+    public function getStatus(): string
+    {
+        return $this-&gt;status;
+    }
+}</code></pre>
+<p>This is technically correct but far from being helpful or domain correct. To define post status, we use an enum with exactly 2 values - &quot;draft&quot; and &quot;published&quot;. But all we require here is any <code>string</code> type. Imagine all the words you could put into Google.</p>
+<p><br></p>
+<p>Instead, we should make it explicit, <strong>this method only returns these 2 constants</strong>.</p>
+<p>How? Fortunately, we have static analysis tools that solve precisely this case:</p>
+<pre><code class="language-php">    /**
+     * @return Status::DRAFT|Status::PUBLISHED
+     */
+    public function getStatus(): string
+    {
+        return $this-&gt;status;
+    }</code></pre>
+<p><br></p>
+<p><strong>Now the PHPStan and Rector know</strong>, the return type of <code>getStatus()</code> has only 2 exact values. If we add new status in the future, we'd have to extend all docblocks everywhere. That's wasted time and space for bugs.</p>
+<p><br></p>
+<p>Instead, we can use the shortcut that stands for all &quot;pre-enum&quot; values available:</p>
+<pre><code class="language-php">    /**
+     * @return Status::*
+     */
+    public function getStatus(): string
+    {
+        return $this-&gt;status;
+    }</code></pre>
+<p>Now the PHPStan knows the exact type of this return is one of the enums.</p>
+<h3 id="Pre-enum-to-Enum">Pre-enum to Enum?</h3>
+<p>If PHPStan knowns it, now it's easy to upgrade:</p>
+<pre><code class="language-diff">-    /**
+-     * @return Status::*
+-     */
+-    public function getStatus(): string
++    public function getStatus(): Status
+     {
+         return $this-&gt;status;
+     }</code></pre>
+<p>👍</p>
+<p>This way, you can use PHPStan and Rector rules to automate your upgrade.</p>
+<p><br></p>
+<p>But not only that, but it also <strong>gives you code narrow context that can propagate to other calls</strong>. Even if you stay on PHP 8.0 and won't use enums, your code base still benefits from enum-like::* types:</p>
+<pre><code class="language-php">$copyPost-&gt;changeStatus($post-&gt;getStatus());</code></pre>
+<p><br></p>
+<p>What is the param of the <code>changeStatus()</code> method?</p>
+<h2 id="Pitfall-2-Method-Param-Types">Pitfall #2: Method Param Types</h2>
+<p>This is similar to the previous case, just in param types:</p>
+<pre><code class="language-php">final class Post
+{
+    public function changeStatus(string $status)
+    {
+        $this-&gt;status = $status;
+    }
+}</code></pre>
+<p><br></p>
+<p>Here, we again know the status is not just a <code>string</code> but one of the provided constants. Let's put this knowledge into the code:</p>
+<pre><code class="language-php">    /**
+     * @param Status::* $status
+     */
+    public function changeStatus(string $status)
+    {
+        $this-&gt;status = $status;
+    }
+}</code></pre>
+<p>👍</p>
+<h3 id="Pre-enum-to-Enum">Pre-enum to Enum?</h3>
+<p>To upgrade param, just inline the param docblock to param type declaration:</p>
+<pre><code class="language-diff">-   /**
+-    * @param Status::* $status
+-    */
+-   public function changeStatus(string $status)
++   public function changeStatus(Status $status)
+    {
+        $this-&gt;status = $status;
+    }
+}</code></pre>
+<p><br></p>
+<h2 id="Pitfall-3-Property-Type">Pitfall #3: Property Type</h2>
+<p>Last but not least, the getter and changer methods have one thing in common. They access a property:</p>
+<pre><code class="language-php">final class Post
+{
+    /**
+     * @var string
+     */
+    private $status;
+}</code></pre>
+<p><br></p>
+<p>We know the status is not a string but one of the enum-like values:</p>
+<pre><code class="language-php">final class Post
+{
+    /**
+     * @var Status::*|null
+     */
+    private string|null $status = null;
+}</code></pre>
+<p>👍</p>
+<h3 id="Pre-enum-to-Enum">Pre-enum to Enum?</h3>
+<p>By now, you probably know the upgrade path by heart:</p>
+<pre><code class="language-diff"> final class Post
+ {
+-    /**
+-     * @var Status::*|null
+-     */
+-    private string|null $status = null;
++    private Status|null $status = null;
+}</code></pre>
+<p><br></p>
+<h2 id="Pitfall-4-Input-Boundary">Pitfall #4: Input Boundary</h2>
+<p>The post has status value, and we can now use it safely in the whole PHP code base. Setters, getters, and property types are covered. Are we finished with the upgrade? Depends. How can we upgrade this method?</p>
+<pre><code class="language-php">final class PostController
+{
+    /**
+     * @param Status::* $status
+     */
+    public function actionPostList(string $status)
+    {
+        // ...
+    }
+}</code></pre>
+<p><br></p>
+<p>We've upgraded param types before. Let's apply the same approach here:</p>
+<pre><code class="language-diff">-   /**
+-    * @param Status::* $status
+-    */
+-   public function actionPostList(string $status)
++   public function actionPostList(Status $status)
+    {
+        // ...
+    }</code></pre>
+<p><br></p>
+<p>We refresh the <code>/post/post-list/?status=draft</code> page and... the controller action crashes. The param takes the &quot;draft&quot; string value, but the method expects a <code>Status</code> enum.</p>
+<h3 id="Pre-enum-to-Enum">Pre-enum to Enum?</h3>
+<p>It depends on the framework you use, of course. In the future, we expect Symfony param converter, which will similarly handle these cases <a href="https://github.com/Ex3v/MyCLabsEnumParamConverter">it handled myclabs/enums</a>.</p>
+<p>But for now, we have to <strong>convert the scalar value</strong> to enum:</p>
+<pre><code class="language-php">    /**
+     * @param Status::* $status
+     */
+    public function actionPostList(string $status)
+    {
+        $status = Status::from($status);
+        // ...
+    }</code></pre>
+<p>👍</p>
+<p><br></p>
+<p>We must approach input values <strong>with the same care as REST API calls</strong>.
+In the same way, we convert API scalar values from scalar to value objects; we have to convert string/integer values to enums.</p>
+<p><br></p>
+<h2 id="Pitfall-5-Output-Boundary">Pitfall #5: Output Boundary</h2>
+<p>Before I publish this post, I prepare a draft to review and save it (to a GitHub pull request):</p>
+<pre><code class="language-php">$post = new Post('Five Pitfalls of Upgrade to native PHP Enums', Status::DRAFT);
+$this-&gt;postRepository-&gt;save($post);</code></pre>
+<p><br></p>
+<p>It will be published only after review and Grammarly checks.</p>
+<p>We have a title, enum, and strictly typed param, property, and return types. Everything work on our side... but <strong>how do
+our external storage handle enums</strong>? We talk about databases.</p>
+<p><br></p>
+<h3 id="Pre-enum-to-Enum">Pre-enum to Enum?</h3>
+<p>Doctrine entities support enums <a href="https://www.doctrine-project.org/2022/01/11/orm-2.11.html">since <code>doctrine/orm</code> 2.11</a>. All we have to do is to upgrade the type to <code>enumType</code>:</p>
+<pre><code class="language-diff"> use Doctrine\ORM\Mapping\Entity;
+ use Doctrine\ORM\Mapping\Column;
+
+ #[Entity]
+ final class Post
+ {
+-    #[Column(type: 'string')]
++    #[Column(type: 'string', enumType: Status::class)]
+     private $status;
+ }</code></pre>
+<p>👍</p>
+<p><br></p>
+<p>In case of different ORM or database layers, check &quot;enum support&quot; in the package documentation.</p>
+<p><br></p>
+<h2 id="Automate-with-Rector-and-Prepare-for-Future-with-PHPStan">Automate with Rector and Prepare for Future with PHPStan</h2>
+<p>Check Rector rules, that handles <a href="https://github.com/rectorphp/rector/blob/main/docs/rector_rules_overview.md#spatieenumclasstoenumrector">Spatie enum class</a> and <a href="https://github.com/rectorphp/rector/blob/main/docs/rector_rules_overview.md#myclabsclasstoenumrector">MyClabs enum class</a>. Do you use constant lists? <a href="https://github.com/rectorphp/rector/blob/main/docs/rector_rules_overview.md#constantlistclasstoenumrector">Rector covers them too</a>.</p>
+<p><br></p>
+<p><strong>Are you stuck on PHP 8.0</strong> for a while? Get your code-base strict and ready <a href="https://phpstan.org/writing-php-code/phpdoc-types#literals-and-constants">with PHPStan enum-like <code>type::*</code></a>. Your future upgrade will be a piece of cake, and the types you pass around will shine bright with <strong>narrow context</strong>.</p>
+<hr />
+<p>Have you come across different problems? Let me know in the comments so we can learn together.</p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                            <a href="/blog/how-to-make-configs-like-rector-config-or-ecs-config-for-your-symfony-project" class="d-block">
+                            <div>
+                                Read next → <strong>How to Make Configs like RectorConfig or ECSConfig for your Symfony Project</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+        <script type="text/javascript">
+            // @see https://stackoverflow.com/a/30776817/1348344
+            var date = new Date();
+            // display every 2nd hour, not to spam users
+            if (date.getHours() % 2 === 1) {
+                document.querySelector('.book-banner').style.display = 'visible';
+            } else {
+                document.querySelector('.book-banner').style.display = 'none';
+            }
+        </script>
+    </body>
+</html>
