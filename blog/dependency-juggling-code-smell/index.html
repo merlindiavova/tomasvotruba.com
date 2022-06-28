@@ -26,7 +26,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?533804644" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?490108310" rel="stylesheet" type="text/css" />
 
                 <meta name="description" property="og:description" content="The best way to pass dependencies is via constructor injection. Only in services, we need the dependency in. I&#039;ve noticed that **sometimes the dependency is passed way too early**, just to be passed to another service as a method argument.
 
@@ -168,10 +168,8 @@ not take responsibility for others.
 <p><a href="https://github.com/symplify/phpstan-rules">Symplify PHPStan Rules</a> got you covered. Just install it:</p>
 <pre><code class="language-bash">composer require symplify/phpstan-rules --dev</code></pre>
 <p>Then add the rule to your <code>phpstan.neon</code> config:</p>
-<pre><code class="language-yaml">services:
-     -
-        class: Symplify\PHPStanRules\Rules\NoDependencyJugglingRule
-        tags: [phpstan.rules.rule]</code></pre>
+<pre><code class="language-yaml">rules:
+     - Symplify\PHPStanRules\Rules\NoDependencyJugglingRule</code></pre>
 <p>The rule looks for constructor dependencies that are juggled to method calls. Don't worry about it, and let your CI handle it.
 That's all for today.</p>
 <p><br></p>

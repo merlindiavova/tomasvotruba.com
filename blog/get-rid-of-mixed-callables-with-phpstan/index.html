@@ -26,7 +26,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?849133669" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1146479700" rel="stylesheet" type="text/css" />
 
                 <meta name="description" property="og:description" content="Working with PHPStan on level 8 is a luxury, at least for a project where you&#039;ve just introduced it. To give you a practical non-open-source perspective: **we&#039;re at level 5 after 2 years of hard work**.
 
@@ -175,10 +175,8 @@ $restrictionResolver(...);</code></pre>
 <li>Add new rule from <a href="https://github.com/symplify/phpstan-rules"><code>symplify/phpstan-rules</code></a>:</li>
 </ol>
 <pre><code class="language-yaml"># phpstan.neon
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\Explicit\NoMixedCallableRule
-        tags: [phpstan.rules.rule]</code></pre>
+rules:
+    - Symplify\PHPStanRules\Rules\Explicit\NoMixedCallableRule</code></pre>
 <p>Update: Ondra shared with me, that you can also <a href="https://twitter.com/OndrejMirtes/status/1495064465339039751">use parameter</a> for similar check outside levels:</p>
 <pre><code class="language-yaml">parameters:
     checkMissingCallableSignature: true</code></pre>

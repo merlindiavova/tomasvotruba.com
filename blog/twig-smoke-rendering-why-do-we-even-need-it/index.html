@@ -26,7 +26,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1735531205" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1424496407" rel="stylesheet" type="text/css" />
 
                 <meta name="description" property="og:description" content="Two weeks ago [our upgrade team started](https://getrector.org/for-companies) to upgrade Twig 1 to 2 and Latte 2 to 3 for two clients. There was no test that covers the templates, just a few integration ones that might have invoked a few % of happy paths render. Not good enough.
 
@@ -70,7 +70,7 @@ We **need a CI test to be sure** templates are working. I had an initial idea, b
                 </a>
             </div>
 
-            <h1>Twig Smoke Rendering - Why do we Even Need it?</h1>
+            <h1>Twig&nbsp;Smoke&nbsp;Rendering - Why&nbsp;do&nbsp;we&nbsp;Even&nbsp;Need&nbsp;it?</h1>
 
             <div class="pull-right">
                 <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2022/2022-06-13-twig-smoke-rendering-why-do-we-even-need-it.md">Found a typo? Edit me</a>
@@ -92,6 +92,7 @@ We <strong>need a CI test to be sure</strong> templates are working. I had an in
 
             <h2 id="Why-do-we-need-Smoke-Render-all-Templates">Why do we need Smoke Render all Templates?</h2>
 <p>First, let me tell you about the <strong>3 reasons</strong> why we need smoke-render all TWIG templates:</p>
+<p><br></p>
 <ol>
 <li>Twig 1 and 2 contains a few BC breaks. Not only in Twig itself but also in related Twig Bundle. We're not interested in the complete list of BC breaks, but rather <strong>if they break our templates</strong> and <strong>where exactly</strong>.</li>
 </ol>
@@ -123,7 +124,8 @@ We <strong>need a CI test to be sure</strong> templates are working. I had an in
 <p>That's why we don't use only <code>php -l</code>, but also PHPStan to check PHP code with context.</p>
 <p><br>
 <br></p>
-<p>Now we have a Goal of Doom and a team of <em>why</em>s, we're ready to set on the journey!</p>
+<p>Now we have a Goal of Doom and a team of <em>why</em>s.</p>
+<p>We're ready to set on the journey!</p>
 <img src="/assets/images/posts/2022/fellowship.jpg" class="img-thumbnail">
 <p><br></p>
 <p>To be continued...</p>

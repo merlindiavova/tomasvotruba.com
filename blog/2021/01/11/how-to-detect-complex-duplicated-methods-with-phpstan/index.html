@@ -26,7 +26,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?1706024389" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1872268373" rel="stylesheet" type="text/css" />
 
                 <meta name="description" property="og:description" content="Duplicated code is a code smell that hides the potential of better design.
 How can we find it? Is it 100 % identical code token by token?
@@ -219,10 +219,8 @@ private function unwrapExpression(Node $node): Node
     # set services that are needed by PHPStan rules
     - vendor/symplify/phpstan-rules/config/services/services.neon
 
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\PreventDuplicateClassMethodRule
-        tags: [phpstan.rules.rule]</code></pre>
+rules:
+    -  Symplify\PHPStanRules\Rules\PreventDuplicateClassMethodRule</code></pre>
 <h3 id="3-Run-PHPStan">3. Run PHPStan</h3>
 <pre><code class="language-bash">vendor/bin/phpstan analyse</code></pre>
 <p>Now you won't miss any single duplicated method in your code.</p>
