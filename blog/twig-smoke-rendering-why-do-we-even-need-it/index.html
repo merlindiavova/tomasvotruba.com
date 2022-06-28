@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Twig Smoke Rendering - Why do we Even Need it? | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+    <meta property="og:title" content="Twig Smoke Rendering - Why do we Even Need it?" />
+    <meta property="og:url" content="https://tomasvotruba.com/blog/twig-smoke-rendering-why-do-we-even-need-it" />
+
+            <meta property="og:image" content="https://tomasvotruba.com/assets/images/posts/2022/fellowship.jpg" />
+        <meta name="twitter:image" content="https://tomasvotruba.com/assets/images/posts/2022/fellowship.jpg"/>
+    
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?1735531205" rel="stylesheet" type="text/css" />
+
+                <meta name="description" property="og:description" content="Two weeks ago [our upgrade team started](https://getrector.org/for-companies) to upgrade Twig 1 to 2 and Latte 2 to 3 for two clients. There was no test that covers the templates, just a few integration ones that might have invoked a few % of happy paths render. Not good enough.
+
+We **need a CI test to be sure** templates are working. I had an initial idea, but knowing the value of external input, I asked on [Twitter for brainstorming](https://twitter.com/VotrubaT/status/1537029650379116544). I&#039;m happy I did. Alexander Schranz came with [a tip](https://twitter.com/alex_s_/status/1537030374651572225) that led me on a 2-week journey, and I would love to share it with you today.
+" />
+    </head>
+
+    <body>
+        <!-- post_id: 362 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/about-me">About Me</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <div class="text-center book-banner">
+                <a href="https://leanpub.com/rector-the-power-of-automated-refactoring" target="blank" class="text-center">
+                    <img src="/assets/images/banner-rector-book.png" class="mb-2 ml-auto mr-auto rounded " style="max-height: 5em" alt="">
+                </a>
+            </div>
+
+            <h1>Twig Smoke Rendering - Why do we Even Need it?</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2022/2022-06-13-twig-smoke-rendering-why-do-we-even-need-it.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2022-06-Mon" class="text-muted">
+                2022-06-13
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>Two weeks ago <a href="https://getrector.org/for-companies">our upgrade team started</a> to upgrade Twig 1 to 2 and Latte 2 to 3 for two clients. There was no test that covers the templates, just a few integration ones that might have invoked a few % of happy paths render. Not good enough.
+<br><br>
+We <strong>need a CI test to be sure</strong> templates are working. I had an initial idea, but knowing the value of external input, I asked on <a href="https://twitter.com/VotrubaT/status/1537029650379116544">Twitter for brainstorming</a>. I'm happy I did. Alexander Schranz came with <a href="https://twitter.com/alex_s_/status/1537030374651572225">a tip</a> that led me on a 2-week journey, and I would love to share it with you today.</p>
+                </div>
+            </div>
+
+            <h2 id="Why-do-we-need-Smoke-Render-all-Templates">Why do we need Smoke Render all Templates?</h2>
+<p>First, let me tell you about the <strong>3 reasons</strong> why we need smoke-render all TWIG templates:</p>
+<ol>
+<li>Twig 1 and 2 contains a few BC breaks. Not only in Twig itself but also in related Twig Bundle. We're not interested in the complete list of BC breaks, but rather <strong>if they break our templates</strong> and <strong>where exactly</strong>.</li>
+</ol>
+<p><br></p>
+<ol start="2">
+<li>We need to render templates directly, without controllers and variables. The controller renders only a specific path. Based on variables, it can include one template snippet but forget the other:</li>
+</ol>
+<pre><code class="language-twig">{% if value %}
+    {% include 'snippet/first_option.twig' %}
+{% else %}
+    {% include 'snippet/second_option.twig' %}
+{% endif %}</code></pre>
+<p><br></p>
+<ol start="3">
+<li>We must ensure all the functions, filters, and constants exist. What if the <code>join</code> filter was removed and replaced by <code>implode</code>? This is also useful for <a href="/blog/stamp-static-analysis-of-templates/">static analysis of templates</a>.</li>
+</ol>
+<p><br></p>
+<p>The smoke rendering means &quot;test that everything works&quot;. Render template and expect valid HTML. Not a file by file, test by test, but all TWIG files we can find in the project in a single test run. It could look like this:</p>
+<pre><code class="language-bash">bin/console twig-smoke-render templates</code></pre>
+<h3 id="Why-not-use-the-TWIG-Lint-command">Why not use the TWIG Lint command?</h3>
+<p>You might think: &quot;but Tomas, Symfony is already doing that for you&quot;:</p>
+<pre><code class="language-bash">bin/console lint:twig templates</code></pre>
+<p>That could work if we care about syntax errors like <code>{{ value }</code>. But we care about more than bare language syntax. We care about meaning and context:</p>
+<ul>
+<li>variable types,</li>
+<li>filter/functions/constant existence,</li>
+<li>include of layout and snippet templates.</li>
+</ul>
+<p>That's why we don't use only <code>php -l</code>, but also PHPStan to check PHP code with context.</p>
+<p><br>
+<br></p>
+<p>Now we have a Goal of Doom and a team of <em>why</em>s, we're ready to set on the journey!</p>
+<img src="/assets/images/posts/2022/fellowship.jpg" class="img-thumbnail">
+<p><br></p>
+<p>To be continued...</p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                            <a href="/blog/five-pitfalls-of-upgrade-to-native-php-enums-and-how-to-avoid-them" class="d-block">
+                            <div>
+                                Read next → <strong>5 Pitfalls of Upgrade to Native PHP Enums and How to Avoid Them</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+        <script type="text/javascript">
+            // @see https://stackoverflow.com/a/30776817/1348344
+            var date = new Date();
+            // display every 2nd hour, not to spam users
+            if (date.getHours() % 2 === 1) {
+                document.querySelector('.book-banner').style.display = 'visible';
+            } else {
+                document.querySelector('.book-banner').style.display = 'none';
+            }
+        </script>
+    </body>
+</html>
