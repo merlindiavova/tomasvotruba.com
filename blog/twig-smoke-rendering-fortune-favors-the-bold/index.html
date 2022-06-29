@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Twig Smoke Rendering - Fortune Favors the Bold | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+    <meta property="og:title" content="Twig Smoke Rendering - Fortune Favors the Bold" />
+    <meta property="og:url" content="https://tomasvotruba.com/blog/twig-smoke-rendering-fortune-favors-the-bold" />
+
+            <meta property="og:image" content="https://tomasvotruba.com/assets/images/posts/2022/frodo_end.jpg" />
+        <meta name="twitter:image" content="https://tomasvotruba.com/assets/images/posts/2022/frodo_end.jpg"/>
+    
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?232006267" rel="stylesheet" type="text/css" />
+
+                <meta name="description" property="og:description" content="In the previous post, we set on [journey of fails](/blog/twig-smoke-rendering-journey-of-fails) with ups and downs. Well, mostly downs. I&#039;m trying to be honest about the blind path process behind the final published work.
+
+We made it through heaven and hell. Now we&#039;re rested and back to continue. Can we smoke render twig templates, or shall we give up?
+" />
+    </head>
+
+    <body>
+        <!-- post_id: 364 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/about-me">About Me</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <div class="text-center book-banner">
+                <a href="https://leanpub.com/rector-the-power-of-automated-refactoring" target="blank" class="text-center">
+                    <img src="/assets/images/banner-rector-book.png" class="mb-2 ml-auto mr-auto rounded " style="max-height: 5em" alt="">
+                </a>
+            </div>
+
+            <h1>Twig Smoke Rendering - Fortune&nbsp;Favors&nbsp;the&nbsp;Bold</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2022/2022-06-27-twig-smoke-rendering-fortune-favors-the-bold.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2022-06-Mon" class="text-muted">
+                2022-06-27
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>In the previous post, we set on <a href="/blog/twig-smoke-rendering-journey-of-fails">journey of fails</a> with ups and downs. Well, mostly downs. I'm trying to be honest about the blind path process behind the final published work.
+<br><br>
+We made it through heaven and hell. Now we're rested and back to continue. Can we smoke render twig templates, or shall we give up?</p>
+                </div>
+            </div>
+
+            <p>After 5 challenging steps we made last time, we need to recharge our fuel. This episode will be more relaxing and more fun.</p>
+<p><br></p>
+<h2 id="6-Way-Too-Tolerant-Constants">6. Way Too Tolerant Constants</h2>
+<p>Do you use constants in your TWIG files? Then you've come across this issue:</p>
+<pre><code class="language-twig">{{ constant("YourneyPath::WOODS") }}</code></pre>
+<p>This filter <a href="https://github.com/twigphp/Twig/blob/760341fa8c41c764a5a819a31deb3c5ad66befb1/src/Extension/CoreExtension.php#L1369">calls native <code>constant()</code> function</a>.</p>
+<p><br></p>
+<p>Few years later, we rename the  constant in the <code>YourneyPath</code> class:</p>
+<pre><code class="language-diff"> final class YourneyPath
+ {
+-    const WOODS = 'woods;
++    const FOREST = 'forest;
+ }</code></pre>
+<p>We trust the IDE to handle renames for us, so we will not check any other files or templates.</p>
+<p><br></p>
+<p>Since PHP 8.0, we would get a Fatal error on missing constant, but <a href="https://3v4l.org/NMPXC">PHP 7.4 and bellow is only warning</a> 🚫</p>
+<p><br></p>
+<p><strong>How do we make the <code>constant()</code> filter strictly on lower PHP versions?</strong></p>
+<p>In the same way, we made filters/functions input tolerant. We add a modified filter:</p>
+<pre><code class="language-php">$constantFunction = new TwigFunction('constant', function ($constant) {
+    if (defined($constant) === false) {
+        throw new \Exception(sprintf('Constant "%s" not found', $constant));
+    }
+
+    return constant($constant);
+}));</code></pre>
+<p><br></p>
+<p>Now we carefully catch any missing constant on any TWIG and PHP version.</p>
+<img src="/assets/images/posts/2022/frodo_and_sam.jpg" class="img-thumbnail" style="max-width: 30em">
+<h2 id="">✅</h2>
+<p><br></p>
+<h2 id="7-Where-is-the-Form">7. Where is the Form?</h2>
+<p>We have covered functions, filters, and variables. Now, most edge-cases <strong>depends on the specific features you use from TWIG</strong>.</p>
+<p>In our case, there is one feature that will throw us a curve ball:</p>
+<pre><code class="language-twig">{% form_theme form "some_theme.twig" %}</code></pre>
+<p>What is this element?</p>
+<p><br></p>
+<p>It's pretty hard to Google, but in the end, we found out it's a &quot;token parser&quot;. It's a <strong>way to parse TWIG syntax between <code>{% ... %}</code></strong> to native PHP code. This <em>token</em> is called &quot;form_theme&quot; and sets a style theme only for the current form.</p>
+<p><br></p>
+<p>When we run this part of the code, we get an error:</p>
+<pre><code class="language-bash">The "form" variable is missing</code></pre>
+<p><br></p>
+<h2 id="Faking-Token-Parser">Faking Token Parser?</h2>
+<p>We tried to <strong>replace</strong> <a href="https://twig.symfony.com/doc/2.x/advanced.html#defining-a-token-parser"><strong>token parser according</strong> to Twig Documentation</a>, but failed.</p>
+<p>In the end, we realized we use a <code>$form</code> variable as a name for any form. There was no other name used, and templates were perfectly isolated from each other. We come up with the simple solution of adding a simple form:</p>
+<pre><code class="language-php">use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+
+final class SimpleFormType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $formBuilder, array $options)
+    {
+        $formBuilder-&gt;add('name', TextType::class);
+    }
+}</code></pre>
+<p><br></p>
+<p>Then we provide it the render method by default:</p>
+<pre><code class="language-php">$simpleFormType = $this-&gt;formFactory-&gt;create(SimpleFormType::class);
+$context['form'] = $simpleFormType-&gt;createView();
+
+$environment-&gt;render($templateName, $context);</code></pre>
+<p>It feels a bit hacky, but it works, and we can control our form easily without pre-parsing the templates with regexes.</p>
+<p><br></p>
+<h2 id="">✅</h2>
+<p><br></p>
+<h2 id="Fortune-Favors-the-Bold">Fortune Favors the Bold</h2>
+<p>After 2 weeks of hard work, but mainly counter-intuitive thinking and countless mad experiments, we have <strong>a working tool that can smoke parse any of 200 template files we have</strong> in 2 seconds:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We've just added our latest toy to CI😋 with ✅<br><br>Tolerant <a href="https://twitter.com/hashtag/twig?src=hash&amp;ref_src=twsrc%5Etfw">#twig</a> renderer 🎉🎉🎉<br><br>* covers all TWIG files<br>* dynamic rendering<br>* finds non-existing filters + functions + tags<br>* even wrong constants!<br>* blazing fast ⚡️<br>* no php-parser, no magic transform<br>* fun to make 😎 <a href="https://t.co/5H8iXVNyGS">pic.twitter.com/5H8iXVNyGS</a></p>— Tomas Votruba 🇺🇦 (@VotrubaT) <a href="https://twitter.com/VotrubaT/status/1540004210888040452?ref_src=twsrc%5Etfw">June 23, 2022</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p><br></p>
+<p>Based on this 3-post series, you can build your own tailored TWIG, Latte, or Blade Smoke Renderer. It might not be easy at the start, but if you make it, <strong>you'll enjoy sweet fruits</strong>.</p>
+<p><br></p>
+<h2 id="Believe-in-Yourself">Believe in Yourself</h2>
+<p>Next time there is a challenge that presents itself, it will look as impossible, crazy, and weird. Think about it differently, be naive, even crazy. Take on your journey; believe you can make it, and you will.</p>
+<img src="/assets/images/posts/2022/frodo_end.jpg" class="img-thumbnail" style="max-width: 30em">
+<p>These experiences are priceless stories to share.</p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                            <a href="/blog/twig-smoke-rendering-journey-of-fails" class="d-block">
+                            <div>
+                                Read next → <strong>Twig Smoke Rendering - Journey of Fails</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+        <script type="text/javascript">
+            // @see https://stackoverflow.com/a/30776817/1348344
+            var date = new Date();
+            // display every 2nd hour, not to spam users
+            if (date.getHours() % 2 === 1) {
+                document.querySelector('.book-banner').style.display = 'visible';
+            } else {
+                document.querySelector('.book-banner').style.display = 'none';
+            }
+        </script>
+    </body>
+</html>
