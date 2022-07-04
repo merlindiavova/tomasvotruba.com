@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Can PHPStan find Dead Public Methods? | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+    <meta property="og:title" content="Can PHPStan find Dead Public Methods?" />
+    <meta property="og:url" content="https://tomasvotruba.com/blog/can-phpstan-find-dead-public-methods" />
+
+            <meta property="og:image" content="/assets/images/tomas_votruba.jpg"/>
+        <meta name="twitter:image" content="/assets/images/tomas_votruba.jpg"/>
+    
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?1000107632" rel="stylesheet" type="text/css" />
+
+                <meta name="description" property="og:description" content="This bold question has been around PHP Internet for many years... [at least since 2008](https://stackoverflow.com/questions/11532/how-can-i-find-unused-functions-in-a-php-project). In 2017 I added [dead public method sniff](https://github.com/symplify/symplify/pull/466) to Symplify Coding Standard.
+
+It runs on bare PHP tokens without any type or AST, so the capability was limited. Yet it was able to detect a few unused methods. Now, 5 years later, we maybe have a better solution.
+" />
+    </head>
+
+    <body>
+        <!-- post_id: 365 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/about-me">About Me</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <div class="text-center book-banner">
+                <a href="https://leanpub.com/rector-the-power-of-automated-refactoring" target="blank" class="text-center">
+                    <img src="/assets/images/banner-rector-book.png" class="mb-2 ml-auto mr-auto rounded " style="max-height: 5em" alt="">
+                </a>
+            </div>
+
+            <h1>Can PHPStan find Dead Public Methods?</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2022/2022-07-04-can-phpstan-find-dead-public-methods.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2022-07-Mon" class="text-muted">
+                2022-07-04
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>This bold question has been around PHP Internet for many years... <a href="https://stackoverflow.com/questions/11532/how-can-i-find-unused-functions-in-a-php-project">at least since 2008</a>. In 2017 I added <a href="https://github.com/symplify/symplify/pull/466">dead public method sniff</a> to Symplify Coding Standard.
+<br><br>
+It runs on bare PHP tokens without any type or AST, so the capability was limited. Yet it was able to detect a few unused methods. Now, 5 years later, we maybe have a better solution.</p>
+                </div>
+            </div>
+
+            <p><a href="/blog/2019/03/14/remove-dead-public-methdos-from-your-code/">The sniff rule</a> looked for unused public method with very basic algorithm:</p>
+<h3 id="1-Collect-all-Public-Methods">1. Collect all Public Methods</h3>
+<pre><code class="language-php">public function speedUp()
+{
+}
+
+public function slowDown()
+{
+}</code></pre>
+<p>↓</p>
+<ul>
+<li><code>speedUp</code></li>
+<li><code>slowDown</code></li>
+</ul>
+<p><br></p>
+<h3 id="2-Collect-all-Method-Calls">2. Collect all Method Calls</h3>
+<pre><code class="language-php">$someObject-&gt;speedUp();</code></pre>
+<p>↓</p>
+<ul>
+<li><code>speedUp</code></li>
+</ul>
+<p><br></p>
+<h3 id="3-Subtract-First-List-from-Second">3. Subtract First List from Second</h3>
+<p>There we have a list of unused public methods:</p>
+<ul>
+<li><code>slowDown</code></li>
+</ul>
+<p><br></p>
+<p>That's it!</p>
+<p><br></p>
+<p>This sniff helped to <a href="https://github.com/rectorphp/rector-src/commit/3ef5f555b729dfc7758043674c15ea2354af71f2">detect many dead methods</a>, but without types, it misses a few essential details:</p>
+<pre><code class="language-php">class Car
+{
+    public function speedUp()
+    {
+    }
+}</code></pre>
+<pre><code class="language-php">class Bus
+{
+    public function speedUp()
+    {
+    }
+}</code></pre>
+<p>Like the same-name methods in 2 different classes. Even if only one is used, both are reported as used. Later <a href="/blog/2019/03/14/remove-dead-public-methods-from-your-code/">I've removed the rule</a>, because the token architecture is rather crappy, as you can see.</p>
+<p><br></p>
+<p>A week ago <a href="https://github.com/phpstan/phpstan/releases/tag/1.8.0">PHPStan 1.8</a> introduced similar feature, <a href="https://phpstan.org/developing-extensions/collectors">called collectors</a>.
+The principle is simple:</p>
+<ul>
+<li>collect one group of data</li>
+<li>collect another group of data</li>
+<li>compare both groups and show the result</li>
+</ul>
+<p><br></p>
+<p>I got excited and wanted to try this feature as soon as I had some free time.</p>
+<p>Last week I made the first rule that detects unused public constants:</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I'm roughly playing with new collectors from PHPStan 1.8 😇<br><br>This is how "unused public constant" is found ↓<a href="https://t.co/SkTCITcLh4">https://t.co/SkTCITcLh4</a> <a href="https://t.co/zt4yyq0Hmh">pic.twitter.com/zt4yyq0Hmh</a></p>— Tomas Votruba 🇺🇦 (@VotrubaT) <a href="https://twitter.com/VotrubaT/status/1542459395203911682?ref_src=twsrc%5Etfw">June 30, 2022</a></blockquote>
+<p><br></p>
+<p>Detecting constant call is relatively easy because there is always one exact class and constant name:</p>
+<pre><code class="language-php">SomeClass::SOME_CONSTANT</code></pre>
+<p><br></p>
+<p>We've added rules to a few projects, and the results are fantastic.</p>
+<p>How about trying the same approach to public methods?</p>
+<p><br></p>
+<h2 id="PHPStan-Collector-for-Unused-Method">PHPStan Collector for Unused Method</h2>
+<p>With method calls, this is a bit complex, as caller type could be anything:</p>
+<pre><code class="language-php">$value-&gt;speedUp(); // $value is mixed type
+
+function run(?Car $value) {
+    $value-&gt;speedUp(); // $value is null|Car
+}
+
+/** @var Car $value;
+$value-&gt;speedUp(); // $value is probably Car</code></pre>
+<p><br></p>
+<p>I wanted to see how many false positives this rule will catch and try out collectors. Take this as a joyful learning experience.</p>
+<p>To keep the rule simple and more reliable, I've narrowed the scope further down:</p>
+<ul>
+<li>skip static methods</li>
+<li>skip protected methods</li>
+<li>skip private methods</li>
+<li>skip <code>Trait_</code> methods</li>
+<li>skip <code>Enum</code> methods</li>
+<li>skip <code>Interface</code> methods</li>
+<li>skip methods overriding parent class</li>
+<li>skip methods required by an interface</li>
+<li>skip methods that have <code>@api</code> annotation</li>
+<li>skip methods that has a class with <code>@api</code> annotation</li>
+<li>skip methods in PHPUnit test case</li>
+<li>skip methods with an attribute</li>
+</ul>
+<pre><code class="language-php">#[Required]
+public function autowire(...)
+{
+    // ...
+}
+
+#[Inject]
+public function inject(....)
+{
+    // ...
+}</code></pre>
+<p><br></p>
+<p>Are you maintaining an open-source project? Do you have a method that is never called but is designed for external use? Mark it with <code>@api</code> to make clear the method is for devs to use. The rule will skip it then.</p>
+<h2 id="Use-at-Your-Own-Risk">Use at Your Own Risk</h2>
+<p>I've prototyped <a href="https://github.com/symplify/symplify/pull/4195">the <code>UnusedPublicClassMethodRule</code> rule</a>. In PR, you'll find both collectors for public methods, their calls, and the rule that compares them both. The test included, of course. Do you want to build a collector of your own? I recommend checking it out and mimicking behavior.</p>
+<p><br></p>
+<p>Are you willing to try this rule on your code base? Even if there will be false positives?</p>
+<p>You've been warned. There you go...</p>
+<pre><code class="language-bash">composer require symplify/phsptan-rules --dev</code></pre>
+<p><br></p>
+<p>Register rule with both collectors to <code>phpstan.neon</code>:</p>
+<pre><code class="language-neon">rules:
+    - Symplify\PHPStanRules\DeadCode\UnusedPublicClassMethodRule
+
+services:
+    -
+        class: Symplify\PHPStanRules\Collector\ClassMethod\PublicClassMethodCollector
+        tags:
+            - phpstan.collector
+
+    -
+        class: Symplify\PHPStanRules\Collector\ClassMethod\MethodCallCollector
+        tags:
+            - phpstan.collector</code></pre>
+<p>Run PHPStan and see the results.</p>
+<p>Do you have a tip to improve this rule or architecture? It's my 2nd collector rule, and it has flaws in the design, so don't hesitate and share it in the comments so that I can improve it. Thank you, good luck, and have fun!</p>
+<p><br></p>
+<p>Happy coding!</p>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                            <a href="/blog/twig-smoke-rendering-fortune-favors-the-bold" class="d-block">
+                            <div>
+                                Read next → <strong>Twig Smoke Rendering - Fortune Favors the Bold</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+        <script type="text/javascript">
+            // @see https://stackoverflow.com/a/30776817/1348344
+            var date = new Date();
+            // display every 2nd hour, not to spam users
+            if (date.getHours() % 2 === 1) {
+                document.querySelector('.book-banner').style.display = 'visible';
+            } else {
+                document.querySelector('.book-banner').style.display = 'none';
+            }
+        </script>
+    </body>
+</html>
