@@ -26,7 +26,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
 
-<link href="/assets/css/style.css?677053365" rel="stylesheet" type="text/css" />
+<link href="/assets/css/style.css?1136803602" rel="stylesheet" type="text/css" />
 
                 <meta name="description" property="og:description" content="If you have not switched your [Symfony configs from YAML to PHP](/blog/2020/07/27/how-to-switch-from-yaml-xml-configs-to-php-today-with-migrify/), there no better time like present.
 
@@ -213,6 +213,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters-&gt;set('unexisting_constant', SomeClass::Constant);
     $parameters-&gt;set('another_key', '%env(string:default::CODE_EDITOR)%');
 };</code></pre>
+<p>As a bonus, it cut down the converting speed on one project from 3 seconds to 200 ms. That's <strong>1500 % faster</strong>.</p>
 <p>Thank you ✅</p>
 <p><br></p>
 <h2 id="Start-Now-to-Save-Work">Start Now to Save Work</h2>
