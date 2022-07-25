@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>8 News in Config Transformer that Converts Symfony YML to PHP | Tomas Votruba</title>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:creator" content="@votrubaT"/>
+
+    <meta property="og:title" content="8 News in Config Transformer that Converts Symfony YML to PHP" />
+    <meta property="og:url" content="https://tomasvotruba.com/blog/8-news-in-config-transformer-that-converts-symfony-yml-to-php" />
+
+            <meta property="og:image" content="https://tomasvotruba.com/assets/images/tomas_votruba.jpg"/>
+        <meta name="twitter:image" content="https://tomasvotruba.com/assets/images/tomas_votruba.jpg"/>
+    
+<link rel="alternate" type="application/rss+xml" title="Tomas Votruba Blog RSS" href="/rss.xml">
+
+
+<link rel="stylesheet" rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:700&amp;display=swap" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" media="print" onload="this.media='all'">
+
+<link href="/assets/css/style.css?715319772" rel="stylesheet" type="text/css" />
+
+                <meta name="description" property="og:description" content="If you have not switched your [Symfony configs from YAML to PHP](/blog/2020/07/27/how-to-switch-from-yaml-xml-configs-to-php-today-with-migrify/), there no better time like present.
+
+This month we tested the ConfigTransformer to its limit. It had to deal with edge-cases from Symfony 2.8 all the way through Symfony 3.4. With features that were removed for years. As a result, we added default processing of `*.yaml` and `.yml` syntax at the same time and support for scalars like `::hi` and `&#039;hello::&#039;`.
+
+That&#039;s just the tip of the iceberg. **What are the 5 new features you&#039;ll be able to enjoy in the upcoming release**?
+" />
+    </head>
+
+    <body>
+        <!-- post_id: 367 -->
+        <div id="menu">
+    <div class="container-fluid">
+        <a href="/">Home</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/blog">Blog</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/book/the-power-of-automated-refactoring">Book</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/trainings">Trainings</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/contact">Contact</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/about-me">About Me</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="https://twitter.com/votrubaT" target="blank">Twitter</a>
+        <span class="pl-2 pr-2">•</span>
+
+        <a href="/rss.xml" target="blank">RSS</a>
+    </div>
+</div>
+
+        <div class="container-fluid post" id="content">
+            <div class="text-center book-banner">
+                <a href="https://leanpub.com/rector-the-power-of-automated-refactoring" target="blank" class="text-center">
+                    <img src="/assets/images/banner-rector-book.png" class="mb-2 ml-auto mr-auto rounded " style="max-height: 5em" alt="">
+                </a>
+            </div>
+
+            <h1>8 News in Config Transformer that Converts Symfony YML to PHP</h1>
+
+            <div class="pull-right">
+                <a href="https://github.com/tomasvotruba/tomasvotruba.com/edit/main/packages/blog/data/2022/2022-07-18-8-news-in-config-transformer-that-converts-symfony-yml-to-php.md">Found a typo? Edit me</a>
+            </div>
+
+            <time datetime="2022-07-Mon" class="text-muted">
+                2022-07-18
+            </time>
+
+            
+            
+            <div class="card card-bigger mb-5">
+                <div class="card-body pb-2">
+                    <p>If you have not switched your <a href="/blog/2020/07/27/how-to-switch-from-yaml-xml-configs-to-php-today-with-migrify/">Symfony configs from YAML to PHP</a>, there no better time like present.
+<br><br>
+This month we tested the ConfigTransformer to its limit. It had to deal with edge-cases from Symfony 2.8 all the way through Symfony 3.4. With features that were removed for years. As a result, we added default processing of <code>*.yaml</code> and <code>.yml</code> syntax at the same time and support for scalars like <code>::hi</code> and <code>'hello::'</code>.
+<br><br>
+That's just the tip of the iceberg. <strong>What are the 5 new features you'll be able to enjoy in the upcoming release</strong>?</p>
+                </div>
+            </div>
+
+            <h2 id="1-New-Support-for-Directory-Loader">1. New Support for Directory Loader</h2>
+<p>Since Symfony 2.8, it is possible to <a href="https://github.com/symfony/symfony/issues/11045">load configs from a single directory</a>. That means you can use the shorter syntax...</p>
+<pre><code class="language-diff"> imports:
+-    - { resource: packages/doctrine.yml }
+-    - { resource: packages/framework.yml }
+-    - { resource: packages/security.yml }
++    - { resource: packages/ }</code></pre>
+<p>...with the same effect. Now you won't forget to include the config here. It's pretty rare with legacy projects, but still possible syntax.</p>
+<p><br></p>
+<p>In the new ConfigTransformer version, we <strong>cover directory loading out of the box ✅</strong></p>
+<p><br></p>
+<h2 id="2-New-Defaults-Extensions-Autoloaded">2. New Defaults Extensions Autoloaded</h2>
+<p>The directory loading opened a complete feature list we can cover. E.g., now it's possible to load extensions from these imported configs:</p>
+<pre><code class="language-yaml">doctrine:
+    key: value</code></pre>
+<p><br></p>
+<p>We've added the list of 10 default extensions to cover - <code>'doctrine'</code>, <code>'framework'</code>, <code>'monolog'</code>, <code>'security'</code>, <code>'twig'</code> and more. Including the deprecated ones, e.g. <code>'assetic'</code>.</p>
+<p><br></p>
+<p>This allows us converting a much lower Symfony version than ever - <strong>Symfony 2.8 ✅</strong></p>
+<p><br></p>
+<h2 id="3-Added-Support-for-autowiring-types">3. Added Support for <code>autowiring_types</code></h2>
+<p>This option <a href="https://github.com/symfony/symfony/pull/21494">was deprecated in Symfony 3.3</a>. If any config contained it, it was skipped.</p>
+<p><br></p>
+<p>It was quite a complex challenge because the code is removed in Symfony 6, and ConfigTransformer is built on that version.</p>
+<p>But in the end, we managed to add it:</p>
+<pre><code class="language-yaml">services:
+    some_service:
+        class: App\SomeClass
+        autowiring_types: App\SomeInterface</code></pre>
+<p>↓</p>
+<pre><code class="language-php">use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use App\SomeClass;
+use App\SomeInterface;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator-&gt;services();
+
+    $services-&gt;set('some_service', SomeClass::class)
+        -&gt;addAutowiringType(SomeInterface::class);</code></pre>
+<p><strong>Now it's covered as expected ✅</strong></p>
+<p><br></p>
+<h2 id="4-Add-Support-for-Unquoted-Scalars">4. Add Support for Unquoted Scalars</h2>
+<p>Unquoted scalars were deprecated <a href="https://symfony.com/blog/new-in-symfony-3-1-yaml-deprecations#deprecated-starting-scalars-with-characters">in Symfony 3.1</a>. If your config had it, the conversion crashed:</p>
+<pre><code class="language-yaml">framework:
+    secret: %secret%</code></pre>
+<p><br></p>
+<p>Are you using a Symfony version where this is still valid syntax? We have good news for you.</p>
+<p><strong>We added automated pre-quoting of scalar so this can be parsed with ease ✅</strong></p>
+<p><br></p>
+<h2 id="5-Skip-PHP-Configs-Loading">5. Skip PHP Configs Loading</h2>
+<p>Usually, we take many little steps when it comes to huge changes. We don't convert all the files at once, but rather one group at a time, e.g. first parameters, then services, then extensions.</p>
+<p>That means in certain point of time, we have part configs in PHP and part in YAML:</p>
+<pre><code class="language-bash">/configs
+    config.yml
+    /parameters
+        items.php</code></pre>
+<p><br></p>
+<p>Before, the ConfigTransformer tried to load the PHP configs and invoked a bunch of class loading and config interpretation, that could crash.</p>
+<p><strong>Now it will skip PHP and focuses solely on the YAML files ✅</strong></p>
+<p><br></p>
+<h2 id="6-Informative-Output-with-Beautiful-Colored-Diff">6. Informative Output with Beautiful Colored Diff</h2>
+<p>Do you want first to try it on a single file? That's completely normal. I often do that, too, to verify the output is the same as I expect.</p>
+<p>At the moment, we can run a <code>--dry-run</code> so we see what changes:</p>
+<img src="/assets/images/posts/2022/config_trans_before.png" class="img-thumbnail mb-4" style="max-width: 35em">
+<p>We see some files are removed, and other files are added. Okay, but what about content? At this point, the <code>--dry-run</code> does not change anything, which is correct. But it also doesn't give us any indices to decide to run a command without it. We can do better.</p>
+<p><br></p>
+<p>That's why we've <strong>redesigned the output to provide the following</strong>:</p>
+<ul>
+<li>Information about the file rename</li>
+<li>full diff of what you expect</li>
+</ul>
+<img src="/assets/images/posts/2022/config_trans_after.png" class="img-thumbnail mt-3 mb-4" style="max-width: 35em">
+<p><strong>Beautiful and clear ✅</strong></p>
+<p><br></p>
+<h2 id="7-Improved-Support-for-when-at-env">7. Improved Support for <code>when@env</code></h2>
+<p>Thanks to <a href="https://github.com/Tofandel">Tofandel</a> you can enjoy this <a href="https://github.com/symplify/symplify/pull/4247">impressive feature</a> that handles complex cases of conditional environments:</p>
+<p><br></p>
+<pre><code class="language-yaml">when@local:
+    web_profiler:
+        toolbar: true
+        intercept_redirects: false
+
+    framework:
+        profiler: true</code></pre>
+<p>↓</p>
+<pre><code class="language-php">use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    if ($containerConfigurator-&gt;env() === 'local') {
+        $containerConfigurator-&gt;extension('web_profiler', [
+            'toolbar' =&gt; true,
+            'intercept_redirects' =&gt; false,
+        ]);
+        $containerConfigurator-&gt;extension('framework', [
+            'profiler' =&gt; true
+        ]);
+    }
+};</code></pre>
+<p><br></p>
+<h2 id="8-Refactored-Constant-Support">8. Refactored Constant Support</h2>
+<p>Last but not least is a feature that focuses on constant. Constants were one of the weakest parts of ConfigTransformer, with a lot of hacking. It was prone to error on non-existing or non-autoloaded constants, which should not happen as the scope of this tool is entirely static.</p>
+<p>Again, big thanks to Tofandel, who <a href="https://github.com/symplify/symplify/pull/4246">refactorted it into a smooth solution</a>. It now handles any constant possible:</p>
+<pre><code class="language-yaml">parameters:
+    class_constant: !php/const App\SomeConst::TEST
+    class: !php/const App\SomeConst::class
+    unexisting_constant: !php/const App\MissingClass::NOT_HERE
+    another_key: '%env(string:default::CODE_EDITOR)%'</code></pre>
+<p>↓</p>
+<pre><code class="language-php">use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\YamlToPhp\YamlToPhpTest;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $parameters = $containerConfigurator-&gt;parameters();
+
+    $parameters-&gt;set('class_constant', YamlToPhpTest::TEST);
+    $parameters-&gt;set('class', YamlToPhpTest::class);
+    $parameters-&gt;set('unexisting_constant', SomeClass::Constant);
+    $parameters-&gt;set('another_key', '%env(string:default::CODE_EDITOR)%');
+};</code></pre>
+<p>Thank you ✅</p>
+<p><br></p>
+<h2 id="Start-Now-to-Save-Work">Start Now to Save Work</h2>
+<p>I'm proud of this leap forward and better support for older Symfony versions. It allows to convert configs <strong>to a broader range of projects and start using PHP in earlier stages</strong>. That brings Rector, ECS, and PHPStan to help as well, as they cover any PHP file, even configs.</p>
+<p>Now it's the best time to switch - <a href="/blog/2020/07/27/how-to-switch-from-yaml-xml-configs-to-php-today-with-migrify/">here is how</a></p>
+<p><br></p>
+<p>Happy coding!</p>
+
+            <br>
+
+
+            <div class="card mt-5 border-warning">
+                <div class="card-body text-center mt-2">
+                    <p>
+                        Have you find this post useful? <strong>Do you want more?</strong>
+                    </p>
+                    <p>
+                        Follow me on <a href="https://twitter.com/votrubaT">Twitter</a>, <a href="/rss.xml">RSS</a> or support me on <a href="https://github.com/sponsors/TomasVotruba">GitHub Sponsors</a>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body text-white bg-success text-center">
+                                            <a href="/blog/can-phpstan-find-dead-public-methods" class="d-block">
+                            <div>
+                                Read next → <strong>Can PHPStan find Dead Public Methods?</strong>
+                            </div>
+                        </a>
+                                    </div>
+            </div>
+
+            <br>
+            <br>
+
+            <a name="comments"></a>
+            <div id="disqus_thread"></div>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://itsworthsharing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+        </div>
+
+        <script id="dsq-count-scr" src="https://itsworthsharing.disqus.com/count.js" async defer></script>
+
+        <link href="/assets/prism/prism.css" rel="stylesheet" type="text/css" />
+        <script src="/assets/prism/prism.js"></script>
+
+        <script>
+    ga=function(){ ga.q.push(arguments) };
+    ga.q=[];
+    ga.l=+new Date;
+    ga('create', 'UA-46082345-1', 'auto');
+    ga('send','pageview');
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+        <script type="text/javascript">
+            // @see https://stackoverflow.com/a/30776817/1348344
+            var date = new Date();
+            // display every 2nd hour, not to spam users
+            if (date.getHours() % 2 === 1) {
+                document.querySelector('.book-banner').style.display = 'visible';
+            } else {
+                document.querySelector('.book-banner').style.display = 'none';
+            }
+        </script>
+    </body>
+</html>
